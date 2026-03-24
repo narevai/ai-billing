@@ -32,6 +32,9 @@ jobs:
           - name: 'Build Check'
             command: 'pnpm turbo run build'
             step_name: 'Verify production builds'
+          - name: 'Unit Tests'
+            command: 'pnpm test'
+            step_name: 'Run Vitest suite'
 
     steps:
       - name: Checkout code
