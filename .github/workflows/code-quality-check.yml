@@ -17,7 +17,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: 'Lint'
+          - name: 'Format Check'
+            command: 'pnpm run format:check'
+            step_name: 'Verify code formatting'
+          - name: 'Lint Check'
             command: 'pnpm turbo run lint'
             step_name: 'Run ESLint checks'
           - name: 'Unused Code Check'
