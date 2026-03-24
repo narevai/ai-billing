@@ -29,9 +29,6 @@ importers:
       '@ai-billing/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@ai-billing/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       next:
         specifier: 16.2.0
         version: 16.2.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -110,31 +107,6 @@ importers:
         version: 8.57.2(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.2)
 
   packages/typescript-config: {}
-
-  packages/ui:
-    dependencies:
-      react:
-        specifier: ^19.2.0
-        version: 19.2.4
-    devDependencies:
-      '@ai-billing/eslint-config':
-        specifier: workspace:*
-        version: link:../eslint-config
-      '@ai-billing/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
-      '@types/node':
-        specifier: ^22.15.3
-        version: 22.19.15
-      '@types/react':
-        specifier: 19.2.2
-        version: 19.2.2
-      eslint:
-        specifier: ^9.39.1
-        version: 9.39.4(jiti@2.6.1)
-      typescript:
-        specifier: 5.9.2
-        version: 5.9.2
 
 packages:
 

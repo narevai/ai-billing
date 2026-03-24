@@ -1,5 +1,4 @@
 import Image, { type ImageProps } from "next/image";
-import { Button } from "@ai-billing/ui/button";
 import styles from "./page.module.css";
 import { initializeBilling } from "@ai-billing/core";
 import { initializeStripeBilling } from "@ai-billing/core/stripe";
@@ -75,9 +74,6 @@ export default function Home() {
             Read our docs
           </a>
         </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert
-        </Button>
       </main>
       <footer className={styles.footer}>
         <a
