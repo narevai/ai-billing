@@ -18,12 +18,14 @@
     },
     "lint": {
       "dependsOn": [
-        "^lint"
+        "^lint",
+        "^build"
       ]
     },
     "check-types": {
       "dependsOn": [
-        "^check-types"
+        "^check-types",
+        "^build"
       ]
     },
     "dev": {
