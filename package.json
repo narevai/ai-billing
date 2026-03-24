@@ -9,7 +9,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "knip": "turbo run //#knip:check",
-    "knip:check": "knip"
+    "knip:check": "knip",
+    "test": "turbo run test"
   },
   "devDependencies": {
     "knip": "^6.0.4",

@@ -30,6 +30,12 @@
       "cache": false,
       "persistent": true
     },
+    "test": {
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": true
+    },
     "//#knip:check": {
       "cache": true,
       "inputs": [

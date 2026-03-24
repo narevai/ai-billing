@@ -25,10 +25,13 @@
     ],
     "scripts": {
         "build": "tsup",
-        "dev": "tsup --watch"
+        "dev": "tsup --watch",
+        "test": "vitest run",
+        "test:watch": "vitest"
     },
     "devDependencies": {
         "tsup": "^8.3.0",
-        "typescript": "5.8.3"
+        "typescript": "5.8.3",
+        "vitest": "^4.1.1"
     }
 }

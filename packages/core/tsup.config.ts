@@ -1,10 +1,10 @@
-import { defineConfig, type Options } from 'tsup';
+import { defineConfig, type Options } from "tsup";
 
-const pkg = await import('./package.json', { with: { type: 'json' } });
+const pkg = await import("./package.json", { with: { type: "json" } });
 const version = pkg.default.version;
 
 const commonConfig: Options = {
-  format: ['cjs', 'esm'],
+  format: ["cjs", "esm"],
   dts: true,
   sourcemap: true,
   clean: true,
@@ -16,12 +16,12 @@ const commonConfig: Options = {
 export default defineConfig([
   {
     ...commonConfig,
-    entry: ['src/index.ts'],
-    outDir: 'dist',
+    entry: ["src/index.ts"],
+    outDir: "dist",
   },
   {
     ...commonConfig,
-    entry: ['src/stripe/index.ts'],
-    outDir: 'dist/stripe',
+    entry: ["src/stripe/index.ts"],
+    outDir: "dist/stripe",
   },
 ]);

@@ -20,9 +20,9 @@ const ThemeImage = (props: Props) => {
 };
 
 export default function Home() {
-  const billingStatus = initializeBilling({ 
-    apiKey: 'sk_test_123', 
-    provider: 'polar' 
+  const billingStatus = initializeBilling({
+    apiKey: "sk_test_123",
+    provider: "polar",
   });
 
   console.log("SDK Check:", billingStatus);
