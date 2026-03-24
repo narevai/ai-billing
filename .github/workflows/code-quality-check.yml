@@ -1,0 +1,66 @@
+name: Code Quality Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-checks:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # Highly recommended: see all errors at once
+      matrix:
+        include:
+          - name: 'Lint'
+            command: 'pnpm turbo run lint'
+            step_name: 'Run ESLint checks'
+          - name: 'Unused Code Check'
+            command: 'pnpm run knip' # This runs the root turbo task we set up
+            step_name: 'Check for unused code (Knip)'
+          - name: 'Security Audit'
+            command: 'pnpm audit --audit-level moderate --prod'
+            step_name: 'Audit dependencies'
+          - name: 'Type Check'
+            command: 'pnpm turbo run check-types'
+            step_name: 'TypeScript validation'
+          - name: 'Build Check'
+            command: 'pnpm turbo run build'
+            step_name: 'Verify production builds'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4 # Note: pnpm 10 works best with v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: ${{ matrix.step_name }}
+        run: ${{ matrix.command }}
+
+
+  quality-checks-passed:
+    name: Quality Checks Passed
+    needs: quality-checks
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify matrix status
+        run: |
+          if [[ "${{ needs.quality-checks.result }}" != "success" ]]; then
+            exit 1
+          fi
