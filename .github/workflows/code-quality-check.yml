@@ -14,14 +14,14 @@ jobs:
     name: ${{ matrix.name }}
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false # Highly recommended: see all errors at once
+      fail-fast: false
       matrix:
         include:
           - name: 'Lint'
             command: 'pnpm turbo run lint'
             step_name: 'Run ESLint checks'
           - name: 'Unused Code Check'
-            command: 'pnpm run knip' # This runs the root turbo task we set up
+            command: 'pnpm run knip'
             step_name: 'Check for unused code (Knip)'
           - name: 'Security Audit'
             command: 'pnpm audit --audit-level moderate --prod'
@@ -33,15 +33,15 @@ jobs:
             command: 'pnpm turbo run build'
             step_name: 'Verify production builds'
           - name: 'Unit Tests'
-            command: 'pnpm test'
-            step_name: 'Run Vitest suite'
+            command: 'pnpm run test:coverage'
+            step_name: 'Run Vitest suite with coverage'
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4 # Note: pnpm 10 works best with v4
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -54,6 +54,14 @@ jobs:
 
       - name: ${{ matrix.step_name }}
         run: ${{ matrix.command }}
+
+      - name: Upload coverage to Codecov
+        if: matrix.name == 'Unit Tests'
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: narevai/ai-billing 
+          fail_ci_if_error: false
 
 
   quality-checks-passed:
