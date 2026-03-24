@@ -1,0 +1,33 @@
+{
+  "name": "narevai/ai-billing dev",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:22",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "pnpmVersion": "latest"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "oxc.oxc-vscode",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "vercel.turbo",
+        "christian-kohler.npm-intellisense"
+      ],
+      "settings": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "[typescript]": { "editor.defaultFormatter": "oxc.oxc-vscode" },
+        "[typescriptreact]": { "editor.defaultFormatter": "oxc.oxc-vscode" },
+        "[javascript]": { "editor.defaultFormatter": "oxc.oxc-vscode" },
+        "editor.codeActionsOnSave": {
+          "source.fixAll.oxc": "explicit"
+        }
+      }
+    }
+  },
+  "postCreateCommand": "pnpm install",
+  "updateRemoteUserUID": true,
+  "remoteUser": "node"
+}
