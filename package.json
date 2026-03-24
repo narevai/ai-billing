@@ -9,11 +9,15 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "knip": "turbo run //#knip:check",
-    "knip:check": "knip"
+    "knip:check": "knip",
+    "test": "turbo run test",
+    "test:coverage": "turbo run test -- --coverage"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^4.1.1",
     "knip": "^6.0.4",
     "prettier": "^3.7.4",
+    "tsup": "^8.5.1",
     "turbo": "^2.8.20",
     "typescript": "5.9.2"
   },

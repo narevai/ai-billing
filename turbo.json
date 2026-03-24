@@ -12,22 +12,34 @@
       ],
       "outputs": [
         ".next/**",
-        "!.next/cache/**"
+        "!.next/cache/**",
+        "dist/**"
       ]
     },
     "lint": {
       "dependsOn": [
-        "^lint"
+        "^lint",
+        "^build"
       ]
     },
     "check-types": {
       "dependsOn": [
-        "^check-types"
+        "^check-types",
+        "^build"
       ]
     },
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "test": {
+      "outputs": [
+        "coverage/**"
+      ],
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": true
     },
     "//#knip:check": {
       "cache": true,

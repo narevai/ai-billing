@@ -1,0 +1,6 @@
+dist
+.next
+node_modules
+turbo.json
+tsconfig.json
+**/*.md
