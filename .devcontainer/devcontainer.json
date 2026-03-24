@@ -28,7 +28,7 @@
       }
     }
   },
-  "postCreateCommand": "pnpm install",
+  "postCreateCommand": "corepack enable && corepack prepare pnpm@latest --activate && pnpm install",
   "updateRemoteUserUID": true,
   "remoteUser": "node"
 }
