@@ -1,0 +1,13 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "dev-sandbox": "0.0.0",
+    "@ai-billing/core": "0.0.0",
+    "@ai-billing/eslint-config": "0.0.0",
+    "@ai-billing/typescript-config": "0.0.0"
+  },
+  "changesets": [
+    "late-pandas-turn"
+  ]
+}

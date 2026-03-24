@@ -1,13 +1,13 @@
-import { expect, test } from "vitest";
-import { initializeBilling, version } from "./index";
+import { expect, test } from 'vitest';
+import { initializeBilling, version } from './index';
+import pkg from '../package.json';
 
-test("initializeBilling returns the correct string", () => {
-  // version is now automatically "0.0.1" (from your config/package.json)
+test('initializeBilling returns the correct string', () => {
   const result = initializeBilling({
-    apiKey: "sk_test_123",
-    provider: "polar",
+    apiKey: 'sk_test_123',
+    provider: 'polar',
   });
-  
-  expect(version).toBe("0.0.1");
+
+  expect(version).toBe(pkg.version);
   expect(result).toContain(`ai-billing core v${version}`);
 });
