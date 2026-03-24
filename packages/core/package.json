@@ -2,6 +2,11 @@
     "name": "@ai-billing/core",
     "version": "0.0.1-alpha.0",
     "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/narevai/ai-billing.git",
+        "directory": "packages/core"
+    },
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "exports": {
