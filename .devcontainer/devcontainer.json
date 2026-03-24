@@ -9,7 +9,6 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "oxc.oxc-vscode",
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
         "vercel.turbo",
