@@ -1,5 +1,5 @@
 {
-  "name": "tmp",
+  "name": "ai-billing-monorepo",
   "private": true,
   "scripts": {
     "build": "turbo run build",
