@@ -1,6 +1,7 @@
 {
     "name": "@ai-billing/core",
     "version": "0.0.1-alpha.1",
+    "license": "Apache-2.0",
     "type": "module",
     "repository": {
         "type": "git",
@@ -41,7 +42,9 @@
         "build": "tsup",
         "dev": "tsup --watch",
         "test": "vitest run",
-        "test:watch": "vitest"
+        "test:watch": "vitest",
+        "prepack": "node -e \"require('fs').copyFileSync('../../LICENSE', 'LICENSE')\"",
+        "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
     },
     "devDependencies": {
         "tsup": "^8.3.0",
