@@ -1,5 +1,12 @@
 # dev-sandbox
 
+## 0.0.1-alpha.2
+
+### Patch Changes
+
+- Updated dependencies [aef6c35]
+  - @ai-billing/core@0.0.1-alpha.2
+
 ## 0.0.1-alpha.1
 
 ### Patch Changes
