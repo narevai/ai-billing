@@ -1,5 +1,12 @@
 # @ai-billing/core
 
+## 0.0.1-alpha.3
+
+### Patch Changes
+
+- 9ac7ae6: enforce strict AI SDK types and ESM compliance
+- 490977c: add explicit support for node >=20.0.0
+
 ## 0.0.1-alpha.2
 
 ### Patch Changes
