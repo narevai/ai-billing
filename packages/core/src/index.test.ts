@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
-import { initializeBilling, version } from './index';
-import pkg from '../package.json';
+import { initializeBilling, version } from './index.js';
+import pkg from '../package.json' with { type: 'json' };
 
 test('initializeBilling returns the correct string', () => {
   const result = initializeBilling({

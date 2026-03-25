@@ -11,6 +11,7 @@ const commonConfig: Options = {
   define: {
     __PACKAGE_VERSION__: JSON.stringify(version),
   },
+  external: ['@ai-sdk/provider'],
 };
 
 export default defineConfig([
