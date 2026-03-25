@@ -17,6 +17,7 @@
   "devDependencies": {
     "@changesets/cli": "^2.30.0",
     "@vitest/coverage-v8": "catalog:",
+    "eslint": "catalog:",
     "knip": "^6.0.4",
     "prettier": "catalog:",
     "tsup": "catalog:",
