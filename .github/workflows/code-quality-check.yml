@@ -73,7 +73,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [18, 20, 24] # We skip 22 because your quality-checks job already tested it
+        node-version: [20, 24] # We skip 22 because your quality-checks job already tested it
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
