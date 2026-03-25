@@ -20,16 +20,6 @@
                 "types": "./dist/index.d.cts",
                 "default": "./dist/index.cjs"
             }
-        },
-        "./stripe": {
-            "import": {
-                "types": "./dist/stripe/index.d.ts",
-                "default": "./dist/stripe/index.js"
-            },
-            "require": {
-                "types": "./dist/stripe/index.d.cts",
-                "default": "./dist/stripe/index.cjs"
-            }
         }
     },
     "publishConfig": {
