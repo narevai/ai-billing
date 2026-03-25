@@ -1,11 +1,11 @@
-import type { LanguageModelV3 } from '@ai-sdk/provider';
+export * from './types.js';
+export * from './language-model-middleware/v3/index.js';
 
 declare const __PACKAGE_VERSION__: string;
 
 export const version = __PACKAGE_VERSION__;
 
 export type BillingProvider = 'stripe' | 'lemonsqueezy' | 'polar';
-export type { LanguageModelV3 };
 
 export interface BillingConfig {
   apiKey: string;
