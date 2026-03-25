@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@ai-billing/core": "workspace:*",
+    "@openrouter/ai-sdk-provider": "^2.3.3",
+    "ai": "^6.0.138",
     "next": "16.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
