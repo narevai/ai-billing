@@ -3,3 +3,25 @@ packages:
   - "packages/*"
 allowBuilds:
   sharp: false
+
+catalogs:
+  default:
+    # Build & Tooling
+    typescript: "5.9.2"
+    tsup: "^8.5.1"
+    vitest: "^4.1.1"
+    "@vitest/coverage-v8": "^4.1.1"
+    
+    # AI SDK Stack
+    ai: "^6.0.138"
+    "@ai-sdk/provider": "^3.0.8"
+    "@openrouter/ai-sdk-provider": "^2.3.3"
+    
+    # Next.js & React
+    next: "16.2.0"
+    react: "^19.2.0"
+    "react-dom": "^19.2.0"
+    "@types/react": "19.2.2"
+    "@types/react-dom": "19.2.2"
+    "@types/node": "^22.15.3"
+    "eslint": "^9.39.1"
