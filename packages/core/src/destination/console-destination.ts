@@ -1,4 +1,4 @@
-import { BaseBillingDestination } from './base-billing-destination.js';
+import { BaseBillingDestination } from './base-destination.js';
 import type { BillingData } from '../types.js';
 
 export interface ConsoleDestinationOptions {

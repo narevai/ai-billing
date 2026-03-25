@@ -1,1 +1,2 @@
-export * from './base-billing-destination.js';
+export * from './base-destination.js';
+export * from './console-destination.js';
