@@ -1,5 +1,5 @@
 export * from './types.js';
-export * from './language-model-middleware/v3/index.js';
+export * from './ai-sdk/language-model-middleware/v3/index.js';
 
 declare const __PACKAGE_VERSION__: string;
 
