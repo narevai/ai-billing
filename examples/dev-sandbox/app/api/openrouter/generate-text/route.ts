@@ -2,6 +2,7 @@ import { UIMessage, convertToModelMessages, generateText } from 'ai';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 
 const openrouter = createOpenRouter({
+  // eslint-disable-next-line turbo/no-undeclared-env-vars
   apiKey: process.env.OPENROUTER_API_KEY,
 });
 

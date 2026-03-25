@@ -2,10 +2,11 @@ import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { streamText, convertToModelMessages, UIMessage } from 'ai';
 
 const openrouter = createOpenRouter({
+  // eslint-disable-next-line turbo/no-undeclared-env-vars
   apiKey: process.env.OPENROUTER_API_KEY,
 });
 
-export async function POST(req: Request) {
+export async function POST() {
   const messages: UIMessage[] = [
     {
       id: 'test-message-123',
