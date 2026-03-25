@@ -20,9 +20,4 @@ export default defineConfig([
     entry: ['src/index.ts'],
     outDir: 'dist',
   },
-  {
-    ...commonConfig,
-    entry: ['src/stripe/index.ts'],
-    outDir: 'dist/stripe',
-  },
 ]);
