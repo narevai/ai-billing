@@ -54,6 +54,9 @@ catalogs:
     globals:
       specifier: ^16.5.0
       version: 16.5.0
+    knip:
+      specifier: ^6.0.4
+      version: 6.0.5
     next:
       specifier: 16.2.0
       version: 16.2.0
@@ -69,6 +72,9 @@ catalogs:
     tsup:
       specifier: ^8.5.1
       version: 8.5.1
+    turbo:
+      specifier: ^2.8.20
+      version: 2.8.20
     typescript:
       specifier: 5.9.2
       version: 5.9.2
@@ -93,7 +99,7 @@ importers:
         specifier: 'catalog:'
         version: 9.39.4(jiti@2.6.1)
       knip:
-        specifier: ^6.0.4
+        specifier: 'catalog:'
         version: 6.0.5
       prettier:
         specifier: 'catalog:'
@@ -102,7 +108,7 @@ importers:
         specifier: 'catalog:'
         version: 8.5.1(jiti@2.6.1)(postcss@8.5.8)(typescript@5.9.2)(yaml@2.8.3)
       turbo:
-        specifier: ^2.8.20
+        specifier: 'catalog:'
         version: 2.8.20
       typescript:
         specifier: 'catalog:'
