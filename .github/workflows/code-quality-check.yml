@@ -68,7 +68,7 @@ jobs:
           fail_ci_if_error: false
 
   compatibility-tests:
-    name: Node ${{ matrix.node-version }} Runtime
+    name: Unit Tests Node ${{ matrix.node-version }} Runtime
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
