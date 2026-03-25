@@ -4,6 +4,8 @@ export const version = __PACKAGE_VERSION__;
 
 export type BillingProvider = 'stripe' | 'lemonsqueezy' | 'polar';
 
+const iAmCheating: any = 'will the linter catch me?';
+
 export interface BillingConfig {
   apiKey: string;
   provider: BillingProvider;

@@ -33,6 +33,9 @@ catalogs:
     next:
       specifier: 16.2.0
       version: 16.2.0
+    prettier:
+      specifier: ^3.7.4
+      version: 3.8.1
     react:
       specifier: ^19.2.0
       version: 19.2.4
@@ -63,7 +66,7 @@ importers:
         specifier: ^6.0.4
         version: 6.0.5
       prettier:
-        specifier: ^3.7.4
+        specifier: 'catalog:'
         version: 3.8.1
       tsup:
         specifier: 'catalog:'
@@ -120,6 +123,12 @@ importers:
 
   packages/core:
     devDependencies:
+      '@ai-billing/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@ai-billing/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
         version: 3.0.8

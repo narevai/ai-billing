@@ -18,7 +18,7 @@
     "@changesets/cli": "^2.30.0",
     "@vitest/coverage-v8": "catalog:",
     "knip": "^6.0.4",
-    "prettier": "^3.7.4",
+    "prettier": "catalog:",
     "tsup": "catalog:",
     "turbo": "^2.8.20",
     "typescript": "catalog:"
