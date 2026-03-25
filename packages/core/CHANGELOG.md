@@ -1,5 +1,11 @@
 # @ai-billing/core
 
+## 0.0.1-alpha.2
+
+### Patch Changes
+
+- aef6c35: add Apache-2.0 to core
+
 ## 0.0.1-alpha.1
 
 ### Patch Changes
