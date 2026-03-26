@@ -1,23 +1,17 @@
 import { describe, expect, it, vi } from 'vitest';
 import type {
-  LanguageModelV3,
   LanguageModelV3CallOptions,
-  LanguageModelV3FinishReason,
   LanguageModelV3GenerateResult,
   LanguageModelV3StreamPart,
-  LanguageModelV3StreamResult,
   SharedV3ProviderMetadata,
 } from '@ai-sdk/provider';
 import { LanguageModelV3BillingMiddleware } from './language-model-v3-base-billing-middleware.js';
 import {
   convertArrayToReadableStream,
-  convertAsyncIterableToArray,
   consumeStream,
   MockLanguageModelV3,
   convertReadableStreamToArray,
 } from '@ai-billing/testing';
-
-type MockMetadata = SharedV3ProviderMetadata;
 
 class TestBillingMiddleware extends LanguageModelV3BillingMiddleware<SharedV3ProviderMetadata> {
   public mockExtract =
