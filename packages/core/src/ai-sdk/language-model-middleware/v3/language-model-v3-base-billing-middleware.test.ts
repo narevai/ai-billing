@@ -8,7 +8,7 @@ import type {
   LanguageModelV3StreamResult,
   SharedV3ProviderMetadata,
 } from '@ai-sdk/provider';
-import { LanguageModelV3BillingMiddleware } from './language-model-v3-billing-middleware.js';
+import { LanguageModelV3BillingMiddleware } from './language-model-v3-base-billing-middleware.js';
 import {
   convertArrayToReadableStream,
   convertAsyncIterableToArray,

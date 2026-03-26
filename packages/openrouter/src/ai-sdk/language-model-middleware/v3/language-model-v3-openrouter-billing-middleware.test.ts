@@ -1,6 +1,6 @@
 import { generateText, streamText, wrapLanguageModel } from 'ai';
 import { describe, expect, it, vi } from 'vitest';
-import { OpenRouterBillingMiddlewareV3 } from './language-model-v3-openrouter-middleware.js';
+import { OpenRouterBillingMiddlewareV3 } from './language-model-v3-openrouter-billing-middleware.js';
 import {
   MockLanguageModelV3,
   convertArrayToReadableStream,
