@@ -34,8 +34,7 @@
         "@ai-billing/eslint-config": "workspace:*",
         "@ai-billing/typescript-config": "workspace:*",
         "tsup": "catalog:",
-        "typescript": "catalog:",
-        "vitest": "catalog:"
+        "typescript": "catalog:"
     },
     "engines": {
         "node": ">=20.0.0"

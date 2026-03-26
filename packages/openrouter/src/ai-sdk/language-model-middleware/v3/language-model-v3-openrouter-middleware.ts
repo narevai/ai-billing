@@ -5,7 +5,7 @@ import {
 import type { BillingDestinationConfig } from '@ai-billing/core';
 import type { OpenRouterUsageAccounting } from '@openrouter/ai-sdk-provider';
 
-export interface OpenRouterProviderMetadata {
+interface OpenRouterProviderMetadata {
   openrouter?: {
     provider?: string;
     usage?: OpenRouterUsageAccounting;
