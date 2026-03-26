@@ -5,7 +5,7 @@ import {
   wrapLanguageModel,
 } from 'ai';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { OpenRouterBillingMiddlewareV3 } from '@ai-billing/openrouter';
+import { OpenRouterBillingMiddleware } from '@ai-billing/openrouter';
 import { ConsoleDestination } from '@ai-billing/core';
 
 const openrouter = createOpenRouter({
@@ -14,7 +14,7 @@ const openrouter = createOpenRouter({
 });
 
 const consoleLogger = new ConsoleDestination();
-const billingMiddleware = new OpenRouterBillingMiddlewareV3({
+const billingMiddleware = new OpenRouterBillingMiddleware({
   destinations: [consoleLogger.handle],
 });
 
