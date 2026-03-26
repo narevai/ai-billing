@@ -37,11 +37,11 @@ export abstract class LanguageModelV3BillingMiddleware<
    * Uses Promise.allSettled.
    */
   private async broadcastCapture(
-    billing: { cost: number; genId: string } | null,
+    billing: { cost: number; genId: string } | null | undefined,
     modelId: string,
     provider: string,
   ) {
-    if (!billing || billing.cost <= 0 || this.destinations.length === 0) {
+    if (!billing || this.destinations.length === 0) {
       return;
     }
 
