@@ -1,13 +1,8 @@
 import { expect, test } from 'vitest';
-import { initializeBilling, version } from './index.js';
-import pkg from '../package.json' with { type: 'json' };
+import { ConsoleDestination } from './index.js';
 
-test('initializeBilling returns the correct string', () => {
-  const result = initializeBilling({
-    apiKey: 'sk_test_123',
-    provider: 'polar',
-  });
-
-  expect(version).toBe(pkg.version);
-  expect(result).toContain(`ai-billing core v${version}`);
+test('ConsoleDestination initializes and binds the handle method', () => {
+  const logger = new ConsoleDestination({ prefix: '[test-prefix]' });
+  expect(logger).toBeDefined();
+  expect(typeof logger.handle).toBe('function');
 });

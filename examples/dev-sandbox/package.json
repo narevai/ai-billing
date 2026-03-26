@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ai-billing/core": "workspace:*",
+    "@ai-billing/openrouter": "workspace:*",
     "@openrouter/ai-sdk-provider": "catalog:",
     "ai": "catalog:",
     "next": "catalog:",

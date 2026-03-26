@@ -1,7 +1,5 @@
 import Image, { type ImageProps } from 'next/image';
 import styles from './page.module.css';
-import { initializeStripeBilling } from '@ai-billing/core/stripe';
-import { initializeBilling } from '@ai-billing/core';
 
 type Props = Omit<ImageProps, 'src'> & {
   srcLight: string;
@@ -20,16 +18,6 @@ const ThemeImage = (props: Props) => {
 };
 
 export default function Home() {
-  const billingStatus = initializeBilling({
-    apiKey: 'sk_test_123',
-    provider: 'polar',
-  });
-
-  console.log('SDK Check:', billingStatus);
-
-  const billingStatusStripe = initializeStripeBilling();
-  console.log('Stripe SDK Check:', billingStatusStripe);
-
   return (
     <div className={styles.page}>
       <main className={styles.main}>

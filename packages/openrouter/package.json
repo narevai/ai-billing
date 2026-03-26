@@ -1,6 +1,6 @@
 {
-    "name": "@ai-billing/core",
-    "version": "0.0.1-alpha.3",
+    "name": "@ai-billing/openrouter",
+    "version": "0.0.0",
     "license": "Apache-2.0",
     "type": "module",
     "repository": {
@@ -38,6 +38,10 @@
         "prepack": "node -e \"require('fs').copyFileSync('../../LICENSE', 'LICENSE')\"",
         "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
     },
+    "dependencies": {
+        "@ai-billing/core": "workspace:*",
+        "@openrouter/ai-sdk-provider": "^2.3.3"
+    },
     "devDependencies": {
         "@ai-billing/eslint-config": "workspace:*",
         "@ai-billing/typescript-config": "workspace:*",
@@ -45,7 +49,8 @@
         "tsup": "catalog:",
         "typescript": "catalog:",
         "vitest": "catalog:",
-        "@ai-sdk/provider": "catalog:"
+        "@ai-sdk/provider": "catalog:",
+        "ai": "catalog:"
     },
     "peerDependencies": {
         "@ai-sdk/provider": "catalog:"
