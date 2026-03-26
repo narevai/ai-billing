@@ -25,9 +25,7 @@
         "build": "tsup",
         "check-types": "tsc --noEmit",
         "lint": "eslint .",
-        "dev": "tsup --watch",
-        "test": "vitest run",
-        "test:watch": "vitest"
+        "dev": "tsup --watch"
     },
     "dependencies": {
         "@ai-sdk/provider": "catalog:"
