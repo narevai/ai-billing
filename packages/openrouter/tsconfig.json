@@ -1,5 +1,5 @@
 {
-  "extends": "@ai-billing/typescript-config/react-library.json",
+  "extends": "@ai-billing/typescript-config/base.json",
   "compilerOptions": {
     "outDir": "dist",
     "baseUrl": ".",
@@ -7,9 +7,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "references": [
-    { "path": "../testing" }
-  ],
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }

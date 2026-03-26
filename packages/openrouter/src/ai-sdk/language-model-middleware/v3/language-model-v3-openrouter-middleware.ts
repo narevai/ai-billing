@@ -1,19 +1,18 @@
-import { LanguageModelV3BillingMiddleware } from '@ai-billing/core';
+import {
+  AiBillingExtractError,
+  LanguageModelV3BillingMiddleware,
+} from '@ai-billing/core';
 import type { BillingDestinationConfig } from '@ai-billing/core';
+import type { OpenRouterUsageAccounting } from '@openrouter/ai-sdk-provider';
 
 export interface OpenRouterProviderMetadata {
   openrouter?: {
-    cost?: number;
-    usage?: {
-      prompt_tokens?: number;
-      completion_tokens?: number;
-      total_tokens?: number;
-    };
-    [key: string]: unknown;
+    provider?: string;
+    usage?: OpenRouterUsageAccounting;
   };
 }
 
-export class OpenRouterBillingMiddleware extends LanguageModelV3BillingMiddleware<OpenRouterProviderMetadata> {
+export class OpenRouterBillingMiddlewareV3 extends LanguageModelV3BillingMiddleware<OpenRouterProviderMetadata> {
   constructor(config: BillingDestinationConfig = {}) {
     super(config);
   }
@@ -26,21 +25,22 @@ export class OpenRouterBillingMiddleware extends LanguageModelV3BillingMiddlewar
   ) {
     const genId = responseId ?? crypto.randomUUID();
     const openrouterMeta = metadata?.openrouter;
+    const usage = openrouterMeta?.usage;
 
-    if (
-      !openrouterMeta ||
-      typeof openrouterMeta.cost !== 'number' ||
-      isNaN(openrouterMeta.cost)
-    ) {
-      return null;
+    if (!usage || typeof usage.cost !== 'number' || isNaN(usage.cost)) {
+      throw new AiBillingExtractError({
+        provider: 'openrouter',
+        message: `Expected 'usage.cost' to be a valid number.`,
+        metadata: openrouterMeta,
+      });
     }
 
     return {
-      cost: openrouterMeta.cost,
+      cost: usage.cost,
       genId,
-      promptTokens: openrouterMeta.usage?.prompt_tokens,
-      completionTokens: openrouterMeta.usage?.completion_tokens,
-      totalTokens: openrouterMeta.usage?.total_tokens,
+      promptTokens: usage.promptTokens,
+      completionTokens: usage.completionTokens,
+      totalTokens: usage.totalTokens,
     };
   }
 }
