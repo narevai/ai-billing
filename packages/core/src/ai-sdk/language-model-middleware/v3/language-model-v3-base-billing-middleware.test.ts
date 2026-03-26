@@ -232,5 +232,54 @@ describe('LanguageModelV3BillingMiddleware (Base)', () => {
         'mock-provider',
       );
     });
+
+    it('should extract providerMetadata from the finish chunk', async () => {
+      const middleware = new TestBillingMiddleware({ destinations: [vi.fn()] });
+      const mockMetadata: SharedV3ProviderMetadata = {
+        someProviderKey: {
+          nestedKey: 'someProviderValue',
+        },
+      };
+
+      const mockModel = new MockLanguageModelV3({
+        doStream: {
+          stream: convertArrayToReadableStream<LanguageModelV3StreamPart>([
+            {
+              type: 'finish',
+              finishReason: {
+                unified: 'stop',
+                raw: 'stop',
+              },
+              usage: {
+                inputTokens: {
+                  total: 1,
+                  noCache: 1,
+                  cacheRead: 0,
+                  cacheWrite: 0,
+                },
+                outputTokens: { total: 1, text: 1, reasoning: 0 },
+              },
+              providerMetadata: mockMetadata, // This triggers the uncovered line
+            },
+          ]),
+        },
+      });
+
+      const { stream } = await middleware.wrapStream!({
+        model: mockModel,
+        params: dummyParams,
+        doGenerate: () => mockModel.doGenerate(dummyParams),
+        doStream: () => mockModel.doStream(dummyParams),
+      });
+
+      await consumeStream({ stream });
+
+      expect(middleware.mockExtract).toHaveBeenCalledWith(
+        mockMetadata,
+        undefined,
+        'mock-model-id',
+        'mock-provider',
+      );
+    });
   });
 });
