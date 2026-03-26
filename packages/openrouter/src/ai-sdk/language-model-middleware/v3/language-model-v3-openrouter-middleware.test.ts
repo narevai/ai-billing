@@ -189,3 +189,41 @@ it('should throw AiBillingExtractError when metadata is missing', async () => {
     }),
   ).rejects.toThrow(AiBillingExtractError);
 });
+
+it('should fallback to crypto.randomUUID() when responseId is missing', async () => {
+  const destinationSpy = vi.fn();
+  const middleware = new OpenRouterBillingMiddlewareV3({
+    destinations: [destinationSpy],
+  });
+
+  const mockModel = new MockLanguageModelV3({
+    modelId: 'test-model',
+    provider: 'openrouter',
+    async doGenerate() {
+      return {
+        text: 'test',
+        content: [{ type: 'text', text: 'test' }],
+        warnings: [],
+        finishReason: { unified: 'stop', raw: 'stop' },
+        usage: {
+          // This is the fix: wrap the numbers in objects
+          inputTokens: { total: 1, noCache: 1, cacheRead: 0, cacheWrite: 0 },
+          outputTokens: { total: 1, text: 1, reasoning: 0 },
+        },
+        rawCall: { rawPrompt: null, rawSettings: {} },
+        response: {},
+        providerMetadata: {
+          openrouter: { usage: { cost: 0.1 } },
+        },
+      };
+    },
+  });
+
+  const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
+  await generateText({ model: wrappedModel, prompt: 'Hi' });
+
+  // Check that a UUID was generated (string length of a UUID is 36)
+  const lastCall = destinationSpy.mock?.calls?.[0]?.[0];
+  expect(lastCall?.generationId).toBeDefined();
+  expect(lastCall?.generationId?.length).toBe(36);
+});
