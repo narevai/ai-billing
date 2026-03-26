@@ -9,8 +9,6 @@ coverage:
     patch:
       default:
         informational: true
-  ignore:
-    - "packages/core/src/error/**/*"
 
 comment:
   layout: "reach, diff, flags, files"
