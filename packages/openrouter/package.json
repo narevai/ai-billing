@@ -39,15 +39,18 @@
         "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
     },
     "dependencies": {
-        "@ai-billing/core": "workspace:*"
+        "@ai-billing/core": "workspace:*",
+        "@openrouter/ai-sdk-provider": "^2.3.3"
     },
     "devDependencies": {
         "@ai-billing/eslint-config": "workspace:*",
         "@ai-billing/typescript-config": "workspace:*",
+        "@ai-billing/testing": "workspace:*",
         "tsup": "catalog:",
         "typescript": "catalog:",
         "vitest": "catalog:",
-        "@ai-sdk/provider": "catalog:"
+        "@ai-sdk/provider": "catalog:",
+        "ai": "catalog:"
     },
     "peerDependencies": {
         "@ai-sdk/provider": "catalog:"
