@@ -30,7 +30,7 @@ export class AIBillingError extends Error {
       error != null &&
       typeof error === 'object' &&
       markerSymbol in error &&
-      typeof (error as any)[markerSymbol] === 'boolean' &&
+      typeof error[markerSymbol] === 'boolean' &&
       error[markerSymbol] === true
     );
   }
