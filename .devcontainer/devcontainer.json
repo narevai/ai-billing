@@ -10,7 +10,6 @@
     "vscode": {
       "extensions": [
         "oxc.oxc-vscode",
-        "dbaeumer.vscode-eslint",
         "vercel.turbo",
         "christian-kohler.npm-intellisense"
       ]
