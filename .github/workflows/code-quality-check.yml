@@ -64,7 +64,7 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: narevai/ai-billing 
+          slug: narevai/ai-billing
           fail_ci_if_error: false
 
   compatibility-tests:
