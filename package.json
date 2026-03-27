@@ -19,7 +19,6 @@
     "@vitest/coverage-v8": "catalog:",
     "eslint": "catalog:",
     "knip": "catalog:",
-    "prettier": "catalog:",
     "tsup": "catalog:",
     "turbo": "catalog:",
     "typescript": "catalog:"
