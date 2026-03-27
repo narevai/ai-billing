@@ -22,14 +22,14 @@
     "**/*.mdx",
     "**/*.mjs",
     "**/tsconfig*.json",
-    "**/turbo.json",
+    "**/turbo.json"
   ],
   "overrides": [
     {
       "files": ["**/*.css"],
       "options": {
-        "singleQuote": false,
-      },
-    },
-  ],
+        "singleQuote": false
+      }
+    }
+  ]
 }

@@ -50,26 +50,6 @@
         "knip.json",
         "**/package.json"
       ]
-    },
-    "//#format": {
-      "inputs": [
-        "**/*.ts",
-        "**/*.tsx",
-        "**/*.md",
-        "**/*.json",
-        ".oxfmtrc.json",
-        ".oxfmtignore"
-      ]
-    },
-    "//#format:check": {
-      "inputs": [
-        "**/*.ts",
-        "**/*.tsx",
-        "**/*.md",
-        "**/*.json",
-        ".oxfmtrc.json",
-        ".oxfmtignore"
-      ]
     }
   }
 }
