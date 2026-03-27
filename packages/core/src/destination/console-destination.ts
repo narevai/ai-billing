@@ -1,32 +1,19 @@
 import { BaseBillingDestination } from './base-destination.js';
-import type { BillingEvent } from '../types.js';
+import { BaseUsageDestination } from './base-destination.js';
+import { BillingEvent, UsageEvent } from '../types/index.js';
 
-export interface ConsoleDestinationOptions {
-  prefix?: string;
+// Specific to billing
+export class ConsoleBillingDestination extends BaseBillingDestination {
+  readonly destinationId = 'console-billing';
+  protected recordEvent(event: BillingEvent) {
+    console.log(`$$$ [Billing] ${event.modelId}: ${event.cost}`);
+  }
 }
 
-/**
- * A simple destination that logs the billing event to the terminal.
- */
-export class ConsoleDestination extends BaseBillingDestination<ConsoleDestinationOptions> {
-  constructor(options: ConsoleDestinationOptions = {}) {
-    // Pass the options up to the base class, applying defaults
-    super({
-      prefix: options.prefix ?? '[ai-billing]',
-    });
-  }
-
-  protected process(data: BillingEvent): void {
-    const { prefix } = this.config;
-    const formattedAmount = data.amount.toFixed(6);
-
-    // Optional: Log token counts if they exist
-    const tokenString = data.totalTokens
-      ? ` | Tokens: ${data.totalTokens}`
-      : '';
-
-    console.log(
-      `${prefix} $${formattedAmount} | Model: ${data.modelId} | Provider: ${data.provider}${tokenString}`,
-    );
+// Specific to raw usage
+export class ConsoleUsageDestination extends BaseUsageDestination {
+  readonly destinationId = 'console-usage';
+  protected recordEvent(event: UsageEvent) {
+    console.log(`[Usage] ${event.modelId}: ${event.usage.totalTokens} tokens`);
   }
 }
