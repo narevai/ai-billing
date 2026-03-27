@@ -1,0 +1,35 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "arrowParens": "avoid",
+  "bracketSameLine": false,
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "jsxSingleQuote": false,
+  "printWidth": 80,
+  "quoteProps": "as-needed",
+  "semi": true,
+  "singleQuote": true,
+  "sortPackageJson": false,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "useTabs": false,
+  "ignorePatterns": [
+    "dist",
+    ".next",
+    "node_modules",
+    "**/*.html",
+    "**/*.md",
+    "**/*.mdx",
+    "**/*.mjs",
+    "**/tsconfig*.json",
+    "**/turbo.json",
+  ],
+  "overrides": [
+    {
+      "files": ["**/*.css"],
+      "options": {
+        "singleQuote": false,
+      },
+    },
+  ],
+}
