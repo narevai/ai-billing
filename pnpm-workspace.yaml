@@ -18,6 +18,7 @@ catalogs:
     vitest: '^4.1.1'
     knip: '^6.0.4'
     '@changesets/cli': '^2.30.0'
+    '@edge-runtime/vm': '^5.0.0'
 
     # Tooling Orchestration
     turbo: '^2.8.20'
