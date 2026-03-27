@@ -1,11 +1,5 @@
-import { BillingEvent, UsageEvent } from '@/types/event.js';
+import type { BillingEvent } from './event.js';
 
-export type BillingDestination = {
-  readonly destinationId: string;
-  process(event: BillingEvent): PromiseLike<void> | void;
-};
-
-export type UsageDestination = {
-  readonly destinationId: string;
-  process(event: UsageEvent): PromiseLike<void> | void;
-};
+export type Destination<TCustomMeta = Record<string, unknown>> = (
+  event: BillingEvent<TCustomMeta>,
+) => Promise<void> | void;
