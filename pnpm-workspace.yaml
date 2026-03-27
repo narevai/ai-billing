@@ -7,8 +7,6 @@ allowBuilds:
 catalogs:
   default:
     # Build & Tooling
-    '@ai-sdk/provider': '^3.0.8'
-    '@openrouter/ai-sdk-provider': '^2.3.3'
     '@types/node': '^22.15.3'
     '@types/react': '19.2.2'
     '@types/react-dom': '19.2.2'
@@ -18,14 +16,16 @@ catalogs:
     oxfmt: '^0.42.0'
     oxlint: '^1.57.0'
     vitest: '^4.1.1'
-
-    # Tooling Orchestration
-    turbo: '^2.8.20'
     knip: '^6.0.4'
     '@changesets/cli': '^2.30.0'
 
+    # Tooling Orchestration
+    turbo: '^2.8.20'
+
     # AI SDK Stack
     ai: '^6.0.138'
+    '@ai-sdk/provider': '^3.0.8'
+    '@openrouter/ai-sdk-provider': '^2.3.3'
 
     # Next.js & React
     next: '16.2.0'
