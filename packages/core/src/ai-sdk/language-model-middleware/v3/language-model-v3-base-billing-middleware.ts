@@ -36,6 +36,7 @@ export abstract class LanguageModelV3BillingMiddleware<
   }
 
   protected abstract extractUsageEvent(
+    genId: string | undefined,
     modelId: string,
     providerId: string,
     providerMetadata: SharedV3ProviderMetadata | undefined,
@@ -86,6 +87,7 @@ export abstract class LanguageModelV3BillingMiddleware<
   }
 
   private async handleBilling(
+    genId: string | undefined,
     modelId: string,
     providerId: string,
     providerMetadata: SharedV3ProviderMetadata | undefined,
@@ -95,6 +97,7 @@ export abstract class LanguageModelV3BillingMiddleware<
       if (!usage) return;
 
       const usageEvent = await this.extractUsageEvent(
+        genId,
         modelId,
         providerId,
         providerMetadata,
@@ -122,6 +125,7 @@ export abstract class LanguageModelV3BillingMiddleware<
     const result = await doGenerate();
 
     const billingPromise = this.handleBilling(
+      result.response?.id,
       model.modelId,
       model.provider,
       result.providerMetadata,
@@ -141,7 +145,7 @@ export abstract class LanguageModelV3BillingMiddleware<
   }) => {
     const { stream, ...rest } = await doStream();
 
-    let currentId: string | undefined = undefined;
+    let genId: string | undefined = undefined;
     let providerMetadata: SharedV3ProviderMetadata | undefined = undefined;
     let usage: LanguageModelV3Usage | undefined = undefined;
 
@@ -152,7 +156,7 @@ export abstract class LanguageModelV3BillingMiddleware<
             switch (chunk.type) {
               case 'response-metadata':
               case 'text-start':
-                if (chunk.id) currentId = chunk.id;
+                if (chunk.id) genId = chunk.id;
                 break;
               case 'finish':
                 if (chunk.providerMetadata)
@@ -164,6 +168,7 @@ export abstract class LanguageModelV3BillingMiddleware<
           },
           flush: async () => {
             const billingPromise = this.handleBilling(
+              genId,
               model.modelId,
               model.provider,
               providerMetadata,
