@@ -45,7 +45,8 @@
         "tsup": "catalog:",
         "typescript": "catalog:",
         "vitest": "catalog:",
-        "@ai-sdk/provider": "catalog:"
+        "@ai-sdk/provider": "catalog:",
+        "oxfmt": "catalog:"
     },
     "peerDependencies": {
         "@ai-sdk/provider": "catalog:"

@@ -16,7 +16,7 @@ catalogs:
     tsup: "^8.5.1"
     typescript: "5.9.2"
     "typescript-eslint": "^8.57.0"
-    "prettier": "^3.7.4"
+    "oxfmt": "^0.42.0"
 
     # ESLint Plugins & Configs
     "@eslint/js": "^9.39.1"
