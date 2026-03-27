@@ -39,12 +39,13 @@
     "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
   },
   "devDependencies": {
-    "@ai-billing/typescript-config": "workspace:*",
     "@ai-billing/testing": "workspace:*",
+    "@ai-billing/typescript-config": "workspace:*",
+    "@ai-sdk/provider": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
-    "@ai-sdk/provider": "catalog:"
+    "@edge-runtime/vm": "catalog:"
   },
   "peerDependencies": {
     "@ai-sdk/provider": "catalog:"
