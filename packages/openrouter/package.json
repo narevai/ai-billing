@@ -43,7 +43,6 @@
     "@openrouter/ai-sdk-provider": "^2.3.3"
   },
   "devDependencies": {
-    "@ai-billing/oxlint-config": "workspace:*",
     "@ai-billing/typescript-config": "workspace:*",
     "@ai-billing/testing": "workspace:*",
     "tsup": "catalog:",

@@ -31,7 +31,6 @@
     "@ai-sdk/provider": "catalog:"
   },
   "devDependencies": {
-    "@ai-billing/oxlint-config": "workspace:*",
     "@ai-billing/typescript-config": "workspace:*",
     "tsup": "catalog:",
     "typescript": "catalog:"

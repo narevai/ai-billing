@@ -39,7 +39,6 @@
     "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
   },
   "devDependencies": {
-    "@ai-billing/oxlint-config": "workspace:*",
     "@ai-billing/typescript-config": "workspace:*",
     "@ai-billing/testing": "workspace:*",
     "tsup": "catalog:",
