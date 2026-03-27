@@ -24,14 +24,13 @@
   "scripts": {
     "build": "tsup",
     "check-types": "tsc --noEmit",
-    "lint": "eslint .",
+    "lint": "oxlint",
     "dev": "tsup --watch"
   },
   "dependencies": {
     "@ai-sdk/provider": "catalog:"
   },
   "devDependencies": {
-    "@ai-billing/eslint-config": "workspace:*",
     "@ai-billing/typescript-config": "workspace:*",
     "tsup": "catalog:",
     "typescript": "catalog:"

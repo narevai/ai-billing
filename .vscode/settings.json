@@ -1,15 +1,6 @@
 {
   "editor.formatOnSave": true,
-  "eslint.useFlatConfig": true,
-  "eslint.workingDirectories": [{ "mode": "auto" }],
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "never",
     "source.fixAll.oxc": "explicit"
   },
   "[javascript]": {

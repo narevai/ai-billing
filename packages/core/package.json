@@ -31,7 +31,7 @@
   "scripts": {
     "build": "tsup",
     "check-types": "tsc --noEmit",
-    "lint": "eslint .",
+    "lint": "oxlint",
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -39,7 +39,6 @@
     "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
   },
   "devDependencies": {
-    "@ai-billing/eslint-config": "workspace:*",
     "@ai-billing/typescript-config": "workspace:*",
     "@ai-billing/testing": "workspace:*",
     "tsup": "catalog:",
