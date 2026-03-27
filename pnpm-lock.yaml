@@ -114,9 +114,6 @@ importers:
         specifier: 'catalog:'
         version: 19.2.4(react@19.2.4)
     devDependencies:
-      '@ai-billing/oxlint-config':
-        specifier: workspace:*
-        version: link:../../packages/oxlint-config
       '@ai-billing/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -135,9 +132,6 @@ importers:
 
   packages/core:
     devDependencies:
-      '@ai-billing/oxlint-config':
-        specifier: workspace:*
-        version: link:../oxlint-config
       '@ai-billing/testing':
         specifier: workspace:*
         version: link:../testing
@@ -166,9 +160,6 @@ importers:
         specifier: ^2.3.3
         version: 2.3.3(ai@6.0.138(zod@4.3.6))(zod@4.3.6)
     devDependencies:
-      '@ai-billing/oxlint-config':
-        specifier: workspace:*
-        version: link:../oxlint-config
       '@ai-billing/testing':
         specifier: workspace:*
         version: link:../testing
@@ -191,21 +182,12 @@ importers:
         specifier: 'catalog:'
         version: 4.1.1(@opentelemetry/api@1.9.0)(@types/node@22.19.15)(vite@8.0.2(@types/node@22.19.15)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.8.3))
 
-  packages/oxlint-config:
-    dependencies:
-      oxlint:
-        specifier: 'catalog:'
-        version: 1.57.0
-
   packages/testing:
     dependencies:
       '@ai-sdk/provider':
         specifier: 'catalog:'
         version: 3.0.8
     devDependencies:
-      '@ai-billing/oxlint-config':
-        specifier: workspace:*
-        version: link:../oxlint-config
       '@ai-billing/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
