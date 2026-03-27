@@ -1,5 +1,5 @@
 import { AiBillingDestinationError } from '../error/index.js';
-import type { BillingData, BillingDestination } from '../types.js';
+import type { BillingEvent, BillingDestination } from '../types.js';
 
 export abstract class BaseBillingDestination<TConfig = unknown> {
   protected config: TConfig;
@@ -8,7 +8,7 @@ export abstract class BaseBillingDestination<TConfig = unknown> {
     this.config = config;
   }
 
-  protected abstract process(data: BillingData): Promise<void> | void;
+  protected abstract process(data: BillingEvent): Promise<void> | void;
 
   public readonly handle: BillingDestination = async data => {
     try {

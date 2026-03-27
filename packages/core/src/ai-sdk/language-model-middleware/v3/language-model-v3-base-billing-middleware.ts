@@ -1,62 +1,118 @@
+import { AiHandleBillingError } from '@/error/index.js';
+import {
+  BillingDestination,
+  UsageEvent,
+  CostResolver,
+  BillingEvent,
+  UsageDestination,
+} from '@/types/index.js';
 import type {
   LanguageModelV3Middleware,
   LanguageModelV3StreamPart,
+  LanguageModelV3Usage,
+  SharedV3ProviderMetadata,
 } from '@ai-sdk/provider';
-import type {
-  BillingDestinationConfig,
-  BillingDestination,
-  BillingData,
-} from '../../../types.js';
 
 export abstract class LanguageModelV3BillingMiddleware<
   TMetadata = unknown,
 > implements LanguageModelV3Middleware {
   readonly specificationVersion = 'v3';
 
-  private destinations: BillingDestination[];
+  private usageDestinations?: UsageDestination[];
+  private billingDestinations?: BillingDestination[];
+  private costResolver?: CostResolver;
+  private waitUntil?: (promise: Promise<unknown>) => void;
 
-  constructor(config: BillingDestinationConfig) {
-    this.destinations = config.destinations ?? [];
+  constructor(config: {
+    usageDestinations?: UsageDestination[];
+    billingDestinations?: BillingDestination[];
+    costResolver?: CostResolver;
+    waitUntil?: (promise: Promise<unknown>) => void;
+  }) {
+    this.usageDestinations = config.usageDestinations ?? [];
+    this.billingDestinations = config.billingDestinations ?? [];
+    this.costResolver = config.costResolver;
+    this.waitUntil = config.waitUntil;
   }
 
-  /**
-   * Every provider sub-package (OpenRouter, OpenAI) implements this.
-   */
-  protected abstract extractBilling(
-    metadata: TMetadata | undefined,
-    responseId: string | undefined,
+  protected abstract extractUsageEvent(
     modelId: string,
-    provider: string,
-  ):
-    | Promise<{ cost: number; genId: string } | null>
-    | { cost: number; genId: string }
-    | null;
+    providerId: string,
+    providerMetadata: SharedV3ProviderMetadata | undefined,
+    usage: LanguageModelV3Usage,
+  ): Promise<UsageEvent | null>;
 
-  /**
-   * Safely broadcasts the capture event to all plugged-in destinations.
-   * Uses Promise.allSettled.
-   */
-  private async broadcastCapture(
-    billing: { cost: number; genId: string } | null | undefined,
-    modelId: string,
-    provider: string,
-  ) {
-    if (!billing || this.destinations.length === 0) {
-      return;
+  protected onBillingError(err: unknown) {
+    if (AiHandleBillingError.isInstance(err)) {
+      console.error(`[AIBilling] ${err.message}`, {
+        provider: err.provider,
+        cause: err.cause,
+      });
+    } else {
+      console.error('[AIBilling] Unexpected Error:', err);
     }
+  }
 
-    const billingData: BillingData = {
-      amount: billing.cost,
-      generationId: billing.genId,
-      modelId: modelId,
-      provider: provider,
+  protected async resolveBillingEvent(
+    usageEvent: UsageEvent,
+  ): Promise<BillingEvent | null> {
+    if (!this.costResolver) return null;
+
+    const cost = await this.costResolver.resolve(usageEvent);
+    if (!cost) return null;
+
+    const resolvedEvent: BillingEvent = {
+      ...usageEvent,
+      cost,
     };
 
-    await Promise.allSettled(
-      this.destinations.map(destination =>
-        Promise.resolve(destination(billingData)),
-      ),
-    );
+    return resolvedEvent;
+  }
+
+  protected async broadcastUsageEvent(event: UsageEvent): Promise<void> {
+    if (this.usageDestinations) {
+      await Promise.allSettled(
+        this.usageDestinations.map(d => Promise.resolve(d.process(event))),
+      );
+    }
+  }
+
+  protected async broadcastBillingEvent(event: BillingEvent): Promise<void> {
+    if (this.billingDestinations) {
+      await Promise.allSettled(
+        this.billingDestinations.map(d => Promise.resolve(d.process(event))),
+      );
+    }
+  }
+
+  private async handleBilling(
+    modelId: string,
+    providerId: string,
+    providerMetadata: SharedV3ProviderMetadata | undefined,
+    usage: LanguageModelV3Usage | undefined,
+  ): Promise<void> {
+    try {
+      if (!usage) return;
+
+      const usageEvent = await this.extractUsageEvent(
+        modelId,
+        providerId,
+        providerMetadata,
+        usage,
+      );
+
+      if (!usageEvent) return;
+
+      await this.broadcastUsageEvent(usageEvent);
+
+      const billingEvent = await this.resolveBillingEvent(usageEvent);
+
+      if (billingEvent) {
+        await this.broadcastBillingEvent(billingEvent);
+      }
+    } catch (error) {
+      this.onBillingError(error);
+    }
   }
 
   wrapGenerate: LanguageModelV3Middleware['wrapGenerate'] = async ({
@@ -65,14 +121,16 @@ export abstract class LanguageModelV3BillingMiddleware<
   }) => {
     const result = await doGenerate();
 
-    const billing = await this.extractBilling(
-      result.providerMetadata as TMetadata,
-      result.response?.id,
+    const billingPromise = this.handleBilling(
       model.modelId,
       model.provider,
+      result.providerMetadata,
+      result.usage,
     );
 
-    await this.broadcastCapture(billing, model.modelId, model.provider);
+    if (this.waitUntil) {
+      this.waitUntil(billingPromise);
+    }
 
     return result;
   };
@@ -84,7 +142,8 @@ export abstract class LanguageModelV3BillingMiddleware<
     const { stream, ...rest } = await doStream();
 
     let currentId: string | undefined = undefined;
-    let finalMetadata: unknown | undefined = undefined;
+    let providerMetadata: SharedV3ProviderMetadata | undefined = undefined;
+    let usage: LanguageModelV3Usage | undefined = undefined;
 
     const billedStream = stream.pipeThrough(
       new TransformStream<LanguageModelV3StreamPart, LanguageModelV3StreamPart>(
@@ -97,20 +156,22 @@ export abstract class LanguageModelV3BillingMiddleware<
                 break;
               case 'finish':
                 if (chunk.providerMetadata)
-                  finalMetadata = chunk.providerMetadata;
+                  providerMetadata = chunk.providerMetadata;
+                usage = chunk.usage;
                 break;
             }
             controller.enqueue(chunk);
           },
           flush: async () => {
-            const billing = await this.extractBilling(
-              finalMetadata as TMetadata,
-              currentId,
+            const billingPromise = this.handleBilling(
               model.modelId,
               model.provider,
-            );
-
-            await this.broadcastCapture(billing, model.modelId, model.provider);
+              providerMetadata,
+              usage,
+            ).catch(err => this.onBillingError(err));
+            if (this.waitUntil) {
+              this.waitUntil(billingPromise);
+            }
           },
         },
       ),

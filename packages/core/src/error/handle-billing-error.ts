@@ -1,10 +1,10 @@
 import { AIBillingError } from './ai-billing-error.js';
 
-const name = 'AiBillingExtractError';
+const name = 'HandleBillingError';
 const marker = `ai-billing.error.${name}`;
 const symbol = Symbol.for(marker);
 
-export class AiBillingExtractError extends AIBillingError {
+export class AiHandleBillingError extends AIBillingError {
   private readonly [symbol] = true;
 
   readonly provider: string;
@@ -13,7 +13,7 @@ export class AiBillingExtractError extends AIBillingError {
   constructor({
     provider,
     metadata,
-    message = `Failed to extract billing data from provider: '${provider}'.`,
+    message = `Failed to handle billing for provider: '${provider}'.`,
     cause,
   }: {
     provider: string;
@@ -26,7 +26,7 @@ export class AiBillingExtractError extends AIBillingError {
     this.metadata = metadata;
   }
 
-  static isInstance(error: unknown): error is AiBillingExtractError {
+  static isInstance(error: unknown): error is AiHandleBillingError {
     return AIBillingError.hasMarker(error, marker);
   }
 }

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { BaseBillingDestination } from './base-destination.js';
 import { AiBillingDestinationError } from '../error/index.js';
-import type { BillingData } from '../types.js';
+import type { BillingEvent } from '../types.js';
 
 interface TestConfig {
   apiKey: string;
@@ -10,7 +10,7 @@ interface TestConfig {
 class TestDestination extends BaseBillingDestination<TestConfig> {
   public processMock = vi.fn();
 
-  protected process(data: BillingData): Promise<void> | void {
+  protected process(data: BillingEvent): Promise<void> | void {
     return this.processMock(data);
   }
 
@@ -23,7 +23,7 @@ describe('BaseBillingDestination', () => {
   const mockConfig: TestConfig = { apiKey: 'test-key' };
   const mockBillingData = {
     modelId: 'gpt-4o',
-  } as BillingData;
+  } as BillingEvent;
 
   it('should assign config in the constructor', () => {
     const destination = new TestDestination(mockConfig);

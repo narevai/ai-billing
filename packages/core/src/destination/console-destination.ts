@@ -1,5 +1,5 @@
 import { BaseBillingDestination } from './base-destination.js';
-import type { BillingData } from '../types.js';
+import type { BillingEvent } from '../types.js';
 
 export interface ConsoleDestinationOptions {
   prefix?: string;
@@ -16,7 +16,7 @@ export class ConsoleDestination extends BaseBillingDestination<ConsoleDestinatio
     });
   }
 
-  protected process(data: BillingData): void {
+  protected process(data: BillingEvent): void {
     const { prefix } = this.config;
     const formattedAmount = data.amount.toFixed(6);
 
