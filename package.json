@@ -17,9 +17,9 @@
   "devDependencies": {
     "@changesets/cli": "catalog:",
     "@vitest/coverage-v8": "catalog:",
-    "eslint": "catalog:",
     "knip": "catalog:",
     "oxfmt": "catalog:",
+    "oxlint": "catalog:",
     "tsup": "catalog:",
     "turbo": "catalog:",
     "typescript": "catalog:"
