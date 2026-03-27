@@ -175,6 +175,9 @@ importers:
       '@ai-sdk/provider':
         specifier: 'catalog:'
         version: 3.0.8
+      '@edge-runtime/vm':
+        specifier: 'catalog:'
+        version: 5.0.0
       ai:
         specifier: 'catalog:'
         version: 6.0.138(zod@4.3.6)
