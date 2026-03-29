@@ -5,17 +5,17 @@ import {
   wrapLanguageModel,
 } from 'ai';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { OpenRouterBillingMiddleware } from '@ai-billing/openrouter';
-import { ConsoleDestination } from '@ai-billing/core';
+import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
+import { consoleDestination } from '@ai-billing/core';
 
 const openrouter = createOpenRouter({
   // eslint-disable-next-line turbo/no-undeclared-env-vars
   apiKey: process.env.OPENROUTER_API_KEY,
 });
 
-const consoleLogger = new ConsoleDestination();
-const billingMiddleware = new OpenRouterBillingMiddleware({
-  destinations: [consoleLogger.handle],
+//const consoleLogger = new ConsoleDestination();
+const billingMiddleware = createOpenRouterV3Middleware({
+  destinations: [consoleDestination()],
 });
 
 export async function POST() {

@@ -1,46 +1,75 @@
 import {
-  AiBillingExtractError,
-  LanguageModelV3BillingMiddleware,
+  createV3BillingMiddleware,
+  type BaseBillingMiddlewareOptions,
+  AiBillingExtractorError,
 } from '@ai-billing/core';
-import type { BillingDestinationConfig } from '@ai-billing/core';
 import type { OpenRouterUsageAccounting } from '@openrouter/ai-sdk-provider';
 
-interface OpenRouterProviderMetadata {
+export interface OpenRouterProviderMetadata {
   openrouter?: {
     provider?: string;
     usage?: OpenRouterUsageAccounting;
+    reasoning_details?: unknown[];
+    annotations?: unknown[];
   };
 }
 
-export class OpenRouterBillingMiddlewareV3 extends LanguageModelV3BillingMiddleware<OpenRouterProviderMetadata> {
-  constructor(config: BillingDestinationConfig = {}) {
-    super(config);
-  }
+type OpenRouterMiddlewareOptions<TTags> = BaseBillingMiddlewareOptions<TTags>;
 
-  protected extractBilling(
-    metadata: OpenRouterProviderMetadata | undefined,
-    responseId: string | undefined,
-    modelId: string,
-    provider: string,
-  ) {
-    const genId = responseId ?? crypto.randomUUID();
-    const openrouterMeta = metadata?.openrouter;
-    const usage = openrouterMeta?.usage;
+export function createOpenRouterV3Middleware<TTags = Record<string, unknown>>(
+  options: OpenRouterMiddlewareOptions<TTags>,
+) {
+  return createV3BillingMiddleware<TTags>({
+    ...options,
 
-    if (!usage || typeof usage.cost !== 'number' || isNaN(usage.cost)) {
-      throw new AiBillingExtractError({
-        provider: 'openrouter',
-        message: `Expected 'usage.cost' to be a valid number.`,
-        metadata: openrouterMeta,
-      });
-    }
+    buildEvent: ({
+      model,
+      usage: _sdkUsage, // We ignore sdk usage because OpenRouter provides better cost metrics
+      providerMetadata,
+      responseId,
+      tags,
+    }) => {
+      const openrouterMetadata = providerMetadata as
+        | OpenRouterProviderMetadata
+        | undefined;
+      const openRouterUsage = openrouterMetadata?.openrouter?.usage;
 
-    return {
-      cost: usage.cost,
-      genId,
-      promptTokens: usage.promptTokens,
-      completionTokens: usage.completionTokens,
-      totalTokens: usage.totalTokens,
-    };
-  }
+      if (
+        !openRouterUsage ||
+        typeof openRouterUsage.cost !== 'number' ||
+        isNaN(openRouterUsage.cost)
+      ) {
+        throw new AiBillingExtractorError({
+          message: `Expected 'usage.cost' to be a valid number.`,
+          cause: openrouterMetadata,
+        });
+      }
+
+      return {
+        generationId: responseId ?? crypto.randomUUID(),
+        modelId: model.modelId,
+        provider: model.provider || 'openrouter',
+        timestamp: Date.now(),
+        tags: tags,
+        usage: {
+          subProviderId: openrouterMetadata?.openrouter?.provider,
+          inputTokens: openRouterUsage.promptTokens ?? 0,
+          outputTokens: openRouterUsage.completionTokens ?? 0,
+          cacheReadTokens:
+            openRouterUsage.promptTokensDetails?.cachedTokens ?? 0,
+          reasoningTokens:
+            openRouterUsage.completionTokensDetails?.reasoningTokens ?? 0,
+          totalTokens: openRouterUsage.totalTokens ?? 0,
+          rawProviderCost: openRouterUsage.cost,
+          rawUpstreamInferenceCost:
+            openRouterUsage.costDetails?.upstreamInferenceCost,
+        },
+        cost: {
+          amount: openRouterUsage.cost,
+          unit: 'base',
+          currency: 'USD',
+        },
+      };
+    },
+  });
 }

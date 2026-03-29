@@ -7,19 +7,19 @@ const symbol = Symbol.for(marker);
 export class AiBillingDestinationError extends AIBillingError {
   private readonly [symbol] = true;
 
-  readonly modelId?: string;
+  readonly destinationId?: string;
 
   constructor({
-    modelId,
-    message = `Failed to process billing data for model: '${modelId}'.`,
+    destinationId,
+    message = `Failed to process billing data for destination: '${destinationId}'.`,
     cause,
   }: {
-    modelId?: string;
+    destinationId?: string;
     message?: string;
     cause?: unknown;
   }) {
     super({ name, message, cause });
-    this.modelId = modelId;
+    this.destinationId = destinationId;
   }
 
   static isInstance(error: unknown): error is AiBillingDestinationError {

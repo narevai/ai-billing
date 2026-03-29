@@ -1,32 +1,12 @@
-import { BaseBillingDestination } from './base-destination.js';
-import type { BillingData } from '../types.js';
+import { createDestination } from './base-destination.js';
+import type { Destination } from '../types/index.js';
 
-export interface ConsoleDestinationOptions {
-  prefix?: string;
-}
-
-/**
- * A simple destination that logs the billing event to the terminal.
- */
-export class ConsoleDestination extends BaseBillingDestination<ConsoleDestinationOptions> {
-  constructor(options: ConsoleDestinationOptions = {}) {
-    // Pass the options up to the base class, applying defaults
-    super({
-      prefix: options.prefix ?? '[ai-billing]',
+export function consoleDestination<TTags>(): Destination<TTags> {
+  return createDestination<TTags>('console-logger', event => {
+    console.dir(event, {
+      depth: null,
+      colors: true,
+      compact: false,
     });
-  }
-
-  protected process(data: BillingData): void {
-    const { prefix } = this.config;
-    const formattedAmount = data.amount.toFixed(6);
-
-    // Optional: Log token counts if they exist
-    const tokenString = data.totalTokens
-      ? ` | Tokens: ${data.totalTokens}`
-      : '';
-
-    console.log(
-      `${prefix} $${formattedAmount} | Model: ${data.modelId} | Provider: ${data.provider}${tokenString}`,
-    );
-  }
+  });
 }

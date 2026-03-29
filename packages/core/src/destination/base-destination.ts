@@ -1,21 +1,16 @@
+import type { Destination, BillingEvent } from '../types/index.js';
 import { AiBillingDestinationError } from '../error/index.js';
-import type { BillingData, BillingDestination } from '../types.js';
 
-export abstract class BaseBillingDestination<TConfig = unknown> {
-  protected config: TConfig;
-
-  constructor(config: TConfig) {
-    this.config = config;
-  }
-
-  protected abstract process(data: BillingData): Promise<void> | void;
-
-  public readonly handle: BillingDestination = async data => {
+export function createDestination<TTags>(
+  destinationId: string,
+  handler: (event: BillingEvent<TTags>) => Promise<void> | void,
+): Destination<TTags> {
+  return async (event: BillingEvent<TTags>) => {
     try {
-      await this.process(data);
+      await handler(event);
     } catch (error) {
       throw new AiBillingDestinationError({
-        modelId: data.modelId,
+        destinationId,
         cause: error,
       });
     }

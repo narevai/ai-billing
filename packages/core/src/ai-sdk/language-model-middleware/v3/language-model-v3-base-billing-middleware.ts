@@ -1,121 +1,132 @@
 import type {
-  LanguageModelV3Middleware,
+  LanguageModelV3,
+  LanguageModelV3CallOptions,
+  LanguageModelV3Usage,
+  LanguageModelV3GenerateResult,
   LanguageModelV3StreamPart,
+  LanguageModelV3Middleware,
+  SharedV3ProviderMetadata,
 } from '@ai-sdk/provider';
 import type {
-  BillingDestinationConfig,
-  BillingDestination,
-  BillingData,
-} from '../../../types.js';
+  BaseBillingMiddlewareOptions,
+  EventBuilder,
+} from '../../../types/index.js';
 
-export abstract class LanguageModelV3BillingMiddleware<
-  TMetadata = unknown,
-> implements LanguageModelV3Middleware {
-  readonly specificationVersion = 'v3';
+export interface BuildV3EventPayload<TTags> {
+  responseId: string | undefined;
+  model: LanguageModelV3;
+  usage: LanguageModelV3Usage | undefined;
+  providerMetadata: SharedV3ProviderMetadata | undefined;
+  tags: TTags;
+}
 
-  private destinations: BillingDestination[];
+export interface BillingMiddlewareV3Options<
+  TTags,
+> extends BaseBillingMiddlewareOptions<TTags> {
+  buildEvent: EventBuilder<BuildV3EventPayload<TTags>, TTags>;
+}
 
-  constructor(config: BillingDestinationConfig) {
-    this.destinations = config.destinations ?? [];
-  }
+export function createV3BillingMiddleware<TTags>(
+  options: BillingMiddlewareV3Options<TTags>,
+): LanguageModelV3Middleware {
+  const { buildEvent, destinations, defaultTags, waitUntil, onError } = options;
 
-  /**
-   * Every provider sub-package (OpenRouter, OpenAI) implements this.
-   */
-  protected abstract extractBilling(
-    metadata: TMetadata | undefined,
-    responseId: string | undefined,
-    modelId: string,
-    provider: string,
-  ):
-    | Promise<{ cost: number; genId: string } | null>
-    | { cost: number; genId: string }
-    | null;
-
-  /**
-   * Safely broadcasts the capture event to all plugged-in destinations.
-   * Uses Promise.allSettled.
-   */
-  private async broadcastCapture(
-    billing: { cost: number; genId: string } | null | undefined,
-    modelId: string,
-    provider: string,
-  ) {
-    if (!billing || this.destinations.length === 0) {
-      return;
-    }
-
-    const billingData: BillingData = {
-      amount: billing.cost,
-      generationId: billing.genId,
-      modelId: modelId,
-      provider: provider,
-    };
-
-    await Promise.allSettled(
-      this.destinations.map(destination =>
-        Promise.resolve(destination(billingData)),
-      ),
-    );
-  }
-
-  wrapGenerate: LanguageModelV3Middleware['wrapGenerate'] = async ({
-    doGenerate,
+  const processEvent = async ({
     model,
-  }) => {
-    const result = await doGenerate();
+    params,
+    usage,
+    providerMetadata,
+    responseId,
+  }: {
+    model: LanguageModelV3;
+    params: LanguageModelV3CallOptions;
+    usage: LanguageModelV3Usage | undefined;
+    providerMetadata: SharedV3ProviderMetadata | undefined;
+    responseId: string | undefined;
+  }): Promise<void> => {
+    try {
+      const rawHeader = params.headers?.['x-ai-billing-tags'];
+      const headerTags = rawHeader ? JSON.parse(rawHeader) : {};
 
-    const billing = await this.extractBilling(
-      result.providerMetadata as TMetadata,
-      result.response?.id,
-      model.modelId,
-      model.provider,
-    );
+      const tags = {
+        ...(defaultTags ?? {}),
+        ...headerTags,
+      } as TTags;
 
-    await this.broadcastCapture(billing, model.modelId, model.provider);
+      const event = await buildEvent({
+        responseId,
+        model,
+        usage,
+        providerMetadata,
+        tags,
+      });
 
-    return result;
+      if (event) {
+        await Promise.allSettled(
+          destinations.map(d => Promise.resolve(d(event))),
+        );
+      }
+    } catch (err) {
+      if (onError) onError(err);
+      else console.error('[ai-billing] Core Error:', err);
+    }
   };
 
-  wrapStream: LanguageModelV3Middleware['wrapStream'] = async ({
-    doStream,
-    model,
-  }) => {
-    const { stream, ...rest } = await doStream();
+  return {
+    specificationVersion: 'v3',
 
-    let currentId: string | undefined = undefined;
-    let finalMetadata: unknown | undefined = undefined;
+    wrapGenerate: async ({ doGenerate, model, params }) => {
+      const result: LanguageModelV3GenerateResult = await doGenerate();
 
-    const billedStream = stream.pipeThrough(
-      new TransformStream<LanguageModelV3StreamPart, LanguageModelV3StreamPart>(
-        {
-          transform: async (chunk, controller) => {
-            switch (chunk.type) {
-              case 'response-metadata':
-              case 'text-start':
-                if (chunk.id) currentId = chunk.id;
-                break;
-              case 'finish':
-                if (chunk.providerMetadata)
-                  finalMetadata = chunk.providerMetadata;
-                break;
+      const promise = processEvent({
+        model,
+        params,
+        usage: result.usage,
+        providerMetadata: result.providerMetadata,
+        responseId: result.response?.id,
+      });
+
+      if (waitUntil) waitUntil(promise);
+      return result;
+    },
+
+    wrapStream: async ({ doStream, model, params }) => {
+      const { stream, ...rest } = await doStream();
+
+      let responseId: string | undefined;
+      let usage: LanguageModelV3Usage | undefined;
+      let providerMetadata: SharedV3ProviderMetadata | undefined;
+
+      const billedStream = stream.pipeThrough(
+        new TransformStream<
+          LanguageModelV3StreamPart,
+          LanguageModelV3StreamPart
+        >({
+          transform(chunk, controller) {
+            if (chunk.type === 'text-start') responseId = chunk.id;
+            if (chunk.type === 'response-metadata' && !responseId) {
+              responseId = chunk.id;
+            }
+            if (chunk.type === 'finish') {
+              usage = chunk.usage;
+              providerMetadata = chunk.providerMetadata;
             }
             controller.enqueue(chunk);
           },
-          flush: async () => {
-            const billing = await this.extractBilling(
-              finalMetadata as TMetadata,
-              currentId,
-              model.modelId,
-              model.provider,
-            );
-
-            await this.broadcastCapture(billing, model.modelId, model.provider);
+          flush() {
+            const promise = processEvent({
+              model,
+              params,
+              usage,
+              providerMetadata,
+              responseId,
+            });
+            if (waitUntil) waitUntil(promise);
           },
-        },
-      ),
-    );
+        }),
+      );
 
-    return { ...rest, stream: billedStream };
+      return { ...rest, stream: billedStream };
+    },
   };
 }
