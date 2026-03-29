@@ -130,6 +130,39 @@ describe('createV3BillingMiddleware', () => {
         }),
       );
     });
+
+    it('should call waitUntil with a promise representing the background event processing', async () => {
+      const waitUntilSpy = vi.fn();
+      const buildEventSpy = vi.fn().mockResolvedValue({ id: 'event-1' });
+
+      const middleware = createV3BillingMiddleware({
+        buildEvent: buildEventSpy,
+        destinations: [vi.fn()],
+        waitUntil: waitUntilSpy,
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        doGenerate: createGenerateResult('resp-1'),
+      });
+
+      await middleware.wrapGenerate!({
+        model: mockModel,
+        params: testParams,
+        doGenerate: () => mockModel.doGenerate(testParams),
+        doStream: () => mockModel.doStream(testParams),
+      });
+
+      // Verify waitUntil was called exactly once with a Promise
+      expect(waitUntilSpy).toHaveBeenCalledTimes(1);
+      expect(waitUntilSpy).toHaveBeenCalledWith(expect.any(Promise));
+
+      // Await the captured promise to ensure the background task finishes cleanly
+      const capturedPromise = waitUntilSpy.mock.calls![0]![0];
+      await capturedPromise;
+
+      // Verify the background task actually completed
+      expect(buildEventSpy).toHaveBeenCalled();
+    });
   });
 
   describe('wrapStream', () => {
@@ -259,6 +292,60 @@ describe('createV3BillingMiddleware', () => {
           providerMetadata: mockMetadata,
         }),
       );
+    });
+
+    it('should call waitUntil with a promise only after the stream flushes', async () => {
+      const waitUntilSpy = vi.fn();
+      const buildEventSpy = vi.fn().mockResolvedValue({ id: 'event-stream' });
+
+      const middleware = createV3BillingMiddleware({
+        buildEvent: buildEventSpy,
+        destinations: [vi.fn()],
+        waitUntil: waitUntilSpy,
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        doStream: {
+          stream: convertArrayToReadableStream<LanguageModelV3StreamPart>([
+            { type: 'text-delta', id: 'block-1', delta: 'Hello' },
+            {
+              type: 'finish',
+              finishReason: { unified: 'stop', raw: 'stop' },
+              usage: {
+                inputTokens: {
+                  total: 1,
+                  noCache: 1,
+                  cacheRead: 0,
+                  cacheWrite: 0,
+                },
+                outputTokens: { total: 1, text: 1, reasoning: 0 },
+              },
+            },
+          ]),
+        },
+      });
+
+      const { stream } = await middleware.wrapStream!({
+        model: mockModel,
+        params: testParams,
+        doGenerate: () => mockModel.doGenerate(testParams),
+        doStream: () => mockModel.doStream(testParams),
+      });
+
+      // At this point, the stream is open but not consumed.
+      // waitUntil should NOT have been called yet.
+      expect(waitUntilSpy).not.toHaveBeenCalled();
+
+      // Consume the stream to trigger the flush() method in the TransformStream
+      await consumeStream({ stream });
+
+      // Now waitUntil should have been called with the processEvent promise
+      expect(waitUntilSpy).toHaveBeenCalledTimes(1);
+      expect(waitUntilSpy).toHaveBeenCalledWith(expect.any(Promise));
+
+      // Clean up by awaiting the captured promise
+      const capturedPromise = waitUntilSpy.mock.calls![0]![0];
+      await capturedPromise;
     });
   });
 
