@@ -14,8 +14,7 @@ export interface OpenRouterProviderMetadata {
   };
 }
 
-export type OpenRouterMiddlewareOptions<TTags> =
-  BaseBillingMiddlewareOptions<TTags>;
+type OpenRouterMiddlewareOptions<TTags> = BaseBillingMiddlewareOptions<TTags>;
 
 export function createOpenRouterV3Middleware<TTags = Record<string, unknown>>(
   options: OpenRouterMiddlewareOptions<TTags>,
