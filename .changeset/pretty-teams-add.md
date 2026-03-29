@@ -1,7 +1,6 @@
 ---
 "dev-sandbox": patch
 "@ai-billing/core": patch
-"@ai-billing/eslint-config": patch
 "@ai-billing/openrouter": patch
 "@ai-billing/testing": patch
 "@ai-billing/typescript-config": patch

@@ -1,5 +1,4 @@
 ---
-'@ai-billing/eslint-config': patch
 'dev-sandbox': patch
 '@ai-billing/core': patch
 ---
