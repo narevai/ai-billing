@@ -215,13 +215,13 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
           usage: {
             //promptTokens: 7, - hits 0 fallback
             promptTokensDetails: {
-              cachedTokens: 0,
+              // cachedTokens: 0,
             },
-            completionTokens: 10,
+            //completionTokens: 10, - hits 0 fallback
             completionTokensDetails: {
-              reasoningTokens: 0,
+              //reasoningTokens: 0,
             },
-            totalTokens: 17,
+            //totalTokens: 17,
             cost: 0.000004653,
             costDetails: {
               upstreamInferenceCost: 0.0000047,
@@ -245,6 +245,10 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
     const event = destinationSpy.mock.calls?.[0]?.[0];
     expect(event.provider).toBe('openrouter');
     expect(event.usage.inputTokens).toBe(0);
+    expect(event.usage.cacheReadTokens).toBe(0);
+    expect(event.usage.outputTokens).toBe(0);
+    expect(event.usage.reasoningTokens).toBe(0);
+    expect(event.usage.totalTokens).toBe(0);
     expect(event.generationId).toHaveLength(36); // UUID fallback
   });
 });
