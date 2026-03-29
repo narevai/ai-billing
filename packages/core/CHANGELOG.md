@@ -1,5 +1,11 @@
 # @ai-billing/core
 
+## 0.0.1-alpha.6
+
+### Patch Changes
+
+- 157730d: add provenance
+
 ## 0.0.1-alpha.5
 
 ### Patch Changes
