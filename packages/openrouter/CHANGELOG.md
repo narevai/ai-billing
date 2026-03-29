@@ -1,5 +1,13 @@
 # @ai-billing/openrouter
 
+## 0.0.1-alpha.1
+
+### Patch Changes
+
+- 686d635: add readme
+- Updated dependencies [686d635]
+  - @ai-billing/core@0.0.1-alpha.5
+
 ## 0.0.1-alpha.0
 
 ### Patch Changes
