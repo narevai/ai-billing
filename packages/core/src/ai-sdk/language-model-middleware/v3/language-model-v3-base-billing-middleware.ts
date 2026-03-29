@@ -93,9 +93,9 @@ export function createV3BillingMiddleware<TTags>(
     wrapStream: async ({ doStream, model, params }) => {
       const { stream, ...rest } = await doStream();
 
+      let responseId: string | undefined;
       let usage: LanguageModelV3Usage | undefined;
       let providerMetadata: SharedV3ProviderMetadata | undefined;
-      let responseId: string | undefined;
 
       const billedStream = stream.pipeThrough(
         new TransformStream<
@@ -103,7 +103,10 @@ export function createV3BillingMiddleware<TTags>(
           LanguageModelV3StreamPart
         >({
           transform(chunk, controller) {
-            if (chunk.type === 'response-metadata') responseId = chunk.id;
+            if (chunk.type === 'text-start') responseId = chunk.id;
+            if (chunk.type === 'response-metadata' && !responseId) {
+              responseId = chunk.id;
+            }
             if (chunk.type === 'finish') {
               usage = chunk.usage;
               providerMetadata = chunk.providerMetadata;

@@ -1,64 +1,59 @@
 import { describe, it, expect, vi } from 'vitest';
-import { BaseBillingDestination } from './base-destination.js';
+import { createDestination } from './base-destination.js';
 import { AiBillingDestinationError } from '../error/index.js';
-import type { BillingEvent } from '../types.js';
+import type { BillingEvent } from '../types/index.js';
 
-interface TestConfig {
-  apiKey: string;
-}
-
-class TestDestination extends BaseBillingDestination<TestConfig> {
-  public processMock = vi.fn();
-
-  protected process(data: BillingEvent): Promise<void> | void {
-    return this.processMock(data);
-  }
-
-  public getConfig() {
-    return this.config;
-  }
-}
-
-describe('BaseBillingDestination', () => {
-  const mockConfig: TestConfig = { apiKey: 'test-key' };
-  const mockBillingData = {
+describe('createDestination', () => {
+  const mockDestinationId = 'test-destination';
+  const mockBillingEvent = {
     modelId: 'gpt-4o',
-  } as BillingEvent;
+    provider: 'openai',
+    amount: 1.0,
+    tags: { env: 'test' },
+  } as unknown as BillingEvent<Record<string, unknown>>;
 
-  it('should assign config in the constructor', () => {
-    const destination = new TestDestination(mockConfig);
-    expect(destination.getConfig()).toEqual(mockConfig);
+  it('should call the handler with the provided event', async () => {
+    const handlerSpy = vi.fn().mockResolvedValue(undefined);
+    const destination = createDestination(mockDestinationId, handlerSpy);
+
+    await destination(mockBillingEvent);
+
+    expect(handlerSpy).toHaveBeenCalledWith(mockBillingEvent);
+    expect(handlerSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should process data successfully without throwing', async () => {
-    const destination = new TestDestination(mockConfig);
+  it('should resolve successfully when the handler succeeds', async () => {
+    const handler = () => Promise.resolve();
+    const destination = createDestination(mockDestinationId, handler);
 
-    destination.processMock.mockResolvedValueOnce(undefined);
-
-    await expect(destination.handle(mockBillingData)).resolves.toBeUndefined();
-
-    expect(destination.processMock).toHaveBeenCalledWith(mockBillingData);
-    expect(destination.processMock).toHaveBeenCalledTimes(1);
+    await expect(destination(mockBillingEvent)).resolves.toBeUndefined();
   });
 
-  it('should catch errors and throw an AiBillingDestinationError with the original cause', async () => {
-    const destination = new TestDestination(mockConfig);
-    const originalError = new Error('Simulated network timeout');
+  it('should wrap handler errors in AiBillingDestinationError', async () => {
+    const originalError = new Error('Network failure');
+    const handler = vi.fn().mockRejectedValue(originalError);
 
-    destination.processMock.mockRejectedValueOnce(originalError);
-    const handlePromise = destination.handle(mockBillingData);
+    const destination = createDestination(mockDestinationId, handler);
 
-    await expect(handlePromise).rejects.toThrow(AiBillingDestinationError);
+    try {
+      await destination(mockBillingEvent);
+      // Fail test if it doesn't throw
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error).toBeInstanceOf(AiBillingDestinationError);
+      const destError = error as AiBillingDestinationError;
 
-    await expect(handlePromise).rejects.toSatisfy(
-      (error: AiBillingDestinationError) => {
-        expect(AiBillingDestinationError.isInstance(error)).toBe(true);
+      // Verify our specific metadata is attached
+      expect(destError.destinationId).toBe(mockDestinationId);
+      expect(destError.cause).toBe(originalError);
+    }
+  });
 
-        expect(error.modelId).toBe(mockBillingData.modelId);
-        expect(error.cause).toBe(originalError);
+  it('should work with synchronous handlers', async () => {
+    const handler = vi.fn(); // returns undefined (sync)
+    const destination = createDestination(mockDestinationId, handler);
 
-        return true;
-      },
-    );
+    await expect(destination(mockBillingEvent)).resolves.toBeUndefined();
+    expect(handler).toHaveBeenCalled();
   });
 });

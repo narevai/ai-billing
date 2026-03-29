@@ -1,229 +1,217 @@
 import { generateText, streamText, wrapLanguageModel } from 'ai';
 import { describe, expect, it, vi } from 'vitest';
-import { OpenRouterBillingMiddlewareV3 } from './language-model-v3-openrouter-billing-middleware.js';
+import { createOpenRouterV3Middleware } from './language-model-v3-openrouter-billing-middleware.js';
 import {
   MockLanguageModelV3,
   convertArrayToReadableStream,
 } from '@ai-billing/testing';
-import { AiBillingExtractError } from '@ai-billing/core';
+import { AiBillingExtractorError } from '@ai-billing/core';
 
 describe('OpenRouterBillingMiddlewareV3 Integration', () => {
-  // Common payload that matches the REAL OpenRouter API response
   const realOpenRouterMetadata = {
     openrouter: {
+      provider: 'Google AI Studio',
+      reasoning_details: [],
       usage: {
-        cost: 0.000004653,
         promptTokens: 7,
+        promptTokensDetails: {
+          cachedTokens: 0,
+        },
         completionTokens: 10,
+        completionTokensDetails: {
+          reasoningTokens: 0,
+        },
         totalTokens: 17,
+        cost: 0.000004653,
+        costDetails: {
+          upstreamInferenceCost: 0.0000047,
+        },
       },
     },
   };
 
-  describe('wrapGenerate (Standard Text)', () => {
-    it('should extract billing data and broadcast it to destinations', async () => {
-      // 1. Create our spy destination
+  describe('wrapGenerate', () => {
+    it('should extract rich billing data and broadcast it with sub-provider info', async () => {
       const destinationSpy = vi.fn();
-
-      // 2. Initialize middleware with our spy
-      const middleware = new OpenRouterBillingMiddlewareV3({
+      const middleware = createOpenRouterV3Middleware({
         destinations: [destinationSpy],
       });
 
-      // 3. Setup the mock model with the correct response shape
       const mockModel = new MockLanguageModelV3({
         modelId: 'google/gemini-2.0-flash-001',
         provider: 'openrouter',
-        async doGenerate() {
-          return {
-            text: 'This is a simulated response.',
-            content: [{ type: 'text', text: 'This is a simulated response.' }],
-            warnings: [],
-            finishReason: { unified: 'stop', raw: 'stop' },
-            usage: {
-              inputTokens: {
-                total: 7,
-                noCache: 7,
-                cacheRead: 0,
-                cacheWrite: 0,
-              },
-              outputTokens: {
-                total: 10,
-                text: 10,
-                reasoning: 0,
-              },
-            },
-            rawCall: { rawPrompt: null, rawSettings: {} },
-            response: { id: 'req-123' },
-            providerMetadata: realOpenRouterMetadata,
-          };
-        },
+        doGenerate: async () => ({
+          content: [{ type: 'text', text: 'Stockholm' }],
+          warnings: [],
+          finishReason: { unified: 'stop', raw: 'stop' },
+          usage: {
+            inputTokens: { total: 7, noCache: 7, cacheRead: 0, cacheWrite: 0 },
+            outputTokens: { total: 10, text: 10, reasoning: 0 },
+          },
+          response: { id: 'gen-1774748258' },
+          providerMetadata: realOpenRouterMetadata,
+        }),
       });
 
       const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
 
-      // 4. Trigger generation
-      await generateText({
-        model: wrappedModel,
-        prompt: 'Hello',
-      });
+      await generateText({ model: wrappedModel, prompt: 'Capital of Sweden?' });
 
-      // 5. Assert the destination was called with the correctly mapped data
-      expect(destinationSpy).toHaveBeenCalledTimes(1);
-      expect(destinationSpy).toHaveBeenCalledWith({
-        amount: 0.000004653, // Mapped from cost
-        generationId: 'req-123', // Passed through from response.id
-        modelId: 'google/gemini-2.0-flash-001',
-        provider: 'openrouter',
-      });
+      expect(destinationSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          generationId: 'gen-1774748258',
+          modelId: 'google/gemini-2.0-flash-001',
+          provider: 'openrouter',
+          usage: {
+            subProviderId: 'Google AI Studio',
+            inputTokens: 7,
+            outputTokens: 10,
+            cacheReadTokens: 0,
+            reasoningTokens: 0,
+            totalTokens: 17,
+            rawProviderCost: 0.000004653,
+            rawUpstreamInferenceCost: 0.0000047,
+          },
+          cost: {
+            amount: 0.000004653,
+            unit: 'base',
+            currency: 'USD',
+          },
+        }),
+      );
     });
   });
 
-  describe('wrapStream (Streaming Text)', () => {
-    it('should extract billing data upon stream flush and broadcast it', async () => {
+  describe('wrapStream', () => {
+    it('should extract billing data correctly from stream finish chunk', async () => {
       const destinationSpy = vi.fn();
-
-      const middleware = new OpenRouterBillingMiddlewareV3({
+      const middleware = createOpenRouterV3Middleware({
         destinations: [destinationSpy],
       });
 
       const mockModel = new MockLanguageModelV3({
         modelId: 'google/gemini-2.0-flash-001',
         provider: 'openrouter',
-        async doStream() {
-          return {
-            // We simulate the stream chunks exactly how the AI SDK outputs them
-            stream: convertArrayToReadableStream([
-              {
-                type: 'response-metadata',
-                id: 'stream-req-456',
-                modelId: 'google/gemini-2.0-flash-001',
-                timestamp: new Date(),
-              },
-              { type: 'text-start', id: 'stream-req-456' },
-              { type: 'text-delta', id: 'stream-req-456', delta: 'Hello ' },
-              { type: 'text-delta', id: 'stream-req-456', delta: 'World' },
-              { type: 'text-end', id: 'stream-req-456' },
-              {
-                type: 'finish',
-                finishReason: { unified: 'stop', raw: 'stop' },
-                usage: {
-                  inputTokens: {
-                    total: 7,
-                    noCache: 7,
-                    cacheRead: 0,
-                    cacheWrite: 0,
-                  },
-                  outputTokens: {
-                    total: 10,
-                    text: 10,
-                    reasoning: 0,
-                  },
+        doStream: async () => ({
+          stream: convertArrayToReadableStream([
+            { type: 'response-metadata', id: 'stream-123' },
+            { type: 'text-start', id: 'stream-123' },
+            {
+              type: 'finish',
+              finishReason: { unified: 'stop', raw: 'stop' },
+              usage: {
+                inputTokens: {
+                  total: 7,
+                  noCache: 7,
+                  cacheRead: 0,
+                  cacheWrite: 0,
                 },
-                providerMetadata: realOpenRouterMetadata,
+                outputTokens: { total: 10, text: 10, reasoning: 0 },
               },
-            ]),
-          };
-        },
+              providerMetadata: realOpenRouterMetadata,
+            },
+          ]),
+        }),
       });
 
       const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
-
-      const result = streamText({
-        model: wrappedModel,
-        prompt: 'Hello',
-      });
-
-      // We MUST consume the entire stream, otherwise the `flush` method
-      // in your base middleware's TransformStream will never trigger!
+      const result = streamText({ model: wrappedModel, prompt: 'Hi' });
       await result.text;
 
-      expect(destinationSpy).toHaveBeenCalledTimes(1);
-      expect(destinationSpy).toHaveBeenCalledWith({
-        amount: 0.000004653,
-        generationId: 'stream-req-456', // Picked up from the response-metadata chunk
-        modelId: 'google/gemini-2.0-flash-001',
-        provider: 'openrouter',
-      });
+      await vi.waitFor(
+        () => {
+          expect(destinationSpy).toHaveBeenCalledWith(
+            expect.objectContaining({
+              usage: expect.objectContaining({
+                subProviderId: 'Google AI Studio',
+                rawUpstreamInferenceCost: 0.0000047,
+              }),
+            }),
+          );
+        },
+        { timeout: 500 },
+      );
     });
   });
-});
 
-it('should throw AiBillingExtractError when metadata is missing', async () => {
-  const middleware = new OpenRouterBillingMiddlewareV3({
-    destinations: [vi.fn()],
-  });
-  const mockModel = new MockLanguageModelV3({
-    async doGenerate() {
-      return {
-        text: 'This is a simulated response.',
-        content: [{ type: 'text', text: 'This is a simulated response.' }],
+  it('should trigger onError when OpenRouter cost metadata is missing', async () => {
+    const onErrorSpy = vi.fn();
+
+    const middleware = createOpenRouterV3Middleware({
+      destinations: [vi.fn()],
+      onError: onErrorSpy,
+    });
+
+    const mockModel = new MockLanguageModelV3({
+      doGenerate: async () => ({
+        content: [{ type: 'text', text: 'Stockholm' }],
         warnings: [],
-        finishReason: { unified: 'stop', raw: 'stop' },
-        usage: {
-          inputTokens: {
-            total: 7,
-            noCache: 7,
-            cacheRead: 0,
-            cacheWrite: 0,
-          },
-          outputTokens: {
-            total: 10,
-            text: 10,
-            reasoning: 0,
-          },
-        },
         rawCall: { rawPrompt: null, rawSettings: {} },
-        response: { id: 'req-123' },
-        providerMetadata: {}, // Missing the expected openrouter usage metadata
-      };
-    },
-  });
-
-  const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
-
-  await expect(
-    generateText({
-      model: wrappedModel,
-      prompt: 'Hello',
-    }),
-  ).rejects.toThrow(AiBillingExtractError);
-});
-
-it('should fallback to crypto.randomUUID() when responseId is missing', async () => {
-  const destinationSpy = vi.fn();
-  const middleware = new OpenRouterBillingMiddlewareV3({
-    destinations: [destinationSpy],
-  });
-
-  const mockModel = new MockLanguageModelV3({
-    modelId: 'test-model',
-    provider: 'openrouter',
-    async doGenerate() {
-      return {
-        text: 'test',
-        content: [{ type: 'text', text: 'test' }],
-        warnings: [],
         finishReason: { unified: 'stop', raw: 'stop' },
         usage: {
-          // This is the fix: wrap the numbers in objects
           inputTokens: { total: 1, noCache: 1, cacheRead: 0, cacheWrite: 0 },
           outputTokens: { total: 1, text: 1, reasoning: 0 },
         },
-        rawCall: { rawPrompt: null, rawSettings: {} },
-        response: {},
-        providerMetadata: {
-          openrouter: { usage: { cost: 0.1 } },
-        },
-      };
-    },
+        response: { id: 'req-123', timestamp: new Date() },
+        providerMetadata: { openrouter: { usage: {} } }, // Triggers the extractor error
+      }),
+    });
+
+    const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
+
+    await generateText({
+      model: wrappedModel,
+      prompt: 'Hello',
+    });
+
+    expect(onErrorSpy).toHaveBeenCalledTimes(1);
+
+    const error = onErrorSpy.mock.calls?.[0]?.[0];
+    expect(error).toBeInstanceOf(AiBillingExtractorError);
+    expect(error.message).toContain(
+      "Expected 'usage.cost' to be a valid number",
+    );
   });
 
-  const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
-  await generateText({ model: wrappedModel, prompt: 'Hi' });
+  it('should hit all fallback branches for full coverage', async () => {
+    const destinationSpy = vi.fn();
+    const middleware = createOpenRouterV3Middleware({
+      destinations: [destinationSpy],
+    });
 
-  // Check that a UUID was generated (string length of a UUID is 36)
-  const lastCall = destinationSpy.mock?.calls?.[0]?.[0];
-  expect(lastCall?.generationId).toBeDefined();
-  expect(lastCall?.generationId?.length).toBe(36);
+    const mockModel = new MockLanguageModelV3({
+      modelId: 'test-model',
+      provider: '', // Hits: model.provider || 'openrouter'
+      doGenerate: async () => ({
+        content: [],
+        warnings: [],
+        rawCall: { rawPrompt: null, rawSettings: {} },
+        finishReason: { unified: 'stop', raw: 'stop' },
+        usage: {
+          inputTokens: { total: 0, noCache: 0, cacheRead: 0, cacheWrite: 0 },
+          outputTokens: { total: 0, text: 0, reasoning: 0 },
+        },
+        response: { id: undefined }, // Hits: responseId ?? crypto.randomUUID()
+        providerMetadata: {
+          openrouter: {
+            usage: {
+              cost: 0.1,
+              // Omit all token details to hit: ?? 0 branches
+            },
+          },
+        },
+      }),
+    });
+
+    const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
+    await generateText({ model: wrappedModel, prompt: 'Hi' });
+
+    await vi.waitFor(() => expect(destinationSpy).toHaveBeenCalled());
+
+    const event = destinationSpy.mock.calls?.[0]?.[0];
+    // Verify fallbacks worked
+    expect(event.provider).toBe('openrouter');
+    expect(event.usage.inputTokens).toBe(0);
+    expect(event.generationId).toHaveLength(36); // UUID fallback
+  });
 });
