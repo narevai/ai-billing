@@ -1,5 +1,5 @@
-import type { BillingEvent } from './event.js';
+import type { DefaultTags, BillingEvent } from './index.js';
 
-export type Destination<TCustomMeta = Record<string, unknown>> = (
-  event: BillingEvent<TCustomMeta>,
+export type Destination<TTags = DefaultTags> = (
+  event: BillingEvent<TTags>,
 ) => Promise<void> | void;

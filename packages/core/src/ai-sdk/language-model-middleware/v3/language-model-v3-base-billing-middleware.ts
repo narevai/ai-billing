@@ -7,42 +7,58 @@ import type {
   LanguageModelV3Middleware,
   SharedV3ProviderMetadata,
 } from '@ai-sdk/provider';
-import type { BillingMiddlewareOptions } from '../../../types/index.js';
+import type {
+  BaseBillingMiddlewareOptions,
+  EventBuilder,
+} from '../../../types/index.js';
 
-export function createV3BillingMiddleware<TCustomMeta>(
-  options: BillingMiddlewareOptions<
-    SharedV3ProviderMetadata,
-    TCustomMeta,
-    LanguageModelV3Usage
-  >,
+export interface BuildV3EventPayload<TTags> {
+  responseId: string | undefined;
+  model: LanguageModelV3;
+  usage: LanguageModelV3Usage | undefined;
+  providerMetadata: SharedV3ProviderMetadata | undefined;
+  tags: TTags;
+}
+
+export interface BillingMiddlewareV3Options<
+  TTags,
+> extends BaseBillingMiddlewareOptions<TTags> {
+  buildEvent: EventBuilder<BuildV3EventPayload<TTags>, TTags>;
+}
+
+export function createV3BillingMiddleware<TTags>(
+  options: BillingMiddlewareV3Options<TTags>,
 ): LanguageModelV3Middleware {
-  const { extractor, destinations, metadata, waitUntil, onError } = options;
+  const { buildEvent, destinations, defaultTags, waitUntil, onError } = options;
 
-  const processEvent = async (
-    model: LanguageModelV3,
-    params: LanguageModelV3CallOptions,
-    result: {
-      usage?: LanguageModelV3Usage;
-      providerMetadata?: SharedV3ProviderMetadata;
-      responseId?: string;
-    },
-  ): Promise<void> => {
+  const processEvent = async ({
+    model,
+    params,
+    usage,
+    providerMetadata,
+    responseId,
+  }: {
+    model: LanguageModelV3;
+    params: LanguageModelV3CallOptions;
+    usage: LanguageModelV3Usage | undefined;
+    providerMetadata: SharedV3ProviderMetadata | undefined;
+    responseId: string | undefined;
+  }): Promise<void> => {
     try {
-      const rawHeader = params.headers?.['x-billing-context'];
+      const rawHeader = params.headers?.['x-ai-billing-tags'];
+      const headerTags = rawHeader ? JSON.parse(rawHeader) : {};
 
-      const headerMetadata = rawHeader ? JSON.parse(rawHeader) : {};
-      const baseMetadata = metadata ?? {};
+      const tags = {
+        ...(defaultTags ?? {}),
+        ...headerTags,
+      } as TTags;
 
-      const customMetadata = {
-        ...baseMetadata,
-        ...headerMetadata,
-      } as TCustomMeta;
-
-      const event = await extractor({
-        modelId: model.modelId,
-        providerId: model.provider,
-        customMetadata,
-        result,
+      const event = await buildEvent({
+        responseId,
+        model,
+        usage,
+        providerMetadata,
+        tags,
       });
 
       if (event) {
@@ -62,7 +78,9 @@ export function createV3BillingMiddleware<TCustomMeta>(
     wrapGenerate: async ({ doGenerate, model, params }) => {
       const result: LanguageModelV3GenerateResult = await doGenerate();
 
-      const promise = processEvent(model, params, {
+      const promise = processEvent({
+        model,
+        params,
         usage: result.usage,
         providerMetadata: result.providerMetadata,
         responseId: result.response?.id,
@@ -93,7 +111,9 @@ export function createV3BillingMiddleware<TCustomMeta>(
             controller.enqueue(chunk);
           },
           flush() {
-            const promise = processEvent(model, params, {
+            const promise = processEvent({
+              model,
+              params,
               usage,
               providerMetadata,
               responseId,

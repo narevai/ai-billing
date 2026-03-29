@@ -1,13 +1,10 @@
-import { Extractor, Destination } from '../types/index.js';
+import { Destination } from '../types/index.js';
 
-export interface BillingMiddlewareOptions<
-  TProviderMeta,
-  TCustomMeta,
-  TRawUsage,
-> {
-  extractor: Extractor<TProviderMeta, TCustomMeta, TRawUsage>;
-  destinations: Destination<TCustomMeta>[];
-  metadata?: TCustomMeta;
+export type DefaultTags = Record<string, unknown>;
+
+export interface BaseBillingMiddlewareOptions<TTags = DefaultTags> {
+  destinations: Destination<TTags>[];
+  defaultTags?: TTags;
   waitUntil?: (promise: Promise<unknown>) => void;
   onError?: (error: unknown) => void;
 }

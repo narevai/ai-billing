@@ -1,3 +1,5 @@
+import { DefaultTags } from './index.js';
+
 export type CostUnit = 'base' | 'cents' | 'millicents' | 'microcents';
 
 export interface Cost {
@@ -18,11 +20,15 @@ export interface Usage {
   readonly rawProviderCost?: number; // Renamed for clarity
 }
 
-export interface BillingEvent<TMetadata = any> {
+export interface BillingEvent<TTags = DefaultTags> {
   readonly generationId: string;
   readonly modelId: string;
-  readonly providerId: string;
+  readonly provider: string;
   readonly usage: Usage;
   readonly cost: Cost;
-  readonly metadata: TMetadata;
+  readonly tags: TTags;
 }
+
+export type EventBuilder<TPayload, TTags = DefaultTags> = (
+  payload: TPayload,
+) => Promise<BillingEvent<TTags> | null> | BillingEvent<TTags> | null;

@@ -1,5 +1,8 @@
-import { createV3BillingMiddleware } from '@ai-billing/core';
-import { Destination, AiBillingExtractorError } from '@ai-billing/core';
+import {
+  createV3BillingMiddleware,
+  type BaseBillingMiddlewareOptions,
+  AiBillingExtractorError,
+} from '@ai-billing/core';
 import type { OpenRouterUsageAccounting } from '@openrouter/ai-sdk-provider';
 
 export interface OpenRouterProviderMetadata {
@@ -11,54 +14,59 @@ export interface OpenRouterProviderMetadata {
   };
 }
 
-export interface OpenRouterMiddlewareOptions<TCustomMeta> {
-  destinations: Destination<TCustomMeta>[];
-  metadata?: TCustomMeta;
-  waitUntil?: (promise: Promise<unknown>) => void;
-  onError?: (error: unknown) => void;
-}
+export type OpenRouterMiddlewareOptions<TTags> =
+  BaseBillingMiddlewareOptions<TTags>;
 
-export function createOpenRouterV3Middleware<
-  TCustomMeta = Record<string, unknown>,
->(options: OpenRouterMiddlewareOptions<TCustomMeta>) {
-  return createV3BillingMiddleware<TCustomMeta>({
-    destinations: options.destinations,
-    metadata: options.metadata,
-    waitUntil: options.waitUntil,
-    onError: options.onError,
+export function createOpenRouterV3Middleware<TTags = Record<string, unknown>>(
+  options: OpenRouterMiddlewareOptions<TTags>,
+) {
+  return createV3BillingMiddleware<TTags>({
+    ...options,
 
-    extractor: ({ result, modelId, providerId, customMetadata }) => {
-      const providerMetadata = result.providerMetadata as
+    buildEvent: ({
+      model,
+      usage: _sdkUsage, // We ignore sdk usage because OpenRouter provides better cost metrics
+      providerMetadata,
+      responseId,
+      tags,
+    }) => {
+      const openrouterMetadata = providerMetadata as
         | OpenRouterProviderMetadata
         | undefined;
-      const usage = providerMetadata?.openrouter?.usage;
+      const openRouterUsage = openrouterMetadata?.openrouter?.usage;
 
-      // Your original strict validation!
-      if (!usage || typeof usage.cost !== 'number' || isNaN(usage.cost)) {
+      if (
+        !openRouterUsage ||
+        typeof openRouterUsage.cost !== 'number' ||
+        isNaN(openRouterUsage.cost)
+      ) {
         throw new AiBillingExtractorError({
           message: `Expected 'usage.cost' to be a valid number.`,
-          cause: providerMetadata,
+          cause: openrouterMetadata,
         });
       }
 
       return {
-        generationId: result.responseId ?? crypto.randomUUID(),
-        modelId,
-        providerId: providerId || 'openrouter',
+        generationId: responseId ?? crypto.randomUUID(),
+        modelId: model.modelId,
+        provider: model.provider || 'openrouter',
         timestamp: Date.now(),
-        metadata: customMetadata,
+        tags: tags,
         usage: {
-          subProviderId: providerMetadata?.openrouter?.provider,
-          inputTokens: usage.promptTokens ?? 0,
-          outputTokens: usage.completionTokens ?? 0,
-          cacheReadTokens: usage.promptTokensDetails?.cachedTokens ?? 0,
-          reasoningTokens: usage.completionTokensDetails?.reasoningTokens ?? 0,
-          totalTokens: usage.totalTokens ?? 0,
-          rawProviderCost: usage.cost,
-          rawUpstreamInferenceCost: usage.costDetails?.upstreamInferenceCost,
+          subProviderId: openrouterMetadata?.openrouter?.provider,
+          inputTokens: openRouterUsage.promptTokens ?? 0,
+          outputTokens: openRouterUsage.completionTokens ?? 0,
+          cacheReadTokens:
+            openRouterUsage.promptTokensDetails?.cachedTokens ?? 0,
+          reasoningTokens:
+            openRouterUsage.completionTokensDetails?.reasoningTokens ?? 0,
+          totalTokens: openRouterUsage.totalTokens ?? 0,
+          rawProviderCost: openRouterUsage.cost,
+          rawUpstreamInferenceCost:
+            openRouterUsage.costDetails?.upstreamInferenceCost,
         },
         cost: {
-          amount: usage.cost,
+          amount: openRouterUsage.cost,
           unit: 'base',
           currency: 'USD',
         },
