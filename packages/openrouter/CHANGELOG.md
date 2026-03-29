@@ -1,5 +1,13 @@
 # @ai-billing/openrouter
 
+## 0.0.1-alpha.2
+
+### Patch Changes
+
+- 157730d: add provenance
+- Updated dependencies [157730d]
+  - @ai-billing/core@0.0.1-alpha.6
+
 ## 0.0.1-alpha.1
 
 ### Patch Changes
