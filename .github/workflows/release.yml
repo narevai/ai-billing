@@ -1,4 +1,5 @@
 name: Release
+run-name: 'Release | Trigger: ${{ github.event_name }} | SHA: ${{ github.event.workflow_run.head_sha || github.sha }}'
 
 on:
   workflow_run:
@@ -23,6 +24,11 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v6
+        with:
+          # If triggered by CI, use the exact commit the CI tested.
+          # If triggered manually (workflow_dispatch), fall back to the current commit.
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v5
