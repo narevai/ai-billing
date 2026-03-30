@@ -92,9 +92,9 @@ describe('createV3BillingMiddleware', () => {
         doStream: () => mockModel.doStream(testParams),
       });
 
-      expect((result.providerMetadata as Record<string, unknown>)?.['ai-billing']).toEqual(
-        mockEvent,
-      );
+      expect(
+        (result.providerMetadata as Record<string, unknown>)?.['ai-billing'],
+      ).toEqual(mockEvent);
     });
 
     it('should not attach ai-billing key when buildEvent returns null', async () => {
@@ -217,7 +217,10 @@ describe('createV3BillingMiddleware', () => {
         destinations: [vi.fn()],
       });
 
-      const finishChunk: Extract<LanguageModelV3StreamPart, { type: 'finish' }> = {
+      const finishChunk: Extract<
+        LanguageModelV3StreamPart,
+        { type: 'finish' }
+      > = {
         type: 'finish',
         finishReason: { unified: 'stop', raw: 'stop' },
         usage: {
@@ -257,7 +260,9 @@ describe('createV3BillingMiddleware', () => {
       expect(outputFinish.usage).toEqual(finishChunk.usage);
       // No event → 'ai-billing' key absent
       expect(
-        (outputFinish.providerMetadata as Record<string, unknown>)?.['ai-billing'],
+        (outputFinish.providerMetadata as Record<string, unknown>)?.[
+          'ai-billing'
+        ],
       ).toBeUndefined();
     });
 
@@ -301,9 +306,9 @@ describe('createV3BillingMiddleware', () => {
         LanguageModelV3StreamPart,
         { type: 'finish' }
       >;
-      expect((finish.providerMetadata as Record<string, unknown>)?.['ai-billing']).toEqual(
-        mockEvent,
-      );
+      expect(
+        (finish.providerMetadata as Record<string, unknown>)?.['ai-billing'],
+      ).toEqual(mockEvent);
     });
 
     it('should handle a stream that ends without a finish chunk', async () => {
