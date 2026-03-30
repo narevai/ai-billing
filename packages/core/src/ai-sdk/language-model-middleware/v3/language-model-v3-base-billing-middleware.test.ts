@@ -306,6 +306,33 @@ describe('createV3BillingMiddleware', () => {
       );
     });
 
+    it('should handle a stream that ends without a finish chunk', async () => {
+      const buildEventSpy = vi.fn().mockResolvedValue(null);
+      const middleware = createV3BillingMiddleware({
+        buildEvent: buildEventSpy,
+        destinations: [],
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        doStream: {
+          stream: convertArrayToReadableStream<LanguageModelV3StreamPart>([
+            { type: 'text-delta', id: 'block-1', delta: 'Hello' },
+          ]),
+        },
+      });
+
+      const { stream } = await middleware.wrapStream!({
+        model: mockModel,
+        params: testParams,
+        doGenerate: () => mockModel.doGenerate(testParams),
+        doStream: () => mockModel.doStream(testParams),
+      });
+
+      const outputChunks = await convertReadableStreamToArray(stream);
+      expect(outputChunks).toHaveLength(1);
+      expect(outputChunks[0]!.type).toBe('text-delta');
+    });
+
     it('should prioritize the ID from text-start over response-metadata', async () => {
       const buildEventSpy = vi.fn().mockResolvedValue({ id: 'mock-event' });
       const middleware = createV3BillingMiddleware({
