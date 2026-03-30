@@ -6,7 +6,8 @@
     "@ai-billing/core": "0.0.0",
     "@ai-billing/typescript-config": "0.0.0",
     "@ai-billing/openrouter": "0.0.0",
-    "@ai-billing/testing": "0.0.0"
+    "@ai-billing/testing": "0.0.0",
+    "@ai-billing/polar": "0.0.0"
   },
   "changesets": [
     "blue-windows-mate",

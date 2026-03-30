@@ -45,12 +45,11 @@ export function createV3BillingMiddleware<TTags>(
     responseId: string | undefined;
   }): Promise<void> => {
     try {
-      const rawHeader = params.headers?.['x-ai-billing-tags'];
-      const headerTags = rawHeader ? JSON.parse(rawHeader) : {};
+      const requestTags = params.providerOptions?.['ai-billing-tags'];
 
       const tags = {
         ...(defaultTags ?? {}),
-        ...headerTags,
+        ...(requestTags ?? {}),
       } as TTags;
 
       const event = await buildEvent({
