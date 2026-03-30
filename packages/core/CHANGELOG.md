@@ -1,5 +1,12 @@
 # @ai-billing/core
 
+## 0.0.1-alpha.7
+
+### Patch Changes
+
+- 159b403: add support for Polar.sh destination
+- 00293ed: update repository url links
+
 ## 0.0.1-alpha.6
 
 ### Patch Changes
