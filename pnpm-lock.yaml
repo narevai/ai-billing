@@ -203,9 +203,6 @@ importers:
         specifier: ^0.46.7
         version: 0.46.7
     devDependencies:
-      '@ai-billing/testing':
-        specifier: workspace:*
-        version: link:../testing
       '@ai-billing/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
