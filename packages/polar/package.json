@@ -42,7 +42,6 @@
   "dependencies": {},
   "devDependencies": {
     "@ai-billing/typescript-config": "workspace:*",
-    "@ai-billing/testing": "workspace:*",
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
