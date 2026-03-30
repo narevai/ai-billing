@@ -17,29 +17,31 @@ npm install @ai-billing/core @ai-billing/openrouter # Example for OpenRouter
 Wrap your model provider with the billing middleware and define your destinations.
 
 ```typescript
+import { streamText, wrapLanguageModel } from 'ai';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { wrapLanguageModel, streamText } from 'ai';
 import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
-import { stripeDestination } from '@ai-billing/stripe';
-
-const openrouter = createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY });
+import { createPolarDestination } from '@ai-billing/polar';
 
 const billingMiddleware = createOpenRouterV3Middleware({
   destinations: [
-    stripeDestination({ apiKey: process.env.STRIPE_SECRET_KEY })
+    createPolarDestination({
+      accessToken: process.env.POLAR_ACCESS_TOKEN,
+      meterName: 'ai_meter_microdollars',
+    })
   ],
-  // Optional: prevent blocking the response while sending billing data
-  waitUntil: (promise) => promise, 
 });
 
-const wrappedModel = wrapLanguageModel({
-  model: openrouter('google/gemini-2.0-flash-001'),
+const model = wrapLanguageModel({
+  model: createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY })('google/gemini-2.0-flash-001'),
   middleware: billingMiddleware,
 });
 
-const result = await streamText({
-  model: wrappedModel,
+const { textStream } = await streamText({
+  model,
   messages: [{ role: 'user', content: 'Quantify the value of metadata.' }],
+  providerOptions: { 
+    'ai-billing-tags': { userId: 'usr_123', org: 'Acme' } 
+  },
 });
 ```
 
@@ -51,9 +53,9 @@ Current stable implementations.
 
 | Provider | Package |
 | :--- | :--- |
+| **Polar.sh** | [`@ai-billing/polar`](https://www.npmjs.com/package/@ai-billing/polar) |
 
 **Active development**
-- **Polar.sh**
 - **Stripe**
 - **Lago**
 
