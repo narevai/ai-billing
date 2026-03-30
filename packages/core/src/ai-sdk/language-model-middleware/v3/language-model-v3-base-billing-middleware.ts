@@ -10,6 +10,7 @@ import type {
 import type {
   BaseBillingMiddlewareOptions,
   EventBuilder,
+  BillingEvent,
 } from '../../../types/index.js';
 
 export interface BuildV3EventPayload<TTags> {
@@ -43,7 +44,7 @@ export function createV3BillingMiddleware<TTags>(
     usage: LanguageModelV3Usage | undefined;
     providerMetadata: SharedV3ProviderMetadata | undefined;
     responseId: string | undefined;
-  }): Promise<void> => {
+  }): Promise<BillingEvent<TTags> | null> => {
     try {
       const requestTags = params.providerOptions?.['ai-billing-tags'];
 
@@ -60,14 +61,18 @@ export function createV3BillingMiddleware<TTags>(
         tags,
       });
 
-      if (event) {
-        await Promise.allSettled(
+      if (event && destinations.length > 0) {
+        const dispatchPromise = Promise.allSettled(
           destinations.map(d => Promise.resolve(d(event))),
         );
+        if (waitUntil) waitUntil(dispatchPromise);
       }
+
+      return event;
     } catch (err) {
       if (onError) onError(err);
       else console.error('[ai-billing] Core Error:', err);
+      return null;
     }
   };
 
@@ -77,7 +82,7 @@ export function createV3BillingMiddleware<TTags>(
     wrapGenerate: async ({ doGenerate, model, params }) => {
       const result: LanguageModelV3GenerateResult = await doGenerate();
 
-      const promise = processEvent({
+      const event = await processEvent({
         model,
         params,
         usage: result.usage,
@@ -85,8 +90,13 @@ export function createV3BillingMiddleware<TTags>(
         responseId: result.response?.id,
       });
 
-      if (waitUntil) waitUntil(promise);
-      return result;
+      return {
+        ...result,
+        providerMetadata: {
+          ...result.providerMetadata,
+          ...(event ? { 'ai-billing': event } : {}),
+        } as unknown as SharedV3ProviderMetadata,
+      };
     },
 
     wrapStream: async ({ doStream, model, params }) => {
@@ -95,6 +105,9 @@ export function createV3BillingMiddleware<TTags>(
       let responseId: string | undefined;
       let usage: LanguageModelV3Usage | undefined;
       let providerMetadata: SharedV3ProviderMetadata | undefined;
+      let finishChunk:
+        | Extract<LanguageModelV3StreamPart, { type: 'finish' }>
+        | undefined;
 
       const billedStream = stream.pipeThrough(
         new TransformStream<
@@ -109,18 +122,28 @@ export function createV3BillingMiddleware<TTags>(
             if (chunk.type === 'finish') {
               usage = chunk.usage;
               providerMetadata = chunk.providerMetadata;
+              finishChunk = chunk;
+              return; // held until flush
             }
             controller.enqueue(chunk);
           },
-          flush() {
-            const promise = processEvent({
+          async flush(controller) {
+            const event = await processEvent({
               model,
               params,
               usage,
               providerMetadata,
               responseId,
             });
-            if (waitUntil) waitUntil(promise);
+            if (finishChunk) {
+              controller.enqueue({
+                ...finishChunk,
+                providerMetadata: {
+                  ...finishChunk.providerMetadata,
+                  ...(event ? { 'ai-billing': event } : {}),
+                } as unknown as SharedV3ProviderMetadata,
+              });
+            }
           },
         }),
       );
