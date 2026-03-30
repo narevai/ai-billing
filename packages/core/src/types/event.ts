@@ -1,12 +1,4 @@
-import { DefaultTags } from './index.js';
-
-export type CostUnit = 'base' | 'cents' | 'millicents' | 'microcents';
-
-export interface Cost {
-  readonly amount: number;
-  readonly currency: string;
-  readonly unit: CostUnit;
-}
+import type { Cost, DefaultTags } from './index.js';
 
 export interface Usage {
   readonly subProviderId?: string;
@@ -17,7 +9,7 @@ export interface Usage {
   readonly cacheReadTokens?: number;
   readonly cacheWriteTokens?: number;
   readonly requestCount?: number;
-  readonly rawProviderCost?: number; // Renamed for clarity
+  readonly rawProviderCost?: number;
 }
 
 export interface BillingEvent<TTags = DefaultTags> {
