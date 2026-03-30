@@ -1,5 +1,16 @@
 # dev-sandbox
 
+## 0.0.1-alpha.7
+
+### Patch Changes
+
+- 159b403: add support for Polar.sh destination
+- Updated dependencies [159b403]
+- Updated dependencies [00293ed]
+  - @ai-billing/polar@0.0.1-alpha.0
+  - @ai-billing/core@0.0.1-alpha.7
+  - @ai-billing/openrouter@0.0.1-alpha.3
+
 ## 0.0.1-alpha.6
 
 ### Patch Changes

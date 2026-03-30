@@ -1,5 +1,14 @@
 # @ai-billing/openrouter
 
+## 0.0.1-alpha.3
+
+### Patch Changes
+
+- 00293ed: update repository url links
+- Updated dependencies [159b403]
+- Updated dependencies [00293ed]
+  - @ai-billing/core@0.0.1-alpha.7
+
 ## 0.0.1-alpha.2
 
 ### Patch Changes
