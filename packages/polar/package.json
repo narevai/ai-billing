@@ -39,9 +39,7 @@
     "prepack": "node -e \"require('fs').copyFileSync('../../LICENSE', 'LICENSE')\"",
     "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
   },
-  "dependencies": {
-    "@ai-billing/core": "workspace:*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@ai-billing/typescript-config": "workspace:*",
     "@ai-billing/testing": "workspace:*",
@@ -51,7 +49,8 @@
     "@edge-runtime/vm": "catalog:"
   },
   "peerDependencies": {
-    "@ai-billing/core": "catalog:"
+    "@ai-billing/core": "workspace:",
+    "@polar-sh/sdk": "^0.46.7"
   },
   "engines": {
     "node": ">=20.0.0"
