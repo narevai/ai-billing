@@ -98,7 +98,7 @@ describe('createV3BillingMiddleware', () => {
       expect(destinationSpy).not.toHaveBeenCalled();
     });
 
-    it('should properly merge defaultTags and header tags', async () => {
+    it('should properly merge defaultTags and providerOptions', async () => {
       const buildEventSpy = vi.fn().mockResolvedValue({ id: 'event-1' });
       const middleware = createV3BillingMiddleware({
         buildEvent: buildEventSpy,
@@ -110,18 +110,18 @@ describe('createV3BillingMiddleware', () => {
         doGenerate: createGenerateResult('resp-1'),
       });
 
-      const paramsWithHeaders: LanguageModelV3CallOptions = {
+      const paramsWithProviderOptions: LanguageModelV3CallOptions = {
         ...testParams,
-        headers: {
-          'x-ai-billing-tags': JSON.stringify({ source: 'web', user: '123' }),
+        providerOptions: {
+          'ai-billing-tags': { source: 'web', user: '123' },
         },
       };
 
       await middleware.wrapGenerate!({
         model: mockModel,
-        params: paramsWithHeaders,
-        doGenerate: () => mockModel.doGenerate(paramsWithHeaders),
-        doStream: () => mockModel.doStream(paramsWithHeaders),
+        params: paramsWithProviderOptions,
+        doGenerate: () => mockModel.doGenerate(paramsWithProviderOptions),
+        doStream: () => mockModel.doStream(paramsWithProviderOptions),
       });
 
       expect(buildEventSpy).toHaveBeenCalledWith(
@@ -373,31 +373,41 @@ describe('createV3BillingMiddleware', () => {
       expect(onError).toHaveBeenCalledWith(error);
     });
 
-    it('should catch and handle invalid JSON in billing tags header', async () => {
+    it('should catch and handle errors during event processing', async () => {
       const onError = vi.fn();
+      // Simulate an error inside buildEvent
+      const buildEventSpy = vi
+        .fn()
+        .mockRejectedValue(new Error('Event build failed'));
+
       const middleware = createV3BillingMiddleware({
-        buildEvent: vi.fn().mockResolvedValue({}),
+        buildEvent: buildEventSpy,
         destinations: [vi.fn()],
         onError,
       });
-
-      const paramsWithBadHeaders = {
-        ...testParams,
-        headers: { 'x-ai-billing-tags': '{ not-json }' },
-      };
 
       const mockModel = new MockLanguageModelV3({
         doGenerate: createGenerateResult('resp-1'),
       });
 
+      // Valid params, but we expect the middleware to catch the buildEvent rejection
+      const params: LanguageModelV3CallOptions = {
+        ...testParams,
+        providerOptions: {
+          'ai-billing-tags': { source: 'web' },
+        },
+      };
+
       await middleware.wrapGenerate!({
         model: mockModel,
-        params: paramsWithBadHeaders,
-        doGenerate: () => mockModel.doGenerate(paramsWithBadHeaders),
-        doStream: () => mockModel.doStream(paramsWithBadHeaders),
+        params,
+        doGenerate: () => mockModel.doGenerate(params),
+        doStream: () => mockModel.doStream(params),
       });
 
-      expect(onError).toHaveBeenCalledWith(expect.any(SyntaxError));
+      // Verify the error was caught and passed to the onError callback
+      expect(onError).toHaveBeenCalledWith(expect.any(Error));
+      expect(onError.mock!.calls![0]![0].message).toBe('Event build failed');
     });
 
     it('should fallback to console.error when no onError is provided', async () => {
