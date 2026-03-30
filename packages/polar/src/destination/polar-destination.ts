@@ -13,43 +13,48 @@ function mapEventToPolarMetadata<TTags>(
   };
 
   if (event.usage) {
-    metadata.usage_input_tokens = event.usage.inputTokens;
-    metadata.usage_output_tokens = event.usage.outputTokens;
-    metadata.usage_total_tokens = event.usage.totalTokens;
+    const usageFields: Record<string, keyof typeof event.usage> = {
+      usage_input_tokens: 'inputTokens',
+      usage_output_tokens: 'outputTokens',
+      usage_total_tokens: 'totalTokens',
+      usage_reasoning_tokens: 'reasoningTokens',
+      usage_cache_read_tokens: 'cacheReadTokens',
+      usage_cache_write_tokens: 'cacheWriteTokens',
+      usage_request_count: 'requestCount',
+      usage_raw_provider_cost: 'rawProviderCost',
+    };
 
-    if (event.usage.reasoningTokens !== undefined) {
-      metadata.usage_reasoning_tokens = event.usage.reasoningTokens;
-    }
-    if (event.usage.cacheReadTokens !== undefined) {
-      metadata.usage_cache_read_tokens = event.usage.cacheReadTokens;
-    }
-    if (event.usage.cacheWriteTokens !== undefined) {
-      metadata.usage_cache_write_tokens = event.usage.cacheWriteTokens;
-    }
-    if (event.usage.requestCount !== undefined) {
-      metadata.usage_request_count = event.usage.requestCount;
-    }
-    if (event.usage.rawProviderCost !== undefined) {
-      metadata.usage_raw_provider_cost = event.usage.rawProviderCost;
+    for (const [polarKey, internalKey] of Object.entries(usageFields)) {
+      const value = event.usage[internalKey];
+      if (value !== undefined) {
+        metadata[polarKey] = value;
+      }
     }
   }
 
   if (event.cost) {
+    metadata.cost_amount_base = costToNumber(event.cost, 'base');
+    metadata.cost_amount_cents = costToNumber(event.cost, 'cents');
     metadata.cost_amount_micros = costToNumber(event.cost, 'micros');
+    metadata.cost_amount_nanos = costToNumber(event.cost, 'nanos');
     metadata.cost_currency = event.cost.currency;
   }
 
-  if (event.tags) {
-    for (const [key, value] of Object.entries(event.tags)) {
-      if (
-        typeof value === 'string' ||
-        typeof value === 'number' ||
-        typeof value === 'boolean'
-      ) {
-        metadata[`ai-billing-tag_${key}`] = value;
-      } else if (value !== null && value !== undefined) {
-        metadata[`ai-billing-tag_${key}`] = JSON.stringify(value);
-      }
+  if (!event.tags) return metadata;
+
+  for (const [key, value] of Object.entries(event.tags)) {
+    if (value == null) continue; // Skip null/undefined immediately
+
+    const metadataKey = `ai-billing-tag_${key}`;
+    if (
+      typeof value === 'string' ||
+      typeof value === 'number' ||
+      typeof value === 'boolean'
+    ) {
+      metadata[metadataKey] = value;
+    } else {
+      // If it's an object/array, stringify it
+      metadata[metadataKey] = JSON.stringify(value);
     }
   }
 
