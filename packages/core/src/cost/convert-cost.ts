@@ -34,3 +34,9 @@ export const convertCostUnit = (cost: Cost, targetUnit: CostUnit): Cost => {
     unit: targetUnit,
   };
 };
+
+export const rateToCost = (amount: number = 0): Cost => ({
+  amount,
+  unit: 'base',
+  currency: 'USD',
+});

@@ -20,12 +20,18 @@ const billingMiddleware = createOpenAIMiddleware({
   prices: async ({ modelId }) => {
     if (modelId === 'gpt-5') {
       return {
-        prompt: 1.25 / 1_000_000, // Price per input token
-        completion: 10.0 / 1_000_000, // Price per output token
-        inputCacheRead: 0.125 / 1_000_000, // Price per input token read from cache
+        // Change 'prompt' to 'promptTokens'
+        promptTokens: 1.25 / 1_000_000,
+
+        // Change 'completion' to 'completionTokens'
+        completionTokens: 10.0 / 1_000_000,
+
+        // Assuming this key is correct based on the library's types,
+        // if it still errors, check if it should be something like 'inputCacheReadTokens'
+        inputCacheRead: 0.125 / 1_000_000,
       };
     }
-    return null;
+    return;
   },
 });
 

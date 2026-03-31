@@ -17,16 +17,20 @@ const openai = createOpenAI({
 const billingMiddleware = createOpenAIMiddleware({
   destinations: [consoleDestination()],
   prices: async ({ modelId }) => {
-    // Return pricing based on the model being used.
-    // Note: You'll want to use the actual OpenAI pricing here.
     if (modelId === 'gpt-5') {
       return {
-        prompt: 1.25 / 1_000_000, // Price per input token
-        completion: 10.0 / 1_000_000, // Price per output token
-        inputCacheRead: 0.125 / 1_000_000, // Price per input token read from cache
+        // Change 'prompt' to 'promptTokens'
+        promptTokens: 1.25 / 1_000_000,
+
+        // Change 'completion' to 'completionTokens'
+        completionTokens: 10.0 / 1_000_000,
+
+        // Assuming this key is correct based on the library's types,
+        // if it still errors, check if it should be something like 'inputCacheReadTokens'
+        inputCacheRead: 0.125 / 1_000_000,
       };
     }
-    return null;
+    return;
   },
 });
 

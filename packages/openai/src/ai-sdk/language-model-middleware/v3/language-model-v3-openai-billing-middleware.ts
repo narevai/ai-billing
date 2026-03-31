@@ -1,34 +1,23 @@
-import {
-  createV3BillingMiddleware,
-  type BaseBillingMiddlewareOptions,
-  type BillingEvent,
+import { calculateOpenAICost } from '../../../cost/calculate-openai-cost.js';
+import type { OpenAICostInputs as OpenAIUsageInputs } from '../../../cost/calculate-openai-cost.js';
+import { createV3BillingMiddleware } from '@ai-billing/core';
+import type {
+  BaseBillingMiddlewareOptions,
+  PriceResolver,
+  Cost,
   DefaultTags,
 } from '@ai-billing/core';
 import { JSONObject, SharedV3ProviderMetadata } from '@ai-sdk/provider';
-
-export interface ModelPricing {
-  prompt: number;
-  completion: number;
-  inputCacheRead?: number;
-  inputCacheWrite?: number;
-  internalReasoning?: number;
-  request?: number;
-  discount?: number;
-}
-
-export type PriceResolver = (context: {
-  modelId: string;
-}) => Promise<ModelPricing | null>;
 
 interface OpenAIUsageAccounting extends JSONObject {
   acceptedPredictionTokens?: number;
   rejectedPredictionTokens?: number;
   logprobs?: number | boolean;
+  serviceTier?: string;
 }
 
 export type OpenAIProviderMetadata = SharedV3ProviderMetadata & {
   openai?: OpenAIUsageAccounting;
-  'ai-billing'?: BillingEvent;
 };
 
 export interface OpenAIMiddlewareOptions<
@@ -50,53 +39,31 @@ export function createOpenAIV3Middleware<TTags extends DefaultTags>(
       responseId,
       tags,
     }) => {
-      const openaiMetadata = providerMetadata as
+      const _openaiMetadata = providerMetadata as
         | OpenAIProviderMetadata
         | undefined;
-      const acceptedPredictionTokens =
-        openaiMetadata?.openai?.acceptedPredictionTokens;
-      const rejectedPredictionTokens =
-        openaiMetadata?.openai?.rejectedPredictionTokens;
-      const logprobs = openaiMetadata?.openai?.logprobs;
 
       const inputTokensTotal = usage?.inputTokens?.total ?? 0;
-      const inputTokensNoCache = usage?.inputTokens?.noCache ?? 0;
       const inputTokensCacheRead = usage?.inputTokens?.cacheRead ?? 0;
-      const inputTokensCacheWrite = usage?.inputTokens?.cacheWrite ?? 0;
-
-      const outputTokensTotal = usage?.outputTokens?.total ?? 0;
-      const outputTokensText = usage?.outputTokens?.text ?? 0;
+      const outputTokensTotal = usage?.outputTokens?.text ?? 0;
       const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
+
+      const openAIUsage: OpenAIUsageInputs = {
+        promptTokens: inputTokensTotal,
+        completionTokens: usage?.outputTokens?.text ?? 0,
+        cacheReadTokens: usage?.inputTokens?.cacheRead ?? 0,
+        cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
+        reasoningTokens: usage?.outputTokens?.reasoning ?? 0,
+      };
 
       const pricing = await options.prices({
         modelId: model.modelId,
       });
 
-      let calculatedCost: number | undefined = undefined;
-
-      if (pricing) {
-        const promptCost = inputTokensNoCache * pricing.prompt;
-        const cacheReadCost =
-          inputTokensCacheRead * (pricing.inputCacheRead ?? 0);
-        const cacheWriteCost = 0 * (pricing.inputCacheWrite ?? 0);
-
-        const textCompletionCost = outputTokensText * pricing.completion;
-        const reasoningCost =
-          outputTokensReasoning *
-          (pricing.internalReasoning ?? pricing.completion);
-
-        const requestFee = pricing.request ?? 0;
-
-        const grossCost =
-          promptCost +
-          cacheReadCost +
-          cacheWriteCost +
-          textCompletionCost +
-          reasoningCost +
-          requestFee;
-
-        calculatedCost = grossCost * (1 - (pricing.discount ?? 0));
-      }
+      let calculatedCost: Cost | undefined = calculateOpenAICost({
+        pricing,
+        usage: openAIUsage,
+      });
 
       return {
         generationId: responseId ?? crypto.randomUUID(),
@@ -112,11 +79,7 @@ export function createOpenAIV3Middleware<TTags extends DefaultTags>(
           totalTokens: inputTokensTotal + outputTokensTotal,
         },
         ...(calculatedCost !== undefined && {
-          cost: {
-            amount: calculatedCost,
-            unit: 'base',
-            currency: 'USD',
-          },
+          cost: calculatedCost,
         }),
       };
     },
