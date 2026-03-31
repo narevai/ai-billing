@@ -6,15 +6,16 @@ import type {
   LanguageModelV3StreamPart,
   LanguageModelV3Middleware,
   SharedV3ProviderMetadata,
-  JSONObject,
 } from '@ai-sdk/provider';
 import type {
   BaseBillingMiddlewareOptions,
   EventBuilder,
   BillingEvent,
+  DefaultTags,
 } from '../../../types/index.js';
+import { toJSONObject } from '../../../event/index.js';
 
-export interface BuildV3EventPayload<TTags extends JSONObject> {
+export interface BuildV3EventPayload<TTags extends DefaultTags = DefaultTags> {
   responseId: string | undefined;
   model: LanguageModelV3;
   usage: LanguageModelV3Usage | undefined;
@@ -23,14 +24,14 @@ export interface BuildV3EventPayload<TTags extends JSONObject> {
 }
 
 export interface BillingMiddlewareV3Options<
-  TTags extends JSONObject,
+  TTags extends DefaultTags = DefaultTags,
 > extends BaseBillingMiddlewareOptions<TTags> {
   buildEvent: EventBuilder<BuildV3EventPayload<TTags>, TTags>;
 }
 
-export function createV3BillingMiddleware<TTags extends JSONObject>(
-  options: BillingMiddlewareV3Options<TTags>,
-): LanguageModelV3Middleware {
+export function createV3BillingMiddleware<
+  TTags extends DefaultTags = DefaultTags,
+>(options: BillingMiddlewareV3Options<TTags>): LanguageModelV3Middleware {
   const { buildEvent, destinations, defaultTags, waitUntil, onError } = options;
 
   const processEvent = async ({
@@ -68,7 +69,6 @@ export function createV3BillingMiddleware<TTags extends JSONObject>(
         );
         if (waitUntil) waitUntil(dispatchPromise);
       }
-
       return event;
     } catch (err) {
       if (onError) onError(err);
@@ -91,12 +91,17 @@ export function createV3BillingMiddleware<TTags extends JSONObject>(
         responseId: result.response?.id,
       });
 
+      const providerMetadataWithBilling = {
+        ...result.providerMetadata,
+      } as SharedV3ProviderMetadata;
+
+      if (event) {
+        providerMetadataWithBilling['ai-billing'] = toJSONObject(event);
+      }
+
       return {
         ...result,
-        providerMetadata: {
-          ...result.providerMetadata,
-          ...(event ? { 'ai-billing': event } : {}),
-        } as SharedV3ProviderMetadata,
+        providerMetadata: providerMetadataWithBilling,
       };
     },
 
@@ -136,13 +141,19 @@ export function createV3BillingMiddleware<TTags extends JSONObject>(
               providerMetadata,
               responseId,
             });
+
+            const providerMetadataWithBilling = {
+              ...providerMetadata,
+            } as SharedV3ProviderMetadata;
+
+            if (event) {
+              providerMetadataWithBilling['ai-billing'] = toJSONObject(event);
+            }
+
             if (finishChunk) {
               controller.enqueue({
                 ...finishChunk,
-                providerMetadata: {
-                  ...finishChunk.providerMetadata,
-                  ...(event ? { 'ai-billing': event } : {}),
-                } as SharedV3ProviderMetadata,
+                providerMetadata: providerMetadataWithBilling,
               });
             }
           },

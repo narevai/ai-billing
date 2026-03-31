@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { createDestination } from './base-destination.js';
 import { AiBillingDestinationError } from '../error/index.js';
 import type { BillingEvent } from '../types/index.js';
+import { JSONObject } from '@ai-sdk/provider';
 
 describe('createDestination', () => {
   const mockDestinationId = 'test-destination';
@@ -10,7 +11,7 @@ describe('createDestination', () => {
     provider: 'openai',
     amount: 1.0,
     tags: { env: 'test' },
-  } as unknown as BillingEvent<Record<string, unknown>>;
+  } as unknown as BillingEvent<JSONObject>;
 
   it('should call the handler with the provided event', async () => {
     const handlerSpy = vi.fn().mockResolvedValue(undefined);

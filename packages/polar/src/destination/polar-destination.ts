@@ -1,9 +1,8 @@
 import { Polar } from '@polar-sh/sdk';
-// Adjust imports to pull from your core package
 import { createDestination, costToNumber } from '@ai-billing/core';
-import type { BillingEvent, Destination } from '@ai-billing/core';
+import type { BillingEvent, DefaultTags, Destination } from '@ai-billing/core';
 
-function mapEventToPolarMetadata<TTags>(
+function mapEventToPolarMetadata<TTags extends DefaultTags = DefaultTags>(
   event: BillingEvent<TTags>,
 ): Record<string, string | number | boolean> {
   const metadata: Record<string, string | number | boolean> = {
@@ -61,7 +60,9 @@ function mapEventToPolarMetadata<TTags>(
   return metadata;
 }
 
-export interface PolarDestinationOptions<TTags> {
+export interface PolarDestinationOptions<
+  TTags extends DefaultTags = DefaultTags,
+> {
   client?: Polar;
   accessToken?: string;
   server?: 'sandbox' | 'production';
@@ -82,7 +83,7 @@ export interface PolarDestinationOptions<TTags> {
   ) => Record<string, string | number | boolean>;
 }
 
-export function createPolarDestination<TTags>(
+export function createPolarDestination<TTags extends DefaultTags = DefaultTags>(
   options: PolarDestinationOptions<TTags>,
 ): Destination<TTags> {
   const polar =

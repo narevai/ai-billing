@@ -12,7 +12,7 @@ export interface Usage {
   readonly rawProviderCost?: number;
 }
 
-export interface BillingEvent<TTags = DefaultTags> {
+export interface BillingEvent<TTags extends DefaultTags = DefaultTags> {
   readonly generationId: string;
   readonly modelId: string;
   readonly provider: string;
@@ -21,6 +21,6 @@ export interface BillingEvent<TTags = DefaultTags> {
   readonly tags: TTags;
 }
 
-export type EventBuilder<TPayload, TTags = DefaultTags> = (
+export type EventBuilder<TPayload, TTags extends DefaultTags = DefaultTags> = (
   payload: TPayload,
 ) => Promise<BillingEvent<TTags> | null> | BillingEvent<TTags> | null;
