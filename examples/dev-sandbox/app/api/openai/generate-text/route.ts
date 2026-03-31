@@ -17,7 +17,7 @@ const openai = createOpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const myPricingMap: Record<string, ModelPricing> = {
+const customPricingMap: Record<string, ModelPricing> = {
   'gpt-5': {
     promptTokens: 1.25 / 1_000_000,
     completionTokens: 10.0 / 1_000_000,
@@ -29,11 +29,11 @@ const myPricingMap: Record<string, ModelPricing> = {
   },
 };
 
-const priceResolver = createObjectPriceResolver(myPricingMap);
+const priceResolver = createObjectPriceResolver(customPricingMap);
 
 const billingMiddleware = createOpenAIMiddleware({
   destinations: [consoleDestination()],
-  prices: priceResolver,
+  priceResolver: priceResolver,
 });
 
 export async function POST() {
