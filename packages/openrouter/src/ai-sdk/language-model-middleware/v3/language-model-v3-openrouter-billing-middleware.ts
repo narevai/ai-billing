@@ -2,25 +2,24 @@ import {
   createV3BillingMiddleware,
   type BaseBillingMiddlewareOptions,
   AiBillingExtractorError,
-  type BillingEvent,
+  DefaultTags,
 } from '@ai-billing/core';
-import type { JSONObject } from '@ai-sdk/provider';
+import type { SharedV3ProviderMetadata } from '@ai-sdk/provider';
 import type { OpenRouterUsageAccounting } from '@openrouter/ai-sdk-provider';
 
-export interface OpenRouterProviderMetadata {
+export type OpenRouterProviderMetadata = SharedV3ProviderMetadata & {
   openrouter?: {
     provider?: string;
     usage?: OpenRouterUsageAccounting;
     reasoning_details?: unknown[];
     annotations?: unknown[];
   };
-  'ai-billing'?: BillingEvent;
-}
+};
 
-type OpenRouterMiddlewareOptions<TTags extends JSONObject> =
+type OpenRouterMiddlewareOptions<TTags extends DefaultTags> =
   BaseBillingMiddlewareOptions<TTags>;
 
-export function createOpenRouterV3Middleware<TTags extends JSONObject>(
+export function createOpenRouterV3Middleware<TTags extends DefaultTags>(
   options: OpenRouterMiddlewareOptions<TTags>,
 ) {
   return createV3BillingMiddleware<TTags>({
