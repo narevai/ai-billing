@@ -1,5 +1,27 @@
 # @ai-billing/polar
 
+## 0.0.1
+
+### Patch Changes
+
+- 159b403: add support for Polar.sh destination
+- dfa0c3f: add ai-billing metadata to the output
+- Updated dependencies [96ea45b]
+- Updated dependencies [090c609]
+- Updated dependencies [9ac7ae6]
+- Updated dependencies [490977c]
+- Updated dependencies [159b403]
+- Updated dependencies [446e89b]
+- Updated dependencies [b191a78]
+- Updated dependencies [7d8c0e8]
+- Updated dependencies [00293ed]
+- Updated dependencies [ecb6bf2]
+- Updated dependencies [686d635]
+- Updated dependencies [52e56e7]
+- Updated dependencies [157730d]
+- Updated dependencies [dfa0c3f]
+  - @ai-billing/core@0.0.1
+
 ## 0.0.1-alpha.1
 
 ### Patch Changes
