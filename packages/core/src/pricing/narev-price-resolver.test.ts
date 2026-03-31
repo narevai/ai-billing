@@ -38,7 +38,7 @@ describe('createNarevPriceResolver', () => {
     });
   });
 
-  it('should pass provider as query param when providerId is set', async () => {
+  it('should pass providerId as gateway query param', async () => {
     mockFetch.mockResolvedValue(
       mockResponse({
         'gpt-4o': [{ price_prompt: 1e-6, price_completion: 2e-6 }],
@@ -46,13 +46,13 @@ describe('createNarevPriceResolver', () => {
     );
 
     const resolver = createNarevPriceResolver({ apiKey: '' });
-    await resolver({ modelId: 'gpt-4o', providerId: 'OpenAI' });
+    await resolver({ modelId: 'gpt-4o', providerId: 'openai' });
 
     const calledUrl = mockFetch.mock.calls[0]![0] as string;
-    expect(calledUrl).toContain('provider=OpenAI');
+    expect(calledUrl).toContain('gateway=openai');
   });
 
-  it('should prefer subProviderId over providerId', async () => {
+  it('should pass subProviderId as provider query param', async () => {
     mockFetch.mockResolvedValue(
       mockResponse({
         'gpt-4o': [{ price_prompt: 1e-6, price_completion: 2e-6 }],
@@ -67,8 +67,8 @@ describe('createNarevPriceResolver', () => {
     });
 
     const calledUrl = mockFetch.mock.calls[0]![0] as string;
+    expect(calledUrl).toContain('gateway=openrouter');
     expect(calledUrl).toContain('provider=OpenAI');
-    expect(calledUrl).not.toContain('openrouter');
   });
 
   it('should map optional fields when present', async () => {
