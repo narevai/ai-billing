@@ -17,7 +17,7 @@ export interface BillingEvent<TTags extends DefaultTags = DefaultTags> {
   readonly modelId: string;
   readonly provider: string;
   readonly usage: Usage;
-  readonly cost: Cost;
+  readonly cost?: Cost;
   readonly tags: TTags;
 }
 
