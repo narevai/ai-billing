@@ -6,6 +6,8 @@ import type {
   PriceResolver,
   Cost,
   DefaultTags,
+  PriceResolverContext,
+  ModelPricing,
 } from '@ai-billing/core';
 import { JSONObject, SharedV3ProviderMetadata } from '@ai-sdk/provider';
 
@@ -23,7 +25,7 @@ type OpenAIProviderMetadata = SharedV3ProviderMetadata & {
 export interface OpenAIV3MiddlewareOptions<
   TTags extends DefaultTags,
 > extends BaseBillingMiddlewareOptions<TTags> {
-  prices: PriceResolver;
+  priceResolver: PriceResolver;
 }
 
 export function createOpenAIV3Middleware<TTags extends DefaultTags>(
@@ -56,9 +58,10 @@ export function createOpenAIV3Middleware<TTags extends DefaultTags>(
         reasoningTokens: usage?.outputTokens?.reasoning ?? 0,
       };
 
-      const pricing = await options.prices({
+      const pricing: ModelPricing | undefined = await options.priceResolver({
         modelId: model.modelId,
-      });
+        providerId: 'openai',
+      } as PriceResolverContext);
 
       let calculatedCost: Cost | undefined = calculateOpenAICost({
         pricing,
@@ -68,7 +71,7 @@ export function createOpenAIV3Middleware<TTags extends DefaultTags>(
       return {
         generationId: responseId ?? crypto.randomUUID(),
         modelId: model.modelId,
-        provider: model.provider || 'openai',
+        provider: 'openai',
         timestamp: Date.now(),
         tags: tags,
         usage: {
