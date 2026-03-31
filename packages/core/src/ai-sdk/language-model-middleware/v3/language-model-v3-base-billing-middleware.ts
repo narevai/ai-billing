@@ -64,10 +64,10 @@ export function createV3BillingMiddleware<
       });
 
       if (event && destinations.length > 0) {
-        const dispatchPromise = Promise.allSettled(
+        const dispatchDestinationsPromise = Promise.allSettled(
           destinations.map(d => Promise.resolve(d(event))),
         );
-        if (waitUntil) waitUntil(dispatchPromise);
+        if (waitUntil) waitUntil(dispatchDestinationsPromise);
       }
       return event;
     } catch (err) {
