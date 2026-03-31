@@ -1,4 +1,4 @@
-import { calculateOpenAICost } from '../../../cost/calculate-openai-cost.js';
+import { calculateOpenAICost } from '../../../cost/index.js';
 import type { OpenAICostInputs as OpenAIUsageInputs } from '../../../cost/calculate-openai-cost.js';
 import { createV3BillingMiddleware } from '@ai-billing/core';
 import type {
@@ -16,18 +16,18 @@ interface OpenAIUsageAccounting extends JSONObject {
   serviceTier?: string;
 }
 
-export type OpenAIProviderMetadata = SharedV3ProviderMetadata & {
+type OpenAIProviderMetadata = SharedV3ProviderMetadata & {
   openai?: OpenAIUsageAccounting;
 };
 
-export interface OpenAIMiddlewareOptions<
+export interface OpenAIV3MiddlewareOptions<
   TTags extends DefaultTags,
 > extends BaseBillingMiddlewareOptions<TTags> {
   prices: PriceResolver;
 }
 
 export function createOpenAIV3Middleware<TTags extends DefaultTags>(
-  options: OpenAIMiddlewareOptions<TTags>,
+  options: OpenAIV3MiddlewareOptions<TTags>,
 ) {
   return createV3BillingMiddleware<TTags>({
     ...options,
