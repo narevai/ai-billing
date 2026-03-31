@@ -17,7 +17,7 @@ describe('OpenAIBillingMiddlewareV3 Integration', () => {
     request: 0,
   };
 
-  const mockPricesResolver = vi.fn().mockResolvedValue(mockPricing);
+  const mockPriceResolver = vi.fn().mockResolvedValue(mockPricing);
 
   const createResult = (
     overrides: Partial<LanguageModelV3GenerateResult> = {},
@@ -39,7 +39,7 @@ describe('OpenAIBillingMiddlewareV3 Integration', () => {
       const destinationSpy = vi.fn();
       const middleware = createOpenAIV3Middleware({
         destinations: [destinationSpy],
-        prices: mockPricesResolver,
+        priceResolver: mockPriceResolver,
       });
 
       const baseResult = createResult();
@@ -53,7 +53,10 @@ describe('OpenAIBillingMiddlewareV3 Integration', () => {
 
       await generateText({ model: wrappedModel, prompt: 'Capital of France?' });
 
-      expect(mockPricesResolver).toHaveBeenCalledWith({ modelId: 'gpt-5' });
+      expect(mockPriceResolver).toHaveBeenCalledWith({
+        modelId: 'gpt-5',
+        providerId: 'openai',
+      });
 
       // Calculate expected cost:
       // Prompt: 13 * 0.0000002 * 1e9 = 2,600 nanos
@@ -86,7 +89,7 @@ describe('OpenAIBillingMiddlewareV3 Integration', () => {
       const destinationSpy = vi.fn();
       const middleware = createOpenAIV3Middleware({
         destinations: [destinationSpy],
-        prices: mockPricesResolver,
+        priceResolver: mockPriceResolver,
       });
 
       const baseResult = createResult();
@@ -146,7 +149,7 @@ describe('OpenAIBillingMiddlewareV3 Integration', () => {
 
     const middleware = createOpenAIV3Middleware({
       destinations: [destinationSpy],
-      prices: missingPriceResolver,
+      priceResolver: missingPriceResolver,
     });
 
     const baseResult = createResult();
@@ -172,7 +175,7 @@ describe('OpenAIBillingMiddlewareV3 Integration', () => {
     const destinationSpy = vi.fn();
     const middleware = createOpenAIV3Middleware({
       destinations: [destinationSpy],
-      prices: mockPricesResolver,
+      priceResolver: mockPriceResolver,
     });
 
     // Simulate a response with no ID and missing token usage blocks
