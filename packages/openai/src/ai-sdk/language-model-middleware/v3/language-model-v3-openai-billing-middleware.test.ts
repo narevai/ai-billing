@@ -9,7 +9,6 @@ import { LanguageModelV3GenerateResult } from '@ai-sdk/provider';
 import type { ModelPricing } from '@ai-billing/core';
 
 describe('OpenAIBillingMiddlewareV3 Integration', () => {
-  // Mock price resolver mimicking gpt-5 or standard models
   const mockPricing: ModelPricing = {
     promptTokens: 0.0000002, // $0.20 per 1M
     completionTokens: 0.00000125, // $1.25 per 1M
@@ -164,12 +163,8 @@ describe('OpenAIBillingMiddlewareV3 Integration', () => {
     });
 
     const event = destinationSpy.mock.calls?.[0]?.[0];
-
-    // Usage should still be tracked perfectly
     expect(event.usage.inputTokens).toBe(13);
     expect(event.usage.outputTokens).toBe(54);
-
-    // Cost should be undefined/omitted
     expect(event).not.toHaveProperty('cost');
   });
 
@@ -184,8 +179,17 @@ describe('OpenAIBillingMiddlewareV3 Integration', () => {
     const baseResult = createResult({
       response: { id: undefined },
       usage: {
-        inputTokens: {} as any, // Missing total, cacheRead
-        outputTokens: {} as any, // Missing text, reasoning
+        inputTokens: {
+          total: undefined,
+          noCache: undefined,
+          cacheRead: undefined,
+          cacheWrite: undefined,
+        },
+        outputTokens: {
+          total: undefined,
+          text: undefined,
+          reasoning: undefined,
+        },
       },
     });
 
