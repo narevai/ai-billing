@@ -1,7 +1,7 @@
-import type { Destination, BillingEvent } from '../types/index.js';
+import type { Destination, BillingEvent, DefaultTags } from '../types/index.js';
 import { AiBillingDestinationError } from '../error/index.js';
 
-export function createDestination<TTags>(
+export function createDestination<TTags extends DefaultTags = DefaultTags>(
   destinationId: string,
   handler: (event: BillingEvent<TTags>) => Promise<void> | void,
 ): Destination<TTags> {

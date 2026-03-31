@@ -74,6 +74,51 @@ describe('createV3BillingMiddleware', () => {
       expect(destinationSpy).toHaveBeenCalledWith(mockEvent);
     });
 
+    it('should attach the billing event to providerMetadata', async () => {
+      const mockEvent = { generationId: 'gen-event-1', amount: 0.005 };
+      const middleware = createV3BillingMiddleware({
+        buildEvent: vi.fn().mockResolvedValue(mockEvent),
+        destinations: [],
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        doGenerate: createGenerateResult('resp-1'),
+      });
+
+      const result = await middleware.wrapGenerate!({
+        model: mockModel,
+        params: testParams,
+        doGenerate: () => mockModel.doGenerate(testParams),
+        doStream: () => mockModel.doStream(testParams),
+      });
+
+      expect(
+        (result.providerMetadata as Record<string, unknown>)?.['ai-billing'],
+      ).toEqual(mockEvent);
+    });
+
+    it('should not attach ai-billing key when buildEvent returns null', async () => {
+      const middleware = createV3BillingMiddleware({
+        buildEvent: vi.fn().mockResolvedValue(null),
+        destinations: [],
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        doGenerate: createGenerateResult('resp-1'),
+      });
+
+      const result = await middleware.wrapGenerate!({
+        model: mockModel,
+        params: testParams,
+        doGenerate: () => mockModel.doGenerate(testParams),
+        doStream: () => mockModel.doStream(testParams),
+      });
+
+      expect(
+        (result.providerMetadata as Record<string, unknown>)?.['ai-billing'],
+      ).toBeUndefined();
+    });
+
     it('should not broadcast if buildEvent returns null/undefined', async () => {
       const destinationSpy = vi.fn();
       const buildEventSpy = vi.fn().mockResolvedValue(null);
@@ -166,23 +211,27 @@ describe('createV3BillingMiddleware', () => {
   });
 
   describe('wrapStream', () => {
-    it('should not drop or modify any chunks (Parity Check)', async () => {
+    it('should not drop or modify any non-finish chunks (Parity Check)', async () => {
       const middleware = createV3BillingMiddleware({
-        buildEvent: vi.fn(),
+        buildEvent: vi.fn().mockResolvedValue(null),
         destinations: [vi.fn()],
       });
 
+      const finishChunk: Extract<
+        LanguageModelV3StreamPart,
+        { type: 'finish' }
+      > = {
+        type: 'finish',
+        finishReason: { unified: 'stop', raw: 'stop' },
+        usage: {
+          inputTokens: { total: 1, noCache: 1, cacheRead: 0, cacheWrite: 0 },
+          outputTokens: { total: 1, text: 1, reasoning: 0 },
+        },
+      };
       const inputChunks: LanguageModelV3StreamPart[] = [
         { type: 'response-metadata', id: 'req-123', timestamp: new Date() },
         { type: 'text-delta', id: 'block-1', delta: 'Hello' },
-        {
-          type: 'finish',
-          finishReason: { unified: 'stop', raw: 'stop' },
-          usage: {
-            inputTokens: { total: 1, noCache: 1, cacheRead: 0, cacheWrite: 0 },
-            outputTokens: { total: 1, text: 1, reasoning: 0 },
-          },
-        },
+        finishChunk,
       ];
 
       const mockModel = new MockLanguageModelV3({
@@ -197,7 +246,96 @@ describe('createV3BillingMiddleware', () => {
       });
 
       const outputChunks = await convertReadableStreamToArray(stream);
-      expect(outputChunks).toEqual(inputChunks);
+
+      // Non-finish chunks pass through unmodified
+      expect(outputChunks.slice(0, -1)).toEqual(inputChunks.slice(0, -1));
+
+      // Finish chunk is re-emitted with base fields preserved
+      const outputFinish = outputChunks.at(-1) as Extract<
+        LanguageModelV3StreamPart,
+        { type: 'finish' }
+      >;
+      expect(outputFinish.type).toBe('finish');
+      expect(outputFinish.finishReason).toEqual(finishChunk.finishReason);
+      expect(outputFinish.usage).toEqual(finishChunk.usage);
+      // No event → 'ai-billing' key absent
+      expect(
+        (outputFinish.providerMetadata as Record<string, unknown>)?.[
+          'ai-billing'
+        ],
+      ).toBeUndefined();
+    });
+
+    it('should attach the billing event to the finish chunk providerMetadata', async () => {
+      const mockEvent = { generationId: 'stream-event-1', amount: 0.001 };
+      const middleware = createV3BillingMiddleware({
+        buildEvent: vi.fn().mockResolvedValue(mockEvent),
+        destinations: [],
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        doStream: {
+          stream: convertArrayToReadableStream<LanguageModelV3StreamPart>([
+            { type: 'text-delta', id: 'block-1', delta: 'Hi' },
+            {
+              type: 'finish',
+              finishReason: { unified: 'stop', raw: 'stop' },
+              usage: {
+                inputTokens: {
+                  total: 1,
+                  noCache: 1,
+                  cacheRead: 0,
+                  cacheWrite: 0,
+                },
+                outputTokens: { total: 1, text: 1, reasoning: 0 },
+              },
+            },
+          ]),
+        },
+      });
+
+      const { stream } = await middleware.wrapStream!({
+        model: mockModel,
+        params: testParams,
+        doGenerate: () => mockModel.doGenerate(testParams),
+        doStream: () => mockModel.doStream(testParams),
+      });
+
+      const outputChunks = await convertReadableStreamToArray(stream);
+      const finish = outputChunks.at(-1) as Extract<
+        LanguageModelV3StreamPart,
+        { type: 'finish' }
+      >;
+      expect(
+        (finish.providerMetadata as Record<string, unknown>)?.['ai-billing'],
+      ).toEqual(mockEvent);
+    });
+
+    it('should handle a stream that ends without a finish chunk', async () => {
+      const buildEventSpy = vi.fn().mockResolvedValue(null);
+      const middleware = createV3BillingMiddleware({
+        buildEvent: buildEventSpy,
+        destinations: [],
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        doStream: {
+          stream: convertArrayToReadableStream<LanguageModelV3StreamPart>([
+            { type: 'text-delta', id: 'block-1', delta: 'Hello' },
+          ]),
+        },
+      });
+
+      const { stream } = await middleware.wrapStream!({
+        model: mockModel,
+        params: testParams,
+        doGenerate: () => mockModel.doGenerate(testParams),
+        doStream: () => mockModel.doStream(testParams),
+      });
+
+      const outputChunks = await convertReadableStreamToArray(stream);
+      expect(outputChunks).toHaveLength(1);
+      expect(outputChunks[0]!.type).toBe('text-delta');
     });
 
     it('should prioritize the ID from text-start over response-metadata', async () => {

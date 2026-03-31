@@ -10,9 +10,12 @@ import type {
 import type {
   BaseBillingMiddlewareOptions,
   EventBuilder,
+  BillingEvent,
+  DefaultTags,
 } from '../../../types/index.js';
+import { toJSONObject } from '../../../event/index.js';
 
-export interface BuildV3EventPayload<TTags> {
+export interface BuildV3EventPayload<TTags extends DefaultTags = DefaultTags> {
   responseId: string | undefined;
   model: LanguageModelV3;
   usage: LanguageModelV3Usage | undefined;
@@ -21,14 +24,14 @@ export interface BuildV3EventPayload<TTags> {
 }
 
 export interface BillingMiddlewareV3Options<
-  TTags,
+  TTags extends DefaultTags = DefaultTags,
 > extends BaseBillingMiddlewareOptions<TTags> {
   buildEvent: EventBuilder<BuildV3EventPayload<TTags>, TTags>;
 }
 
-export function createV3BillingMiddleware<TTags>(
-  options: BillingMiddlewareV3Options<TTags>,
-): LanguageModelV3Middleware {
+export function createV3BillingMiddleware<
+  TTags extends DefaultTags = DefaultTags,
+>(options: BillingMiddlewareV3Options<TTags>): LanguageModelV3Middleware {
   const { buildEvent, destinations, defaultTags, waitUntil, onError } = options;
 
   const processEvent = async ({
@@ -43,7 +46,7 @@ export function createV3BillingMiddleware<TTags>(
     usage: LanguageModelV3Usage | undefined;
     providerMetadata: SharedV3ProviderMetadata | undefined;
     responseId: string | undefined;
-  }): Promise<void> => {
+  }): Promise<BillingEvent<TTags> | null> => {
     try {
       const requestTags = params.providerOptions?.['ai-billing-tags'];
 
@@ -60,14 +63,17 @@ export function createV3BillingMiddleware<TTags>(
         tags,
       });
 
-      if (event) {
-        await Promise.allSettled(
+      if (event && destinations.length > 0) {
+        const dispatchDestinationsPromise = Promise.allSettled(
           destinations.map(d => Promise.resolve(d(event))),
         );
+        if (waitUntil) waitUntil(dispatchDestinationsPromise);
       }
+      return event;
     } catch (err) {
       if (onError) onError(err);
       else console.error('[ai-billing] Core Error:', err);
+      return null;
     }
   };
 
@@ -77,7 +83,7 @@ export function createV3BillingMiddleware<TTags>(
     wrapGenerate: async ({ doGenerate, model, params }) => {
       const result: LanguageModelV3GenerateResult = await doGenerate();
 
-      const promise = processEvent({
+      const event = await processEvent({
         model,
         params,
         usage: result.usage,
@@ -85,8 +91,18 @@ export function createV3BillingMiddleware<TTags>(
         responseId: result.response?.id,
       });
 
-      if (waitUntil) waitUntil(promise);
-      return result;
+      const providerMetadataWithBilling = {
+        ...result.providerMetadata,
+      } as SharedV3ProviderMetadata;
+
+      if (event) {
+        providerMetadataWithBilling['ai-billing'] = toJSONObject(event);
+      }
+
+      return {
+        ...result,
+        providerMetadata: providerMetadataWithBilling,
+      };
     },
 
     wrapStream: async ({ doStream, model, params }) => {
@@ -95,6 +111,9 @@ export function createV3BillingMiddleware<TTags>(
       let responseId: string | undefined;
       let usage: LanguageModelV3Usage | undefined;
       let providerMetadata: SharedV3ProviderMetadata | undefined;
+      let finishChunk:
+        | Extract<LanguageModelV3StreamPart, { type: 'finish' }>
+        | undefined;
 
       const billedStream = stream.pipeThrough(
         new TransformStream<
@@ -109,18 +128,34 @@ export function createV3BillingMiddleware<TTags>(
             if (chunk.type === 'finish') {
               usage = chunk.usage;
               providerMetadata = chunk.providerMetadata;
+              finishChunk = chunk;
+              return; // held until flush
             }
             controller.enqueue(chunk);
           },
-          flush() {
-            const promise = processEvent({
+          async flush(controller) {
+            const event = await processEvent({
               model,
               params,
               usage,
               providerMetadata,
               responseId,
             });
-            if (waitUntil) waitUntil(promise);
+
+            const providerMetadataWithBilling = {
+              ...providerMetadata,
+            } as SharedV3ProviderMetadata;
+
+            if (event) {
+              providerMetadataWithBilling['ai-billing'] = toJSONObject(event);
+            }
+
+            if (finishChunk) {
+              controller.enqueue({
+                ...finishChunk,
+                providerMetadata: providerMetadataWithBilling,
+              });
+            }
           },
         }),
       );
