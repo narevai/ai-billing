@@ -45,7 +45,7 @@ describe('OpenAIBillingMiddlewareV3 Integration', () => {
       const baseResult = createResult();
       const mockModel = new MockLanguageModelV3({
         modelId: 'gpt-5',
-        provider: 'openai.responses',
+        provider: 'openai',
         doGenerate: async () => baseResult,
       });
 
