@@ -6,6 +6,7 @@ import type {
   LanguageModelV3StreamPart,
   LanguageModelV3Middleware,
   SharedV3ProviderMetadata,
+  JSONObject,
 } from '@ai-sdk/provider';
 import type {
   BaseBillingMiddlewareOptions,
@@ -13,7 +14,7 @@ import type {
   BillingEvent,
 } from '../../../types/index.js';
 
-export interface BuildV3EventPayload<TTags> {
+export interface BuildV3EventPayload<TTags extends JSONObject> {
   responseId: string | undefined;
   model: LanguageModelV3;
   usage: LanguageModelV3Usage | undefined;
@@ -22,12 +23,12 @@ export interface BuildV3EventPayload<TTags> {
 }
 
 export interface BillingMiddlewareV3Options<
-  TTags,
+  TTags extends JSONObject,
 > extends BaseBillingMiddlewareOptions<TTags> {
   buildEvent: EventBuilder<BuildV3EventPayload<TTags>, TTags>;
 }
 
-export function createV3BillingMiddleware<TTags>(
+export function createV3BillingMiddleware<TTags extends JSONObject>(
   options: BillingMiddlewareV3Options<TTags>,
 ): LanguageModelV3Middleware {
   const { buildEvent, destinations, defaultTags, waitUntil, onError } = options;
@@ -95,7 +96,7 @@ export function createV3BillingMiddleware<TTags>(
         providerMetadata: {
           ...result.providerMetadata,
           ...(event ? { 'ai-billing': event } : {}),
-        } as unknown as SharedV3ProviderMetadata,
+        } as SharedV3ProviderMetadata,
       };
     },
 
@@ -141,7 +142,7 @@ export function createV3BillingMiddleware<TTags>(
                 providerMetadata: {
                   ...finishChunk.providerMetadata,
                   ...(event ? { 'ai-billing': event } : {}),
-                } as unknown as SharedV3ProviderMetadata,
+                } as SharedV3ProviderMetadata,
               });
             }
           },
