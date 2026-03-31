@@ -36,6 +36,7 @@
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "prepack": "node -e \"require('fs').copyFileSync('../../LICENSE', 'LICENSE')\"",
     "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
   },
