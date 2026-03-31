@@ -6,32 +6,34 @@ import {
 } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 import { createOpenAIMiddleware } from '@ai-billing/openai';
-import { consoleDestination } from '@ai-billing/core';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  ModelPricing,
+} from '@ai-billing/core';
 
 const openai = createOpenAI({
   // eslint-disable-next-line turbo/no-undeclared-env-vars
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-//const consoleLogger = new ConsoleDestination();
+const customPricingMap: Record<string, ModelPricing> = {
+  'gpt-5': {
+    promptTokens: 1.25 / 1_000_000,
+    completionTokens: 10.0 / 1_000_000,
+    inputCacheReadTokens: 0.125 / 1_000_000,
+  },
+  'gpt-4o': {
+    promptTokens: 5.0 / 1_000_000,
+    completionTokens: 15.0 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
 const billingMiddleware = createOpenAIMiddleware({
   destinations: [consoleDestination()],
-  prices: async ({ modelId }) => {
-    if (modelId === 'gpt-5') {
-      return {
-        // Change 'prompt' to 'promptTokens'
-        promptTokens: 1.25 / 1_000_000,
-
-        // Change 'completion' to 'completionTokens'
-        completionTokens: 10.0 / 1_000_000,
-
-        // Assuming this key is correct based on the library's types,
-        // if it still errors, check if it should be something like 'inputCacheReadTokens'
-        inputCacheRead: 0.125 / 1_000_000,
-      };
-    }
-    return;
-  },
+  priceResolver: priceResolver,
 });
 
 export async function POST() {

@@ -7,3 +7,14 @@ export interface ModelPricing {
   request?: number;
   discount?: number;
 }
+
+export type PriceResolverContext = {
+  modelId: string;
+  providerId?: string;
+  subProviderId?: string;
+  quantization?: string;
+};
+
+export type PriceResolver = (
+  context: PriceResolverContext,
+) => Promise<ModelPricing | undefined>;
