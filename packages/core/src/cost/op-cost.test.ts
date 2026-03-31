@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { multiplyCost, addCosts, applyDiscount } from './op-cost.js';
-import { CostUnit } from '../types/cost.js';
+import { Cost, CostUnit } from '../types/cost.js';
 
 // Mock the convertCostUnit dependency to focus purely on the math logic in op-cost
 vi.mock('./convert-cost.js', () => ({
@@ -100,6 +100,16 @@ describe('op-cost module', () => {
       const cost1 = { amount: 100, unit: 'nanos' as CostUnit, currency: 'USD' };
       const cost2 = { amount: 100, unit: 'nanos' as CostUnit, currency: 'EUR' };
       expect(() => addCosts(cost1, cost2)).toThrow(/Currency mismatch/);
+    });
+
+    it('should return 0 nanos when the first cost is undefined or null', () => {
+      const result = addCosts(undefined as unknown as Cost);
+
+      expect(result).toEqual({
+        amount: 0,
+        unit: 'nanos' as CostUnit,
+        currency: 'USD',
+      });
     });
   });
 
