@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { costToNumber, convertCostUnit } from './convert-cost.js';
+import { costToNumber, convertCostUnit, rateToCost } from './convert-cost.js';
 import { AiBillingCostError } from '../index.js';
 import type { Cost } from '../types/index.js';
 
@@ -150,6 +150,37 @@ describe('Financial Utils', () => {
       convertCostUnit(input, 'nanos');
 
       expect(input).toEqual({ amount: 10, currency: 'USD', unit: 'base' });
+    });
+  });
+
+  describe('rateToCost', () => {
+    it('creates a Cost object with the provided amount', () => {
+      const result = rateToCost(15.5);
+
+      expect(result).toEqual({
+        amount: 15.5,
+        unit: 'base',
+        currency: 'USD',
+      });
+    });
+
+    it('uses the default amount of 0 when no argument is provided', () => {
+      // This specifically triggers the coverage for the "= 0" default parameter
+      const result = rateToCost();
+
+      expect(result).toEqual({
+        amount: 0,
+        unit: 'base',
+        currency: 'USD',
+      });
+    });
+
+    it('returns a valid Cost object structure', () => {
+      const result = rateToCost(100);
+
+      expect(result).toHaveProperty('amount', 100);
+      expect(result).toHaveProperty('unit', 'base');
+      expect(result).toHaveProperty('currency', 'USD');
     });
   });
 });

@@ -1,6 +1,6 @@
 {
-  "name": "@ai-billing/polar",
-  "version": "0.0.1",
+  "name": "@ai-billing/openai",
+  "version": "0.0.0",
   "license": "Apache-2.0",
   "type": "module",
   "repository": {
@@ -35,22 +35,26 @@
     "lint": "oxlint",
     "dev": "tsup --watch",
     "test": "vitest run",
-    "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
     "prepack": "node -e \"require('fs').copyFileSync('../../LICENSE', 'LICENSE')\"",
     "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
   },
-  "dependencies": {},
+  "dependencies": {
+    "@ai-billing/core": "workspace:*"
+  },
   "devDependencies": {
     "@ai-billing/typescript-config": "workspace:*",
+    "@ai-billing/testing": "workspace:*",
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
+    "ai": "catalog:",
+    "@ai-sdk/provider": "catalog:",
     "@edge-runtime/vm": "catalog:"
   },
   "peerDependencies": {
-    "@ai-billing/core": "workspace:0.0.1",
-    "@polar-sh/sdk": "^0.46.7"
+    "@ai-sdk/openai": "^3.0.0"
   },
   "engines": {
     "node": ">=20.0.0"
