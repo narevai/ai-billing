@@ -1,5 +1,11 @@
 # @ai-billing/core
 
+## 0.0.1-alpha.8
+
+### Patch Changes
+
+- dfa0c3f: add ai-billing metadata to the output
+
 ## 0.0.1-alpha.7
 
 ### Patch Changes
