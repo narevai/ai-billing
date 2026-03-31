@@ -98,12 +98,18 @@ importers:
       '@ai-billing/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@ai-billing/openai':
+        specifier: workspace:*
+        version: link:../../packages/openai
       '@ai-billing/openrouter':
         specifier: workspace:*
         version: link:../../packages/openrouter
       '@ai-billing/polar':
         specifier: workspace:*
         version: link:../../packages/polar
+      '@ai-sdk/openai':
+        specifier: ^3.0.49
+        version: 3.0.49(zod@4.3.6)
       '@openrouter/ai-sdk-provider':
         specifier: 'catalog:'
         version: 2.3.3(ai@6.0.138(zod@4.3.6))(zod@4.3.6)

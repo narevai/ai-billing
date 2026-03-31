@@ -18,7 +18,6 @@ export interface ModelPricing {
 
 export type PriceResolver = (context: {
   modelId: string;
-  provider: string;
 }) => Promise<ModelPricing | null>;
 
 interface OpenAIUsageAccounting extends JSONObject {
@@ -71,7 +70,6 @@ export function createOpenAIV3Middleware<TTags extends DefaultTags>(
 
       const pricing = await options.prices({
         modelId: model.modelId,
-        provider: model.provider || 'openai',
       });
 
       let calculatedCost: number | undefined = undefined;
