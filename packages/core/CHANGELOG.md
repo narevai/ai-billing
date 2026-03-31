@@ -1,5 +1,12 @@
 # @ai-billing/core
 
+## 0.0.2
+
+### Patch Changes
+
+- fa5f27c: add PriceResolver for dynamic pricing
+- e3db55c: add support for providers that do not return cost
+
 ## 0.0.1
 
 ### Patch Changes

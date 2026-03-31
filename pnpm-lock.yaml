@@ -237,7 +237,7 @@ importers:
   packages/polar:
     dependencies:
       '@ai-billing/core':
-        specifier: workspace:0.0.1
+        specifier: workspace:0.0.2
         version: link:../core
       '@polar-sh/sdk':
         specifier: ^0.46.7
