@@ -1,5 +1,13 @@
 # @ai-billing/openrouter
 
+## 0.0.1-alpha.4
+
+### Patch Changes
+
+- dfa0c3f: add ai-billing metadata to the output
+- Updated dependencies [dfa0c3f]
+  - @ai-billing/core@0.0.1-alpha.8
+
 ## 0.0.1-alpha.3
 
 ### Patch Changes

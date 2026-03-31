@@ -1,5 +1,14 @@
 # dev-sandbox
 
+## 0.0.1-alpha.8
+
+### Patch Changes
+
+- Updated dependencies [dfa0c3f]
+  - @ai-billing/openrouter@0.0.1-alpha.4
+  - @ai-billing/polar@0.0.1-alpha.1
+  - @ai-billing/core@0.0.1-alpha.8
+
 ## 0.0.1-alpha.7
 
 ### Patch Changes
