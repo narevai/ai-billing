@@ -57,3 +57,21 @@ The project is currently in **pre-release mode**. Versions will look like `0.0.1
 
 #### Troubleshooting "Stuck" States
 If the Action fails to open a PR or complains about "No changesets found", check if a "zombie" `.md` file exists in `.changeset/` that is already listed in `pre.json`. Delete it manually.
+
+---
+
+## Release
+
+### Publish new package
+```bash
+npm login
+npm publish --dry-run
+```
+
+Make sure the version is correct in the `package.json`.
+
+When ready:
+
+```bash
+npm publish --access public --tag alpha
+```
