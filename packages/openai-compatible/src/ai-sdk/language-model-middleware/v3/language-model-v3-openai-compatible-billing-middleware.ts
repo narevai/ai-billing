@@ -1,4 +1,7 @@
-import { calculateOpenAICompatibleCost } from '../../../cost/index.js';
+import {
+  calculateOpenAICompatibleCost,
+  type OpenAICompatibleCostInputs,
+} from '../../../cost/index.js';
 import { createV3BillingMiddleware } from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
@@ -28,6 +31,14 @@ export function createOpenAICompatibleV3Middleware<TTags extends DefaultTags>(
       const outputTokensTotal = usage?.outputTokens?.total ?? 0;
       const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
 
+      const openAICompatibleUsage: OpenAICompatibleCostInputs = {
+        promptTokens: inputTokensTotal,
+        completionTokens: outputTokensTotal,
+        cacheReadTokens: inputTokensCacheRead,
+        cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
+        reasoningTokens: outputTokensReasoning,
+      };
+
       const pricing: ModelPricing | undefined = await options.priceResolver({
         modelId: model.modelId,
         providerId: options.providerId,
@@ -35,13 +46,7 @@ export function createOpenAICompatibleV3Middleware<TTags extends DefaultTags>(
 
       const calculatedCost: Cost | undefined = calculateOpenAICompatibleCost({
         pricing,
-        usage: {
-          promptTokens: inputTokensTotal,
-          completionTokens: outputTokensTotal,
-          cacheReadTokens: inputTokensCacheRead,
-          cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
-          reasoningTokens: outputTokensReasoning,
-        },
+        usage: openAICompatibleUsage,
       });
 
       return {
