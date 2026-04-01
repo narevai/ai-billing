@@ -1,15 +1,13 @@
+# ai-billing
+
 [![codecov](https://codecov.io/github/narevai/ai-billing/graph/badge.svg?token=KZG0YE4THI)](https://codecov.io/github/narevai/ai-billing)
 ![Node Current](https://img.shields.io/node/v/%40ai-billing%2Fcore)
 ![NPM License](https://img.shields.io/npm/l/%40ai-billing%2Fcore)
 ![Discord](https://img.shields.io/discord/1475412276315033663)
 
-
-# ai-billing
-
-Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) to send usage events directly to billing platforms (Stripe, Polar, and Lago).
-
 ![AI Billing Header 1](/assets/header-1.png)
 
+Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) to send usage events directly to billing platforms (Stripe, Polar, and Lago).
 
 ## Installation
 
@@ -36,11 +34,11 @@ const model = wrapLanguageModel({
 });
 ```
 
+![AI Billing Header 2](/assets/header-2.png)
+
 ## Send usage to Polar.sh
 
 Wrap your model provider with the billing middleware and define your destinations.
-
-![AI Billing Header 2](/assets/header-2.png)
 
 ```typescript
 import { streamText, wrapLanguageModel } from 'ai';
@@ -78,7 +76,7 @@ const { textStream } = await streamText({
 > **Note:** We are prioritizing support for **TEXT models**.
 
 | Provider | Package | Size |
-| :--- | :--- |
+| :--- | :--- | :--- |
 | **OpenRouter** | [`@ai-billing/openrouter`](https://www.npmjs.com/package/@ai-billing/openrouter) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenrouter) |
 | **OpenAI** | [`@ai-billing/openai`](https://www.npmjs.com/package/@ai-billing/openai) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenai) |
 
@@ -94,7 +92,7 @@ Targeted for immediate release.
 ### Supported Destinations
 
 | Provider | Package | Size |
-| :--- | :--- |
+| :--- | :--- | :--- |
 | **Polar.sh** | [`@ai-billing/polar`](https://www.npmjs.com/package/@ai-billing/polar) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fpolar) |
 
 
