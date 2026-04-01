@@ -34,6 +34,8 @@ const model = wrapLanguageModel({
 });
 ```
 
+---
+
 ![AI Billing Header 2](/assets/header-2.png)
 
 ## Send usage to Polar.sh
@@ -111,55 +113,10 @@ The following providers are planned for future implementation. **To prioritize a
 The package consists of two primary components:
 
 ### 1. Provider Middleware
-Specialized wrappers for `@ai-sdk/provider` that understand the specific `providerMetadata` shapes of different LLM hosts. This ensures accurate cost extraction (e.g., capturing OpenRouter's specific `usage.cost` field rather than estimating based on token counts).
+- specialized for `@ai-sdk/*` that understand the specific `providerMetadata` shapes of different LLM usage
+- provider-specific cost calculation logic that that turn usage into cost
+- `PriceResolver` allowing to pass custom prices at time of request
 
 ### 2. Destinations
-Functions that receive a normalized `BillingEvent` and handle the API calls to external services.
-* **Stripe**: Report usage to metered billing prices.
-* **Polar.sh**: Send usage events for subscription benefits.
-* **Lago / Orb**: Report events for complex usage-based billing schemas.
-* **Console**: Local debugging and logging.
-
-## Metadata and Tagging
-
-Pass custom attributes (e.g., `customerId`, `organizationId`) via headers to associate usage with specific entities. The middleware automatically parses the `x-ai-billing-tags` header.
-
-```typescript
-const result = await generateText({
-  model: wrappedModel,
-  headers: {
-    'x-ai-billing-tags': JSON.stringify({ customerId: 'cust_12345' }),
-  },
-  messages: [...],
-});
-```
-
-
-## Custom Provider Implementation
-
-To support a custom or internal provider, use the `createV3BillingMiddleware` factory:
-
-```typescript
-import { createV3BillingMiddleware } from '@ai-billing/core';
-
-export function createCustomMiddleware(options) {
-  return createV3BillingMiddleware({
-    ...options,
-    buildEvent: ({ model, usage, providerMetadata, responseId, tags }) => {
-      return {
-        generationId: responseId ?? crypto.randomUUID(),
-        modelId: model.modelId,
-        usage: {
-          inputTokens: usage.promptTokens,
-          outputTokens: usage.completionTokens,
-        },
-        cost: {
-          amount: calculateInternalCost(usage), // Your logic
-          currency: 'USD',
-        },
-        tags,
-      };
-    },
-  });
-}
-```
+- functions that receive a normalized `BillingEvent` and handle the API calls to external services
+- allow charging in credits using standardized meters
