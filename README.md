@@ -24,9 +24,7 @@ import { streamText, wrapLanguageModel } from 'ai';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
 
-const billingMiddleware = createOpenRouterV3Middleware({
-  destinations: [],
-});
+const billingMiddleware = createOpenRouterV3Middleware({});
 
 const model = wrapLanguageModel({
   model: createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY })('google/gemini-2.0-flash-001'),

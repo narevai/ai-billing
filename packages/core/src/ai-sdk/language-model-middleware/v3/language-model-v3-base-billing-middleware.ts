@@ -63,7 +63,7 @@ export function createV3BillingMiddleware<
         tags,
       });
 
-      if (event && destinations.length > 0) {
+      if (event && destinations && destinations?.length > 0) {
         const dispatchDestinationsPromise = Promise.allSettled(
           destinations.map(d => Promise.resolve(d(event))),
         );
