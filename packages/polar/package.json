@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/narevai/ai-billing.git",
-    "directory": "packages/core"
+    "directory": "packages/polar"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
