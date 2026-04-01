@@ -77,17 +77,19 @@ const { textStream } = await streamText({
 
 | Provider | Package | Size |
 | :--- | :--- | :--- |
-| **OpenRouter** | [`@ai-billing/openrouter`](https://www.npmjs.com/package/@ai-billing/openrouter) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenrouter) |
-| **OpenAI** | [`@ai-billing/openai`](https://www.npmjs.com/package/@ai-billing/openai) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenai) |
+| [**OpenRouter**](https://ai-sdk.dev/providers/community-providers/openrouter) | [`@ai-billing/openrouter`](https://www.npmjs.com/package/@ai-billing/openrouter) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenrouter) |
+| [**OpenAI**](https://ai-sdk.dev/providers/ai-sdk-providers/openai) | [`@ai-billing/openai`](https://www.npmjs.com/package/@ai-billing/openai) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenai) |
+| [**Vercel AI Gateway**](https://ai-sdk.dev/providers/ai-sdk-providers/ai-gateway) | [`@ai-billing/gateway`](https://www.npmjs.com/package/@ai-billing/gateway) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fgateway) |
+
 
 **Active Development**
 
-Targeted for immediate release.
-
-  * [OpenAI Compatible Providers](https://ai-sdk.dev/providers/openai-compatible-providers#openai-compatible-providers) ![GitHub issue/pull request detail](https://img.shields.io/github/issues/detail/state/narevai/ai-billing/45)
-  * [Anthropic](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic) ![GitHub issue/pull request detail](https://img.shields.io/github/issues/detail/state/narevai/ai-billing/46)
-  * [Google Generative AI](https://ai-sdk.dev/providers/ai-sdk-providers/google-generative-ai) ![GitHub issue/pull request detail](https://img.shields.io/github/issues/detail/state/narevai/ai-billing/47)
-  * [Vercel AI Gateway](https://ai-sdk.dev/providers/ai-sdk-providers/ai-gateway) ![GitHub issue/pull request detail](https://img.shields.io/github/issues/detail/state/narevai/ai-billing/48)
+* [OpenAI Compatible Providers](https://ai-sdk.dev/providers/openai-compatible-providers#openai-compatible-providers) ([#45](https://github.com/narevai/ai-billing/issues/45))
+* [Anthropic](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic) ([#46](https://github.com/narevai/ai-billing/issues/46))
+* [Google Generative AI](https://ai-sdk.dev/providers/ai-sdk-providers/google-generative-ai) ([#47](https://github.com/narevai/ai-billing/issues/47))
+* [Portkey](https://ai-sdk.dev/providers/community-providers/portkey) ([#57](https://github.com/narevai/ai-billing/issues/57))
+* [Requesty](https://ai-sdk.dev/providers/community-providers/requesty)
+* [Cloudflare AI Gateway](https://ai-sdk.dev/providers/community-providers/cloudflare-ai-gateway)
 
 ### Supported Destinations
 
@@ -97,9 +99,9 @@ Targeted for immediate release.
 
 
 **Active development**
-- **Lago** ![GitHub issue/pull request detail](https://img.shields.io/github/issues/detail/state/narevai/ai-billing/49)
-- **OpenMeter/Kong** ![GitHub issue/pull request detail](https://img.shields.io/github/issues/detail/state/narevai/ai-billing/50)
-- **Stripe** ![GitHub issue/pull request detail](https://img.shields.io/github/issues/detail/state/narevai/ai-billing/51)
+- **Lago** ([#49](https://github.com/narevai/ai-billing/issues/49))
+- **OpenMeter/Kong** ([#50](https://github.com/narevai/ai-billing/issues/50))
+- **Stripe** ([#51](https://github.com/narevai/ai-billing/issues/51))
 
 ### Backlog
 
