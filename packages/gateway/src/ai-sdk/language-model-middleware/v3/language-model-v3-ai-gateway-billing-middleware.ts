@@ -86,7 +86,6 @@ export function createGatewayV3Middleware<TTags extends DefaultTags>(
           crypto.randomUUID(),
         modelId: model.modelId,
         provider: model.provider || 'gateway',
-        timestamp: Date.now(),
         tags: tags,
         usage: {
           subProviderId: gatewayMetadata?.gateway?.routing?.finalProvider,
