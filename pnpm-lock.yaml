@@ -63,6 +63,9 @@ catalogs:
     vitest:
       specifier: 4.1.1
       version: 4.1.1
+    zod:
+      specifier: ^4.3.6
+      version: 4.3.6
 
 importers:
 
@@ -168,6 +171,9 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.1.1(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.0)(@types/node@22.19.15)(vite@8.0.2(@types/node@22.19.15)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.8.3))
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
 
   packages/gateway:
     dependencies:
@@ -298,6 +304,9 @@ importers:
       '@ai-sdk/provider':
         specifier: 'catalog:'
         version: 3.0.8
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
     devDependencies:
       '@ai-billing/typescript-config':
         specifier: workspace:*
