@@ -1,3 +1,4 @@
+import { CostSchema } from './cost.js';
 import { z } from 'zod';
 
 export const UsageSchema = z
@@ -12,14 +13,6 @@ export const UsageSchema = z
     requestCount: z.number().optional(),
     rawProviderCost: z.number().optional(),
     rawUpstreamInferenceCost: z.number().optional(),
-  })
-  .strict();
-
-export const CostSchema = z
-  .object({
-    amount: z.number(),
-    currency: z.string(),
-    unit: z.string().optional(),
   })
   .strict();
 
