@@ -52,7 +52,8 @@
     "vitest": "catalog:",
     "@ai-sdk/provider": "catalog:",
     "ai": "catalog:",
-    "@edge-runtime/vm": "catalog:"
+    "@edge-runtime/vm": "catalog:",
+    "zod": "catalog:"
   },
   "peerDependencies": {
     "@ai-sdk/provider": "catalog:"

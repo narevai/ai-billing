@@ -52,7 +52,6 @@ export function createOpenRouterV3Middleware<TTags extends DefaultTags>(
         generationId: responseId ?? crypto.randomUUID(),
         modelId: model.modelId,
         provider: model.provider || 'openrouter',
-        timestamp: Date.now(),
         tags: tags,
         usage: {
           subProviderId: openrouterMetadata?.openrouter?.provider,
