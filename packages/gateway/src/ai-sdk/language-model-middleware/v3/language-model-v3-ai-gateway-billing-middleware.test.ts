@@ -118,11 +118,12 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
           subProviderId: realMetadata.gateway?.routing?.finalProvider,
           inputTokens: baseResult.usage?.inputTokens.total,
           outputTokens: baseResult.usage?.outputTokens.total,
-          cacheReadTokens: baseResult.usage?.inputTokens.cacheRead ?? 0,
-          reasoningTokens: baseResult.usage?.outputTokens.reasoning ?? 0,
+          cacheReadTokens: baseResult.usage?.inputTokens.cacheRead,
+          cacheWriteTokens: baseResult.usage?.inputTokens.cacheWrite,
+          reasoningTokens: baseResult.usage?.outputTokens.reasoning,
           totalTokens:
-            (baseResult.usage?.inputTokens.total ?? 0) +
-            (baseResult.usage?.outputTokens.total ?? 0),
+            baseResult.usage?.inputTokens.total! +
+            baseResult.usage?.outputTokens.total!,
           rawProviderCost: Number(realMetadata.gateway?.cost),
           rawUpstreamInferenceCost: Number(realMetadata.gateway?.marketCost),
         },
@@ -191,11 +192,12 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
           subProviderId: realMetadata.gateway?.routing?.finalProvider,
           inputTokens: baseResult.usage?.inputTokens.total,
           outputTokens: baseResult.usage?.outputTokens.total,
-          cacheReadTokens: baseResult.usage?.inputTokens.cacheRead ?? 0,
-          reasoningTokens: baseResult.usage?.outputTokens.reasoning ?? 0,
+          cacheReadTokens: baseResult.usage?.inputTokens.cacheRead,
+          cacheWriteTokens: baseResult.usage?.inputTokens.cacheWrite,
+          reasoningTokens: baseResult.usage?.outputTokens.reasoning,
           totalTokens:
-            (baseResult.usage?.inputTokens.total ?? 0) +
-            (baseResult.usage?.outputTokens.total ?? 0),
+            baseResult.usage?.inputTokens.total! +
+            baseResult.usage?.outputTokens.total!,
           rawProviderCost: Number(realMetadata.gateway?.cost),
           rawUpstreamInferenceCost: Number(realMetadata.gateway?.marketCost),
         },
@@ -255,7 +257,7 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
           total: undefined,
           noCache: 0,
           cacheRead: undefined,
-          cacheWrite: 0,
+          cacheWrite: undefined,
         },
         outputTokens: {
           total: undefined,
@@ -293,6 +295,7 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
       usage: {
         inputTokens: 0,
         cacheReadTokens: 0,
+        cacheWriteTokens: 0,
         outputTokens: 0,
         reasoningTokens: 0,
         totalTokens: 0,
