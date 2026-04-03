@@ -71,7 +71,7 @@ export function createOpenRouterV3Middleware<TTags extends DefaultTags>(
           unit: 'base',
           currency: 'USD',
         },
-      };
+      } satisfies BillingEvent<TTags>;
     },
   });
 }
