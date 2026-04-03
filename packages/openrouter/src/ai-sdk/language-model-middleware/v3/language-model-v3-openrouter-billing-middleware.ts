@@ -3,6 +3,7 @@ import {
   type BaseBillingMiddlewareOptions,
   AiBillingExtractorError,
   DefaultTags,
+  type BillingEvent,
 } from '@ai-billing/core';
 import type { SharedV3ProviderMetadata } from '@ai-sdk/provider';
 import type { OpenRouterUsageAccounting } from '@openrouter/ai-sdk-provider';
