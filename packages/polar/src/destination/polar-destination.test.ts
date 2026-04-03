@@ -1,9 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createPolarDestination } from './polar-destination.js';
 import { Polar } from '@polar-sh/sdk';
-import { costToNumber, type BillingEvent } from '@ai-billing/core';
+import { costToNumber, Usage, type BillingEvent } from '@ai-billing/core';
+import { BillingEventSchema } from '@ai-billing/testing';
+import { z } from 'zod';
 
-// Mock the entire SDK
 const mockIngest = vi.fn();
 
 vi.mock('@polar-sh/sdk', () => {
@@ -20,19 +21,28 @@ vi.mock('@polar-sh/sdk', () => {
 });
 
 describe('Polar Destination', () => {
+  const StrictBillingEventSchema: z.ZodType<BillingEvent> = BillingEventSchema;
   let mockPolarInstance: Polar;
 
   const createMockEvent = (
     overrides: Partial<BillingEvent> = {},
-  ): BillingEvent => ({
-    generationId: 'gen-123',
-    modelId: 'gpt-4',
-    provider: 'openai',
-    tags: { customerId: 'cus_12345' },
-    usage: { inputTokens: 100, outputTokens: 50, totalTokens: 150 },
-    cost: { amount: 0.000004653, currency: 'USD', unit: 'base' },
-    ...overrides,
-  });
+  ): BillingEvent => {
+    return StrictBillingEventSchema.parse({
+      generationId: 'gen-123',
+      modelId: 'gpt-4',
+      provider: 'openai',
+      tags: { customerId: 'cus_12345' },
+      usage: {
+        inputTokens: 100,
+        outputTokens: 50,
+        cacheReadTokens: 0,
+        reasoningTokens: 0,
+        totalTokens: 150,
+      },
+      cost: { amount: 0.000004653, currency: 'USD', unit: 'base' },
+      ...overrides,
+    });
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -218,47 +228,79 @@ describe('Polar Destination', () => {
     consoleSpy.mockRestore();
   });
 
-  it('should handle events without usage or cost data', async () => {
+  it('should handle events cost data', async () => {
     const destination = createPolarDestination({
       accessToken: 'test-token',
       meterName: 'test-meter',
     });
 
-    // Create an event explicitly OVERRIDING usage and cost to be undefined
-    const minimalEvent = createMockEvent({
-      usage: undefined,
+    const malformedEvent = createMockEvent({
+      usage: {
+        inputTokens: 0,
+        outputTokens: 0,
+        totalTokens: 0,
+      },
       cost: undefined,
     });
 
-    await destination(minimalEvent);
+    await destination(malformedEvent);
 
-    // Verify it still works and didn't crash
     expect(mockIngest).toHaveBeenCalled();
 
-    // Verify metadata doesn't have usage keys
     const callArgs = mockIngest.mock?.calls?.[0]?.[0];
-    expect(callArgs.events[0].metadata).not.toHaveProperty(
-      'usage_input_tokens',
-    );
+    expect(callArgs.events[0].metadata).not.toHaveProperty('cost_amount_base');
+  });
+
+  it('should gracefully handle raw JavaScript objects missing strictly required usage', async () => {
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const destination = createPolarDestination({
+      accessToken: 'test-token',
+      meterName: 'test-meter',
+    });
+    const rawMalformedEvent = {
+      generationId: 'gen-raw',
+      modelId: 'raw-model',
+      provider: 'raw-provider',
+      tags: {},
+    } as unknown as BillingEvent;
+
+    await destination(rawMalformedEvent);
+
+    const ingestSpy = vi.mocked(new Polar().events.ingest);
+    const callArgs = ingestSpy.mock.calls[0]![0];
+    const metadata = callArgs.events[0]!.metadata;
+
+    // Verify it mapped the base fields safely
+    expect(metadata).toEqual({
+      generation_id: 'gen-raw',
+      model_id: 'raw-model',
+      provider: 'raw-provider',
+    });
+
+    const keys = Object.keys(metadata ?? {});
+    expect(keys.some(k => k.startsWith('usage_'))).toBe(false);
+    expect(consoleSpy).toHaveBeenCalledTimes(1);
+    consoleSpy.mockRestore();
   });
 
   it('should return metadata immediately if event.tags is undefined', async () => {
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const destination = createPolarDestination({
       accessToken: 'test',
       meterName: 'test',
     });
 
     // Explicitly set tags to undefined (bypassing the helper default)
-    let mockEvent = createMockEvent({
+    let malformedEvent = {
       generationId: 'gen-123',
       modelId: 'gpt-4',
       provider: 'openai',
-      tags: undefined, // no tags
+      //tags: {}, // no tags
       usage: { inputTokens: 100, outputTokens: 50, totalTokens: 150 },
       cost: { amount: 0.000004653, currency: 'USD', unit: 'base' },
-    });
+    } as BillingEvent;
 
-    await destination(mockEvent);
+    await destination(malformedEvent);
 
     const ingestSpy = vi.mocked(new Polar().events.ingest);
     const metadata = ingestSpy.mock!.calls![0]![0]!.events[0]!.metadata;
@@ -276,6 +318,8 @@ describe('Polar Destination', () => {
     );
 
     expect(tagKeys.length).toBe(0);
+    expect(consoleSpy).toHaveBeenCalledTimes(1);
+    consoleSpy.mockRestore();
   });
 
   it('should handle all tag value types: null, boolean, number, and arrays', async () => {
