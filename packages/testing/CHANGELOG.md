@@ -1,5 +1,12 @@
 # @ai-billing/testing
 
+## 0.0.2
+
+### Patch Changes
+
+- 83f7a7a: fix repository.directory metadata in package.json
+- 2d03aa2: add gateway cache tokens and update billing types; refactor: add zod test validation
+
 ## 0.0.1
 
 ### Patch Changes
