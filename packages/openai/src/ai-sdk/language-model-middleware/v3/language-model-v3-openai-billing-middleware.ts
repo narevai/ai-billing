@@ -8,6 +8,7 @@ import type {
   DefaultTags,
   PriceResolverContext,
   ModelPricing,
+  BillingEvent,
 } from '@ai-billing/core';
 import { JSONObject, SharedV3ProviderMetadata } from '@ai-sdk/provider';
 
@@ -72,7 +73,6 @@ export function createOpenAIV3Middleware<TTags extends DefaultTags>(
         generationId: responseId ?? crypto.randomUUID(),
         modelId: model.modelId,
         provider: 'openai',
-        timestamp: Date.now(),
         tags: tags,
         usage: {
           inputTokens: inputTokensTotal,
@@ -84,7 +84,7 @@ export function createOpenAIV3Middleware<TTags extends DefaultTags>(
         ...(calculatedCost !== undefined && {
           cost: calculatedCost,
         }),
-      };
+      } satisfies BillingEvent<TTags>;
     },
   });
 }

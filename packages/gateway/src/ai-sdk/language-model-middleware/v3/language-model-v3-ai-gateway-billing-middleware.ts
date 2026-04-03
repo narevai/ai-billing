@@ -3,6 +3,7 @@ import {
   type BaseBillingMiddlewareOptions,
   AiBillingExtractorError,
   DefaultTags,
+  BillingEvent,
 } from '@ai-billing/core';
 import type { SharedV3ProviderMetadata } from '@ai-sdk/provider';
 
@@ -86,13 +87,13 @@ export function createGatewayV3Middleware<TTags extends DefaultTags>(
           crypto.randomUUID(),
         modelId: model.modelId,
         provider: model.provider || 'gateway',
-        timestamp: Date.now(),
         tags: tags,
         usage: {
           subProviderId: gatewayMetadata?.gateway?.routing?.finalProvider,
           inputTokens: usage?.inputTokens.total ?? 0,
           outputTokens: usage?.outputTokens.total ?? 0,
           cacheReadTokens: usage?.inputTokens.cacheRead ?? 0,
+          cacheWriteTokens: usage?.inputTokens.cacheWrite ?? 0,
           reasoningTokens: usage?.outputTokens.reasoning ?? 0,
           totalTokens:
             (usage?.outputTokens.total ?? 0) + (usage?.inputTokens.total ?? 0),
@@ -104,7 +105,7 @@ export function createGatewayV3Middleware<TTags extends DefaultTags>(
           unit: 'base',
           currency: 'USD',
         },
-      };
+      } satisfies BillingEvent<TTags>;
     },
   });
 }

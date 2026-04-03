@@ -5,16 +5,20 @@ import {
   OpenRouterProviderMetadata,
 } from './language-model-v3-openrouter-billing-middleware.js';
 import {
+  BillingEventSchema,
   MockLanguageModelV3,
   convertArrayToReadableStream,
 } from '@ai-billing/testing';
-import { AiBillingExtractorError } from '@ai-billing/core';
+import { AiBillingExtractorError, BillingEvent } from '@ai-billing/core';
 import {
   LanguageModelV3GenerateResult,
   SharedV3ProviderMetadata,
 } from '@ai-sdk/provider';
+import { z } from 'zod';
 
 describe('OpenRouterBillingMiddlewareV3 Integration', () => {
+  const StrictBillingEventSchema: z.ZodType<BillingEvent> = BillingEventSchema;
+
   const realMetadata: OpenRouterProviderMetadata = {
     openrouter: {
       provider: 'Google AI Studio',
@@ -69,34 +73,41 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
       const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
 
       await generateText({ model: wrappedModel, prompt: 'Capital of Sweden?' });
+      expect(destinationSpy).toHaveBeenCalledTimes(1);
 
-      expect(destinationSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          generationId: baseResult.response?.id,
-          modelId: mockModel.modelId,
-          provider: mockModel.provider,
-          usage: {
-            subProviderId: realMetadata.openrouter?.provider,
-            inputTokens: realMetadata.openrouter?.usage?.promptTokens,
-            outputTokens: realMetadata.openrouter?.usage?.completionTokens,
-            cacheReadTokens:
-              realMetadata.openrouter?.usage?.promptTokensDetails?.cachedTokens,
-            reasoningTokens:
-              realMetadata.openrouter?.usage?.completionTokensDetails
-                ?.reasoningTokens,
-            totalTokens: realMetadata.openrouter?.usage?.totalTokens,
-            rawProviderCost: realMetadata.openrouter?.usage?.cost,
-            rawUpstreamInferenceCost:
-              realMetadata.openrouter?.usage?.costDetails
-                ?.upstreamInferenceCost,
-          },
-          cost: {
-            amount: realMetadata.openrouter?.usage?.cost,
-            unit: 'base',
-            currency: 'USD',
-          },
-        }),
-      );
+      const emittedPayload = destinationSpy.mock.calls[0]![0];
+      let parsedEmittedEvent: BillingEvent;
+      expect(() => {
+        parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+      }).not.toThrow();
+
+      const expectedEvent = StrictBillingEventSchema.parse({
+        generationId: baseResult.response?.id,
+        modelId: mockModel.modelId,
+        provider: mockModel.provider || 'openrouter',
+        usage: {
+          subProviderId: realMetadata.openrouter?.provider,
+          inputTokens: realMetadata.openrouter?.usage?.promptTokens,
+          outputTokens: realMetadata.openrouter?.usage?.completionTokens,
+          cacheReadTokens:
+            realMetadata.openrouter?.usage?.promptTokensDetails?.cachedTokens,
+          reasoningTokens:
+            realMetadata.openrouter?.usage?.completionTokensDetails
+              ?.reasoningTokens,
+          totalTokens: realMetadata.openrouter?.usage?.totalTokens,
+          rawProviderCost: realMetadata.openrouter?.usage?.cost,
+          rawUpstreamInferenceCost:
+            realMetadata.openrouter?.usage?.costDetails?.upstreamInferenceCost,
+        },
+        cost: {
+          amount: realMetadata.openrouter?.usage?.cost,
+          unit: 'base',
+          currency: 'USD',
+        },
+        tags: {},
+      });
+
+      expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
     });
   });
 
@@ -135,34 +146,44 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
 
       await vi.waitFor(
         () => {
-          expect(destinationSpy).toHaveBeenCalledWith(
-            expect.objectContaining({
-              usage: {
-                subProviderId: realMetadata.openrouter?.provider,
-                inputTokens: realMetadata.openrouter?.usage?.promptTokens,
-                outputTokens: realMetadata.openrouter?.usage?.completionTokens,
-                cacheReadTokens:
-                  realMetadata.openrouter?.usage?.promptTokensDetails
-                    ?.cachedTokens,
-                reasoningTokens:
-                  realMetadata.openrouter?.usage?.completionTokensDetails
-                    ?.reasoningTokens,
-                totalTokens: realMetadata.openrouter?.usage?.totalTokens,
-                rawProviderCost: realMetadata.openrouter?.usage?.cost,
-                rawUpstreamInferenceCost:
-                  realMetadata.openrouter?.usage?.costDetails
-                    ?.upstreamInferenceCost,
-              },
-              cost: {
-                amount: realMetadata.openrouter?.usage?.cost,
-                unit: 'base',
-                currency: 'USD',
-              },
-            }),
-          );
+          expect(destinationSpy).toHaveBeenCalledTimes(1);
         },
         { timeout: 500 },
       );
+
+      const emittedPayload = destinationSpy.mock.calls[0]![0];
+      let parsedEmittedEvent: BillingEvent;
+      expect(() => {
+        parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+      }).not.toThrow();
+
+      const expectedEvent = StrictBillingEventSchema.parse({
+        generationId: baseResult.response?.id,
+        modelId: mockModel.modelId,
+        provider: mockModel.provider || 'openrouter',
+        usage: {
+          subProviderId: realMetadata.openrouter?.provider,
+          inputTokens: realMetadata.openrouter?.usage?.promptTokens,
+          outputTokens: realMetadata.openrouter?.usage?.completionTokens,
+          cacheReadTokens:
+            realMetadata.openrouter?.usage?.promptTokensDetails?.cachedTokens,
+          reasoningTokens:
+            realMetadata.openrouter?.usage?.completionTokensDetails
+              ?.reasoningTokens,
+          totalTokens: realMetadata.openrouter?.usage?.totalTokens,
+          rawProviderCost: realMetadata.openrouter?.usage?.cost,
+          rawUpstreamInferenceCost:
+            realMetadata.openrouter?.usage?.costDetails?.upstreamInferenceCost,
+        },
+        cost: {
+          amount: realMetadata.openrouter?.usage?.cost,
+          unit: 'base',
+          currency: 'USD',
+        },
+        tags: {},
+      });
+
+      expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
     });
   });
 
@@ -193,7 +214,7 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
 
     expect(onErrorSpy).toHaveBeenCalledTimes(1);
 
-    const error = onErrorSpy.mock.calls?.[0]?.[0];
+    const error = onErrorSpy.mock.calls[0]![0];
     expect(error).toBeInstanceOf(AiBillingExtractorError);
     expect(error.message).toContain(
       "Expected 'usage.cost' to be a valid number",
@@ -240,15 +261,36 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
     const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
     await generateText({ model: wrappedModel, prompt: 'Hi' });
 
-    await vi.waitFor(() => expect(destinationSpy).toHaveBeenCalled());
+    await vi.waitFor(() => expect(destinationSpy).toHaveBeenCalledTimes(1));
+    const emittedPayload = destinationSpy.mock.calls[0]![0];
+    let parsedEmittedEvent: BillingEvent;
 
-    const event = destinationSpy.mock.calls?.[0]?.[0];
-    expect(event.provider).toBe('openrouter');
-    expect(event.usage.inputTokens).toBe(0);
-    expect(event.usage.cacheReadTokens).toBe(0);
-    expect(event.usage.outputTokens).toBe(0);
-    expect(event.usage.reasoningTokens).toBe(0);
-    expect(event.usage.totalTokens).toBe(0);
-    expect(event.generationId).toHaveLength(36); // UUID fallback
+    expect(() => {
+      parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+    }).not.toThrow();
+
+    const expectedEvent = StrictBillingEventSchema.parse({
+      generationId: parsedEmittedEvent!.generationId, // Inject fallback UUID
+      modelId: mockModel.modelId,
+      provider: 'openrouter', // Fallback provider
+      usage: {
+        subProviderId: 'Google AI Studio',
+        inputTokens: 0,
+        cacheReadTokens: 0,
+        outputTokens: 0,
+        reasoningTokens: 0,
+        totalTokens: 0,
+        rawProviderCost: 0.000004653,
+        rawUpstreamInferenceCost: 0.0000047,
+      },
+      cost: {
+        amount: 0.000004653,
+        unit: 'base',
+        currency: 'USD',
+      },
+      tags: {},
+    });
+    expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
+    expect(parsedEmittedEvent!.generationId).toHaveLength(36);
   });
 });

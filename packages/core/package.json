@@ -47,7 +47,8 @@
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
-    "@edge-runtime/vm": "catalog:"
+    "@edge-runtime/vm": "catalog:",
+    "zod": "catalog:"
   },
   "peerDependencies": {
     "@ai-sdk/provider": "catalog:"

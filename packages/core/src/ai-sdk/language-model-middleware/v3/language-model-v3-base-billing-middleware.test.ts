@@ -11,9 +11,13 @@ import {
   consumeStream,
   MockLanguageModelV3,
   convertReadableStreamToArray,
+  BillingEventSchema,
 } from '@ai-billing/testing';
+import type { z } from 'zod';
+import { BillingEvent } from '@/types/event.js';
 
 describe('createV3BillingMiddleware', () => {
+  const StrictBillingEventSchema: z.ZodType<BillingEvent> = BillingEventSchema;
   const testParams: LanguageModelV3CallOptions = {
     prompt: [],
   };
@@ -37,10 +41,41 @@ describe('createV3BillingMiddleware', () => {
     warnings: [],
   });
 
+  const createMockEvent = (
+    overrides: Partial<BillingEvent> = {},
+  ): BillingEvent => {
+    const baseEvent = {
+      generationId: 'gen-123',
+      modelId: 'test-model',
+      provider: 'test-provider',
+      usage: {
+        subProviderId: 'final-provider',
+        inputTokens: 10,
+        outputTokens: 20,
+        cacheReadTokens: 5,
+        reasoningTokens: 2,
+        totalTokens: 37,
+        rawProviderCost: 0.00000001,
+        rawUpstreamInferenceCost: 0.00000001,
+      },
+      tags: { env: 'test' },
+      cost: {
+        amount: 0.00000001,
+        unit: 'base',
+        currency: 'USD',
+      },
+    };
+
+    return StrictBillingEventSchema.parse({
+      ...baseEvent,
+      ...overrides,
+    });
+  };
+
   describe('wrapGenerate', () => {
     it('should broadcast the event to destinations', async () => {
       const destinationSpy = vi.fn();
-      const mockEvent = { amount: 0, generationId: 'billing-id-123' };
+      const mockEvent = createMockEvent();
       const buildEventSpy = vi.fn().mockResolvedValue(mockEvent);
 
       const middleware = createV3BillingMiddleware({
@@ -75,7 +110,7 @@ describe('createV3BillingMiddleware', () => {
     });
 
     it('should attach the billing event to providerMetadata', async () => {
-      const mockEvent = { generationId: 'gen-event-1', amount: 0.005 };
+      const mockEvent = createMockEvent();
       const middleware = createV3BillingMiddleware({
         buildEvent: vi.fn().mockResolvedValue(mockEvent),
         destinations: [],
@@ -292,7 +327,7 @@ describe('createV3BillingMiddleware', () => {
     });
 
     it('should attach the billing event to the finish chunk providerMetadata', async () => {
-      const mockEvent = { generationId: 'stream-event-1', amount: 0.001 };
+      const mockEvent = createMockEvent();
       const middleware = createV3BillingMiddleware({
         buildEvent: vi.fn().mockResolvedValue(mockEvent),
         destinations: [],
@@ -512,7 +547,7 @@ describe('createV3BillingMiddleware', () => {
     });
 
     it('should not crash or attempt to dispatch when destinations is undefined', async () => {
-      const mockEvent = { generationId: 'stream-no-dest', amount: 0.002 };
+      const mockEvent = createMockEvent;
       const buildEventSpy = vi.fn().mockResolvedValue(mockEvent);
 
       const middleware = createV3BillingMiddleware({

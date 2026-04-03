@@ -5,16 +5,19 @@ import {
   GatewayProviderMetadata,
 } from './language-model-v3-ai-gateway-billing-middleware.js';
 import {
+  BillingEventSchema,
   MockLanguageModelV3,
   convertArrayToReadableStream,
 } from '@ai-billing/testing';
-import { AiBillingExtractorError } from '@ai-billing/core';
+import { AiBillingExtractorError, BillingEvent } from '@ai-billing/core';
 import {
   LanguageModelV3GenerateResult,
   SharedV3ProviderMetadata,
 } from '@ai-sdk/provider';
+import { z } from 'zod';
 
 describe('GatewayBillingMiddlewareV3 Integration', () => {
+  const StrictBillingEventSchema: z.ZodType<BillingEvent> = BillingEventSchema;
   const realMetadata: GatewayProviderMetadata = {
     gateway: {
       generationId: 'gen_01KN3XTWSNX1KQQJC782ADWPCJ',
@@ -98,31 +101,40 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
 
       await generateText({ model: wrappedModel, prompt: 'Capital of Sweden?' });
 
-      expect(destinationSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          generationId: baseResult.response?.id,
-          modelId: mockModel.modelId,
-          provider: mockModel.provider || 'openrouter',
-          usage: {
-            subProviderId: realMetadata.gateway?.routing?.finalProvider,
-            inputTokens: baseResult.usage?.inputTokens.total,
-            outputTokens: baseResult.usage?.outputTokens.total,
-            cacheReadTokens: baseResult.usage?.inputTokens.cacheRead ?? 0,
-            reasoningTokens: baseResult.usage?.outputTokens.reasoning ?? 0,
-            totalTokens:
-              (baseResult.usage?.inputTokens.total ?? 0) +
-              (baseResult.usage?.outputTokens.total ?? 0),
-            rawProviderCost: Number(realMetadata.gateway?.cost),
-            rawUpstreamInferenceCost: Number(realMetadata.gateway?.marketCost),
-          },
-          cost: {
-            // Because our mock cost is "0", the middleware resolves to marketCost
-            amount: Number(realMetadata.gateway?.marketCost),
-            unit: 'base',
-            currency: 'USD',
-          },
-        }),
-      );
+      expect(destinationSpy).toHaveBeenCalledTimes(1);
+      const emittedPayload = destinationSpy.mock.calls[0]![0];
+
+      let parsedEmittedEvent: BillingEvent;
+
+      expect(() => {
+        parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+      }).not.toThrow();
+
+      const expectedEvent = StrictBillingEventSchema.parse({
+        generationId: baseResult.response?.id,
+        modelId: mockModel.modelId,
+        provider: mockModel.provider || 'gateway',
+        usage: {
+          subProviderId: realMetadata.gateway?.routing?.finalProvider,
+          inputTokens: baseResult.usage?.inputTokens.total,
+          outputTokens: baseResult.usage?.outputTokens.total,
+          cacheReadTokens: baseResult.usage?.inputTokens.cacheRead,
+          cacheWriteTokens: baseResult.usage?.inputTokens.cacheWrite,
+          reasoningTokens: baseResult.usage?.outputTokens.reasoning,
+          totalTokens:
+            baseResult.usage?.inputTokens.total! +
+            baseResult.usage?.outputTokens.total!,
+          rawProviderCost: Number(realMetadata.gateway?.cost),
+          rawUpstreamInferenceCost: Number(realMetadata.gateway?.marketCost),
+        },
+        cost: {
+          amount: Number(realMetadata.gateway?.marketCost),
+          unit: 'base',
+          currency: 'USD',
+        },
+        tags: {},
+      });
+      expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
     });
   });
 
@@ -161,37 +173,42 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
 
       await vi.waitFor(
         () => {
-          expect(destinationSpy).toHaveBeenCalledWith(
-            expect.objectContaining({
-              // Optionally assert on these top-level properties too for completeness
-              generationId: baseResult.response?.id,
-              modelId: mockModel.modelId,
-              provider: mockModel.provider,
-              usage: {
-                subProviderId: realMetadata.gateway?.routing?.finalProvider,
-                inputTokens: baseResult.usage?.inputTokens.total,
-                outputTokens: baseResult.usage?.outputTokens.total,
-                cacheReadTokens: baseResult.usage?.inputTokens.cacheRead ?? 0,
-                reasoningTokens: baseResult.usage?.outputTokens.reasoning ?? 0,
-                totalTokens:
-                  (baseResult.usage?.inputTokens.total ?? 0) +
-                  (baseResult.usage?.outputTokens.total ?? 0),
-                rawProviderCost: Number(realMetadata.gateway?.cost),
-                rawUpstreamInferenceCost: Number(
-                  realMetadata.gateway?.marketCost,
-                ),
-              },
-              cost: {
-                // Assuming 'cost' is "0" in the mock, it falls back to 'marketCost'
-                amount: Number(realMetadata.gateway?.marketCost),
-                unit: 'base',
-                currency: 'USD',
-              },
-            }),
-          );
+          expect(destinationSpy).toHaveBeenCalledTimes(1);
         },
         { timeout: 500 },
       );
+
+      const emittedPayload = destinationSpy.mock.calls[0]![0];
+      let parsedEmittedEvent: BillingEvent;
+      expect(() => {
+        parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+      }).not.toThrow();
+
+      const expectedEvent = StrictBillingEventSchema.parse({
+        generationId: baseResult.response?.id,
+        modelId: mockModel.modelId,
+        provider: mockModel.provider,
+        usage: {
+          subProviderId: realMetadata.gateway?.routing?.finalProvider,
+          inputTokens: baseResult.usage?.inputTokens.total,
+          outputTokens: baseResult.usage?.outputTokens.total,
+          cacheReadTokens: baseResult.usage?.inputTokens.cacheRead,
+          cacheWriteTokens: baseResult.usage?.inputTokens.cacheWrite,
+          reasoningTokens: baseResult.usage?.outputTokens.reasoning,
+          totalTokens:
+            baseResult.usage?.inputTokens.total! +
+            baseResult.usage?.outputTokens.total!,
+          rawProviderCost: Number(realMetadata.gateway?.cost),
+          rawUpstreamInferenceCost: Number(realMetadata.gateway?.marketCost),
+        },
+        cost: {
+          amount: Number(realMetadata.gateway?.marketCost),
+          unit: 'base',
+          currency: 'USD',
+        },
+        tags: {},
+      });
+      expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
     });
   });
 
@@ -222,7 +239,7 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
 
     expect(onErrorSpy).toHaveBeenCalledTimes(1);
 
-    const error = onErrorSpy.mock.calls?.[0]?.[0];
+    const error = onErrorSpy.mock.calls[0]![0];
     expect(error).toBeInstanceOf(AiBillingExtractorError);
     expect(error.message).toContain('Expected');
   });
@@ -240,7 +257,7 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
           total: undefined,
           noCache: 0,
           cacheRead: undefined,
-          cacheWrite: 0,
+          cacheWrite: undefined,
         },
         outputTokens: {
           total: undefined,
@@ -264,21 +281,35 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
     const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
     await generateText({ model: wrappedModel, prompt: 'Hi' });
 
-    await vi.waitFor(() => expect(destinationSpy).toHaveBeenCalled());
+    await vi.waitFor(() => expect(destinationSpy).toHaveBeenCalledTimes(1));
+    const emittedPayload = destinationSpy.mock.calls[0]![0];
+    let parsedEmittedEvent: BillingEvent;
+    expect(() => {
+      parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+    }).not.toThrow();
 
-    const event = destinationSpy.mock.calls?.[0]?.[0];
+    const expectedEvent = StrictBillingEventSchema.parse({
+      generationId: parsedEmittedEvent!.generationId, // Inject fallback UUID
+      modelId: mockModel.modelId,
+      provider: 'gateway', // Fallback provider
+      usage: {
+        inputTokens: 0,
+        cacheReadTokens: 0,
+        cacheWriteTokens: 0,
+        outputTokens: 0,
+        reasoningTokens: 0,
+        totalTokens: 0,
+        rawProviderCost: 0.000004653,
+      },
+      cost: {
+        amount: 0.000004653,
+        unit: 'base',
+        currency: 'USD',
+      },
+      tags: {},
+    });
 
-    // Validate that the empty model.provider fell back correctly
-    expect(event.provider).toBe('gateway');
-
-    // Validate that missing usage data safely defaulted to 0
-    expect(event.usage.inputTokens).toBe(0);
-    expect(event.usage.cacheReadTokens).toBe(0);
-    expect(event.usage.outputTokens).toBe(0);
-    expect(event.usage.reasoningTokens).toBe(0);
-    expect(event.usage.totalTokens).toBe(0);
-
-    // Validate that a missing response ID generated a UUID
-    expect(event.generationId).toHaveLength(36);
+    expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
+    expect(parsedEmittedEvent!.generationId).toHaveLength(36);
   });
 });

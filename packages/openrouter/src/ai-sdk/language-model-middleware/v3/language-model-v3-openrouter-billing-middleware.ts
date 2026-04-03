@@ -3,6 +3,7 @@ import {
   type BaseBillingMiddlewareOptions,
   AiBillingExtractorError,
   DefaultTags,
+  type BillingEvent,
 } from '@ai-billing/core';
 import type { SharedV3ProviderMetadata } from '@ai-sdk/provider';
 import type { OpenRouterUsageAccounting } from '@openrouter/ai-sdk-provider';
@@ -52,7 +53,6 @@ export function createOpenRouterV3Middleware<TTags extends DefaultTags>(
         generationId: responseId ?? crypto.randomUUID(),
         modelId: model.modelId,
         provider: model.provider || 'openrouter',
-        timestamp: Date.now(),
         tags: tags,
         usage: {
           subProviderId: openrouterMetadata?.openrouter?.provider,
@@ -72,7 +72,7 @@ export function createOpenRouterV3Middleware<TTags extends DefaultTags>(
           unit: 'base',
           currency: 'USD',
         },
-      };
+      } satisfies BillingEvent<TTags>;
     },
   });
 }

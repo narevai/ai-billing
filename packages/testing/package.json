@@ -28,7 +28,8 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@ai-sdk/provider": "catalog:"
+    "@ai-sdk/provider": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@ai-billing/typescript-config": "workspace:*",

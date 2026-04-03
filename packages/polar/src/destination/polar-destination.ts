@@ -11,23 +11,21 @@ function mapEventToPolarMetadata<TTags extends DefaultTags = DefaultTags>(
     provider: event.provider,
   };
 
-  if (event.usage) {
-    const usageFields: Record<string, keyof typeof event.usage> = {
-      usage_input_tokens: 'inputTokens',
-      usage_output_tokens: 'outputTokens',
-      usage_total_tokens: 'totalTokens',
-      usage_reasoning_tokens: 'reasoningTokens',
-      usage_cache_read_tokens: 'cacheReadTokens',
-      usage_cache_write_tokens: 'cacheWriteTokens',
-      usage_request_count: 'requestCount',
-      usage_raw_provider_cost: 'rawProviderCost',
-    };
+  const usageFields: Record<string, keyof typeof event.usage> = {
+    usage_input_tokens: 'inputTokens',
+    usage_output_tokens: 'outputTokens',
+    usage_total_tokens: 'totalTokens',
+    usage_reasoning_tokens: 'reasoningTokens',
+    usage_cache_read_tokens: 'cacheReadTokens',
+    usage_cache_write_tokens: 'cacheWriteTokens',
+    usage_request_count: 'requestCount',
+    usage_raw_provider_cost: 'rawProviderCost',
+  };
 
-    for (const [polarKey, internalKey] of Object.entries(usageFields)) {
-      const value = event.usage[internalKey];
-      if (value !== undefined) {
-        metadata[polarKey] = value;
-      }
+  for (const [polarKey, internalKey] of Object.entries(usageFields)) {
+    const value = event.usage?.[internalKey];
+    if (value !== undefined) {
+      metadata[polarKey] = value;
     }
   }
 
