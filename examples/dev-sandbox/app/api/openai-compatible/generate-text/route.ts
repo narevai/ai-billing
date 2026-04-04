@@ -11,7 +11,6 @@ import {
   createObjectPriceResolver,
   ModelPricing,
 } from '@ai-billing/core';
-import type { LanguageModelV3 } from '@ai-sdk/provider';
 
 const xai = createOpenAICompatible({
   name: 'xai', // must match the providerId used in the middleware
