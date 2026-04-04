@@ -3,7 +3,9 @@
 [![codecov](https://codecov.io/github/narevai/ai-billing/graph/badge.svg?token=KZG0YE4THI)](https://codecov.io/github/narevai/ai-billing)
 ![Node Current](https://img.shields.io/node/v/%40ai-billing%2Fcore)
 ![NPM License](https://img.shields.io/npm/l/%40ai-billing%2Fcore)
-![Discord](https://img.shields.io/discord/1475412276315033663)
+<a href="https://discord.gg/eAFaCwmEEy">
+    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
+</a>
 
 ![AI Billing Header 1](/assets/header-1.png)
 
