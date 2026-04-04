@@ -80,11 +80,10 @@ const { textStream } = await streamText({
 | [**OpenRouter**](https://ai-sdk.dev/providers/community-providers/openrouter) | [`@ai-billing/openrouter`](https://www.npmjs.com/package/@ai-billing/openrouter) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenrouter) |
 | [**OpenAI**](https://ai-sdk.dev/providers/ai-sdk-providers/openai) | [`@ai-billing/openai`](https://www.npmjs.com/package/@ai-billing/openai) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenai) |
 | [**Vercel AI Gateway**](https://ai-sdk.dev/providers/ai-sdk-providers/ai-gateway) | [`@ai-billing/gateway`](https://www.npmjs.com/package/@ai-billing/gateway) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fgateway) |
+| [**OpenAI Compatible**](https://ai-sdk.dev/providers/openai-compatible-providers) | [`@ai-billing/openai-compatible`](https://www.npmjs.com/package/@ai-billing/openai-compatible) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fgateway?label=openai-compatible) |
 
 
 **Active Development**
-
-* [OpenAI Compatible Providers](https://ai-sdk.dev/providers/openai-compatible-providers#openai-compatible-providers) ([#45](https://github.com/narevai/ai-billing/issues/45))
 * [Anthropic](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic) ([#46](https://github.com/narevai/ai-billing/issues/46))
 * [Google Generative AI](https://ai-sdk.dev/providers/ai-sdk-providers/google-generative-ai) ([#47](https://github.com/narevai/ai-billing/issues/47))
 * [Requesty](https://ai-sdk.dev/providers/community-providers/requesty)
