@@ -10,6 +10,7 @@ export interface Usage {
   readonly cacheWriteTokens?: number;
   readonly requestCount?: number;
   readonly rawProviderCost?: number;
+  readonly rawUpstreamInferenceCost?: number;
 }
 
 export interface BillingEvent<TTags extends DefaultTags = DefaultTags> {

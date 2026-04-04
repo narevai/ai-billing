@@ -1,5 +1,13 @@
 # @ai-billing/core
 
+## 0.0.3
+
+### Patch Changes
+
+- 2d03aa2: add gateway cache tokens and update billing types; refactor: add zod test validation
+- 0a5b091: Add narevPriceResolver for up to date prices
+- ab239d8: make destinations optional
+
 ## 0.0.2
 
 ### Patch Changes

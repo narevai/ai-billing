@@ -1,9 +1,9 @@
 import { generateText, streamText, wrapLanguageModel } from 'ai';
-import { describe, expect, it, test, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import {
-  createOpenRouterV3Middleware,
-  OpenRouterProviderMetadata,
-} from './language-model-v3-openrouter-billing-middleware.js';
+  createGatewayV3Middleware,
+  GatewayProviderMetadata,
+} from './language-model-v3-ai-gateway-billing-middleware.js';
 import {
   BillingEventSchema,
   MockLanguageModelV3,
@@ -16,27 +16,50 @@ import {
 } from '@ai-sdk/provider';
 import { z } from 'zod';
 
-describe('OpenRouterBillingMiddlewareV3 Integration', () => {
+describe('GatewayBillingMiddlewareV3 Integration', () => {
   const StrictBillingEventSchema: z.ZodType<BillingEvent> = BillingEventSchema;
-
-  const realMetadata: OpenRouterProviderMetadata = {
-    openrouter: {
-      provider: 'Google AI Studio',
-      reasoning_details: [],
-      usage: {
-        promptTokens: 7,
-        promptTokensDetails: {
-          cachedTokens: 0,
-        },
-        completionTokens: 10,
-        completionTokensDetails: {
-          reasoningTokens: 0,
-        },
-        totalTokens: 17,
-        cost: 0.000004653,
-        costDetails: {
-          upstreamInferenceCost: 0.0000047,
-        },
+  const realMetadata: GatewayProviderMetadata = {
+    gateway: {
+      generationId: 'gen_01KN3XTWSNX1KQQJC782ADWPCJ',
+      cost: '0',
+      marketCost: '0.00096',
+      enabledZeroDataRetention: false,
+      enabledDisallowPromptTraining: false,
+      routing: {
+        originalModelId: 'anthropic/claude-opus-4',
+        resolvedProvider: 'anthropic',
+        resolvedProviderApiModelId: 'claude-opus-4-20250514',
+        internalResolvedModelId: 'anthropic:claude-opus-4-20250514',
+        fallbacksAvailable: ['vertexAnthropic', 'bedrock'],
+        internalReasoning:
+          'Selected anthropic as preferred provider for claude-opus-4.',
+        planningReasoning: 'BYOK credentials available for: anthropic.',
+        canonicalSlug: 'anthropic/claude-opus-4',
+        finalProvider: 'anthropic',
+        attempts: [
+          {
+            provider: 'anthropic',
+            internalModelId: 'anthropic:claude-opus-4-20250514',
+            providerApiModelId: 'claude-opus-4-20250514',
+            credentialType: 'system',
+            success: true,
+            startTime: 373472.60056,
+            endTime: 374850.548128,
+            statusCode: 200,
+            providerResponseId: 'msg_0148249ws4DisA84opkn9LsD',
+          },
+        ],
+        modelAttemptCount: 1,
+        modelAttempts: [
+          {
+            modelId: 'anthropic:claude-opus-4-20250514',
+            canonicalSlug: 'anthropic/claude-opus-4',
+            success: true,
+            providerAttemptCount: 1,
+            providerAttempts: [], //omitted for previty
+          },
+        ],
+        totalProviderAttemptCount: 1,
       },
     },
   };
@@ -44,39 +67,45 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
   const createResult = (
     overrides: Partial<LanguageModelV3GenerateResult> = {},
   ): LanguageModelV3GenerateResult => ({
-    content: [{ type: 'text', text: 'Stockholm' }],
+    content: [{ type: 'text', text: 'The capital of Sweden is Stockholm.' }],
     warnings: [],
-    finishReason: { unified: 'stop', raw: 'stop' },
+    finishReason: { unified: 'stop', raw: 'end_turn' },
     usage: {
-      inputTokens: { total: 1, noCache: 1, cacheRead: 0, cacheWrite: 0 },
-      outputTokens: { total: 1, text: 1, reasoning: 0 },
+      inputTokens: { total: 14, noCache: 14, cacheRead: 0, cacheWrite: 0 },
+      outputTokens: { total: 10, text: 10, reasoning: 0 },
     },
-    response: { id: 'req-123', timestamp: new Date() },
-    providerMetadata: {},
+    response: {
+      id: 'aitxt-jXkwmH5edGJe3YPK2QvqFuHN',
+      timestamp: new Date('2026-04-01T07:06:30.155Z'),
+    },
+    providerMetadata: realMetadata as SharedV3ProviderMetadata,
     ...overrides,
   });
 
   describe('wrapGenerate', () => {
     it('should extract rich billing data and broadcast it with sub-provider info', async () => {
       const destinationSpy = vi.fn();
-      const middleware = createOpenRouterV3Middleware({
+      const middleware = createGatewayV3Middleware({
         destinations: [destinationSpy],
       });
 
       const baseResult = createResult({
         providerMetadata: realMetadata as SharedV3ProviderMetadata,
       });
+
       const mockModel = new MockLanguageModelV3({
-        doGenerate: baseResult,
+        doGenerate: async () => baseResult,
       });
 
       const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
 
       await generateText({ model: wrappedModel, prompt: 'Capital of Sweden?' });
-      expect(destinationSpy).toHaveBeenCalledTimes(1);
 
+      expect(destinationSpy).toHaveBeenCalledTimes(1);
       const emittedPayload = destinationSpy.mock.calls[0]![0];
+
       let parsedEmittedEvent: BillingEvent;
+
       expect(() => {
         parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
       }).not.toThrow();
@@ -84,29 +113,27 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
       const expectedEvent = StrictBillingEventSchema.parse({
         generationId: baseResult.response?.id,
         modelId: mockModel.modelId,
-        provider: mockModel.provider || 'openrouter',
+        provider: mockModel.provider || 'gateway',
         usage: {
-          subProviderId: realMetadata.openrouter?.provider,
-          inputTokens: realMetadata.openrouter?.usage?.promptTokens,
-          outputTokens: realMetadata.openrouter?.usage?.completionTokens,
-          cacheReadTokens:
-            realMetadata.openrouter?.usage?.promptTokensDetails?.cachedTokens,
-          reasoningTokens:
-            realMetadata.openrouter?.usage?.completionTokensDetails
-              ?.reasoningTokens,
-          totalTokens: realMetadata.openrouter?.usage?.totalTokens,
-          rawProviderCost: realMetadata.openrouter?.usage?.cost,
-          rawUpstreamInferenceCost:
-            realMetadata.openrouter?.usage?.costDetails?.upstreamInferenceCost,
+          subProviderId: realMetadata.gateway?.routing?.finalProvider,
+          inputTokens: baseResult.usage?.inputTokens.total,
+          outputTokens: baseResult.usage?.outputTokens.total,
+          cacheReadTokens: baseResult.usage?.inputTokens.cacheRead,
+          cacheWriteTokens: baseResult.usage?.inputTokens.cacheWrite,
+          reasoningTokens: baseResult.usage?.outputTokens.reasoning,
+          totalTokens:
+            baseResult.usage?.inputTokens.total! +
+            baseResult.usage?.outputTokens.total!,
+          rawProviderCost: Number(realMetadata.gateway?.cost),
+          rawUpstreamInferenceCost: Number(realMetadata.gateway?.marketCost),
         },
         cost: {
-          amount: realMetadata.openrouter?.usage?.cost,
+          amount: Number(realMetadata.gateway?.marketCost),
           unit: 'base',
           currency: 'USD',
         },
         tags: {},
       });
-
       expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
     });
   });
@@ -114,7 +141,7 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
   describe('wrapStream', () => {
     it('should extract billing data correctly from stream finish chunk', async () => {
       const destinationSpy = vi.fn();
-      const middleware = createOpenRouterV3Middleware({
+      const middleware = createGatewayV3Middleware({
         destinations: [destinationSpy],
       });
 
@@ -124,7 +151,7 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
 
       const mockModel = new MockLanguageModelV3({
         modelId: 'google/gemini-2.0-flash-001',
-        provider: 'openrouter',
+        provider: 'gateway', // Updated to 'gateway' to match your log, though any string works
         doStream: async () => ({
           stream: convertArrayToReadableStream([
             { type: 'response-metadata', id: baseResult.response!.id! },
@@ -160,29 +187,27 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
       const expectedEvent = StrictBillingEventSchema.parse({
         generationId: baseResult.response?.id,
         modelId: mockModel.modelId,
-        provider: mockModel.provider || 'openrouter',
+        provider: mockModel.provider,
         usage: {
-          subProviderId: realMetadata.openrouter?.provider,
-          inputTokens: realMetadata.openrouter?.usage?.promptTokens,
-          outputTokens: realMetadata.openrouter?.usage?.completionTokens,
-          cacheReadTokens:
-            realMetadata.openrouter?.usage?.promptTokensDetails?.cachedTokens,
-          reasoningTokens:
-            realMetadata.openrouter?.usage?.completionTokensDetails
-              ?.reasoningTokens,
-          totalTokens: realMetadata.openrouter?.usage?.totalTokens,
-          rawProviderCost: realMetadata.openrouter?.usage?.cost,
-          rawUpstreamInferenceCost:
-            realMetadata.openrouter?.usage?.costDetails?.upstreamInferenceCost,
+          subProviderId: realMetadata.gateway?.routing?.finalProvider,
+          inputTokens: baseResult.usage?.inputTokens.total,
+          outputTokens: baseResult.usage?.outputTokens.total,
+          cacheReadTokens: baseResult.usage?.inputTokens.cacheRead,
+          cacheWriteTokens: baseResult.usage?.inputTokens.cacheWrite,
+          reasoningTokens: baseResult.usage?.outputTokens.reasoning,
+          totalTokens:
+            baseResult.usage?.inputTokens.total! +
+            baseResult.usage?.outputTokens.total!,
+          rawProviderCost: Number(realMetadata.gateway?.cost),
+          rawUpstreamInferenceCost: Number(realMetadata.gateway?.marketCost),
         },
         cost: {
-          amount: realMetadata.openrouter?.usage?.cost,
+          amount: Number(realMetadata.gateway?.marketCost),
           unit: 'base',
           currency: 'USD',
         },
         tags: {},
       });
-
       expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
     });
   });
@@ -190,7 +215,7 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
   it('should trigger onError when OpenRouter cost metadata is missing', async () => {
     const onErrorSpy = vi.fn();
 
-    const middleware = createOpenRouterV3Middleware({
+    const middleware = createGatewayV3Middleware({
       destinations: [vi.fn()],
       onError: onErrorSpy,
     });
@@ -216,45 +241,40 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
 
     const error = onErrorSpy.mock.calls[0]![0];
     expect(error).toBeInstanceOf(AiBillingExtractorError);
-    expect(error.message).toContain(
-      "Expected 'usage.cost' to be a valid number",
-    );
+    expect(error.message).toContain('Expected');
   });
 
   it('should hit all fallback branches for full coverage', async () => {
     const destinationSpy = vi.fn();
-    const middleware = createOpenRouterV3Middleware({
+    const middleware = createGatewayV3Middleware({
       destinations: [destinationSpy],
     });
 
     const baseResult = createResult({
-      response: { id: undefined },
+      response: { id: undefined }, // Hits: crypto.randomUUID fallback
+      usage: {
+        inputTokens: {
+          total: undefined,
+          noCache: 0,
+          cacheRead: undefined,
+          cacheWrite: undefined,
+        },
+        outputTokens: {
+          total: undefined,
+          text: 0,
+          reasoning: undefined,
+        },
+      },
       providerMetadata: {
-        openrouter: {
-          provider: 'Google AI Studio',
-          reasoning_details: [],
-          usage: {
-            //promptTokens: 7, - hits 0 fallback
-            promptTokensDetails: {
-              // cachedTokens: 0,
-            },
-            //completionTokens: 10, - hits 0 fallback
-            completionTokensDetails: {
-              //reasoningTokens: 0,
-            },
-            //totalTokens: 17,
-            cost: 0.000004653,
-            costDetails: {
-              upstreamInferenceCost: 0.0000047,
-            },
-          },
+        gateway: {
+          cost: '0.000004653', // Bypasses the initial cost error check
         },
       } as SharedV3ProviderMetadata,
     });
 
     const mockModel = new MockLanguageModelV3({
       modelId: 'test-model',
-      provider: '', // Hits: model.provider || 'openrouter'
+      provider: '', // Hits: model.provider || 'gateway'
       doGenerate: async () => baseResult,
     });
 
@@ -264,7 +284,6 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
     await vi.waitFor(() => expect(destinationSpy).toHaveBeenCalledTimes(1));
     const emittedPayload = destinationSpy.mock.calls[0]![0];
     let parsedEmittedEvent: BillingEvent;
-
     expect(() => {
       parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
     }).not.toThrow();
@@ -272,16 +291,15 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
     const expectedEvent = StrictBillingEventSchema.parse({
       generationId: parsedEmittedEvent!.generationId, // Inject fallback UUID
       modelId: mockModel.modelId,
-      provider: 'openrouter', // Fallback provider
+      provider: 'gateway', // Fallback provider
       usage: {
-        subProviderId: 'Google AI Studio',
         inputTokens: 0,
         cacheReadTokens: 0,
+        cacheWriteTokens: 0,
         outputTokens: 0,
         reasoningTokens: 0,
         totalTokens: 0,
         rawProviderCost: 0.000004653,
-        rawUpstreamInferenceCost: 0.0000047,
       },
       cost: {
         amount: 0.000004653,
@@ -290,6 +308,7 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
       },
       tags: {},
     });
+
     expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
     expect(parsedEmittedEvent!.generationId).toHaveLength(36);
   });

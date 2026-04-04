@@ -1,12 +1,12 @@
 {
   "name": "@ai-billing/openrouter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "Apache-2.0",
   "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/narevai/ai-billing.git",
-    "directory": "packages/core"
+    "directory": "packages/openrouter"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -52,7 +52,8 @@
     "vitest": "catalog:",
     "@ai-sdk/provider": "catalog:",
     "ai": "catalog:",
-    "@edge-runtime/vm": "catalog:"
+    "@edge-runtime/vm": "catalog:",
+    "zod": "catalog:"
   },
   "peerDependencies": {
     "@ai-sdk/provider": "catalog:"

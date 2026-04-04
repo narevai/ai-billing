@@ -19,6 +19,7 @@ catalogs:
     knip: '^6.0.4'
     '@changesets/cli': '^2.30.0'
     '@edge-runtime/vm': '^5.0.0'
+    zod: '^4.3.6'
 
     # Tooling Orchestration
     turbo: '^2.8.20'

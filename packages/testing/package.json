@@ -1,13 +1,13 @@
 {
   "name": "@ai-billing/testing",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "Apache-2.0",
   "type": "module",
   "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/narevai/ai-billing.git",
-    "directory": "packages/core"
+    "directory": "packages/testing"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -28,7 +28,8 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@ai-sdk/provider": "catalog:"
+    "@ai-sdk/provider": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@ai-billing/typescript-config": "workspace:*",

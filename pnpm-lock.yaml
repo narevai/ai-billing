@@ -63,6 +63,9 @@ catalogs:
     vitest:
       specifier: 4.1.1
       version: 4.1.1
+    zod:
+      specifier: ^4.3.6
+      version: 4.3.6
 
 importers:
 
@@ -98,6 +101,9 @@ importers:
       '@ai-billing/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@ai-billing/gateway':
+        specifier: workspace:*
+        version: link:../../packages/gateway
       '@ai-billing/openai':
         specifier: workspace:*
         version: link:../../packages/openai
@@ -165,6 +171,43 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.1.1(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.0)(@types/node@22.19.15)(vite@8.0.2(@types/node@22.19.15)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.8.3))
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
+
+  packages/gateway:
+    dependencies:
+      '@ai-billing/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@ai-billing/testing':
+        specifier: workspace:*
+        version: link:../testing
+      '@ai-billing/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@ai-sdk/provider':
+        specifier: 'catalog:'
+        version: 3.0.8
+      '@edge-runtime/vm':
+        specifier: 'catalog:'
+        version: 5.0.0
+      ai:
+        specifier: 'catalog:'
+        version: 6.0.138(zod@4.3.6)
+      tsup:
+        specifier: 'catalog:'
+        version: 8.5.1(jiti@2.6.1)(postcss@8.5.8)(typescript@5.9.2)(yaml@2.8.3)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.1(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.0)(@types/node@22.19.15)(vite@8.0.2(@types/node@22.19.15)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.8.3))
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
 
   packages/openai:
     dependencies:
@@ -199,6 +242,9 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.1.1(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.0)(@types/node@22.19.15)(vite@8.0.2(@types/node@22.19.15)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.8.3))
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
 
   packages/openai-compatible:
     dependencies:
@@ -267,16 +313,22 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.1.1(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.0)(@types/node@22.19.15)(vite@8.0.2(@types/node@22.19.15)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.8.3))
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
 
   packages/polar:
     dependencies:
       '@ai-billing/core':
-        specifier: workspace:0.0.2
+        specifier: workspace:0.0.3
         version: link:../core
       '@polar-sh/sdk':
         specifier: ^0.46.7
         version: 0.46.7
     devDependencies:
+      '@ai-billing/testing':
+        specifier: workspace:*
+        version: link:../testing
       '@ai-billing/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
@@ -292,12 +344,18 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.1.1(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.0)(@types/node@22.19.15)(vite@8.0.2(@types/node@22.19.15)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.8.3))
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
 
   packages/testing:
     dependencies:
       '@ai-sdk/provider':
         specifier: 'catalog:'
         version: 3.0.8
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
     devDependencies:
       '@ai-billing/typescript-config':
         specifier: workspace:*

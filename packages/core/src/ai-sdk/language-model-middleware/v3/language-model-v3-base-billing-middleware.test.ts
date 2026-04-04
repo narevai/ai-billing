@@ -11,9 +11,13 @@ import {
   consumeStream,
   MockLanguageModelV3,
   convertReadableStreamToArray,
+  BillingEventSchema,
 } from '@ai-billing/testing';
+import type { z } from 'zod';
+import { BillingEvent } from '@/types/event.js';
 
 describe('createV3BillingMiddleware', () => {
+  const StrictBillingEventSchema: z.ZodType<BillingEvent> = BillingEventSchema;
   const testParams: LanguageModelV3CallOptions = {
     prompt: [],
   };
@@ -37,10 +41,41 @@ describe('createV3BillingMiddleware', () => {
     warnings: [],
   });
 
+  const createMockEvent = (
+    overrides: Partial<BillingEvent> = {},
+  ): BillingEvent => {
+    const baseEvent = {
+      generationId: 'gen-123',
+      modelId: 'test-model',
+      provider: 'test-provider',
+      usage: {
+        subProviderId: 'final-provider',
+        inputTokens: 10,
+        outputTokens: 20,
+        cacheReadTokens: 5,
+        reasoningTokens: 2,
+        totalTokens: 37,
+        rawProviderCost: 0.00000001,
+        rawUpstreamInferenceCost: 0.00000001,
+      },
+      tags: { env: 'test' },
+      cost: {
+        amount: 0.00000001,
+        unit: 'base',
+        currency: 'USD',
+      },
+    };
+
+    return StrictBillingEventSchema.parse({
+      ...baseEvent,
+      ...overrides,
+    });
+  };
+
   describe('wrapGenerate', () => {
     it('should broadcast the event to destinations', async () => {
       const destinationSpy = vi.fn();
-      const mockEvent = { amount: 0, generationId: 'billing-id-123' };
+      const mockEvent = createMockEvent();
       const buildEventSpy = vi.fn().mockResolvedValue(mockEvent);
 
       const middleware = createV3BillingMiddleware({
@@ -75,7 +110,7 @@ describe('createV3BillingMiddleware', () => {
     });
 
     it('should attach the billing event to providerMetadata', async () => {
-      const mockEvent = { generationId: 'gen-event-1', amount: 0.005 };
+      const mockEvent = createMockEvent();
       const middleware = createV3BillingMiddleware({
         buildEvent: vi.fn().mockResolvedValue(mockEvent),
         destinations: [],
@@ -208,6 +243,31 @@ describe('createV3BillingMiddleware', () => {
       // Verify the background task actually completed
       expect(buildEventSpy).toHaveBeenCalled();
     });
+
+    it('should not crash or attempt to dispatch when destinations is undefined', async () => {
+      const buildEventSpy = vi.fn().mockResolvedValue({ id: 'event-no-dest' });
+
+      const middleware = createV3BillingMiddleware({
+        buildEvent: buildEventSpy,
+        // destinations: undefined
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        doGenerate: createGenerateResult('resp-1'),
+      });
+
+      const result = await middleware.wrapGenerate!({
+        model: mockModel,
+        params: testParams,
+        doGenerate: () => mockModel.doGenerate(testParams),
+        doStream: () => mockModel.doStream(testParams),
+      });
+
+      expect(buildEventSpy).toHaveBeenCalled();
+      expect(
+        (result.providerMetadata as Record<string, unknown>)?.['ai-billing'],
+      ).toEqual({ id: 'event-no-dest' });
+    });
   });
 
   describe('wrapStream', () => {
@@ -267,7 +327,7 @@ describe('createV3BillingMiddleware', () => {
     });
 
     it('should attach the billing event to the finish chunk providerMetadata', async () => {
-      const mockEvent = { generationId: 'stream-event-1', amount: 0.001 };
+      const mockEvent = createMockEvent();
       const middleware = createV3BillingMiddleware({
         buildEvent: vi.fn().mockResolvedValue(mockEvent),
         destinations: [],
@@ -484,6 +544,61 @@ describe('createV3BillingMiddleware', () => {
       // Clean up by awaiting the captured promise
       const capturedPromise = waitUntilSpy.mock.calls![0]![0];
       await capturedPromise;
+    });
+
+    it('should not crash or attempt to dispatch when destinations is undefined', async () => {
+      const mockEvent = createMockEvent;
+      const buildEventSpy = vi.fn().mockResolvedValue(mockEvent);
+
+      const middleware = createV3BillingMiddleware({
+        buildEvent: buildEventSpy,
+        // destinations: undefined
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        doStream: {
+          stream: convertArrayToReadableStream<LanguageModelV3StreamPart>([
+            { type: 'text-delta', id: 'block-1', delta: 'Hello' },
+            {
+              type: 'finish',
+              finishReason: { unified: 'stop', raw: 'stop' },
+              usage: {
+                inputTokens: {
+                  total: 1,
+                  noCache: 1,
+                  cacheRead: 0,
+                  cacheWrite: 0,
+                },
+                outputTokens: { total: 1, text: 1, reasoning: 0 },
+              },
+            },
+          ]),
+        },
+      });
+
+      const { stream } = await middleware.wrapStream!({
+        model: mockModel,
+        params: testParams,
+        doGenerate: () => mockModel.doGenerate(testParams),
+        doStream: () => mockModel.doStream(testParams),
+      });
+
+      const outputChunks = await convertReadableStreamToArray(stream);
+
+      expect(buildEventSpy).toHaveBeenCalled();
+
+      // Verify the middleware didn't crash and successfully attached
+      // the billing event to the finish chunk's providerMetadata
+      const finishChunk = outputChunks.at(-1) as Extract<
+        LanguageModelV3StreamPart,
+        { type: 'finish' }
+      >;
+
+      expect(
+        (finishChunk.providerMetadata as Record<string, unknown>)?.[
+          'ai-billing'
+        ],
+      ).toEqual(mockEvent);
     });
   });
 

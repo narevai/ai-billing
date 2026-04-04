@@ -1,12 +1,12 @@
 {
-  "name": "@ai-billing/core",
-  "version": "0.0.3",
+  "name": "@ai-billing/gateway",
+  "version": "0.0.1",
   "license": "Apache-2.0",
   "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/narevai/ai-billing.git",
-    "directory": "packages/core"
+    "directory": "packages/gateway"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -35,23 +35,27 @@
     "lint": "oxlint",
     "dev": "tsup --watch",
     "test": "vitest run",
-    "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
     "prepack": "node -e \"require('fs').copyFileSync('../../LICENSE', 'LICENSE')\"",
     "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
   },
+  "dependencies": {
+    "@ai-billing/core": "workspace:*"
+  },
   "devDependencies": {
-    "@ai-billing/testing": "workspace:*",
     "@ai-billing/typescript-config": "workspace:*",
-    "@ai-sdk/provider": "catalog:",
+    "@ai-billing/testing": "workspace:*",
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
+    "ai": "catalog:",
+    "@ai-sdk/provider": "catalog:",
     "@edge-runtime/vm": "catalog:",
     "zod": "catalog:"
   },
   "peerDependencies": {
-    "@ai-sdk/provider": "catalog:"
+    "ai": "^6.0.0"
   },
   "engines": {
     "node": ">=20.0.0"
