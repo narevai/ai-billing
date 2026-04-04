@@ -1,5 +1,13 @@
 # dev-sandbox
 
+## 0.0.4
+
+### Patch Changes
+
+- 54cc612: add openai-compatible
+- Updated dependencies [54cc612]
+  - @ai-billing/openai-compatible@0.0.1
+
 ## 0.0.3
 
 ### Patch Changes
