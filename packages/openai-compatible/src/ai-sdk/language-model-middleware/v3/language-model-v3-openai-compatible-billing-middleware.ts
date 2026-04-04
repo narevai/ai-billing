@@ -10,6 +10,7 @@ import type {
   DefaultTags,
   PriceResolverContext,
   ModelPricing,
+  BillingEvent,
 } from '@ai-billing/core';
 
 export interface OpenAICompatibleV3MiddlewareOptions<
@@ -53,7 +54,6 @@ export function createOpenAICompatibleV3Middleware<TTags extends DefaultTags>(
         generationId: responseId ?? crypto.randomUUID(),
         modelId: model.modelId,
         provider: options.providerId,
-        timestamp: Date.now(),
         tags,
         usage: {
           inputTokens: inputTokensTotal,
@@ -63,7 +63,7 @@ export function createOpenAICompatibleV3Middleware<TTags extends DefaultTags>(
           totalTokens: inputTokensTotal + outputTokensTotal,
         },
         ...(calculatedCost !== undefined && { cost: calculatedCost }),
-      };
+      } satisfies BillingEvent<TTags>;
     },
   });
 }
