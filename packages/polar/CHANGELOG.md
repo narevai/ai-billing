@@ -1,5 +1,16 @@
 # @ai-billing/polar
 
+## 0.0.3
+
+### Patch Changes
+
+- 83f7a7a: fix repository.directory metadata in package.json
+- 2d03aa2: add gateway cache tokens and update billing types; refactor: add zod test validation
+- Updated dependencies [2d03aa2]
+- Updated dependencies [0a5b091]
+- Updated dependencies [ab239d8]
+  - @ai-billing/core@0.0.3
+
 ## 0.0.2
 
 ### Patch Changes

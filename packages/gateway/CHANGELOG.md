@@ -1,22 +1,13 @@
-# @ai-billing/openai
+# @ai-billing/gateway
 
-## 0.0.2
+## 0.0.1
 
 ### Patch Changes
 
+- 7469aee: add gateway provider
 - 83f7a7a: fix repository.directory metadata in package.json
 - 2d03aa2: add gateway cache tokens and update billing types; refactor: add zod test validation
 - Updated dependencies [2d03aa2]
 - Updated dependencies [0a5b091]
 - Updated dependencies [ab239d8]
   - @ai-billing/core@0.0.3
-
-## 0.0.1
-
-### Patch Changes
-
-- fa5f27c: add PriceResolver for dynamic pricing
-- e3db55c: add support for providers that do not return cost
-- Updated dependencies [fa5f27c]
-- Updated dependencies [e3db55c]
-  - @ai-billing/core@0.0.2
