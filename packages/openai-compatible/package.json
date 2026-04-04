@@ -1,6 +1,6 @@
 {
   "name": "@ai-billing/openai-compatible",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "license": "Apache-2.0",
   "type": "module",
   "repository": {
@@ -55,7 +55,7 @@
     "zod": "catalog:"
   },
   "peerDependencies": {
-    "@ai-sdk/openai-compatible": "^0.2.0"
+    "@ai-sdk/openai-compatible": "^2.0.0"
   },
   "engines": {
     "node": ">=20.0.0"
