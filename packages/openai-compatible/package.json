@@ -51,7 +51,8 @@
     "vitest": "catalog:",
     "ai": "catalog:",
     "@ai-sdk/provider": "catalog:",
-    "@edge-runtime/vm": "catalog:"
+    "@edge-runtime/vm": "catalog:",
+    "zod": "catalog:"
   },
   "peerDependencies": {
     "@ai-sdk/openai-compatible": "^0.2.0"

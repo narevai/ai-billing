@@ -4,11 +4,15 @@ import { createOpenAICompatibleV3Middleware } from './language-model-v3-openai-c
 import {
   MockLanguageModelV3,
   convertArrayToReadableStream,
+  BillingEventSchema,
 } from '@ai-billing/testing';
 import { LanguageModelV3GenerateResult } from '@ai-sdk/provider';
-import type { ModelPricing } from '@ai-billing/core';
+import type { BillingEvent, ModelPricing } from '@ai-billing/core';
+import { z } from 'zod';
 
 describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
+  const StrictBillingEventSchema: z.ZodType<BillingEvent> = BillingEventSchema;
+
   const mockPricing: ModelPricing = {
     promptTokens: 0.0000002, // $0.20 per 1M
     completionTokens: 0.00000125, // $1.25 per 1M
@@ -62,25 +66,33 @@ describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
       // Prompt: 13 * 0.0000002 * 1e9 = 2,600 nanos
       // Completion: 54 * 0.00000125 * 1e9 = 67,500 nanos
       // Total: 70,100 nanos
-      expect(destinationSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          generationId: baseResult.response?.id,
-          modelId: 'llama-3.3-70b-versatile',
-          provider: 'groq',
-          usage: {
-            inputTokens: 13,
-            outputTokens: 54,
-            cacheReadTokens: 0,
-            reasoningTokens: 0,
-            totalTokens: 67,
-          },
-          cost: {
-            amount: 70100,
-            unit: 'nanos',
-            currency: 'USD',
-          },
-        }),
-      );
+      const expectedEvent = StrictBillingEventSchema.parse({
+        generationId: baseResult.response?.id,
+        modelId: 'llama-3.3-70b-versatile',
+        provider: 'groq',
+        usage: {
+          inputTokens: 13,
+          outputTokens: 54,
+          cacheReadTokens: 0,
+          reasoningTokens: 0,
+          totalTokens: 67,
+        },
+        cost: {
+          amount: 70100,
+          unit: 'nanos',
+          currency: 'USD',
+        },
+        tags: {},
+      });
+      expect(destinationSpy).toHaveBeenCalledTimes(1);
+      const emittedPayload = destinationSpy.mock.calls[0]![0];
+      let parsedEmittedEvent: BillingEvent;
+
+      expect(() => {
+        parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+      }).not.toThrow();
+
+      expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
     });
 
     it('should use providerId from options, not model.provider', async () => {
@@ -106,8 +118,34 @@ describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
         providerId: 'together',
       });
 
-      const event = destinationSpy.mock.calls?.[0]?.[0];
-      expect(event.provider).toBe('together');
+      const expectedEvent = StrictBillingEventSchema.parse({
+        generationId: baseResult.response?.id,
+        modelId: 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
+        provider: 'together',
+        usage: {
+          inputTokens: 13,
+          outputTokens: 54,
+          cacheReadTokens: 0,
+          reasoningTokens: 0,
+          totalTokens: 67,
+        },
+        cost: {
+          amount: 70100,
+          unit: 'nanos',
+          currency: 'USD',
+        },
+        tags: {},
+      });
+
+      expect(destinationSpy).toHaveBeenCalledTimes(1);
+      const emittedPayload = destinationSpy.mock.calls[0]![0];
+      let parsedEmittedEvent: BillingEvent;
+
+      expect(() => {
+        parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+      }).not.toThrow();
+
+      expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
     });
   });
 
@@ -146,27 +184,37 @@ describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
 
       await vi.waitFor(
         () => {
-          expect(destinationSpy).toHaveBeenCalledWith(
-            expect.objectContaining({
-              generationId: baseResult.response?.id,
-              modelId: 'llama-3.3-70b-versatile',
-              provider: 'groq',
-              usage: {
-                inputTokens: 13,
-                outputTokens: 54,
-                cacheReadTokens: 0,
-                reasoningTokens: 0,
-                totalTokens: 67,
-              },
-              cost: expect.objectContaining({
-                unit: 'nanos',
-                currency: 'USD',
-              }),
-            }),
-          );
+          expect(destinationSpy).toHaveBeenCalledTimes(1);
         },
         { timeout: 500 },
       );
+
+      const expectedEvent = StrictBillingEventSchema.parse({
+        generationId: baseResult.response?.id,
+        modelId: 'llama-3.3-70b-versatile',
+        provider: 'groq',
+        usage: {
+          inputTokens: 13,
+          outputTokens: 54,
+          cacheReadTokens: 0,
+          reasoningTokens: 0,
+          totalTokens: 67,
+        },
+        cost: {
+          amount: 70100,
+          unit: 'nanos',
+          currency: 'USD',
+        },
+        tags: {},
+      });
+
+      const emittedPayload = destinationSpy.mock.calls[0]![0];
+      let parsedEmittedEvent: BillingEvent;
+      expect(() => {
+        parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+      }).not.toThrow();
+
+      expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
     });
   });
 
@@ -178,12 +226,25 @@ describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
       providerId: 'github-models',
     });
 
+    const inputTokens = 17;
+    const outputTokens = 3;
+    const reasoningTokens = 144;
+
     // Simulates grok-3-mini: completion_tokens=3, reasoning_tokens=144
     // AI SDK computes text = total - reasoning = 3 - 144 = -141 (wrong)
     const baseResult = createResult({
       usage: {
-        inputTokens: { total: 17, noCache: 17, cacheRead: 0, cacheWrite: 0 },
-        outputTokens: { total: 3, text: -141, reasoning: 144 },
+        inputTokens: {
+          total: inputTokens,
+          noCache: inputTokens,
+          cacheRead: 0,
+          cacheWrite: 0,
+        },
+        outputTokens: {
+          total: outputTokens,
+          text: outputTokens - reasoningTokens,
+          reasoning: reasoningTokens,
+        },
       },
     });
 
@@ -196,11 +257,40 @@ describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
     const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
     await generateText({ model: wrappedModel, prompt: 'Hi' });
 
-    const event = destinationSpy.mock.calls?.[0]?.[0];
-    expect(event.usage.outputTokens).toBe(3);
-    expect(event.usage.reasoningTokens).toBe(144);
-    expect(event.usage.totalTokens).toBe(20); // 17 + 3
-    expect(event.cost.amount).toBeGreaterThan(0);
+    const rawCostNanos =
+      (inputTokens * mockPricing.promptTokens! +
+        (outputTokens + reasoningTokens) * mockPricing.completionTokens!) *
+      1e9;
+    const expectedCostNanos = Math.round(rawCostNanos);
+
+    const expectedEvent = StrictBillingEventSchema.parse({
+      generationId: baseResult.response?.id,
+      modelId: 'xai/grok-3-mini',
+      provider: 'github-models',
+      usage: {
+        inputTokens: inputTokens,
+        outputTokens: outputTokens,
+        cacheReadTokens: 0,
+        reasoningTokens: reasoningTokens,
+        totalTokens: inputTokens + outputTokens, // 17 + 3
+      },
+      cost: {
+        amount: expectedCostNanos, // (17 * 0.2) + (3 * 1.25) = 3.4 + 3.75 = 7.15 micro-cents -> 7150 nanos
+        unit: 'nanos',
+        currency: 'USD',
+      },
+      tags: {},
+    });
+
+    expect(destinationSpy).toHaveBeenCalledTimes(1);
+    const emittedPayload = destinationSpy.mock.calls[0]![0];
+    let parsedEmittedEvent: BillingEvent;
+
+    expect(() => {
+      parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+    }).not.toThrow();
+
+    expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
   });
 
   it('should omit the cost object entirely if pricing resolves to undefined', async () => {
@@ -222,10 +312,30 @@ describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
     const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
     await generateText({ model: wrappedModel, prompt: 'Hello' });
 
-    const event = destinationSpy.mock.calls?.[0]?.[0];
-    expect(event.usage.inputTokens).toBe(13);
-    expect(event.usage.outputTokens).toBe(54);
-    expect(event).not.toHaveProperty('cost');
+    const expectedEvent = StrictBillingEventSchema.parse({
+      generationId: baseResult.response?.id,
+      modelId: 'unknown-future-model',
+      provider: 'groq',
+      usage: {
+        inputTokens: 13,
+        outputTokens: 54,
+        cacheReadTokens: 0,
+        reasoningTokens: 0,
+        totalTokens: 67,
+      },
+      tags: {},
+    });
+
+    expect(destinationSpy).toHaveBeenCalledTimes(1);
+    const emittedPayload = destinationSpy.mock.calls[0]![0];
+    let parsedEmittedEvent: BillingEvent;
+
+    expect(() => {
+      parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+    }).not.toThrow();
+
+    expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
+    expect(parsedEmittedEvent!).not.toHaveProperty('cost');
   });
 
   it('should hit all fallback branches for full coverage (UUID generation, empty usage)', async () => {
@@ -262,17 +372,31 @@ describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
     const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
     await generateText({ model: wrappedModel, prompt: 'Hi' });
 
-    await vi.waitFor(() => expect(destinationSpy).toHaveBeenCalled());
+    await vi.waitFor(() => expect(destinationSpy).toHaveBeenCalledTimes(1));
 
-    const event = destinationSpy.mock.calls?.[0]?.[0];
+    const emittedPayload = destinationSpy.mock.calls[0]![0];
+    let parsedEmittedEvent: BillingEvent;
 
-    expect(event.provider).toBe('groq');
-    expect(event.usage.inputTokens).toBe(0);
-    expect(event.usage.outputTokens).toBe(0);
-    expect(event.usage.cacheReadTokens).toBe(0);
-    expect(event.usage.reasoningTokens).toBe(0);
-    expect(event.usage.totalTokens).toBe(0);
-    expect(event.cost).toEqual({ amount: 0, unit: 'nanos', currency: 'USD' });
-    expect(event.generationId).toHaveLength(36);
+    expect(() => {
+      parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+    }).not.toThrow();
+
+    const expectedEvent = StrictBillingEventSchema.parse({
+      generationId: parsedEmittedEvent!.generationId, // Inject the random UUID
+      modelId: 'llama-3.3-70b-versatile',
+      provider: 'groq',
+      usage: {
+        inputTokens: 0,
+        outputTokens: 0,
+        cacheReadTokens: 0,
+        reasoningTokens: 0,
+        totalTokens: 0,
+      },
+      cost: { amount: 0, unit: 'nanos', currency: 'USD' },
+      tags: {},
+    });
+
+    expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
+    expect(parsedEmittedEvent!.generationId).toHaveLength(36);
   });
 });
