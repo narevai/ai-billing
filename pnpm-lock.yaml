@@ -104,6 +104,9 @@ importers:
       '@ai-billing/gateway':
         specifier: workspace:*
         version: link:../../packages/gateway
+      '@ai-billing/groq':
+        specifier: workspace:*
+        version: link:../../packages/groq
       '@ai-billing/openai':
         specifier: workspace:*
         version: link:../../packages/openai
@@ -116,6 +119,9 @@ importers:
       '@ai-billing/polar':
         specifier: workspace:*
         version: link:../../packages/polar
+      '@ai-sdk/groq':
+        specifier: ^3.0.0
+        version: 3.0.34(zod@4.3.6)
       '@ai-sdk/openai':
         specifier: ^3.0.49
         version: 3.0.49(zod@4.3.6)
@@ -189,6 +195,43 @@ importers:
       '@ai-billing/core':
         specifier: workspace:*
         version: link:../core
+    devDependencies:
+      '@ai-billing/testing':
+        specifier: workspace:*
+        version: link:../testing
+      '@ai-billing/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@ai-sdk/provider':
+        specifier: 'catalog:'
+        version: 3.0.8
+      '@edge-runtime/vm':
+        specifier: 'catalog:'
+        version: 5.0.0
+      ai:
+        specifier: 'catalog:'
+        version: 6.0.138(zod@4.3.6)
+      tsup:
+        specifier: 'catalog:'
+        version: 8.5.1(jiti@2.6.1)(postcss@8.5.8)(typescript@5.9.2)(yaml@2.8.3)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.1(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.0)(@types/node@22.19.15)(vite@8.0.2(@types/node@22.19.15)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.8.3))
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
+
+  packages/groq:
+    dependencies:
+      '@ai-billing/core':
+        specifier: workspace:*
+        version: link:../core
+      '@ai-sdk/groq':
+        specifier: ^3.0.0
+        version: 3.0.34(zod@4.3.6)
     devDependencies:
       '@ai-billing/testing':
         specifier: workspace:*
@@ -389,6 +432,12 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
+  '@ai-sdk/groq@3.0.34':
+    resolution: {integrity: sha512-uCbzWBC8SQbme0BRTBvkhgTZH6PRR9NqurLav2IvDmAIenRrv8jmaX6Qqx9JjWO/Mrfmmxd5lLUj0HnfymBCUQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
   '@ai-sdk/openai-compatible@2.0.38':
     resolution: {integrity: sha512-rwyHjQRl93dv+/YftsnBd+nhIip92ltOcpP0iCawSptO09rabYclh2o/7G3QXNtTtVhFgESpbwjcBKTmWP3k2A==}
     engines: {node: '>=18'}
@@ -409,6 +458,12 @@ packages:
 
   '@ai-sdk/provider-utils@4.0.22':
     resolution: {integrity: sha512-B2OTFcRw/Pdka9ZTjpXv6T6qZ6RruRuLokyb8HwW+aoW9ndJ3YasA3/mVswyJw7VMBF8ofXgqvcrCt9KYvFifg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  '@ai-sdk/provider-utils@4.0.23':
+    resolution: {integrity: sha512-z8GlDaCmRSDlqkMF2f4/RFgWxdarvIbyuk+m6WXT1LYgsnGiXRJGTD2Z1+SDl3LqtFuRtGX1aghYvQLoHL/9pg==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -2679,6 +2734,12 @@ snapshots:
       '@vercel/oidc': 3.1.0
       zod: 4.3.6
 
+  '@ai-sdk/groq@3.0.34(zod@4.3.6)':
+    dependencies:
+      '@ai-sdk/provider': 3.0.8
+      '@ai-sdk/provider-utils': 4.0.23(zod@4.3.6)
+      zod: 4.3.6
+
   '@ai-sdk/openai-compatible@2.0.38(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.8
@@ -2699,6 +2760,13 @@ snapshots:
       zod: 4.3.6
 
   '@ai-sdk/provider-utils@4.0.22(zod@4.3.6)':
+    dependencies:
+      '@ai-sdk/provider': 3.0.8
+      '@standard-schema/spec': 1.1.0
+      eventsource-parser: 3.0.6
+      zod: 4.3.6
+
+  '@ai-sdk/provider-utils@4.0.23(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.8
       '@standard-schema/spec': 1.1.0
