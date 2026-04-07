@@ -11,7 +11,7 @@ import type {
   BillingEvent,
 } from '@ai-billing/core';
 
-export interface GroqRawUsage {
+interface GroqRawUsage {
   prompt_tokens?: number;
   completion_tokens?: number;
   total_tokens?: number;
