@@ -1,5 +1,5 @@
 # @ai-billing/stripe
-Polar destination for the AI Billing.
+Stripe destination for the AI Billing.
 
 **Installation**
 ```bash
