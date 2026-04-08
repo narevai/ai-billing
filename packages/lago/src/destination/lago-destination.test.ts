@@ -120,6 +120,22 @@ describe('Lago Destination', () => {
     expect(body.event.code).toBe('llm_cost_openai');
   });
 
+  it('should skip null and undefined values from mapMetadata', async () => {
+    const destination = createLagoDestination({
+      apiKey: 'key',
+      apiUrl: 'http://localhost:3000',
+      meterCode: 'llm_cost',
+      mapMetadata: () => ({ valid: 42, nullVal: null as unknown as number, undefinedVal: undefined as unknown as number }),
+    });
+
+    await destination(createMockEvent());
+
+    const body = JSON.parse(mockFetch.mock.calls[0]![1].body as string);
+    expect(body.event.properties.valid).toBe(42);
+    expect(body.event.properties).not.toHaveProperty('nullVal');
+    expect(body.event.properties).not.toHaveProperty('undefinedVal');
+  });
+
   it('should use custom mapMetadata when provided', async () => {
     const destination = createLagoDestination({
       apiKey: 'key',
@@ -195,6 +211,39 @@ describe('Lago Destination', () => {
     errorSpy.mockRestore();
   });
 
+  it('should log error on 429 rate limit', async () => {
+    mockFetch.mockResolvedValue({ ok: false, status: 429, text: async () => '' });
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const destination = createLagoDestination({
+      apiKey: 'key',
+      apiUrl: 'http://localhost:3000',
+      meterCode: 'llm_cost',
+    });
+
+    await destination(createMockEvent());
+
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('Rate limit'));
+    errorSpy.mockRestore();
+  });
+
+  it('should log error on unexpected response status', async () => {
+    mockFetch.mockResolvedValue({ ok: false, status: 500, text: async () => 'server error' });
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const destination = createLagoDestination({
+      apiKey: 'key',
+      apiUrl: 'http://localhost:3000',
+      meterCode: 'llm_cost',
+    });
+
+    await destination(createMockEvent());
+
+    expect(errorSpy).toHaveBeenCalledWith(
+      expect.stringContaining('Unexpected response'),
+      expect.anything(),
+    );
+    errorSpy.mockRestore();
+  });
+
   it('should log error on network failure', async () => {
     mockFetch.mockRejectedValue(new TypeError('Failed to fetch'));
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -208,6 +257,24 @@ describe('Lago Destination', () => {
 
     expect(errorSpy).toHaveBeenCalledWith(
       expect.stringContaining('Network error'),
+      expect.anything(),
+    );
+    errorSpy.mockRestore();
+  });
+
+  it('should log error on generic non-network failure', async () => {
+    mockFetch.mockRejectedValue(new Error('Something went wrong'));
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const destination = createLagoDestination({
+      apiKey: 'key',
+      apiUrl: 'http://localhost:3000',
+      meterCode: 'llm_cost',
+    });
+
+    await destination(createMockEvent());
+
+    expect(errorSpy).toHaveBeenCalledWith(
+      expect.stringContaining('LagoDestination Error:'),
       expect.anything(),
     );
     errorSpy.mockRestore();

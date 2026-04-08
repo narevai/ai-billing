@@ -33,10 +33,7 @@ export function createLagoDestination<TTags extends DefaultTags = DefaultTags>(
   const apiUrl = options.apiUrl ?? 'https://api.getlago.com';
 
   return createDestination<TTags>('lago', async event => {
-    const tags = (event.tags ?? {}) as Record<
-      string,
-      string | number | boolean
-    >;
+    const tags = event.tags as Record<string, string | number | boolean>;
 
     const externalCustomerId =
       tags[options.externalCustomerIdKey as string] ??
@@ -69,6 +66,12 @@ export function createLagoDestination<TTags extends DefaultTags = DefaultTags>(
         properties[key] = value as string | number | boolean;
       }
     }
+
+    console.log('[ai-billing] Sending to Lago:', {
+      meter_code: meterCode,
+      properties,
+      transaction_id: event.generationId,
+    });
 
     try {
       const response = await fetch(`${apiUrl}/api/v1/events`, {
