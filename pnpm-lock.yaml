@@ -119,6 +119,9 @@ importers:
       '@ai-billing/polar':
         specifier: workspace:*
         version: link:../../packages/polar
+      '@ai-billing/stripe':
+        specifier: workspace:*
+        version: link:../../packages/stripe
       '@ai-sdk/groq':
         specifier: ^3.0.0
         version: 3.0.34(zod@4.3.6)
