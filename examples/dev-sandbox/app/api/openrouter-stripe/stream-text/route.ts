@@ -16,7 +16,7 @@ type BillingTags = {
 };
 
 const stripeDestination = createStripeDestination<BillingTags>({
-  apiKey: process.env.STRIPE_SECRET_KEY || '', // Make sure this is in your .env
+  apiKey: `${process.env.STRIPE_SECRET_KEY}`, // Make sure this is in your .env
   meterName: 'ai-billing-test', // The slug from your Stripe dashboard
 });
 
