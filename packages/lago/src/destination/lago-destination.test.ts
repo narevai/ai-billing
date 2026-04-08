@@ -125,7 +125,11 @@ describe('Lago Destination', () => {
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
       meterCode: 'llm_cost',
-      mapMetadata: () => ({ valid: 42, nullVal: null as unknown as number, undefinedVal: undefined as unknown as number }),
+      mapMetadata: () => ({
+        valid: 42,
+        nullVal: null as unknown as number,
+        undefinedVal: undefined as unknown as number,
+      }),
     });
 
     await destination(createMockEvent());
@@ -212,7 +216,11 @@ describe('Lago Destination', () => {
   });
 
   it('should log error on 429 rate limit', async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 429, text: async () => '' });
+    mockFetch.mockResolvedValue({
+      ok: false,
+      status: 429,
+      text: async () => '',
+    });
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const destination = createLagoDestination({
       apiKey: 'key',
@@ -222,12 +230,18 @@ describe('Lago Destination', () => {
 
     await destination(createMockEvent());
 
-    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('Rate limit'));
+    expect(errorSpy).toHaveBeenCalledWith(
+      expect.stringContaining('Rate limit'),
+    );
     errorSpy.mockRestore();
   });
 
   it('should log error on unexpected response status', async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 500, text: async () => 'server error' });
+    mockFetch.mockResolvedValue({
+      ok: false,
+      status: 500,
+      text: async () => 'server error',
+    });
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const destination = createLagoDestination({
       apiKey: 'key',
