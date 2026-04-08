@@ -7,7 +7,9 @@ const mockFetch = vi.fn();
 vi.stubGlobal('fetch', mockFetch);
 
 describe('Lago Destination', () => {
-  const createMockEvent = (overrides: Partial<BillingEvent> = {}): BillingEvent => ({
+  const createMockEvent = (
+    overrides: Partial<BillingEvent> = {},
+  ): BillingEvent => ({
     generationId: 'gen-123',
     modelId: 'gpt-4o',
     provider: 'openai',
@@ -54,7 +56,9 @@ describe('Lago Destination', () => {
     await destination(event);
 
     const body = JSON.parse(mockFetch.mock.calls[0]![1].body as string);
-    expect(body.event.properties.cost_micros).toBe(costToNumber(event.cost!, 'micros'));
+    expect(body.event.properties.cost_micros).toBe(
+      costToNumber(event.cost!, 'micros'),
+    );
   });
 
   it('should include meter metadata as properties', async () => {
@@ -141,13 +145,19 @@ describe('Lago Destination', () => {
 
     await destination(createMockEvent({ tags: {} }));
 
-    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('external_customer_id'));
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('external_customer_id'),
+    );
     expect(mockFetch).not.toHaveBeenCalled();
     warnSpy.mockRestore();
   });
 
   it('should log error on 422 invalid parameters', async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 422, text: async () => 'error body' });
+    mockFetch.mockResolvedValue({
+      ok: false,
+      status: 422,
+      text: async () => 'error body',
+    });
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const destination = createLagoDestination({
       apiKey: 'key',
@@ -165,7 +175,11 @@ describe('Lago Destination', () => {
   });
 
   it('should log error on 401 unauthorized', async () => {
-    mockFetch.mockResolvedValue({ ok: false, status: 401, text: async () => '' });
+    mockFetch.mockResolvedValue({
+      ok: false,
+      status: 401,
+      text: async () => '',
+    });
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const destination = createLagoDestination({
       apiKey: 'bad-key',
@@ -175,7 +189,9 @@ describe('Lago Destination', () => {
 
     await destination(createMockEvent());
 
-    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('Unauthorized'));
+    expect(errorSpy).toHaveBeenCalledWith(
+      expect.stringContaining('Unauthorized'),
+    );
     errorSpy.mockRestore();
   });
 
@@ -221,6 +237,8 @@ describe('Lago Destination', () => {
 
     await destination(createMockEvent());
 
-    expect(mockFetch.mock.calls[0]![0]).toBe('https://api.getlago.com/api/v1/events');
+    expect(mockFetch.mock.calls[0]![0]).toBe(
+      'https://api.getlago.com/api/v1/events',
+    );
   });
 });

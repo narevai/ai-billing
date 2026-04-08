@@ -43,12 +43,10 @@
   "dependencies": {},
   "devDependencies": {
     "@ai-billing/typescript-config": "workspace:*",
-    "@ai-billing/testing": "workspace:*",
     "tsup": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
-    "@edge-runtime/vm": "catalog:",
-    "zod": "catalog:"
+    "@edge-runtime/vm": "catalog:"
   },
   "peerDependencies": {
     "@ai-billing/core": "workspace:*"
