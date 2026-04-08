@@ -1,6 +1,6 @@
 {
   "name": "@ai-billing/polar",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "Apache-2.0",
   "type": "module",
   "repository": {
@@ -51,7 +51,7 @@
     "zod": "catalog:"
   },
   "peerDependencies": {
-    "@ai-billing/core": "workspace:0.0.3",
+    "@ai-billing/core": "workspace:0.0.4",
     "@polar-sh/sdk": "^0.46.7"
   },
   "engines": {

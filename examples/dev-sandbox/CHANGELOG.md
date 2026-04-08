@@ -1,5 +1,20 @@
 # dev-sandbox
 
+## 0.0.6
+
+### Patch Changes
+
+- 46ea0ba: standardize destination metadata; add stripe
+- Updated dependencies [46ea0ba]
+  - @ai-billing/stripe@0.0.1
+  - @ai-billing/polar@0.0.4
+  - @ai-billing/core@0.0.4
+  - @ai-billing/gateway@0.0.2
+  - @ai-billing/groq@0.0.2
+  - @ai-billing/openai@0.0.3
+  - @ai-billing/openai-compatible@0.0.2
+  - @ai-billing/openrouter@0.0.4
+
 ## 0.0.5
 
 ### Patch Changes
