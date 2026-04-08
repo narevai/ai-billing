@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createPolarDestination } from './polar-destination.js';
 import { Polar } from '@polar-sh/sdk';
-import { costToNumber, Usage, type BillingEvent } from '@ai-billing/core';
+import { costToNumber, type BillingEvent } from '@ai-billing/core';
 import { BillingEventSchema } from '@ai-billing/testing';
 import { z } from 'zod';
 
@@ -36,6 +36,7 @@ describe('Polar Destination', () => {
         inputTokens: 100,
         outputTokens: 50,
         cacheReadTokens: 0,
+        cacheWriteTokens: 0,
         reasoningTokens: 0,
         totalTokens: 150,
       },
@@ -50,7 +51,7 @@ describe('Polar Destination', () => {
   });
 
   it('should ingest an event with correct metadata', async () => {
-    const mockMeterName = 'meter_nanocents';
+    const mockMeterName = 'meter_nanodollars';
     const mockEvent = createMockEvent();
 
     const destination = createPolarDestination({
@@ -66,18 +67,20 @@ describe('Polar Destination', () => {
       events: [
         expect.objectContaining({
           name: mockMeterName,
+          cost_nanos: costToNumber(mockEvent.cost!, 'nanos'),
+          cost_currency: mockEvent.cost?.currency,
+          customerId: mockEvent.tags?.customerId,
           metadata: expect.objectContaining({
             generation_id: mockEvent.generationId,
             model_id: mockEvent.modelId,
             provider: mockEvent.provider,
-            usage_input_tokens: mockEvent.usage?.inputTokens,
-            usage_output_tokens: mockEvent.usage?.outputTokens,
-            usage_total_tokens: mockEvent.usage?.totalTokens,
-            cost_amount_base: costToNumber(mockEvent.cost!, 'base'),
-            cost_amount_cents: costToNumber(mockEvent.cost!, 'cents'),
-            cost_amount_micros: costToNumber(mockEvent.cost!, 'micros'),
-            cost_amount_nanos: costToNumber(mockEvent.cost!, 'nanos'),
-            cost_currency: mockEvent.cost?.currency,
+            input_tokens: mockEvent.usage?.inputTokens,
+            output_tokens: mockEvent.usage?.outputTokens,
+            cache_read_tokens: mockEvent.usage?.cacheReadTokens,
+            cache_write_tokens: mockEvent.usage?.cacheWriteTokens,
+            reasoning_tokens: mockEvent.usage?.reasoningTokens,
+            total_tokens: mockEvent.usage?.totalTokens,
+            tag_customerId: mockEvent.tags?.customerId,
           }),
         }),
       ],
@@ -200,8 +203,8 @@ describe('Polar Destination', () => {
         events: [
           expect.objectContaining({
             metadata: expect.objectContaining({
-              'ai-billing-tag_environment': 'production',
-              'ai-billing-tag_meta': '{"feature":"chat"}',
+              tag_environment: 'production',
+              tag_meta: '{"feature":"chat"}',
             }),
           }),
         ],
@@ -278,7 +281,9 @@ describe('Polar Destination', () => {
     });
 
     const keys = Object.keys(metadata ?? {});
-    expect(keys.some(k => k.startsWith('usage_'))).toBe(false);
+    expect(keys.some(k => k.startsWith('input_tokens'))).toBe(false);
+    expect(keys.some(k => k.startsWith('output_tokens'))).toBe(false);
+    expect(keys.some(k => k.startsWith('total_tokens'))).toBe(false);
     expect(consoleSpy).toHaveBeenCalledTimes(1);
     consoleSpy.mockRestore();
   });
@@ -309,12 +314,12 @@ describe('Polar Destination', () => {
     expect(metadata).toHaveProperty('generation_id');
     expect(metadata).toHaveProperty('model_id');
     expect(metadata).toHaveProperty('provider');
-    expect(metadata).toHaveProperty('usage_input_tokens');
-    expect(metadata).toHaveProperty('usage_output_tokens');
-    expect(metadata).toHaveProperty('usage_total_tokens');
+    expect(metadata).toHaveProperty('input_tokens');
+    expect(metadata).toHaveProperty('output_tokens');
+    expect(metadata).toHaveProperty('total_tokens');
 
     const tagKeys = Object.keys(metadata ?? {}).filter(k =>
-      k.startsWith('ai-billing-tag_'),
+      k.startsWith('tag_'),
     );
 
     expect(tagKeys.length).toBe(0);
@@ -344,10 +349,10 @@ describe('Polar Destination', () => {
     const metadata = ingestSpy.mock!.calls![0]![0]!.events[0]!.metadata;
 
     expect(metadata).toBeDefined();
-    expect((metadata ?? {})['ai-billing-tag_is_valid']).toBe(true);
-    expect((metadata ?? {})['ai-billing-tag_priority']).toBe(1);
-    expect((metadata ?? {})['ai-billing-tag_list']).toBe('[1,2,3]');
-    expect(metadata ?? {}).not.toHaveProperty('ai-billing-tag_ignored');
+    expect((metadata ?? {})['tag_is_valid']).toBe(true);
+    expect((metadata ?? {})['tag_priority']).toBe(1);
+    expect((metadata ?? {})['tag_list']).toBe('[1,2,3]');
+    expect(metadata ?? {}).not.toHaveProperty('tag_ignored');
   });
 
   it('should use a custom mapMetadata function when provided in options', async () => {
