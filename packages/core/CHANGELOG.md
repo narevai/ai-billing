@@ -1,5 +1,11 @@
 # @ai-billing/core
 
+## 0.0.4
+
+### Patch Changes
+
+- 46ea0ba: standardize destination metadata; add stripe
+
 ## 0.0.3
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @ai-billing/polar
 
+## 0.0.4
+
+### Patch Changes
+
+- 46ea0ba: standardize destination metadata; add stripe
+- Updated dependencies [46ea0ba]
+  - @ai-billing/core@0.0.4
+
 ## 0.0.3
 
 ### Patch Changes
