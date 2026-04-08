@@ -1,62 +1,10 @@
 import { Polar } from '@polar-sh/sdk';
-import { createDestination, costToNumber } from '@ai-billing/core';
+import {
+  createDestination,
+  costToNumber,
+  buildMeterMetadata,
+} from '@ai-billing/core';
 import type { BillingEvent, DefaultTags, Destination } from '@ai-billing/core';
-
-function mapEventToPolarMetadata<TTags extends DefaultTags = DefaultTags>(
-  event: BillingEvent<TTags>,
-): Record<string, string | number | boolean> {
-  const metadata: Record<string, string | number | boolean> = {
-    generation_id: event.generationId,
-    model_id: event.modelId,
-    provider: event.provider,
-  };
-
-  const usageFields: Record<string, keyof typeof event.usage> = {
-    usage_input_tokens: 'inputTokens',
-    usage_output_tokens: 'outputTokens',
-    usage_total_tokens: 'totalTokens',
-    usage_reasoning_tokens: 'reasoningTokens',
-    usage_cache_read_tokens: 'cacheReadTokens',
-    usage_cache_write_tokens: 'cacheWriteTokens',
-    usage_request_count: 'requestCount',
-    usage_raw_provider_cost: 'rawProviderCost',
-  };
-
-  for (const [polarKey, internalKey] of Object.entries(usageFields)) {
-    const value = event.usage?.[internalKey];
-    if (value !== undefined) {
-      metadata[polarKey] = value;
-    }
-  }
-
-  if (event.cost) {
-    metadata.cost_amount_base = costToNumber(event.cost, 'base');
-    metadata.cost_amount_cents = costToNumber(event.cost, 'cents');
-    metadata.cost_amount_micros = costToNumber(event.cost, 'micros');
-    metadata.cost_amount_nanos = costToNumber(event.cost, 'nanos');
-    metadata.cost_currency = event.cost.currency;
-  }
-
-  if (!event.tags) return metadata;
-
-  for (const [key, value] of Object.entries(event.tags)) {
-    if (value == null) continue; // Skip null/undefined immediately
-
-    const metadataKey = `ai-billing-tag_${key}`;
-    if (
-      typeof value === 'string' ||
-      typeof value === 'number' ||
-      typeof value === 'boolean'
-    ) {
-      metadata[metadataKey] = value;
-    } else {
-      // If it's an object/array, stringify it
-      metadata[metadataKey] = JSON.stringify(value);
-    }
-  }
-
-  return metadata;
-}
 
 export interface PolarDestinationOptions<
   TTags extends DefaultTags = DefaultTags,
@@ -114,16 +62,24 @@ export function createPolarDestination<TTags extends DefaultTags = DefaultTags>(
 
     const metadata = options.mapMetadata
       ? options.mapMetadata(event)
-      : mapEventToPolarMetadata(event);
+      : (buildMeterMetadata(event) as Record<
+          string,
+          string | number | boolean
+        >);
 
     await polar.events.ingest({
       events: [
         {
           name: meterName,
-          // Priority: Internal Polar ID always wins if both are present
           ...(internalId
             ? { customerId: String(internalId) }
             : { externalCustomerId: String(externalId) }),
+          ...(event.cost
+            ? {
+                cost_nanos: costToNumber(event.cost, 'nanos'),
+                cost_currency: event.cost.currency,
+              }
+            : {}),
           metadata,
         },
       ],
