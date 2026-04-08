@@ -1,0 +1,59 @@
+{
+  "name": "@ai-billing/lago",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/narevai/ai-billing.git",
+    "directory": "packages/lago"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "check-types": "tsc --noEmit",
+    "lint": "oxlint",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepack": "node -e \"require('fs').copyFileSync('../../LICENSE', 'LICENSE')\"",
+    "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@ai-billing/typescript-config": "workspace:*",
+    "@ai-billing/testing": "workspace:*",
+    "tsup": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "@edge-runtime/vm": "catalog:",
+    "zod": "catalog:"
+  },
+  "peerDependencies": {
+    "@ai-billing/core": "workspace:*"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
