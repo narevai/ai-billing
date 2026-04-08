@@ -26,9 +26,10 @@ export function createStripeDestination<
   const stripe =
     options.client ??
     new Stripe(options.apiKey || '', {
-      maxNetworkRetries: 3, // Automatically retries on 409 (Idempotency) or 5xx errors
-      timeout: 10000, // 10 second timeout
+      maxNetworkRetries: 3,
+      timeout: 10000,
     });
+
   return createDestination<TTags>('stripe', async event => {
     const tags = (event.tags ?? {}) as Record<
       string,
@@ -105,7 +106,9 @@ export function createStripeDestination<
           case 'StripeRateLimitError':
             // Too many requests made to the API too quickly
             console.error(
-              '[ai-billling] StripeDestination Error: Rate limit exceeded. Request ID:',
+              '[ai-billling] StripeDestination Error: Rate limit exceeded. Message:',
+              err.message,
+              ' Request ID:',
               err.requestId,
             );
             break;
@@ -113,17 +116,16 @@ export function createStripeDestination<
             // Invalid parameters were supplied to Stripe's API
             console.error(
               '[ai-billling] StripeDestinationError',
-              "Error: Invalid parameters were supplied to Stripe's API.Message:",
+              "Error: Invalid parameters were supplied to Stripe's API. Message:",
               err.message,
             );
-            if (err.param) console.error('Param:', err.param);
             console.error('Request ID:', err.requestId);
             break;
           case 'StripeAPIError':
             // An error occurred internally with Stripe's API
             console.error(
               '[ai-billling] StripeDestinationError',
-              "Error: An error occurred internally with Stripe's API.Message:",
+              "Error: An error occurred internally with Stripe's API. Message:",
               err.message,
               'Request ID:',
               err.requestId,
@@ -133,7 +135,7 @@ export function createStripeDestination<
             // Some kind of error occurred during the HTTPS communication
             console.error(
               '[ai-billling] StripeDestinationError',
-              'Error: Some kind of error occurred during the HTTPS communication.Message:',
+              'Error: Some kind of error occurred during the HTTPS communication. Message:',
               err.message,
               'Request ID:',
               err.requestId,
@@ -143,7 +145,7 @@ export function createStripeDestination<
             // You probably used an incorrect API key
             console.error(
               '[ai-billling] StripeDestinationError',
-              'Error: You probably used an incorrect API key.Message:',
+              'Error: You probably used an incorrect API key. Message:',
               err.message,
               'Request ID:',
               err.requestId,
@@ -153,7 +155,7 @@ export function createStripeDestination<
             // All other Stripe errors
             console.error(
               '[ai-billling] StripeDestinationError',
-              'Error: An unknown error occurred.Message:',
+              'Error: An unknown error occurred. Message:',
               err.message,
               'Request ID:',
               err.requestId,
