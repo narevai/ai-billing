@@ -1,5 +1,15 @@
 # dev-sandbox
 
+## 0.0.7
+
+### Patch Changes
+
+- 6065b0f: rename meterName to eventName
+- f6f26b0: fix missing fields in polar metadata; rich error loging in polar destination
+- Updated dependencies [6065b0f]
+- Updated dependencies [f6f26b0]
+  - @ai-billing/polar@0.0.5
+
 ## 0.0.6
 
 ### Patch Changes
