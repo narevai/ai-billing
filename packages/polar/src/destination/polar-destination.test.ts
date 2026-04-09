@@ -51,12 +51,12 @@ describe('Polar Destination', () => {
   });
 
   it('should ingest an event with correct metadata', async () => {
-    const mockMeterName = 'meter_nanodollars';
+    const mockEventName = 'llm-usage';
     const mockEvent = createMockEvent();
 
     const destination = createPolarDestination({
       accessToken: 'test-token',
-      meterName: mockMeterName,
+      eventName: mockEventName,
     });
 
     await destination(mockEvent);
@@ -66,7 +66,7 @@ describe('Polar Destination', () => {
     expect(ingestSpy).toHaveBeenCalledWith({
       events: [
         expect.objectContaining({
-          name: mockMeterName,
+          name: mockEventName,
           customerId: mockEvent.tags?.customerId,
           metadata: expect.objectContaining({
             generation_id: mockEvent.generationId,
@@ -88,12 +88,12 @@ describe('Polar Destination', () => {
   });
 
   it('should ingest an event with correct customerId', async () => {
-    const mockMeterName = 'meter_nanocents';
+    const mockEventName = 'llm-usage';
     const mockEvent = createMockEvent();
 
     const destination = createPolarDestination({
       accessToken: 'test-token',
-      meterName: mockMeterName,
+      eventName: mockEventName,
     });
 
     await destination(mockEvent);
@@ -103,7 +103,7 @@ describe('Polar Destination', () => {
     expect(ingestSpy).toHaveBeenCalledWith({
       events: [
         expect.objectContaining({
-          name: mockMeterName,
+          name: mockEventName,
           customerId: mockEvent.tags.customerId,
         }),
       ],
@@ -111,14 +111,14 @@ describe('Polar Destination', () => {
   });
 
   it('should ingest an event with correct customerId', async () => {
-    const mockMeterName = 'meter_nanocents';
+    const mockEventName = 'llm-usage';
     const mockEvent = createMockEvent({
       tags: { customerId: 'user_67890' },
     });
 
     const destination = createPolarDestination({
       accessToken: 'test-token',
-      meterName: mockMeterName,
+      eventName: mockEventName,
     });
 
     await destination(mockEvent);
@@ -128,25 +128,25 @@ describe('Polar Destination', () => {
     expect(ingestSpy).toHaveBeenCalledWith({
       events: [
         expect.objectContaining({
-          name: mockMeterName,
+          name: mockEventName,
           customerId: mockEvent.tags.customerId,
         }),
       ],
     });
   });
 
-  it('should resolve meter name using a function', async () => {
+  it('should resolve event name using a function', async () => {
     const mockEvent = createMockEvent({ modelId: 'claude-3' });
     const destination = createPolarDestination({
       accessToken: 'test',
-      meterName: event => `meter_${event.modelId}`,
+      eventName: event => `event_${event.modelId}`,
     });
 
     await destination(mockEvent);
 
     const ingestSpy = new Polar().events.ingest;
     expect(ingestSpy).toHaveBeenCalledWith({
-      events: [expect.objectContaining({ name: `meter_${mockEvent.modelId}` })],
+      events: [expect.objectContaining({ name: `event_${mockEvent.modelId}` })],
     });
   });
 
@@ -161,7 +161,7 @@ describe('Polar Destination', () => {
 
     const destination = createPolarDestination({
       accessToken: 'test',
-      meterName: 'test',
+      eventName: 'test',
     });
 
     await destination(mockEvent);
@@ -187,7 +187,7 @@ describe('Polar Destination', () => {
 
     const destination = createPolarDestination({
       accessToken: 'test-token',
-      meterName: 'test-meter',
+      eventName: 'test-event',
     });
 
     const mockEvent = createMockEvent({ tags: {} });
@@ -204,7 +204,7 @@ describe('Polar Destination', () => {
   it('should handle events cost data', async () => {
     const destination = createPolarDestination({
       accessToken: 'test-token',
-      meterName: 'test-meter',
+      eventName: 'test-event',
     });
 
     const malformedEvent = createMockEvent({
@@ -228,7 +228,7 @@ describe('Polar Destination', () => {
     const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const destination = createPolarDestination({
       accessToken: 'test-token',
-      meterName: 'test-meter',
+      eventName: 'test-event',
     });
     const rawMalformedEvent = {
       generationId: 'gen-raw',
@@ -262,7 +262,7 @@ describe('Polar Destination', () => {
     const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const destination = createPolarDestination({
       accessToken: 'test',
-      meterName: 'test',
+      eventName: 'test',
     });
 
     // Explicitly set tags to undefined (bypassing the helper default)
@@ -310,7 +310,7 @@ describe('Polar Destination', () => {
 
     const destination = createPolarDestination({
       accessToken: 'test',
-      meterName: 'test',
+      eventName: 'test',
     });
 
     await destination(mockEvent);
@@ -337,7 +337,7 @@ describe('Polar Destination', () => {
 
     const destination = createPolarDestination({
       accessToken: 'test-token',
-      meterName: 'test-meter',
+      eventName: 'test-event',
       mapMetadata: mapMetadataSpy,
     });
 
@@ -353,7 +353,7 @@ describe('Polar Destination', () => {
   it('should send snake_case customer_id and properly structured cost metadata (fixes #78)', async () => {
     const destination = createPolarDestination({
       accessToken: 'test-token',
-      meterName: 'test-meter',
+      eventName: 'test-event',
     });
 
     const mockEvent = createMockEvent({
@@ -391,7 +391,7 @@ describe('Polar Destination', () => {
 
     const destination = createPolarDestination({
       client: mockFailingClient,
-      meterName: 'meter_nanocents',
+      eventName: 'llm-usage',
       customerIdKey: 'customerId',
     });
 
