@@ -16,7 +16,7 @@ type BillingTags = {
 const lagoDestination = createLagoDestination<BillingTags>({
   apiKey: `${process.env.LAGO_API_KEY}`,
   apiUrl: process.env.LAGO_API_URL,
-  meterCode: 'llm_cost',
+  meterCode: 'llm_usage',
 });
 
 const openrouter = createOpenRouter({

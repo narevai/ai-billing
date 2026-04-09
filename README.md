@@ -52,7 +52,7 @@ const billingMiddleware = createOpenRouterV3Middleware({
   destinations: [
     createPolarDestination({
       accessToken: process.env.POLAR_ACCESS_TOKEN,
-      meterName: 'ai_meter_microdollars',
+      eventName: 'llm_usage',
     })
   ],
 });

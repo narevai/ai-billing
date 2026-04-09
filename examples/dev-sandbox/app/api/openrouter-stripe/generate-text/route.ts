@@ -17,7 +17,7 @@ type BillingTags = {
 
 const stripeDestination = createStripeDestination<BillingTags>({
   apiKey: `${process.env.STRIPE_SECRET_KEY}`,
-  meterName: 'ai-billing-test',
+  meterName: 'llm_usage',
 });
 
 const openrouter = createOpenRouter({
