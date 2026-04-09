@@ -5,6 +5,7 @@ import {
   buildMeterMetadata,
 } from '@ai-billing/core';
 import type { BillingEvent, DefaultTags, Destination } from '@ai-billing/core';
+import { EventMetadataInput } from '@polar-sh/sdk/models/components/eventmetadatainput.js';
 
 export interface PolarDestinationOptions<
   TTags extends DefaultTags = DefaultTags,
@@ -12,16 +13,8 @@ export interface PolarDestinationOptions<
   client?: Polar;
   accessToken?: string;
   server?: 'sandbox' | 'production';
-  meterName: string | ((event: BillingEvent<TTags>) => string);
-
-  /** * Custom key to look for in tags for Polar's internal customer ID (cus_...).
-   * Defaults to: 'customerId' | 'polarCustomerId'
-   */
+  eventName: string | ((event: BillingEvent<TTags>) => string);
   customerIdKey?: keyof TTags;
-
-  /** * Custom key to look for in tags for your system's ID.
-   * Defaults to: 'userId' | 'externalId'
-   */
   externalCustomerIdKey?: keyof TTags;
 
   mapMetadata?: (
@@ -45,9 +38,13 @@ export function createPolarDestination<TTags extends DefaultTags = DefaultTags>(
       string | number | boolean
     >;
 
-    const internalId = tags[options.customerIdKey as string] ?? tags.customerId;
-    const externalId =
-      tags[options.externalCustomerIdKey as string] ?? tags.userId;
+    const internalId = options.customerIdKey
+      ? tags[options.customerIdKey as string]
+      : (tags.customerId ?? tags.polarCustomerId ?? tags.customer_id);
+
+    const externalId = options.externalCustomerIdKey
+      ? tags[options.externalCustomerIdKey as string]
+      : (tags.userId ?? tags.externalId ?? tags.user_id);
 
     if (!internalId && !externalId) {
       console.warn(
@@ -55,34 +52,43 @@ export function createPolarDestination<TTags extends DefaultTags = DefaultTags>(
       );
     }
 
-    const meterName =
-      typeof options.meterName === 'function'
-        ? options.meterName(event)
-        : options.meterName;
+    const eventName =
+      typeof options.eventName === 'function'
+        ? options.eventName(event)
+        : options.eventName;
 
-    const metadata = options.mapMetadata
-      ? options.mapMetadata(event)
-      : (buildMeterMetadata(event) as Record<
+    let metadata: Record<string, EventMetadataInput>;
+
+    if (options.mapMetadata) {
+      metadata = options.mapMetadata(event);
+    } else {
+      metadata = {
+        ...(buildMeterMetadata(event) as Record<
           string,
           string | number | boolean
-        >);
+        >),
+        ...(event.cost
+          ? {
+              cost_nanos: costToNumber(event.cost, 'nanos'),
+              cost_currency: event.cost.currency,
+            }
+          : {}),
+      };
+    }
 
-    await polar.events.ingest({
-      events: [
-        {
-          name: meterName,
-          ...(internalId
-            ? { customerId: String(internalId) }
-            : { externalCustomerId: String(externalId) }),
-          ...(event.cost
-            ? {
-                cost_nanos: costToNumber(event.cost, 'nanos'),
-                cost_currency: event.cost.currency,
-              }
-            : {}),
-          metadata,
-        },
-      ],
-    });
+    try {
+      await polar.events.ingest({
+        events: [
+          {
+            name: eventName,
+            customerId: String(internalId),
+            ...(externalId ? { externalId: String(externalId) } : {}),
+            metadata,
+          },
+        ],
+      });
+    } catch (error) {
+      console.error('[ai-billing] Failed to ingest event to Polar:', error);
+    }
   });
 }
