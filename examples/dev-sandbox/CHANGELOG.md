@@ -1,5 +1,16 @@
 # dev-sandbox
 
+## 0.0.8
+
+### Patch Changes
+
+- ed50ab1: add lago destination
+- f4d5238: add openmeter destination
+- Updated dependencies [ed50ab1]
+- Updated dependencies [f4d5238]
+  - @ai-billing/lago@0.0.1
+  - @ai-billing/openmeter@0.0.1
+
 ## 0.0.7
 
 ### Patch Changes
