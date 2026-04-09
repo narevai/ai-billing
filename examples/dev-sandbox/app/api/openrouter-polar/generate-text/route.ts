@@ -16,7 +16,7 @@ type BillingTags = {
 
 const polarDestination = createPolarDestination<BillingTags>({
   accessToken: process.env.POLAR_ACCESS_TOKEN, // Make sure this is in your .env
-  meterName: 'ai_meter_microdollars', // The slug from your Polar dashboard
+  eventName: 'llm-usage', // The slug from your Polar dashboard
   server: 'sandbox', // Good for testing!
 });
 

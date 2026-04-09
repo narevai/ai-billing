@@ -13,16 +13,8 @@ export interface PolarDestinationOptions<
   client?: Polar;
   accessToken?: string;
   server?: 'sandbox' | 'production';
-  meterName: string | ((event: BillingEvent<TTags>) => string);
-
-  /** * Custom key to look for in tags for Polar's internal customer ID (cus_...).
-   * Defaults to: 'customerId' | 'polarCustomerId'
-   */
+  eventName: string | ((event: BillingEvent<TTags>) => string);
   customerIdKey?: keyof TTags;
-
-  /** * Custom key to look for in tags for your system's ID.
-   * Defaults to: 'userId' | 'externalId'
-   */
   externalCustomerIdKey?: keyof TTags;
 
   mapMetadata?: (
@@ -60,10 +52,10 @@ export function createPolarDestination<TTags extends DefaultTags = DefaultTags>(
       );
     }
 
-    const meterName =
-      typeof options.meterName === 'function'
-        ? options.meterName(event)
-        : options.meterName;
+    const eventName =
+      typeof options.eventName === 'function'
+        ? options.eventName(event)
+        : options.eventName;
 
     let metadata: Record<string, EventMetadataInput>;
 
@@ -88,7 +80,7 @@ export function createPolarDestination<TTags extends DefaultTags = DefaultTags>(
       await polar.events.ingest({
         events: [
           {
-            name: meterName,
+            name: eventName,
             customerId: String(internalId),
             ...(externalId ? { externalId: String(externalId) } : {}),
             metadata,
