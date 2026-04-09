@@ -1,7 +1,7 @@
 import type { Cost, DefaultTags } from './index.js';
 
 export interface Usage {
-  readonly subProviderId?: string;
+  readonly subProvider?: string;
   readonly inputTokens: number;
   readonly outputTokens: number;
   readonly totalTokens: number;

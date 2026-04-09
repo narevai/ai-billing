@@ -17,7 +17,7 @@ describe('OpenMeter Destination', () => {
       inputTokens: 100,
       outputTokens: 50,
       totalTokens: 150,
-      subProviderId: 'openai',
+      subProvider: 'openai',
     },
     cost: { amount: 70100, currency: 'USD', unit: 'nanos' },
     ...overrides,

@@ -62,7 +62,7 @@ export function createStripeDestination<
     const priorityKeys: (keyof MeterMetadata)[] = [
       'model_id',
       'provider',
-      'sub_provider_id',
+      'sub_provider',
       'input_tokens',
       'raw_provider_cost',
       'upstream_inference_cost',

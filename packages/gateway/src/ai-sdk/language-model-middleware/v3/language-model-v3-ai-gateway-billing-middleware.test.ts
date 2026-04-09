@@ -115,7 +115,7 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
         modelId: mockModel.modelId,
         provider: mockModel.provider || 'gateway',
         usage: {
-          subProviderId: realMetadata.gateway?.routing?.finalProvider,
+          subProvider: realMetadata.gateway?.routing?.finalProvider,
           inputTokens: baseResult.usage?.inputTokens.total,
           outputTokens: baseResult.usage?.outputTokens.total,
           cacheReadTokens: baseResult.usage?.inputTokens.cacheRead,
@@ -189,7 +189,7 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
         modelId: mockModel.modelId,
         provider: mockModel.provider,
         usage: {
-          subProviderId: realMetadata.gateway?.routing?.finalProvider,
+          subProvider: realMetadata.gateway?.routing?.finalProvider,
           inputTokens: baseResult.usage?.inputTokens.total,
           outputTokens: baseResult.usage?.outputTokens.total,
           cacheReadTokens: baseResult.usage?.inputTokens.cacheRead,

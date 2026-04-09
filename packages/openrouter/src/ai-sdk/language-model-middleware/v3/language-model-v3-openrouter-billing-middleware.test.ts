@@ -86,7 +86,7 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
         modelId: mockModel.modelId,
         provider: mockModel.provider || 'openrouter',
         usage: {
-          subProviderId: realMetadata.openrouter?.provider,
+          subProvider: realMetadata.openrouter?.provider,
           inputTokens: realMetadata.openrouter?.usage?.promptTokens,
           outputTokens: realMetadata.openrouter?.usage?.completionTokens,
           cacheReadTokens:
@@ -162,7 +162,7 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
         modelId: mockModel.modelId,
         provider: mockModel.provider || 'openrouter',
         usage: {
-          subProviderId: realMetadata.openrouter?.provider,
+          subProvider: realMetadata.openrouter?.provider,
           inputTokens: realMetadata.openrouter?.usage?.promptTokens,
           outputTokens: realMetadata.openrouter?.usage?.completionTokens,
           cacheReadTokens:
@@ -274,7 +274,7 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
       modelId: mockModel.modelId,
       provider: 'openrouter', // Fallback provider
       usage: {
-        subProviderId: 'Google AI Studio',
+        subProvider: 'Google AI Studio',
         inputTokens: 0,
         cacheReadTokens: 0,
         outputTokens: 0,

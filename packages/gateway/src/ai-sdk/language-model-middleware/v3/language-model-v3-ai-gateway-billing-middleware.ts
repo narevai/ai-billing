@@ -89,7 +89,7 @@ export function createGatewayV3Middleware<TTags extends DefaultTags>(
         provider: model.provider || 'gateway',
         tags: tags,
         usage: {
-          subProviderId: gatewayMetadata?.gateway?.routing?.finalProvider,
+          subProvider: gatewayMetadata?.gateway?.routing?.finalProvider,
           inputTokens: usage?.inputTokens.total ?? 0,
           outputTokens: usage?.outputTokens.total ?? 0,
           cacheReadTokens: usage?.inputTokens.cacheRead ?? 0,
