@@ -1,5 +1,12 @@
 # @ai-billing/polar
 
+## 0.0.5
+
+### Patch Changes
+
+- 6065b0f: rename meterName to eventName
+- f6f26b0: fix missing fields in polar metadata; rich error loging in polar destination
+
 ## 0.0.4
 
 ### Patch Changes
