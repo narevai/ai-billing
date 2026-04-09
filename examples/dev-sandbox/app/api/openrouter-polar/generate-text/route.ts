@@ -10,7 +10,7 @@ import { consoleDestination } from '@ai-billing/core';
 import { createPolarDestination } from '@ai-billing/polar';
 
 type BillingTags = {
-  userId?: string;
+  customer_id?: string;
   org_name?: string;
 };
 
@@ -51,7 +51,7 @@ export async function POST() {
       messages: await convertToModelMessages(messages),
       providerOptions: {
         'ai-billing-tags': {
-          userId: 'usr_test_123', // This triggers externalCustomerId in Polar
+          customer_id: '4a874ea3-53ec-432d-9d55-c55bf957e18f', // This triggers internalCustomerId in Polar
           org_name: 'Acme Corp', // This will end up in Polar metadata
         } as BillingTags,
       },
