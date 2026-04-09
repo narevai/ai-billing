@@ -98,11 +98,10 @@ const { textStream } = await streamText({
 | :--- | :--- | :--- |
 | **Polar.sh** | [`@ai-billing/polar`](https://www.npmjs.com/package/@ai-billing/polar) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fpolar) |
 | **Stripe** | [`@ai-billing/stripe`](https://www.npmjs.com/package/@ai-billing/stripe) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fstripe) |
-
+| **OpenMeter** (Kong) | [`@ai-billing/openmeter`](https://www.npmjs.com/package/@ai-billing/openmeter) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenmeter) |
 
 **Active development**
 - **Lago** ([#49](https://github.com/narevai/ai-billing/issues/49))
-- **OpenMeter/Kong** ([#50](https://github.com/narevai/ai-billing/issues/50))
 
 ### Backlog
 
