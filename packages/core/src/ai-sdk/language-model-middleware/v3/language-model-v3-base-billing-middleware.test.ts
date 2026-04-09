@@ -49,7 +49,7 @@ describe('createV3BillingMiddleware', () => {
       modelId: 'test-model',
       provider: 'test-provider',
       usage: {
-        subProviderId: 'final-provider',
+        subProvider: 'final-provider',
         inputTokens: 10,
         outputTokens: 20,
         cacheReadTokens: 5,

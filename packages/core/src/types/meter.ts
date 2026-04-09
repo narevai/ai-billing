@@ -2,7 +2,7 @@ export interface MeterMetadata {
   generation_id: string;
   model_id: string;
   provider: string;
-  sub_provider_id?: string;
+  sub_provider?: string;
 
   input_tokens?: number;
   output_tokens?: number;

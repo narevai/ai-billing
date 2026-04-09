@@ -55,7 +55,7 @@ export function createOpenRouterV3Middleware<TTags extends DefaultTags>(
         provider: model.provider || 'openrouter',
         tags: tags,
         usage: {
-          subProviderId: openrouterMetadata?.openrouter?.provider,
+          subProvider: openrouterMetadata?.openrouter?.provider,
           inputTokens: openRouterUsage.promptTokens ?? 0,
           outputTokens: openRouterUsage.completionTokens ?? 0,
           cacheReadTokens:

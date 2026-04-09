@@ -11,7 +11,7 @@ export interface ModelPricing {
 export type PriceResolverContext = {
   modelId: string;
   providerId?: string;
-  subProviderId?: string;
+  subProvider?: string;
   quantization?: string;
 };
 

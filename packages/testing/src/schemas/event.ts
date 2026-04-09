@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 export const UsageSchema = z
   .object({
-    subProviderId: z.string().optional(),
+    subProvider: z.string().optional(),
     inputTokens: z.number(),
     outputTokens: z.number(),
     totalTokens: z.number(),

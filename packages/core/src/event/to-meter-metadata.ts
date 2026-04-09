@@ -25,7 +25,7 @@ export function buildMeterMetadata<TTags extends DefaultTags = DefaultTags>(
     }
   };
 
-  addOptional('sub_provider_id', u.subProviderId);
+  addOptional('sub_provider', u.subProvider);
   addOptional('input_tokens', u.inputTokens);
   addOptional('output_tokens', u.outputTokens);
   addOptional('total_tokens', u.totalTokens);

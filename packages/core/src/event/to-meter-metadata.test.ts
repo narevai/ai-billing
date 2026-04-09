@@ -115,7 +115,7 @@ describe('buildMeterMetadata with Strict Schema', () => {
   it('should ignore null or undefined values in usage and tags', () => {
     const event = createMockEvent({
       usage: {
-        subProviderId: undefined,
+        subProvider: undefined,
         inputTokens: 1000,
         outputTokens: 500,
         totalTokens: 1500,
@@ -134,15 +134,15 @@ describe('buildMeterMetadata with Strict Schema', () => {
     expect(result.input_tokens).toBe(event.usage.inputTokens);
     expect(result.output_tokens).toBe(event.usage.outputTokens);
     expect(result.total_tokens).toBe(event.usage.totalTokens);
-    expect(result).not.toHaveProperty('sub_provider_id');
+    expect(result).not.toHaveProperty('sub_provider');
     expect(result).not.toHaveProperty('tag_invalid');
     expect(result.tag_valid).toBe('true');
   });
 
-  it('should correctly handle subProviderId when present', () => {
+  it('should correctly handle subProvider when present', () => {
     const event = createMockEvent({
       usage: {
-        subProviderId: 'azure-deployment-1',
+        subProvider: 'azure-deployment-1',
         inputTokens: 1000,
         outputTokens: 500,
         totalTokens: 1500,
@@ -150,6 +150,6 @@ describe('buildMeterMetadata with Strict Schema', () => {
     });
 
     const result = buildMeterMetadata(event);
-    expect(result.sub_provider_id).toBe('azure-deployment-1');
+    expect(result.sub_provider).toBe('azure-deployment-1');
   });
 });

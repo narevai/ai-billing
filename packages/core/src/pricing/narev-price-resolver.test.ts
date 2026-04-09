@@ -52,7 +52,7 @@ describe('createNarevPriceResolver', () => {
     expect(calledUrl).toContain('gateway=openai');
   });
 
-  it('should pass subProviderId as provider query param', async () => {
+  it('should pass subProvider as provider query param', async () => {
     mockFetch.mockResolvedValue(
       mockResponse({
         'gpt-4o': [{ price_prompt: 1e-6, price_completion: 2e-6 }],
@@ -63,7 +63,7 @@ describe('createNarevPriceResolver', () => {
     await resolver({
       modelId: 'gpt-4o',
       providerId: 'openrouter',
-      subProviderId: 'OpenAI',
+      subProvider: 'OpenAI',
     });
 
     const calledUrl = mockFetch.mock.calls[0]![0] as string;
