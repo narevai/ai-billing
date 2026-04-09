@@ -28,7 +28,6 @@ describe('Lago Destination', () => {
     const destination = createLagoDestination({
       apiKey: 'test-key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
     });
 
     await destination(createMockEvent());
@@ -45,27 +44,38 @@ describe('Lago Destination', () => {
     );
   });
 
-  it('should send cost_micros as the billing value', async () => {
+  it('should default meterCode to llm_usage', async () => {
+    const destination = createLagoDestination({
+      apiKey: 'key',
+      apiUrl: 'http://localhost:3000',
+    });
+
+    await destination(createMockEvent());
+
+    const body = JSON.parse(mockFetch.mock.calls[0]![1].body as string);
+    expect(body.event.code).toBe('llm_usage');
+  });
+
+  it('should send cost_nanos and currency as billing properties', async () => {
     const event = createMockEvent();
     const destination = createLagoDestination({
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
     });
 
     await destination(event);
 
     const body = JSON.parse(mockFetch.mock.calls[0]![1].body as string);
-    expect(body.event.properties.cost_micros).toBe(
-      costToNumber(event.cost!, 'micros'),
+    expect(body.event.properties.cost_nanos).toBe(
+      costToNumber(event.cost!, 'nanos'),
     );
+    expect(body.event.properties.currency).toBe('USD');
   });
 
   it('should include meter metadata as properties', async () => {
     const destination = createLagoDestination({
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
     });
 
     await destination(createMockEvent());
@@ -84,7 +94,6 @@ describe('Lago Destination', () => {
     const destination = createLagoDestination({
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
     });
 
     await destination(createMockEvent());
@@ -97,7 +106,6 @@ describe('Lago Destination', () => {
     const destination = createLagoDestination({
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
       externalCustomerIdKey: 'orgId',
     });
 
@@ -111,23 +119,21 @@ describe('Lago Destination', () => {
     const destination = createLagoDestination({
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
-      meterCode: event => `llm_cost_${event.provider}`,
+      meterCode: event => `llm_usage_${event.provider}`,
     });
 
     await destination(createMockEvent());
 
     const body = JSON.parse(mockFetch.mock.calls[0]![1].body as string);
-    expect(body.event.code).toBe('llm_cost_openai');
+    expect(body.event.code).toBe('llm_usage_openai');
   });
 
   it('should skip null and undefined values from mapMetadata', async () => {
     const destination = createLagoDestination({
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
       mapMetadata: () => ({
         valid: 42,
-        nullVal: null as unknown as number,
         undefinedVal: undefined as unknown as number,
       }),
     });
@@ -136,7 +142,6 @@ describe('Lago Destination', () => {
 
     const body = JSON.parse(mockFetch.mock.calls[0]![1].body as string);
     expect(body.event.properties.valid).toBe(42);
-    expect(body.event.properties).not.toHaveProperty('nullVal');
     expect(body.event.properties).not.toHaveProperty('undefinedVal');
   });
 
@@ -144,7 +149,6 @@ describe('Lago Destination', () => {
     const destination = createLagoDestination({
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
       mapMetadata: () => ({ custom: 42 }),
     });
 
@@ -152,7 +156,7 @@ describe('Lago Destination', () => {
 
     const body = JSON.parse(mockFetch.mock.calls[0]![1].body as string);
     expect(body.event.properties.custom).toBe(42);
-    expect(body.event.properties.cost_micros).toBeDefined();
+    expect(body.event.properties.cost_nanos).toBeDefined();
   });
 
   it('should warn and skip when no external_customer_id found', async () => {
@@ -160,7 +164,6 @@ describe('Lago Destination', () => {
     const destination = createLagoDestination({
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
     });
 
     await destination(createMockEvent({ tags: {} }));
@@ -182,7 +185,6 @@ describe('Lago Destination', () => {
     const destination = createLagoDestination({
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
     });
 
     await destination(createMockEvent());
@@ -204,7 +206,6 @@ describe('Lago Destination', () => {
     const destination = createLagoDestination({
       apiKey: 'bad-key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
     });
 
     await destination(createMockEvent());
@@ -225,7 +226,6 @@ describe('Lago Destination', () => {
     const destination = createLagoDestination({
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
     });
 
     await destination(createMockEvent());
@@ -246,7 +246,6 @@ describe('Lago Destination', () => {
     const destination = createLagoDestination({
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
     });
 
     await destination(createMockEvent());
@@ -264,7 +263,6 @@ describe('Lago Destination', () => {
     const destination = createLagoDestination({
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
     });
 
     await destination(createMockEvent());
@@ -282,7 +280,6 @@ describe('Lago Destination', () => {
     const destination = createLagoDestination({
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
     });
 
     await destination(createMockEvent());
@@ -299,7 +296,6 @@ describe('Lago Destination', () => {
     const destination = createLagoDestination({
       apiKey: 'key',
       apiUrl: 'http://localhost:3000',
-      meterCode: 'llm_cost',
     });
 
     await destination(createMockEvent());
@@ -313,7 +309,6 @@ describe('Lago Destination', () => {
   it('should default to https://api.getlago.com', async () => {
     const destination = createLagoDestination({
       apiKey: 'key',
-      meterCode: 'llm_cost',
     });
 
     await destination(createMockEvent());

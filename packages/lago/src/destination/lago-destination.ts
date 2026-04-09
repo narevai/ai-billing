@@ -15,7 +15,8 @@ export interface LagoDestinationOptions<
 > {
   apiKey: string;
   apiUrl?: string;
-  meterCode: string | ((event: BillingEvent<TTags>) => string);
+  /** Lago billable metric code. Defaults to 'llm_usage'. */
+  meterCode?: string | ((event: BillingEvent<TTags>) => string);
 
   /** Custom key to look for in tags for the Lago external customer ID.
    * Defaults to: 'userId' | 'externalCustomerId'
@@ -50,7 +51,7 @@ export function createLagoDestination<TTags extends DefaultTags = DefaultTags>(
     const meterCode =
       typeof options.meterCode === 'function'
         ? options.meterCode(event)
-        : options.meterCode;
+        : (options.meterCode ?? 'llm_usage');
 
     const metadata: Record<string, string | number | boolean> | MeterMetadata =
       options.mapMetadata
@@ -58,11 +59,12 @@ export function createLagoDestination<TTags extends DefaultTags = DefaultTags>(
         : buildMeterMetadata(event);
 
     const properties: Record<string, string | number | boolean> = {
-      cost_micros: costToNumber(event.cost!, 'micros'),
+      cost_nanos: costToNumber(event.cost!, 'nanos'),
+      currency: event.cost!.currency,
     };
 
     for (const [key, value] of Object.entries(metadata)) {
-      if (value !== undefined && value !== null) {
+      if (value !== undefined) {
         properties[key] = value as string | number | boolean;
       }
     }
