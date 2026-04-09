@@ -62,7 +62,7 @@ export function createOpenMeterDestination<
     };
 
     for (const [key, value] of Object.entries(metadata)) {
-      if (value !== undefined && value !== null) {
+      if (value !== undefined) {
         properties[key] = value as string | number | boolean;
       }
     }
