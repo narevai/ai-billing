@@ -19,6 +19,7 @@
     "@ai-billing/openai-compatible": "workspace:*",
     "@ai-billing/groq": "workspace:*",
     "@ai-billing/stripe": "workspace:*",
+    "@ai-billing/openmeter": "workspace:*",
     "@ai-sdk/openai": "^3.0.49",
     "@ai-sdk/groq": "^3.0.0",
     "@openrouter/ai-sdk-provider": "catalog:",
