@@ -32,6 +32,7 @@
   "scripts": {
     "build": "tsup",
     "check-types": "tsc --noEmit",
+    "docs:generate": "typedoc --options typedoc.json",
     "lint": "oxlint",
     "dev": "tsup --watch",
     "test": "vitest run",
@@ -44,10 +45,12 @@
     "@ai-billing/testing": "workspace:*",
     "@ai-billing/typescript-config": "workspace:*",
     "@ai-sdk/provider": "catalog:",
+    "@edge-runtime/vm": "catalog:",
     "tsup": "catalog:",
+    "typedoc": "^0.28.19",
+    "typedoc-plugin-markdown": "^4.11.0",
     "typescript": "catalog:",
     "vitest": "catalog:",
-    "@edge-runtime/vm": "catalog:",
     "zod": "catalog:"
   },
   "peerDependencies": {

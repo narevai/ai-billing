@@ -15,7 +15,76 @@
         "groups": [
           {
             "group": "ai-billing",
-            "pages": ["index", "quickstart"]
+            "pages": [
+              "index",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "@ai-billing/core",
+            "pages": [
+              "reference/core/index",
+              {
+                "group": "Reference",
+                "icon": "book-open",
+                "pages": [
+                  "reference/core/typedoc/index",
+                  {
+                    "group": "Functions",
+                    "pages": [
+                      "reference/core/typedoc/functions/addCosts",
+                      "reference/core/typedoc/functions/applyDiscount",
+                      "reference/core/typedoc/functions/buildMeterMetadata",
+                      "reference/core/typedoc/functions/consoleDestination",
+                      "reference/core/typedoc/functions/convertCostUnit",
+                      "reference/core/typedoc/functions/costToNumber",
+                      "reference/core/typedoc/functions/createBasePriceResolver",
+                      "reference/core/typedoc/functions/createDestination",
+                      "reference/core/typedoc/functions/createNarevPriceResolver",
+                      "reference/core/typedoc/functions/createObjectPriceResolver",
+                      "reference/core/typedoc/functions/createV3BillingMiddleware",
+                      "reference/core/typedoc/functions/multiplyCost",
+                      "reference/core/typedoc/functions/rateToCost",
+                      "reference/core/typedoc/functions/toJSONObject"
+                    ]
+                  },
+                  {
+                    "group": "Interfaces",
+                    "pages": [
+                      "reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions",
+                      "reference/core/typedoc/interfaces/BillingEvent",
+                      "reference/core/typedoc/interfaces/BillingMiddlewareV3Options",
+                      "reference/core/typedoc/interfaces/BuildV3EventPayload",
+                      "reference/core/typedoc/interfaces/Cost",
+                      "reference/core/typedoc/interfaces/MeterMetadata",
+                      "reference/core/typedoc/interfaces/ModelPricing",
+                      "reference/core/typedoc/interfaces/Usage"
+                    ]
+                  },
+                  {
+                    "group": "Types",
+                    "pages": [
+                      "reference/core/typedoc/type-aliases/CostUnit",
+                      "reference/core/typedoc/type-aliases/DefaultTags",
+                      "reference/core/typedoc/type-aliases/Destination",
+                      "reference/core/typedoc/type-aliases/EventBuilder",
+                      "reference/core/typedoc/type-aliases/NarevPriceResolverOptions",
+                      "reference/core/typedoc/type-aliases/PriceResolver",
+                      "reference/core/typedoc/type-aliases/PriceResolverContext"
+                    ]
+                  },
+                  {
+                    "group": "Classes",
+                    "pages": [
+                      "reference/core/typedoc/classes/AiBillingCostError",
+                      "reference/core/typedoc/classes/AiBillingDestinationError",
+                      "reference/core/typedoc/classes/AIBillingError",
+                      "reference/core/typedoc/classes/AiBillingExtractorError"
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         ]
       }

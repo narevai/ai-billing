@@ -1,0 +1,117 @@
+[**@ai-billing/core**](../index)
+
+***
+
+[@ai-billing/core](../index) / AIBillingError
+
+# Class: AIBillingError
+
+Defined in: [packages/core/src/error/ai-billing-error.ts:4](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/ai-billing-error.ts#L4)
+
+## Extends
+
+- `Error`
+
+## Extended by
+
+- [`AiBillingExtractorError`](AiBillingExtractorError)
+- [`AiBillingDestinationError`](AiBillingDestinationError)
+- [`AiBillingCostError`](AiBillingCostError)
+
+## Constructors
+
+### Constructor
+
+> **new AIBillingError**(`__namedParameters`): `AIBillingError`
+
+Defined in: [packages/core/src/error/ai-billing-error.ts:9](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/ai-billing-error.ts#L9)
+
+#### Parameters
+
+##### \_\_namedParameters
+
+###### name
+
+`string`
+
+###### message
+
+`string`
+
+###### cause?
+
+`unknown`
+
+#### Returns
+
+`AIBillingError`
+
+#### Overrides
+
+`Error.constructor`
+
+## Properties
+
+### cause?
+
+> `readonly` `optional` **cause?**: `unknown`
+
+Defined in: [packages/core/src/error/ai-billing-error.ts:7](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/ai-billing-error.ts#L7)
+
+#### Overrides
+
+`Error.cause`
+
+***
+
+### name
+
+> **name**: `string`
+
+Defined in: node\_modules/.pnpm/typescript@5.9.2/node\_modules/typescript/lib/lib.es5.d.ts:1076
+
+#### Inherited from
+
+`Error.name`
+
+***
+
+### message
+
+> **message**: `string`
+
+Defined in: node\_modules/.pnpm/typescript@5.9.2/node\_modules/typescript/lib/lib.es5.d.ts:1077
+
+#### Inherited from
+
+`Error.message`
+
+***
+
+### stack?
+
+> `optional` **stack?**: `string`
+
+Defined in: node\_modules/.pnpm/typescript@5.9.2/node\_modules/typescript/lib/lib.es5.d.ts:1078
+
+#### Inherited from
+
+`Error.stack`
+
+## Methods
+
+### isInstance()
+
+> `static` **isInstance**(`error`): `error is AIBillingError`
+
+Defined in: [packages/core/src/error/ai-billing-error.ts:23](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/ai-billing-error.ts#L23)
+
+#### Parameters
+
+##### error
+
+`unknown`
+
+#### Returns
+
+`error is AIBillingError`

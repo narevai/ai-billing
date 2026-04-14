@@ -11,8 +11,5 @@
   },
   "dependencies": {
     "mintlify": "^4.0.0"
-  },
-  "devDependencies": {
-    "mint-tsdocs": "^0.0.8"
   }
 }
