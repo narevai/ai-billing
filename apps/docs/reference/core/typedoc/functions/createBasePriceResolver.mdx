@@ -8,7 +8,9 @@
 
 > **createBasePriceResolver**(`handler`): [`PriceResolver`](../type-aliases/PriceResolver)
 
-Defined in: [packages/core/src/pricing/base-price-resolver.ts:7](https://github.com/narevai/ai-billing/blob/main/packages/core/src/pricing/base-price-resolver.ts#L7)
+Defined in: [packages/core/src/pricing/base-price-resolver.ts:12](https://github.com/narevai/ai-billing/blob/main/packages/core/src/pricing/base-price-resolver.ts#L12)
+
+Creates a base price resolver that wraps a handler function.
 
 ## Parameters
 
@@ -16,6 +18,10 @@ Defined in: [packages/core/src/pricing/base-price-resolver.ts:7](https://github.
 
 (`context`) => [`ModelPricing`](../interfaces/ModelPricing) \| `Promise`\<[`ModelPricing`](../interfaces/ModelPricing) \| `undefined`\> \| `undefined`
 
+The function that resolves model pricing.
+
 ## Returns
 
 [`PriceResolver`](../type-aliases/PriceResolver)
+
+A price resolver that wraps the handler function.

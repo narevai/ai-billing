@@ -6,7 +6,9 @@
 
 # Class: AiBillingDestinationError
 
-Defined in: [packages/core/src/error/destination-error.ts:7](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/destination-error.ts#L7)
+Defined in: [packages/core/src/error/destination-error.ts:10](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/destination-error.ts#L10)
+
+Error raised when billing data processing fails for a destination.
 
 ## Extends
 
@@ -18,7 +20,7 @@ Defined in: [packages/core/src/error/destination-error.ts:7](https://github.com/
 
 > **new AiBillingDestinationError**(`__namedParameters`): `AiBillingDestinationError`
 
-Defined in: [packages/core/src/error/destination-error.ts:12](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/destination-error.ts#L12)
+Defined in: [packages/core/src/error/destination-error.ts:16](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/destination-error.ts#L16)
 
 #### Parameters
 
@@ -50,7 +52,7 @@ Defined in: [packages/core/src/error/destination-error.ts:12](https://github.com
 
 > `readonly` `optional` **cause?**: `unknown`
 
-Defined in: [packages/core/src/error/ai-billing-error.ts:7](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/ai-billing-error.ts#L7)
+Defined in: [packages/core/src/error/ai-billing-error.ts:8](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/ai-billing-error.ts#L8)
 
 #### Inherited from
 
@@ -62,7 +64,9 @@ Defined in: [packages/core/src/error/ai-billing-error.ts:7](https://github.com/n
 
 > `readonly` `optional` **destinationId?**: `string`
 
-Defined in: [packages/core/src/error/destination-error.ts:10](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/destination-error.ts#L10)
+Defined in: [packages/core/src/error/destination-error.ts:14](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/destination-error.ts#L14)
+
+The ID of the destination that failed to process billing data.
 
 ***
 
@@ -106,7 +110,7 @@ Defined in: node\_modules/.pnpm/typescript@5.9.2/node\_modules/typescript/lib/li
 
 > `static` **isInstance**(`error`): `error is AiBillingDestinationError`
 
-Defined in: [packages/core/src/error/destination-error.ts:25](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/destination-error.ts#L25)
+Defined in: [packages/core/src/error/destination-error.ts:29](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/destination-error.ts#L29)
 
 #### Parameters
 

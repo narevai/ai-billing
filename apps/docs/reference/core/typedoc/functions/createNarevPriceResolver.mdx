@@ -6,16 +6,22 @@
 
 # Function: createNarevPriceResolver()
 
-> **createNarevPriceResolver**(`__namedParameters`): [`PriceResolver`](../type-aliases/PriceResolver)
+> **createNarevPriceResolver**(`options`): [`PriceResolver`](../type-aliases/PriceResolver)
 
-Defined in: [packages/core/src/pricing/narev-price-resolver.ts:34](https://github.com/narevai/ai-billing/blob/main/packages/core/src/pricing/narev-price-resolver.ts#L34)
+Defined in: [packages/core/src/pricing/narev-price-resolver.ts:46](https://github.com/narevai/ai-billing/blob/main/packages/core/src/pricing/narev-price-resolver.ts#L46)
+
+Creates a price resolver that fetches model pricing from the Narev API.
 
 ## Parameters
 
-### \_\_namedParameters
+### options
 
 [`NarevPriceResolverOptions`](../type-aliases/NarevPriceResolverOptions)
+
+Resolver options for Narev API access.
 
 ## Returns
 
 [`PriceResolver`](../type-aliases/PriceResolver)
+
+A base price resolver that resolves model pricing from Narev.

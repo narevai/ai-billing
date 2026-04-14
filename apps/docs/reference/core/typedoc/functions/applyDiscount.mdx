@@ -8,7 +8,9 @@
 
 > **applyDiscount**(`cost`, `discount`): [`Cost`](../interfaces/Cost)
 
-Defined in: [packages/core/src/cost/op-cost.ts:38](https://github.com/narevai/ai-billing/blob/main/packages/core/src/cost/op-cost.ts#L38)
+Defined in: [packages/core/src/cost/op-cost.ts:58](https://github.com/narevai/ai-billing/blob/main/packages/core/src/cost/op-cost.ts#L58)
+
+Applies a percentage discount to a cost.
 
 ## Parameters
 
@@ -16,10 +18,16 @@ Defined in: [packages/core/src/cost/op-cost.ts:38](https://github.com/narevai/ai
 
 [`Cost`](../interfaces/Cost)
 
+The original cost.
+
 ### discount
 
 `number`
 
+Discount ratio between 0 and 1.
+
 ## Returns
 
 [`Cost`](../interfaces/Cost)
+
+The discounted cost in nanos.
