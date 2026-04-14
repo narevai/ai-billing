@@ -6,9 +6,13 @@
   "scripts": {
     "dev": "mintlify dev",
     "build": "mintlify build",
-    "preview": "mintlify preview"
+    "preview": "mintlify preview",
+    "docs:generate": "node scripts/generate.mjs"
   },
   "dependencies": {
     "mintlify": "^4.0.0"
+  },
+  "devDependencies": {
+    "mint-tsdocs": "^0.0.8"
   }
 }
