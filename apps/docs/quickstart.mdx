@@ -1,80 +1,75 @@
 ---
 title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+description: "Install ai-billing, wrap your model, and send usage to a billing destination."
 ---
 
-## Get started in three steps
+## Install packages
 
-Get your documentation site running locally and make your first customization.
+Install core middleware plus a provider package. This example uses OpenRouter:
 
-### Step 1: Set up your local environment
+```bash
+pnpm add @ai-billing/core @ai-billing/openrouter @openrouter/ai-sdk-provider ai
+```
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+If you want to send events to Polar, add:
 
-### Step 2: Deploy your changes
+```bash
+pnpm add @ai-billing/polar
+```
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+## Wrap your model
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+Create middleware and wrap your AI SDK model:
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+```typescript
+import { wrapLanguageModel } from 'ai';
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
 
-### Step 3: Go live
+const billingMiddleware = createOpenRouterV3Middleware({});
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+const model = wrapLanguageModel({
+  model: createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY })('google/gemini-2.0-flash-001'),
+  middleware: billingMiddleware,
+});
+```
 
-## Next steps
+## Send usage to a destination
 
-Now that you have your docs running, explore these key features:
+Configure a destination to forward normalized events. Example for Polar:
 
-<CardGroup cols={2}>
+```typescript
+import { streamText, wrapLanguageModel } from 'ai';
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
+import { createPolarDestination } from '@ai-billing/polar';
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
+const billingMiddleware = createOpenRouterV3Middleware({
+  destinations: [
+    createPolarDestination({
+      accessToken: process.env.POLAR_ACCESS_TOKEN,
+      eventName: 'llm_usage',
+    }),
+  ],
+});
 
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
+const model = wrapLanguageModel({
+  model: createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY })('google/gemini-2.0-flash-001'),
+  middleware: billingMiddleware,
+});
 
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
+const { textStream } = await streamText({
+  model,
+  messages: [{ role: 'user', content: 'Quantify the value of metadata.' }],
+  providerOptions: {
+    'ai-billing-tags': { userId: 'usr_123', org: 'Acme' },
+  },
+});
+```
 
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
+## Supported integrations
 
-</CardGroup>
+- Providers: OpenRouter, OpenAI, Vercel AI Gateway, OpenAI Compatible, and Groq
+- Destinations: Polar, Stripe, OpenMeter, and Lago
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+See the [GitHub repository](https://github.com/narevai/ai-billing) for current roadmap items and updates.

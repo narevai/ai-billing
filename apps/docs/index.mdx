@@ -1,97 +1,41 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "ai-billing"
+description: "Middleware for Vercel AI SDK that sends usage events to billing providers."
 ---
 
-## Setting up
+# AI Billing
 
-Get your documentation site up and running in minutes.
+`ai-billing` is middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) that captures usage and sends normalized billing events to external billing systems.
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
+It helps you:
+
+- calculate usage costs with provider-aware middleware
+- add request-level tags (such as user or org metadata)
+- forward events to destinations like Polar, Stripe, OpenMeter, and Lago
+
+<Card title="Quickstart" icon="rocket" href="/quickstart" horizontal>
+  Install packages, wrap your model, and emit billing events in a few minutes.
 </Card>
 
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
+## Packages
 
 <Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+  <Card title="Provider integrations" icon="plug">
+    Use provider middleware packages like `@ai-billing/openrouter`, `@ai-billing/openai`, `@ai-billing/gateway`, and `@ai-billing/groq`.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Destinations" icon="receipt">
+    Send billing events to `@ai-billing/polar`, `@ai-billing/stripe`, `@ai-billing/openmeter`, and `@ai-billing/lago`.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Core primitives" icon="boxes-stacked" href="/reference/core/index">
+    `@ai-billing/core` provides shared billing types, price resolvers, and destination helpers.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="API reference" icon="book-open" href="/reference/core/typedoc/index">
+    Explore generated reference docs for types, functions, and classes.
   </Card>
 </Columns>
 
-## Create beautiful pages
+## Status
 
-Everything you need to create world-class documentation.
+Current focus is robust support for text-model usage accounting, with additional provider integrations in active development.
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+See the [GitHub repository](https://github.com/narevai/ai-billing) for roadmap progress and contribution details.
