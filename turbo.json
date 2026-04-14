@@ -57,7 +57,16 @@
     },
     "docs#docs:generate": {
       "dependsOn": [
-        "@ai-billing/core#docs:generate"
+        "@ai-billing/core#docs:generate",
+        "@ai-billing/polar#docs:generate",
+        "@ai-billing/openmeter#docs:generate",
+        "@ai-billing/lago#docs:generate",
+        "@ai-billing/stripe#docs:generate",
+        "@ai-billing/openrouter#docs:generate",
+        "@ai-billing/openai#docs:generate",
+        "@ai-billing/openai-compatible#docs:generate",
+        "@ai-billing/groq#docs:generate",
+        "@ai-billing/gateway#docs:generate"
       ],
       "cache": false
     }

@@ -23,6 +23,9 @@ catalogs:
     zod: '^4.3.6'
     'eslint-plugin-jsdoc': '^62.9.0'
 
+    typedoc: '^0.28.19'
+    typedoc-plugin-markdown: '^4.11.0'
+
     # Tooling Orchestration
     turbo: '^2.8.20'
 

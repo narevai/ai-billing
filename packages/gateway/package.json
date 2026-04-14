@@ -32,6 +32,7 @@
   "scripts": {
     "build": "tsup",
     "check-types": "tsc --noEmit",
+    "docs:generate": "typedoc --options typedoc.json",
     "lint": "oxlint",
     "dev": "tsup --watch",
     "test": "vitest run",
@@ -47,6 +48,8 @@
     "@ai-billing/typescript-config": "workspace:*",
     "@ai-billing/testing": "workspace:*",
     "tsup": "catalog:",
+    "typedoc": "catalog:",
+    "typedoc-plugin-markdown": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
     "ai": "catalog:",

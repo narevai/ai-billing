@@ -47,8 +47,8 @@
     "@ai-sdk/provider": "catalog:",
     "@edge-runtime/vm": "catalog:",
     "tsup": "catalog:",
-    "typedoc": "^0.28.19",
-    "typedoc-plugin-markdown": "^4.11.0",
+    "typedoc": "catalog:",
+    "typedoc-plugin-markdown": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
     "zod": "catalog:"
