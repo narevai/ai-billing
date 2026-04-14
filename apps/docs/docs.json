@@ -14,11 +14,8 @@
         "tab": "SDKs",
         "groups": [
           {
-            "group": "ai-billing",
-            "pages": [
-              "index",
-              "quickstart"
-            ]
+            "group": "Getting Started",
+            "pages": ["index"]
           },
           {
             "group": "@ai-billing/core",
