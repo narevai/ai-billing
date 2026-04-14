@@ -177,6 +177,8 @@ function syncNavigation() {
 
   if (!Array.isArray(sdkTab.groups)) sdkTab.groups = [];
 
+  const activeGroups = new Set();
+
   for (const pkg of packages.sort(sortAlpha)) {
     const pkgDir = path.join(REFERENCE_DIR, pkg);
     const typedocDir = path.join(pkgDir, 'typedoc');
@@ -208,7 +210,12 @@ function syncNavigation() {
     }
 
     existing.pages = groupPages;
+    activeGroups.add(groupName);
   }
+
+  sdkTab.groups = sdkTab.groups.filter(
+    (g) => !g?.group?.startsWith('@ai-billing/') || activeGroups.has(g.group),
+  );
 
   fs.writeFileSync(DOCS_JSON_PATH, `${JSON.stringify(docsJson, null, 2)}\n`);
 }
