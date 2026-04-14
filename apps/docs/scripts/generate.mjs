@@ -4,13 +4,19 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DOCS_APP_DIR = path.resolve(__dirname, '..');
-const CORE_TYPEDOC_DIR = path.resolve(DOCS_APP_DIR, 'reference/core/typedoc');
-const CORE_OVERVIEW_DOC_PATH = path.resolve(DOCS_APP_DIR, 'reference/core/index.mdx');
-const CORE_OVERVIEW_PAGE = 'reference/core/index';
+const REFERENCE_DIR = path.resolve(DOCS_APP_DIR, 'reference');
 const DOCS_JSON_PATH = path.resolve(DOCS_APP_DIR, 'docs.json');
 
 if (!fs.existsSync(DOCS_JSON_PATH)) {
   throw new Error(`Mintlify docs.json not found at ${DOCS_JSON_PATH}`);
+}
+
+function discoverPackages() {
+  if (!fs.existsSync(REFERENCE_DIR)) return [];
+  return fs
+    .readdirSync(REFERENCE_DIR, { withFileTypes: true })
+    .filter((e) => e.isDirectory())
+    .map((e) => e.name);
 }
 
 function walkFiles(dir, extension, results = []) {
@@ -31,16 +37,14 @@ function toMintPagePath(absPath) {
   return relativePath.replace(/\\/g, '/').replace(/\.mdx?$/i, '');
 }
 
-function sortAlphaCaseInsensitive(a, b) {
+function sortAlpha(a, b) {
   return a.localeCompare(b, undefined, { sensitivity: 'base' });
 }
 
-function normalizeTypedocMarkdownOutput() {
-  if (!fs.existsSync(CORE_TYPEDOC_DIR)) {
-    return;
-  }
+function normalizeTypedocOutput(typedocDir) {
+  if (!fs.existsSync(typedocDir)) return;
 
-  const markdownFiles = walkFiles(CORE_TYPEDOC_DIR, '.md');
+  const markdownFiles = walkFiles(typedocDir, '.md');
   for (const filePath of markdownFiles) {
     const original = fs.readFileSync(filePath, 'utf8');
     let updated = original.replace(
@@ -57,30 +61,25 @@ function normalizeTypedocMarkdownOutput() {
   }
 
   for (const filePath of markdownFiles) {
-    const mdxPath = filePath.replace(/\.md$/i, '.mdx');
-    fs.renameSync(filePath, mdxPath);
+    fs.renameSync(filePath, filePath.replace(/\.md$/i, '.mdx'));
   }
 
-  const readmeMdxPath = path.join(CORE_TYPEDOC_DIR, 'README.mdx');
-  const indexMdxPath = path.join(CORE_TYPEDOC_DIR, 'index.mdx');
+  const readmeMdxPath = path.join(typedocDir, 'README.mdx');
+  const indexMdxPath = path.join(typedocDir, 'index.mdx');
   if (fs.existsSync(readmeMdxPath)) {
-    if (fs.existsSync(indexMdxPath)) {
-      fs.unlinkSync(indexMdxPath);
-    }
+    if (fs.existsSync(indexMdxPath)) fs.unlinkSync(indexMdxPath);
     fs.renameSync(readmeMdxPath, indexMdxPath);
   }
 }
 
-function buildTypedocReferencePages() {
-  if (!fs.existsSync(CORE_TYPEDOC_DIR)) {
-    console.warn(`TypeDoc output directory not found at ${CORE_TYPEDOC_DIR}; skipping nav sync.`);
-    return [];
-  }
+function buildTypedocPages(typedocDir, pkg) {
+  if (!fs.existsSync(typedocDir)) return [];
 
-  const typedocFiles = [
-    ...walkFiles(CORE_TYPEDOC_DIR, '.md'),
-    ...walkFiles(CORE_TYPEDOC_DIR, '.mdx'),
+  const files = [
+    ...walkFiles(typedocDir, '.md'),
+    ...walkFiles(typedocDir, '.mdx'),
   ];
+
   const bucketed = {
     readme: [],
     functions: [],
@@ -90,78 +89,81 @@ function buildTypedocReferencePages() {
     other: [],
   };
 
-  for (const filePath of typedocFiles) {
-    const relativeToTypedoc = path.relative(CORE_TYPEDOC_DIR, filePath).replace(/\\/g, '/');
+  for (const filePath of files) {
+    const rel = path.relative(typedocDir, filePath).replace(/\\/g, '/');
     const mintPath = toMintPagePath(filePath);
-    const [firstSegment] = relativeToTypedoc.split('/');
+    const [firstSegment] = rel.split('/');
 
-    if (
-      relativeToTypedoc === 'README.md' ||
-      relativeToTypedoc === 'README.mdx' ||
-      relativeToTypedoc === 'index.md' ||
-      relativeToTypedoc === 'index.mdx'
-    ) {
-      bucketed.readme.push('reference/core/typedoc/index');
+    if (/^(README|index)\.(md|mdx)$/.test(rel)) {
+      bucketed.readme.push(`reference/${pkg}/typedoc/index`);
       continue;
     }
 
-    if (firstSegment === 'functions') {
-      bucketed.functions.push(mintPath);
-      continue;
-    }
-
-    if (firstSegment === 'interfaces') {
-      bucketed.interfaces.push(mintPath);
-      continue;
-    }
-
-    if (firstSegment === 'type-aliases') {
-      bucketed.types.push(mintPath);
-      continue;
-    }
-
-    if (firstSegment === 'classes') {
-      bucketed.classes.push(mintPath);
-      continue;
-    }
-
-    bucketed.other.push(mintPath);
+    const bucket =
+      firstSegment === 'functions'
+        ? 'functions'
+        : firstSegment === 'interfaces'
+          ? 'interfaces'
+          : firstSegment === 'type-aliases'
+            ? 'types'
+            : firstSegment === 'classes'
+              ? 'classes'
+              : 'other';
+    bucketed[bucket].push(mintPath);
   }
-
-  const readmePages = [...new Set(bucketed.readme)].sort(sortAlphaCaseInsensitive);
-  const functionPages = [...new Set(bucketed.functions)].sort(sortAlphaCaseInsensitive);
-  const interfacePages = [...new Set(bucketed.interfaces)].sort(sortAlphaCaseInsensitive);
-  const typePages = [...new Set(bucketed.types)].sort(sortAlphaCaseInsensitive);
-  const classPages = [...new Set(bucketed.classes)].sort(sortAlphaCaseInsensitive);
-  const otherPages = [...new Set(bucketed.other)].sort(sortAlphaCaseInsensitive);
 
   const pages = [];
-  pages.push(...readmePages);
+  pages.push(...[...new Set(bucketed.readme)].sort(sortAlpha));
 
-  if (functionPages.length > 0) {
-    pages.push({ group: 'Functions', pages: functionPages });
-  }
+  const groups = [
+    { key: 'functions', label: 'Functions' },
+    { key: 'interfaces', label: 'Interfaces' },
+    { key: 'types', label: 'Types' },
+    { key: 'classes', label: 'Classes' },
+    { key: 'other', label: 'Other' },
+  ];
 
-  if (interfacePages.length > 0) {
-    pages.push({ group: 'Interfaces', pages: interfacePages });
-  }
-
-  if (typePages.length > 0) {
-    pages.push({ group: 'Types', pages: typePages });
-  }
-
-  if (classPages.length > 0) {
-    pages.push({ group: 'Classes', pages: classPages });
-  }
-
-  if (otherPages.length > 0) {
-    pages.push({ group: 'Other', pages: otherPages });
+  for (const { key, label } of groups) {
+    const sorted = [...new Set(bucketed[key])].sort(sortAlpha);
+    if (sorted.length > 0) {
+      pages.push({ group: label, pages: sorted });
+    }
   }
 
   return pages;
 }
 
-function upsertCoreReferenceGroup() {
+/*
+ * Collects handwritten `.mdx` pages directly inside `reference/<pkg>/`
+ * (excludes the `typedoc/` subdirectory). Returns them ordered with
+ * `index` first, then alphabetically.
+ */
+function buildHandwrittenPages(pkgDir, pkg) {
+  if (!fs.existsSync(pkgDir)) return [];
+
+  const pages = [];
+  for (const entry of fs.readdirSync(pkgDir, { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith('.mdx')) continue;
+    pages.push(toMintPagePath(path.join(pkgDir, entry.name)));
+  }
+
+  const indexPage = `reference/${pkg}/index`;
+  const idx = pages.indexOf(indexPage);
+  if (idx >= 0) pages.splice(idx, 1);
+
+  pages.sort(sortAlpha);
+
+  if (idx >= 0) pages.unshift(indexPage);
+  return pages;
+}
+
+function syncNavigation() {
+  const packages = discoverPackages();
+  if (packages.length === 0) {
+    console.log('No packages found in reference/. Nothing to do.');
+    return;
+  }
+
   const docsJson = JSON.parse(fs.readFileSync(DOCS_JSON_PATH, 'utf8'));
   const tabs = docsJson?.navigation?.tabs;
   if (!Array.isArray(tabs)) {
@@ -173,65 +175,49 @@ function upsertCoreReferenceGroup() {
     throw new Error('SDKs tab not found in docs.json navigation.tabs');
   }
 
-  if (!Array.isArray(sdkTab.groups)) {
-    sdkTab.groups = [];
-  }
+  if (!Array.isArray(sdkTab.groups)) sdkTab.groups = [];
 
-  let coreGroup = sdkTab.groups.find((group) => group?.group === '@ai-billing/core');
-  if (!coreGroup) {
-    coreGroup = { group: '@ai-billing/core', pages: [] };
-    sdkTab.groups.push(coreGroup);
-  }
+  for (const pkg of packages.sort(sortAlpha)) {
+    const pkgDir = path.join(REFERENCE_DIR, pkg);
+    const typedocDir = path.join(pkgDir, 'typedoc');
+    const groupName = `@ai-billing/${pkg}`;
 
-  if (!Array.isArray(coreGroup.pages)) {
-    coreGroup.pages = [];
-  }
+    console.log(`Processing ${groupName}...`);
 
-  if (fs.existsSync(CORE_OVERVIEW_DOC_PATH)) {
-    const existingOverviewIndex = coreGroup.pages.findIndex(
-      (page) => page === CORE_OVERVIEW_PAGE,
-    );
+    normalizeTypedocOutput(typedocDir);
 
-    if (existingOverviewIndex >= 0) {
-      coreGroup.pages.splice(existingOverviewIndex, 1);
+    const handwritten = buildHandwrittenPages(pkgDir, pkg);
+    const typedocPages = buildTypedocPages(typedocDir, pkg);
+
+    const groupPages = [...handwritten];
+
+    if (typedocPages.length > 0) {
+      groupPages.push({
+        group: 'Reference',
+        icon: 'book-open',
+        pages: typedocPages,
+      });
     }
 
-    coreGroup.pages.unshift(CORE_OVERVIEW_PAGE);
-  }
+    if (groupPages.length === 0) continue;
 
-  const referencePages = buildTypedocReferencePages();
-  if (referencePages.length === 0) {
-    return;
-  }
+    let existing = sdkTab.groups.find((g) => g?.group === groupName);
+    if (!existing) {
+      existing = { group: groupName, pages: [] };
+      sdkTab.groups.push(existing);
+    }
 
-  const referenceGroup = {
-    group: 'Reference',
-    icon: 'book-open',
-    pages: referencePages,
-  };
-
-  const existingReferenceIndex = coreGroup.pages.findIndex(
-    (page) => page && typeof page === 'object' && page.group === 'Reference',
-  );
-
-  if (existingReferenceIndex >= 0) {
-    coreGroup.pages[existingReferenceIndex] = referenceGroup;
-  } else {
-    coreGroup.pages.push(referenceGroup);
+    existing.pages = groupPages;
   }
 
   fs.writeFileSync(DOCS_JSON_PATH, `${JSON.stringify(docsJson, null, 2)}\n`);
 }
 
 try {
-  console.log('Normalizing generated core docs...');
-  normalizeTypedocMarkdownOutput();
-  console.log('Syncing @ai-billing/core docs navigation...');
-  upsertCoreReferenceGroup();
-
-  console.log('Core docs navigation sync complete.');
+  syncNavigation();
+  console.log('Docs navigation sync complete.');
 } catch (err) {
-  console.error('Failed to sync docs for @ai-billing/core');
+  console.error('Failed to sync docs navigation');
   console.error(err);
   process.exitCode = 1;
 }
