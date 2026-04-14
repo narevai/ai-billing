@@ -8,7 +8,6 @@
     "docs:generate": "node scripts/generate.mjs"
   },
   "dependencies": {
-    "@ai-billing/core": "workspace:*",
     "mintlify": "^4.0.0"
   }
 }
