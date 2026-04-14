@@ -51,6 +51,10 @@
         "knip.json",
         "**/package.json"
       ]
+    },
+    "docs": {
+      "dependsOn": [],
+      "outputs": []
     }
   }
 }

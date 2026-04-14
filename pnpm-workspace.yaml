@@ -1,6 +1,7 @@
 packages:
-  - 'examples/*'
   - 'packages/*'
+  - 'examples/*'
+  - 'apps/*'
 allowBuilds:
   sharp: false
 
