@@ -53,8 +53,11 @@
       ]
     },
     "docs:generate": {
+      "outputs": []
+    },
+    "docs#docs:generate": {
       "dependsOn": [
-        "^docs:generate"
+        "@ai-billing/core#docs:generate"
       ],
       "outputs": []
     }

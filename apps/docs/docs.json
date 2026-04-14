@@ -15,7 +15,9 @@
         "groups": [
           {
             "group": "Getting Started",
-            "pages": ["index"]
+            "pages": [
+              "index"
+            ]
           },
           {
             "group": "@ai-billing/core",
