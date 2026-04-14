@@ -19,6 +19,7 @@
     "@changesets/cli": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "eslint-plugin-jsdoc": "catalog:",
+    "eslint-plugin-tsdoc": "catalog:",
     "knip": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
