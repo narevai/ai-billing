@@ -20,6 +20,12 @@ export interface OpenAICompatibleV3MiddlewareOptions<
   providerId: string;
 }
 
+/**
+ * Creates a V3 billing middleware for OpenAI-compatible providers.
+ *
+ * @param options - Middleware configuration, provider id, and pricing resolver.
+ * @returns A billing middleware that emits normalized billing events.
+ */
 export function createOpenAICompatibleV3Middleware<TTags extends DefaultTags>(
   options: OpenAICompatibleV3MiddlewareOptions<TTags>,
 ) {

@@ -14,13 +14,21 @@ export interface OpenAICompatibleCostInputs {
   reasoningTokens: number;
 }
 
-export const calculateOpenAICompatibleCost = ({
-  pricing,
-  usage,
-}: {
+/**
+ * Calculates the total cost of an OpenAI-compatible API call from token usage and model pricing.
+ *
+ * @param params - Inputs required to calculate the request cost.
+ * - `params.pricing`: Per-token rates for the model, or `undefined` if pricing is unavailable.
+ * - `params.usage`: Token counts from the API response.
+ * @returns The calculated {@link Cost}, or `undefined` when `pricing` is not provided.
+ * @internal
+ */
+export const calculateOpenAICompatibleCost = (params: {
   pricing: ModelPricing | undefined;
   usage: OpenAICompatibleCostInputs;
 }): Cost | undefined => {
+  const { pricing, usage } = params;
+
   if (!pricing) {
     return undefined;
   }

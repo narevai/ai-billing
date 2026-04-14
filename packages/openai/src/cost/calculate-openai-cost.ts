@@ -6,21 +6,33 @@ import {
 } from '@ai-billing/core';
 import type { ModelPricing, Cost } from '@ai-billing/core';
 
+/** Token usage counts extracted from an OpenAI API response. */
 export interface OpenAICostInputs {
+  /** Number of prompt (input) tokens. */
   promptTokens: number;
+  /** Number of completion (output) tokens. */
   completionTokens: number;
+  /** Number of tokens served from the prompt cache. */
   cacheReadTokens: number;
+  /** Number of tokens written to the prompt cache. */
   cacheWriteTokens: number;
+  /** Number of internal reasoning tokens (o-series models). */
   reasoningTokens: number;
 }
 
-export const calculateOpenAICost = ({
-  pricing,
-  usage,
-}: {
+/**
+ * Calculates the total cost of an OpenAI API call from token usage and model pricing.
+ *
+ * @param params - Inputs required to calculate the request cost.
+ * @returns The calculated {@link Cost}, or `undefined` when `pricing` is not provided.
+ * @internal
+ */
+export const calculateOpenAICost = (params: {
   pricing: ModelPricing | undefined;
   usage: OpenAICostInputs;
 }): Cost | undefined => {
+  const { pricing, usage } = params;
+
   if (!pricing) {
     return undefined;
   }

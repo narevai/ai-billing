@@ -29,6 +29,12 @@ export interface OpenAIV3MiddlewareOptions<
   priceResolver: PriceResolver;
 }
 
+/**
+ * Creates a V3 billing middleware for OpenAI responses.
+ *
+ * @param options - Middleware configuration and pricing resolver.
+ * @returns A billing middleware that emits normalized billing events.
+ */
 export function createOpenAIV3Middleware<TTags extends DefaultTags>(
   options: OpenAIV3MiddlewareOptions<TTags>,
 ) {

@@ -57,6 +57,13 @@ export type GatewayProviderMetadata = SharedV3ProviderMetadata & {
 type GatewayMiddlewareOptions<TTags extends DefaultTags> =
   BaseBillingMiddlewareOptions<TTags>;
 
+/**
+ * Creates a V3 billing middleware configured for the Vercel AI Gateway provider.
+ * Extracts cost and usage data from gateway-specific provider metadata.
+ *
+ * @param options - Middleware configuration options.
+ * @returns A V3 billing middleware instance for the AI Gateway.
+ */
 export function createGatewayV3Middleware<TTags extends DefaultTags>(
   options: GatewayMiddlewareOptions<TTags>,
 ) {
