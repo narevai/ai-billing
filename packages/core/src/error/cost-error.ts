@@ -4,6 +4,7 @@ const name = 'AiBillingCostError';
 const marker = `ai-billing.error.${name}`;
 const symbol = Symbol.for(marker);
 
+/** Error thrown when a cost conversion or calculation fails. */
 export class AiBillingCostError extends AIBillingError {
   private readonly [symbol] = true;
 

@@ -1,4 +1,4 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "ignoreDependencies": ["next", "tsup"]
+  "ignoreDependencies": ["next", "tsup", "eslint-plugin-jsdoc"]
 }

@@ -1,0 +1,10 @@
+{
+  "name": "docs",
+  "version": "0.0.0",
+  "description": "Documentation for the ai-billing project.",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm dlx mintlify@4.2.510 dev",
+    "docs:generate": "node scripts/generate.mjs"
+  }
+}

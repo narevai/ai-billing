@@ -51,6 +51,15 @@
         "knip.json",
         "**/package.json"
       ]
+    },
+    "docs:generate": {
+      "cache": false
+    },
+    "docs#docs:generate": {
+      "dependsOn": [
+        "@ai-billing/core#docs:generate"
+      ],
+      "cache": false
     }
   }
 }

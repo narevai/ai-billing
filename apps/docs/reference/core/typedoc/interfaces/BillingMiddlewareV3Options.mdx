@@ -1,0 +1,95 @@
+[**@ai-billing/core**](../index)
+
+***
+
+[@ai-billing/core](../index) / BillingMiddlewareV3Options
+
+# Interface: BillingMiddlewareV3Options\<TTags\>
+
+Defined in: [packages/core/src/ai-sdk/language-model-middleware/v3/language-model-v3-base-billing-middleware.ts:26](https://github.com/narevai/ai-billing/blob/main/packages/core/src/ai-sdk/language-model-middleware/v3/language-model-v3-base-billing-middleware.ts#L26)
+
+## Extends
+
+- [`BaseBillingMiddlewareOptions`](BaseBillingMiddlewareOptions)\<`TTags`\>
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* [`DefaultTags`](../type-aliases/DefaultTags) = [`DefaultTags`](../type-aliases/DefaultTags)
+
+## Properties
+
+### buildEvent
+
+> **buildEvent**: [`EventBuilder`](../type-aliases/EventBuilder)\<[`BuildV3EventPayload`](BuildV3EventPayload)\<`TTags`\>, `TTags`\>
+
+Defined in: [packages/core/src/ai-sdk/language-model-middleware/v3/language-model-v3-base-billing-middleware.ts:29](https://github.com/narevai/ai-billing/blob/main/packages/core/src/ai-sdk/language-model-middleware/v3/language-model-v3-base-billing-middleware.ts#L29)
+
+***
+
+### destinations?
+
+> `optional` **destinations?**: [`Destination`](../type-aliases/Destination)\<`TTags`\>[]
+
+Defined in: [packages/core/src/types/middleware.ts:9](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L9)
+
+#### Inherited from
+
+[`BaseBillingMiddlewareOptions`](BaseBillingMiddlewareOptions).[`destinations`](BaseBillingMiddlewareOptions#destinations)
+
+***
+
+### defaultTags?
+
+> `optional` **defaultTags?**: `TTags`
+
+Defined in: [packages/core/src/types/middleware.ts:10](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L10)
+
+#### Inherited from
+
+[`BaseBillingMiddlewareOptions`](BaseBillingMiddlewareOptions).[`defaultTags`](BaseBillingMiddlewareOptions#defaulttags)
+
+***
+
+### waitUntil?
+
+> `optional` **waitUntil?**: (`promise`) => `void`
+
+Defined in: [packages/core/src/types/middleware.ts:11](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L11)
+
+#### Parameters
+
+##### promise
+
+`Promise`\<`unknown`\>
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[`BaseBillingMiddlewareOptions`](BaseBillingMiddlewareOptions).[`waitUntil`](BaseBillingMiddlewareOptions#waituntil)
+
+***
+
+### onError?
+
+> `optional` **onError?**: (`error`) => `void`
+
+Defined in: [packages/core/src/types/middleware.ts:12](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L12)
+
+#### Parameters
+
+##### error
+
+`unknown`
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[`BaseBillingMiddlewareOptions`](BaseBillingMiddlewareOptions).[`onError`](BaseBillingMiddlewareOptions#onerror)

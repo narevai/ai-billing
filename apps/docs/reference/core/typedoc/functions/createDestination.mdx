@@ -1,0 +1,39 @@
+[**@ai-billing/core**](../index)
+
+***
+
+[@ai-billing/core](../index) / createDestination
+
+# Function: createDestination()
+
+> **createDestination**\<`TTags`\>(`destinationId`, `handler`): [`Destination`](../type-aliases/Destination)\<`TTags`\>
+
+Defined in: [packages/core/src/destination/base-destination.ts:11](https://github.com/narevai/ai-billing/blob/main/packages/core/src/destination/base-destination.ts#L11)
+
+Creates a destination wrapper that normalizes destination handler errors.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject` = `JSONObject`
+
+## Parameters
+
+### destinationId
+
+`string`
+
+Unique identifier for the destination.
+
+### handler
+
+(`event`) => `void` \| `Promise`\<`void`\>
+
+Destination implementation invoked for each billing event.
+
+## Returns
+
+[`Destination`](../type-aliases/Destination)\<`TTags`\>
+
+A destination function that wraps thrown errors as AiBillingDestinationError.

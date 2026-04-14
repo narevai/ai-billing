@@ -4,6 +4,11 @@ import type {
   MeterMetadata,
 } from '../types/index.js';
 
+/**
+ * Converts a billing event into a meter metadata object.
+ * @param event The billing event to convert.
+ * @returns The meter metadata object.
+ */
 export function buildMeterMetadata<TTags extends DefaultTags = DefaultTags>(
   event: BillingEvent<TTags>,
 ): MeterMetadata {

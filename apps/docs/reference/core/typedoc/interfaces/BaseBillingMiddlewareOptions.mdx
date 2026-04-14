@@ -1,0 +1,71 @@
+[**@ai-billing/core**](../index)
+
+***
+
+[@ai-billing/core](../index) / BaseBillingMiddlewareOptions
+
+# Interface: BaseBillingMiddlewareOptions\<TTags\>
+
+Defined in: [packages/core/src/types/middleware.ts:6](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L6)
+
+## Extended by
+
+- [`BillingMiddlewareV3Options`](BillingMiddlewareV3Options)
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject` = [`DefaultTags`](../type-aliases/DefaultTags)
+
+## Properties
+
+### destinations?
+
+> `optional` **destinations?**: [`Destination`](../type-aliases/Destination)\<`TTags`\>[]
+
+Defined in: [packages/core/src/types/middleware.ts:9](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L9)
+
+***
+
+### defaultTags?
+
+> `optional` **defaultTags?**: `TTags`
+
+Defined in: [packages/core/src/types/middleware.ts:10](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L10)
+
+***
+
+### waitUntil?
+
+> `optional` **waitUntil?**: (`promise`) => `void`
+
+Defined in: [packages/core/src/types/middleware.ts:11](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L11)
+
+#### Parameters
+
+##### promise
+
+`Promise`\<`unknown`\>
+
+#### Returns
+
+`void`
+
+***
+
+### onError?
+
+> `optional` **onError?**: (`error`) => `void`
+
+Defined in: [packages/core/src/types/middleware.ts:12](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L12)
+
+#### Parameters
+
+##### error
+
+`unknown`
+
+#### Returns
+
+`void`

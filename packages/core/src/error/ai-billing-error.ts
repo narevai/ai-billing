@@ -1,6 +1,7 @@
 const marker = 'ai-billing.error';
 const symbol = Symbol.for(marker);
 
+/** Base error type for all ai-billing package errors. */
 export class AIBillingError extends Error {
   private readonly [symbol] = true;
 
