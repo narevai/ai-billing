@@ -5,8 +5,6 @@
   "private": true,
   "scripts": {
     "dev": "mintlify dev",
-    "build": "mintlify build",
-    "preview": "mintlify preview",
     "docs:generate": "node scripts/generate.mjs"
   },
   "dependencies": {
