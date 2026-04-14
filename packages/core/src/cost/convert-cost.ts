@@ -18,6 +18,12 @@ const getNanos = (cost: Cost): number => {
   }
 };
 
+/**
+ * Converts a cost amount to the requested unit.
+ * @param cost Cost value and source unit.
+ * @param targetUnit Unit to convert the cost into.
+ * @returns Cost amount represented in the target unit.
+ */
 export const costToNumber = (cost: Cost, targetUnit: CostUnit): number => {
   const nanos = getNanos(cost);
 
@@ -27,6 +33,12 @@ export const costToNumber = (cost: Cost, targetUnit: CostUnit): number => {
   return nanos / 1_000_000_000; // base
 };
 
+/**
+ * Converts a cost object to a different unit.
+ * @param cost Source cost object.
+ * @param targetUnit Unit to convert the cost into.
+ * @returns A new cost object with the converted amount and target unit.
+ */
 export const convertCostUnit = (cost: Cost, targetUnit: CostUnit): Cost => {
   return {
     amount: costToNumber(cost, targetUnit),
@@ -35,6 +47,11 @@ export const convertCostUnit = (cost: Cost, targetUnit: CostUnit): Cost => {
   };
 };
 
+/**
+ * Creates a base-unit USD cost from a numeric amount.
+ * @param amount Numeric cost amount in base units.
+ * @returns A cost object in base units.
+ */
 export const rateToCost = (amount: number = 0): Cost => ({
   amount,
   unit: 'base',

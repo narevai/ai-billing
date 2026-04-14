@@ -1,4 +1,8 @@
 {
+  "oxc.enable.oxlint": true,
+  "oxc.lint.run": "onType",
+  "oxc.configPath": null,
+  "oxc.disableNestedConfig": false,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.oxc": "explicit"
