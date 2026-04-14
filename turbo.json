@@ -52,7 +52,7 @@
         "**/package.json"
       ]
     },
-    "docs": {
+    "docs:generate": {
       "dependsOn": [],
       "outputs": []
     }

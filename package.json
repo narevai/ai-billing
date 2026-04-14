@@ -5,6 +5,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "docs": "turbo run docs:generate --filter=docs",
     "lint": "turbo run lint",
     "format": "oxfmt .",
     "format:check": "oxfmt --check .",
