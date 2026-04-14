@@ -1,5 +1,9 @@
 import { createBasePriceResolver } from './base-price-resolver.js';
-import type { ModelPricing, PriceResolverContext } from '../types/index.js';
+import type {
+  ModelPricing,
+  PriceResolver,
+  PriceResolverContext,
+} from '../types/index.js';
 
 type PricingRow = Record<string, number | string>;
 type PricingMap = Record<string, PricingRow[]>;
@@ -31,10 +35,19 @@ export type NarevPriceResolverOptions = {
   apiUrl?: string;
 };
 
-export function createNarevPriceResolver({
-  apiKey,
-  apiUrl = 'https://narev.ai',
-}: NarevPriceResolverOptions): ReturnType<typeof createBasePriceResolver> {
+/**
+ * Creates a price resolver that fetches model pricing from the Narev API.
+ *
+ * @param options Resolver options for Narev API access.
+ * @param options.apiKey API key used for authenticated pricing requests.
+ * @param [options.apiUrl] Optional base URL for the Narev API.
+ * @returns A base price resolver that resolves model pricing from Narev.
+ */
+export function createNarevPriceResolver(
+  options: NarevPriceResolverOptions,
+): PriceResolver {
+  const { apiKey, apiUrl = 'https://narev.ai' } = options;
+
   return createBasePriceResolver(
     async ({
       modelId,

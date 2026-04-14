@@ -29,6 +29,11 @@ export interface BillingMiddlewareV3Options<
   buildEvent: EventBuilder<BuildV3EventPayload<TTags>, TTags>;
 }
 
+/**
+ * Creates a billing middleware for the Language Model V3 API.
+ * @param options The options for the billing middleware.
+ * @returns The billing middleware.
+ */
 export function createV3BillingMiddleware<
   TTags extends DefaultTags = DefaultTags,
 >(options: BillingMiddlewareV3Options<TTags>): LanguageModelV3Middleware {

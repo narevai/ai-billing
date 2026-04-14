@@ -4,6 +4,7 @@ const name = 'AiBillingExtractorError';
 const marker = `ai-billing.error.${name}`;
 const symbol = Symbol.for(marker);
 
+/** Error thrown when billing data extraction fails. */
 export class AiBillingExtractorError extends AIBillingError {
   private readonly [symbol] = true;
 

@@ -4,9 +4,13 @@ const name = 'AiBillingDestinationError';
 const marker = `ai-billing.error.${name}`;
 const symbol = Symbol.for(marker);
 
+/**
+ * Error raised when billing data processing fails for a destination.
+ */
 export class AiBillingDestinationError extends AIBillingError {
   private readonly [symbol] = true;
 
+  /** The ID of the destination that failed to process billing data. */
   readonly destinationId?: string;
 
   constructor({

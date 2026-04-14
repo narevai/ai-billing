@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { z } from 'zod';
 import { buildMeterMetadata } from './to-meter-metadata.js';
 import { BillingEventSchema } from '@ai-billing/testing';
-import type { BillingEvent, Usage } from '../types/index.js';
+import type { BillingEvent } from '../types/index.js';
 
 describe('buildMeterMetadata with Strict Schema', () => {
   const StrictBillingEventSchema: z.ZodType<BillingEvent> = BillingEventSchema;
