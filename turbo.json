@@ -53,13 +53,13 @@
       ]
     },
     "docs:generate": {
-      "outputs": []
+      "cache": false
     },
     "docs#docs:generate": {
       "dependsOn": [
         "@ai-billing/core#docs:generate"
       ],
-      "outputs": []
+      "cache": false
     }
   }
 }
