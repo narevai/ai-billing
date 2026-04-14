@@ -1,20 +1,13 @@
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const REPO_ROOT = path.resolve(__dirname, '../../..');
 const DOCS_APP_DIR = path.resolve(__dirname, '..');
-const CORE_PACKAGE_DIR = path.resolve(REPO_ROOT, 'packages/core');
 const CORE_TYPEDOC_DIR = path.resolve(DOCS_APP_DIR, 'reference/core/typedoc');
 const CORE_OVERVIEW_DOC_PATH = path.resolve(DOCS_APP_DIR, 'reference/core/index.mdx');
 const CORE_OVERVIEW_PAGE = 'reference/core/index';
 const DOCS_JSON_PATH = path.resolve(DOCS_APP_DIR, 'docs.json');
-
-if (!fs.existsSync(CORE_PACKAGE_DIR)) {
-  throw new Error(`Core package not found at ${CORE_PACKAGE_DIR}`);
-}
 
 if (!fs.existsSync(DOCS_JSON_PATH)) {
   throw new Error(`Mintlify docs.json not found at ${DOCS_JSON_PATH}`);
@@ -231,24 +224,14 @@ function upsertCoreReferenceGroup() {
 }
 
 try {
-  console.log('Building @ai-billing/core to produce declaration files...');
-  execSync('pnpm --filter @ai-billing/core build', {
-    cwd: REPO_ROOT,
-    stdio: 'inherit',
-  });
-
-  console.log('Generating TypeDoc reference for @ai-billing/core...');
-  execSync('pnpm --filter @ai-billing/core docs:generate', {
-    cwd: REPO_ROOT,
-    stdio: 'inherit',
-  });
-
+  console.log('Normalizing generated core docs...');
   normalizeTypedocMarkdownOutput();
+  console.log('Syncing @ai-billing/core docs navigation...');
   upsertCoreReferenceGroup();
 
-  console.log('Core API reference generation complete.');
+  console.log('Core docs navigation sync complete.');
 } catch (err) {
-  console.error('Failed to generate docs for @ai-billing/core');
+  console.error('Failed to sync docs for @ai-billing/core');
   console.error(err);
   process.exitCode = 1;
 }

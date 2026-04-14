@@ -53,7 +53,9 @@
       ]
     },
     "docs:generate": {
-      "dependsOn": [],
+      "dependsOn": [
+        "^docs:generate"
+      ],
       "outputs": []
     }
   }
