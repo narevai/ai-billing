@@ -19,10 +19,15 @@ const getNanos = (cost: Cost): number => {
 };
 
 /**
- * Converts a cost amount to the requested unit.
- * @param cost - Cost value and source unit.
- * @param targetUnit - Unit to convert the cost into.
- * @returns Cost amount represented in the target unit.
+ * Returns the numeric amount of `cost` expressed in `targetUnit`.
+ *
+ * Values are converted via an integer nanos intermediate so fractional `base` / `cents` / `micros` amounts
+ * round consistently. Throws {@link AiBillingCostError} when `cost.unit` is not a known {@link CostUnit}.
+ *
+ * @param cost - Source {@link Cost} (amount + unit + currency).
+ * @param targetUnit - Unit for the returned number (same scale as {@link Cost} amounts for that unit).
+ * @returns The amount in `targetUnit`; for `nanos` this is a whole number of nanos.
+ * @internal
  */
 export const costToNumber = (cost: Cost, targetUnit: CostUnit): number => {
   const nanos = getNanos(cost);
@@ -34,10 +39,14 @@ export const costToNumber = (cost: Cost, targetUnit: CostUnit): number => {
 };
 
 /**
- * Converts a cost object to a different unit.
- * @param cost - Source cost object.
- * @param targetUnit - Unit to convert the cost into.
- * @returns A new cost object with the converted amount and target unit.
+ * Converts a {@link Cost} to the same amount in a different {@link CostUnit}, preserving `currency`.
+ *
+ * Implemented with {@link costToNumber}; the result is always a new object.
+ *
+ * @param cost - Source cost.
+ * @param targetUnit - Desired unit for `amount` on the returned object.
+ * @returns A new {@link Cost} with `unit: targetUnit` and `amount` in that unit's scale.
+ * @internal
  */
 export const convertCostUnit = (cost: Cost, targetUnit: CostUnit): Cost => {
   return {
@@ -48,9 +57,14 @@ export const convertCostUnit = (cost: Cost, targetUnit: CostUnit): Cost => {
 };
 
 /**
- * Creates a base-unit USD cost from a numeric amount.
- * @param amount - Amount in USD base units. Defaults to 0 when omitted.
- * @returns A `Cost` object with `unit: 'base'` and `currency: 'USD'`.
+ * Wraps a numeric rate as a {@link Cost} in `base` units and `USD` currency.
+ *
+ * Provider calculators pass per-token prices from {@link ModelPricing} here, then scale with
+ * {@link multiplyCost} using token counts.
+ *
+ * @param amount - Rate amount in base USD units (defaults to `0` when omitted).
+ * @returns A {@link Cost} with `unit: 'base'` and `currency: 'USD'`.
+ * @internal
  */
 export const rateToCost = (amount: number = 0): Cost => ({
   amount,
