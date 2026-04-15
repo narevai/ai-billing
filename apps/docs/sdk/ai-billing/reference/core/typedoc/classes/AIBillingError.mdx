@@ -1,0 +1,119 @@
+[**@ai-billing/core**](../index)
+
+***
+
+[@ai-billing/core](/sdk/ai-billing/reference/core/typedoc/index) / AIBillingError
+
+# Class: AIBillingError
+
+Defined in: [packages/core/src/error/ai-billing-error.ts:5](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/ai-billing-error.ts#L5)
+
+Base error type for all ai-billing package errors.
+
+## Extends
+
+- `Error`
+
+## Extended by
+
+- [`AiBillingExtractorError`](/sdk/ai-billing/reference/core/typedoc/classes/AiBillingExtractorError)
+- [`AiBillingDestinationError`](/sdk/ai-billing/reference/core/typedoc/classes/AiBillingDestinationError)
+- [`AiBillingCostError`](/sdk/ai-billing/reference/core/typedoc/classes/AiBillingCostError)
+
+## Constructors
+
+### Constructor
+
+> **new AIBillingError**(`__namedParameters`): `AIBillingError`
+
+Defined in: [packages/core/src/error/ai-billing-error.ts:10](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/ai-billing-error.ts#L10)
+
+#### Parameters
+
+##### \_\_namedParameters
+
+###### name
+
+`string`
+
+###### message
+
+`string`
+
+###### cause?
+
+`unknown`
+
+#### Returns
+
+`AIBillingError`
+
+#### Overrides
+
+`Error.constructor`
+
+## Properties
+
+### cause?
+
+> `readonly` `optional` **cause?**: `unknown`
+
+Defined in: [packages/core/src/error/ai-billing-error.ts:8](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/ai-billing-error.ts#L8)
+
+#### Overrides
+
+`Error.cause`
+
+***
+
+### name
+
+> **name**: `string`
+
+Defined in: node\_modules/.pnpm/typescript@5.9.2/node\_modules/typescript/lib/lib.es5.d.ts:1076
+
+#### Inherited from
+
+`Error.name`
+
+***
+
+### message
+
+> **message**: `string`
+
+Defined in: node\_modules/.pnpm/typescript@5.9.2/node\_modules/typescript/lib/lib.es5.d.ts:1077
+
+#### Inherited from
+
+`Error.message`
+
+***
+
+### stack?
+
+> `optional` **stack?**: `string`
+
+Defined in: node\_modules/.pnpm/typescript@5.9.2/node\_modules/typescript/lib/lib.es5.d.ts:1078
+
+#### Inherited from
+
+`Error.stack`
+
+## Methods
+
+### isInstance()
+
+> `static` **isInstance**(`error`): `error is AIBillingError`
+
+Defined in: [packages/core/src/error/ai-billing-error.ts:24](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/ai-billing-error.ts#L24)
+
+#### Parameters
+
+##### error
+
+`unknown`
+
+#### Returns
+
+`error is AIBillingError`

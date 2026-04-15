@@ -1,0 +1,95 @@
+[**@ai-billing/lago**](../index)
+
+***
+
+[@ai-billing/lago](/sdk/ai-billing/reference/lago/typedoc/index) / LagoDestinationOptions
+
+# Interface: LagoDestinationOptions\<TTags\>
+
+Defined in: [lago-destination.ts:24](https://github.com/narevai/ai-billing/blob/main/packages/lago/src/destination/lago-destination.ts#L24)
+
+Options for [createLagoDestination](/sdk/ai-billing/reference/lago/typedoc/functions/createLagoDestination).
+
+Lago ingests metered usage as events tied to an `external_customer_id` plus a `code` (billable metric
+code). This destination extracts identity from billing event tags, builds default `properties` from the
+event (usage + tags), and always sets `cost_nanos` and `currency` from BillingEvent.cost. Callers
+must supply a defined `cost` on each event; the implementation asserts it is present and may throw at
+runtime if it is omitted.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `DefaultTags` = `DefaultTags`
+
+The shape of the tags object, extending DefaultTags.
+
+## Properties
+
+### apiKey
+
+> **apiKey**: `string`
+
+Defined in: [lago-destination.ts:28](https://github.com/narevai/ai-billing/blob/main/packages/lago/src/destination/lago-destination.ts#L28)
+
+Lago API key used for `Authorization: Bearer ...`.
+
+***
+
+### apiUrl?
+
+> `optional` **apiUrl?**: `string`
+
+Defined in: [lago-destination.ts:30](https://github.com/narevai/ai-billing/blob/main/packages/lago/src/destination/lago-destination.ts#L30)
+
+Base URL for the Lago API. Defaults to `https://api.getlago.com`.
+
+***
+
+### meterCode?
+
+> `optional` **meterCode?**: `string` \| ((`event`) => `string`)
+
+Defined in: [lago-destination.ts:36](https://github.com/narevai/ai-billing/blob/main/packages/lago/src/destination/lago-destination.ts#L36)
+
+Lago billable metric code (`event.code`), or a function that derives the code from the billing event.
+
+Defaults to `'llm_usage'`.
+
+***
+
+### externalCustomerIdKey?
+
+> `optional` **externalCustomerIdKey?**: keyof `TTags`
+
+Defined in: [lago-destination.ts:42](https://github.com/narevai/ai-billing/blob/main/packages/lago/src/destination/lago-destination.ts#L42)
+
+Tag key used to read the Lago `external_customer_id`. When omitted, common tag keys are checked:
+`userId`, `externalCustomerId`.
+
+***
+
+### mapMetadata?
+
+> `optional` **mapMetadata?**: (`event`) => `Record`\<`string`, `string` \| `number` \| `boolean`\>
+
+Defined in: [lago-destination.ts:54](https://github.com/narevai/ai-billing/blob/main/packages/lago/src/destination/lago-destination.ts#L54)
+
+Optional override for the `properties` payload sent to Lago.
+
+When omitted, metadata is built from buildMeterMetadata and includes:
+- token/usage dimensions
+- `tag_*` values from event tags
+
+Note: this destination always merges `cost_nanos` and `currency` into `properties` from `event.cost` via
+non-null assertion. Missing BillingEvent.cost is not supported and will throw when converting.
+
+#### Parameters
+
+##### event
+
+`BillingEvent`\<`TTags`\>
+
+#### Returns
+
+`Record`\<`string`, `string` \| `number` \| `boolean`\>

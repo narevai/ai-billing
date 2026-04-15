@@ -1,0 +1,45 @@
+[**@ai-billing/stripe**](../index)
+
+***
+
+[@ai-billing/stripe](/sdk/ai-billing/reference/stripe/typedoc/index) / createStripeDestination
+
+# Function: createStripeDestination()
+
+> **createStripeDestination**\<`TTags`\>(`options`): `Destination`\<`TTags`\>
+
+Defined in: [stripe-destination.ts:69](https://github.com/narevai/ai-billing/blob/main/packages/stripe/src/destination/stripe-destination.ts#L69)
+
+Creates a Destination that ingests billing events into Stripe Meters.
+
+**Identity:** Reads `stripe_customer_id` from BillingEvent.tags. When it is missing or falsy,
+a warning is logged (`No identity found in tags. Skipping event.`), but execution continues: the
+destination still builds the payload and calls Stripe. The payload field is set with
+`String(identity)`, so a missing tag becomes the literal string `"undefined"`, not a skipped request.
+
+**Cost:** The meter payload always includes `value` from BillingEvent.cost via
+costToNumber. The implementation uses non-null assertion on `event.cost`; callers should pass
+a defined BillingEvent.cost. If `cost` is omitted, runtime behavior is undefined and may throw
+when converting.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject` = `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`StripeDestinationOptions`](/sdk/ai-billing/reference/stripe/typedoc/interfaces/StripeDestinationOptions)\<`TTags`\>
+
+Destination configuration; see [StripeDestinationOptions](/sdk/ai-billing/reference/stripe/typedoc/interfaces/StripeDestinationOptions).
+
+## Returns
+
+`Destination`\<`TTags`\>
+
+A destination function that sends events to Stripe.

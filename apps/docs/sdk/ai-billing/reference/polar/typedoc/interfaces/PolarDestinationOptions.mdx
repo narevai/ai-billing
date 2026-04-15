@@ -1,0 +1,113 @@
+[**@ai-billing/polar**](../index)
+
+***
+
+[@ai-billing/polar](/sdk/ai-billing/reference/polar/typedoc/index) / PolarDestinationOptions
+
+# Interface: PolarDestinationOptions\<TTags\>
+
+Defined in: [polar-destination.ts:19](https://github.com/narevai/ai-billing/blob/main/packages/polar/src/destination/polar-destination.ts#L19)
+
+Options for [createPolarDestination](/sdk/ai-billing/reference/polar/typedoc/functions/createPolarDestination).
+
+Polar ingests events keyed by a `customerId` (and optionally an `externalId`) plus a metadata map. This
+destination extracts identity from billing event tags, builds default metadata from the event (usage +
+tags), and includes cost when present.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `DefaultTags` = `DefaultTags`
+
+The shape of the tags object, extending DefaultTags.
+
+## Properties
+
+### client?
+
+> `optional` **client?**: `Polar`
+
+Defined in: [polar-destination.ts:26](https://github.com/narevai/ai-billing/blob/main/packages/polar/src/destination/polar-destination.ts#L26)
+
+Optional pre-configured Polar SDK client. When omitted, a client is constructed from `accessToken` and
+`server`.
+
+***
+
+### accessToken?
+
+> `optional` **accessToken?**: `string`
+
+Defined in: [polar-destination.ts:28](https://github.com/narevai/ai-billing/blob/main/packages/polar/src/destination/polar-destination.ts#L28)
+
+Access token used when creating a Polar SDK client.
+
+***
+
+### server?
+
+> `optional` **server?**: `"sandbox"` \| `"production"`
+
+Defined in: [polar-destination.ts:30](https://github.com/narevai/ai-billing/blob/main/packages/polar/src/destination/polar-destination.ts#L30)
+
+Polar environment used when creating a Polar SDK client.
+
+***
+
+### eventName
+
+> **eventName**: `string` \| ((`event`) => `string`)
+
+Defined in: [polar-destination.ts:36](https://github.com/narevai/ai-billing/blob/main/packages/polar/src/destination/polar-destination.ts#L36)
+
+Event name to ingest into Polar, or a function that derives the name from the billing event.
+
+Use a function when you want different Polar events per model/provider while keeping one destination.
+
+***
+
+### customerIdKey?
+
+> `optional` **customerIdKey?**: keyof `TTags`
+
+Defined in: [polar-destination.ts:41](https://github.com/narevai/ai-billing/blob/main/packages/polar/src/destination/polar-destination.ts#L41)
+
+Tag key used to read the Polar `customerId` (internal ID). When omitted, common tag keys are checked:
+`customerId`, `polarCustomerId`, `customer_id`.
+
+***
+
+### externalCustomerIdKey?
+
+> `optional` **externalCustomerIdKey?**: keyof `TTags`
+
+Defined in: [polar-destination.ts:46](https://github.com/narevai/ai-billing/blob/main/packages/polar/src/destination/polar-destination.ts#L46)
+
+Tag key used to read the Polar `externalId`. When omitted, common tag keys are checked: `userId`,
+`externalId`, `user_id`.
+
+***
+
+### mapMetadata?
+
+> `optional` **mapMetadata?**: (`event`) => `Record`\<`string`, `string` \| `number` \| `boolean`\>
+
+Defined in: [polar-destination.ts:56](https://github.com/narevai/ai-billing/blob/main/packages/polar/src/destination/polar-destination.ts#L56)
+
+Optional override for the metadata payload sent to Polar.
+
+When omitted, metadata is built from buildMeterMetadata and includes:
+- token/usage dimensions
+- `tag_*` values from event tags
+- `cost_nanos` / `cost_currency` when `event.cost` is present
+
+#### Parameters
+
+##### event
+
+`BillingEvent`\<`TTags`\>
+
+#### Returns
+
+`Record`\<`string`, `string` \| `number` \| `boolean`\>

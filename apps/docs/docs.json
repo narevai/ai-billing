@@ -14,67 +14,63 @@
         "tab": "SDKs",
         "groups": [
           {
-            "group": "Getting Started",
-            "pages": ["index"]
-          },
-          {
             "group": "@ai-billing SDK",
             "icon": "npm",
             "pages": [
+              "sdk/ai-billing/index",
               {
                 "group": "@ai-billing/core",
                 "pages": [
-                  "reference/core/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
                     "pages": [
-                      "reference/core/typedoc/index",
+                      "sdk/ai-billing/reference/core/typedoc/index",
                       {
                         "group": "Functions",
                         "pages": [
-                          "reference/core/typedoc/functions/buildMeterMetadata",
-                          "reference/core/typedoc/functions/consoleDestination",
-                          "reference/core/typedoc/functions/createBasePriceResolver",
-                          "reference/core/typedoc/functions/createDestination",
-                          "reference/core/typedoc/functions/createNarevPriceResolver",
-                          "reference/core/typedoc/functions/createObjectPriceResolver",
-                          "reference/core/typedoc/functions/createV3BillingMiddleware",
-                          "reference/core/typedoc/functions/toJSONObject"
+                          "sdk/ai-billing/reference/core/typedoc/functions/buildMeterMetadata",
+                          "sdk/ai-billing/reference/core/typedoc/functions/consoleDestination",
+                          "sdk/ai-billing/reference/core/typedoc/functions/createBasePriceResolver",
+                          "sdk/ai-billing/reference/core/typedoc/functions/createDestination",
+                          "sdk/ai-billing/reference/core/typedoc/functions/createNarevPriceResolver",
+                          "sdk/ai-billing/reference/core/typedoc/functions/createObjectPriceResolver",
+                          "sdk/ai-billing/reference/core/typedoc/functions/createV3BillingMiddleware",
+                          "sdk/ai-billing/reference/core/typedoc/functions/toJSONObject"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions",
-                          "reference/core/typedoc/interfaces/BillingEvent",
-                          "reference/core/typedoc/interfaces/BillingMiddlewareV3Options",
-                          "reference/core/typedoc/interfaces/BuildV3EventPayload",
-                          "reference/core/typedoc/interfaces/Cost",
-                          "reference/core/typedoc/interfaces/MeterMetadata",
-                          "reference/core/typedoc/interfaces/ModelPricing",
-                          "reference/core/typedoc/interfaces/Usage"
+                          "sdk/ai-billing/reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions",
+                          "sdk/ai-billing/reference/core/typedoc/interfaces/BillingEvent",
+                          "sdk/ai-billing/reference/core/typedoc/interfaces/BillingMiddlewareV3Options",
+                          "sdk/ai-billing/reference/core/typedoc/interfaces/BuildV3EventPayload",
+                          "sdk/ai-billing/reference/core/typedoc/interfaces/Cost",
+                          "sdk/ai-billing/reference/core/typedoc/interfaces/MeterMetadata",
+                          "sdk/ai-billing/reference/core/typedoc/interfaces/ModelPricing",
+                          "sdk/ai-billing/reference/core/typedoc/interfaces/Usage"
                         ]
                       },
                       {
                         "group": "Types",
                         "pages": [
-                          "reference/core/typedoc/type-aliases/CostUnit",
-                          "reference/core/typedoc/type-aliases/DefaultTags",
-                          "reference/core/typedoc/type-aliases/Destination",
-                          "reference/core/typedoc/type-aliases/EventBuilder",
-                          "reference/core/typedoc/type-aliases/NarevPriceResolverOptions",
-                          "reference/core/typedoc/type-aliases/PriceResolver",
-                          "reference/core/typedoc/type-aliases/PriceResolverContext"
+                          "sdk/ai-billing/reference/core/typedoc/type-aliases/CostUnit",
+                          "sdk/ai-billing/reference/core/typedoc/type-aliases/DefaultTags",
+                          "sdk/ai-billing/reference/core/typedoc/type-aliases/Destination",
+                          "sdk/ai-billing/reference/core/typedoc/type-aliases/EventBuilder",
+                          "sdk/ai-billing/reference/core/typedoc/type-aliases/NarevPriceResolverOptions",
+                          "sdk/ai-billing/reference/core/typedoc/type-aliases/PriceResolver",
+                          "sdk/ai-billing/reference/core/typedoc/type-aliases/PriceResolverContext"
                         ]
                       },
                       {
                         "group": "Classes",
                         "pages": [
-                          "reference/core/typedoc/classes/AiBillingCostError",
-                          "reference/core/typedoc/classes/AiBillingDestinationError",
-                          "reference/core/typedoc/classes/AIBillingError",
-                          "reference/core/typedoc/classes/AiBillingExtractorError"
+                          "sdk/ai-billing/reference/core/typedoc/classes/AiBillingCostError",
+                          "sdk/ai-billing/reference/core/typedoc/classes/AiBillingDestinationError",
+                          "sdk/ai-billing/reference/core/typedoc/classes/AIBillingError",
+                          "sdk/ai-billing/reference/core/typedoc/classes/AiBillingExtractorError"
                         ]
                       }
                     ]
@@ -88,17 +84,17 @@
                     "group": "Reference",
                     "icon": "book-open",
                     "pages": [
-                      "reference/gateway/typedoc/index",
+                      "sdk/ai-billing/reference/gateway/typedoc/index",
                       {
                         "group": "Functions",
                         "pages": [
-                          "reference/gateway/typedoc/functions/createGatewayV3Middleware"
+                          "sdk/ai-billing/reference/gateway/typedoc/functions/createGatewayV3Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "reference/gateway/typedoc/interfaces/GatewayV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/gateway/typedoc/interfaces/GatewayV3MiddlewareOptions"
                         ]
                       }
                     ]
@@ -112,17 +108,17 @@
                     "group": "Reference",
                     "icon": "book-open",
                     "pages": [
-                      "reference/groq/typedoc/index",
+                      "sdk/ai-billing/reference/groq/typedoc/index",
                       {
                         "group": "Functions",
                         "pages": [
-                          "reference/groq/typedoc/functions/createGroqV3Middleware"
+                          "sdk/ai-billing/reference/groq/typedoc/functions/createGroqV3Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "reference/groq/typedoc/interfaces/GroqV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/groq/typedoc/interfaces/GroqV3MiddlewareOptions"
                         ]
                       }
                     ]
@@ -136,17 +132,17 @@
                     "group": "Reference",
                     "icon": "book-open",
                     "pages": [
-                      "reference/lago/typedoc/index",
+                      "sdk/ai-billing/reference/lago/typedoc/index",
                       {
                         "group": "Functions",
                         "pages": [
-                          "reference/lago/typedoc/functions/createLagoDestination"
+                          "sdk/ai-billing/reference/lago/typedoc/functions/createLagoDestination"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "reference/lago/typedoc/interfaces/LagoDestinationOptions"
+                          "sdk/ai-billing/reference/lago/typedoc/interfaces/LagoDestinationOptions"
                         ]
                       }
                     ]
@@ -160,17 +156,17 @@
                     "group": "Reference",
                     "icon": "book-open",
                     "pages": [
-                      "reference/openai/typedoc/index",
+                      "sdk/ai-billing/reference/openai/typedoc/index",
                       {
                         "group": "Functions",
                         "pages": [
-                          "reference/openai/typedoc/functions/createOpenAIV3Middleware"
+                          "sdk/ai-billing/reference/openai/typedoc/functions/createOpenAIV3Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "reference/openai/typedoc/interfaces/OpenAIV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/openai/typedoc/interfaces/OpenAIV3MiddlewareOptions"
                         ]
                       }
                     ]
@@ -184,17 +180,17 @@
                     "group": "Reference",
                     "icon": "book-open",
                     "pages": [
-                      "reference/openai-compatible/typedoc/index",
+                      "sdk/ai-billing/reference/openai-compatible/typedoc/index",
                       {
                         "group": "Functions",
                         "pages": [
-                          "reference/openai-compatible/typedoc/functions/createOpenAICompatibleV3Middleware"
+                          "sdk/ai-billing/reference/openai-compatible/typedoc/functions/createOpenAICompatibleV3Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "reference/openai-compatible/typedoc/interfaces/OpenAICompatibleV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/openai-compatible/typedoc/interfaces/OpenAICompatibleV3MiddlewareOptions"
                         ]
                       }
                     ]
@@ -208,17 +204,17 @@
                     "group": "Reference",
                     "icon": "book-open",
                     "pages": [
-                      "reference/openmeter/typedoc/index",
+                      "sdk/ai-billing/reference/openmeter/typedoc/index",
                       {
                         "group": "Functions",
                         "pages": [
-                          "reference/openmeter/typedoc/functions/createOpenMeterDestination"
+                          "sdk/ai-billing/reference/openmeter/typedoc/functions/createOpenMeterDestination"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "reference/openmeter/typedoc/interfaces/OpenMeterDestinationOptions"
+                          "sdk/ai-billing/reference/openmeter/typedoc/interfaces/OpenMeterDestinationOptions"
                         ]
                       }
                     ]
@@ -232,17 +228,17 @@
                     "group": "Reference",
                     "icon": "book-open",
                     "pages": [
-                      "reference/openrouter/typedoc/index",
+                      "sdk/ai-billing/reference/openrouter/typedoc/index",
                       {
                         "group": "Functions",
                         "pages": [
-                          "reference/openrouter/typedoc/functions/createOpenRouterV3Middleware"
+                          "sdk/ai-billing/reference/openrouter/typedoc/functions/createOpenRouterV3Middleware"
                         ]
                       },
                       {
                         "group": "Types",
                         "pages": [
-                          "reference/openrouter/typedoc/type-aliases/OpenRouterV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/openrouter/typedoc/type-aliases/OpenRouterV3MiddlewareOptions"
                         ]
                       }
                     ]
@@ -256,17 +252,17 @@
                     "group": "Reference",
                     "icon": "book-open",
                     "pages": [
-                      "reference/polar/typedoc/index",
+                      "sdk/ai-billing/reference/polar/typedoc/index",
                       {
                         "group": "Functions",
                         "pages": [
-                          "reference/polar/typedoc/functions/createPolarDestination"
+                          "sdk/ai-billing/reference/polar/typedoc/functions/createPolarDestination"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "reference/polar/typedoc/interfaces/PolarDestinationOptions"
+                          "sdk/ai-billing/reference/polar/typedoc/interfaces/PolarDestinationOptions"
                         ]
                       }
                     ]
@@ -280,17 +276,17 @@
                     "group": "Reference",
                     "icon": "book-open",
                     "pages": [
-                      "reference/stripe/typedoc/index",
+                      "sdk/ai-billing/reference/stripe/typedoc/index",
                       {
                         "group": "Functions",
                         "pages": [
-                          "reference/stripe/typedoc/functions/createStripeDestination"
+                          "sdk/ai-billing/reference/stripe/typedoc/functions/createStripeDestination"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "reference/stripe/typedoc/interfaces/StripeDestinationOptions"
+                          "sdk/ai-billing/reference/stripe/typedoc/interfaces/StripeDestinationOptions"
                         ]
                       }
                     ]

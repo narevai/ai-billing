@@ -1,5 +1,6 @@
 {
   "extends": ["../../typedoc.base.json"],
   "entryPoints": ["src/index.ts"],
-  "out": "../../apps/docs/reference/stripe/typedoc"
+  "out": "../../apps/docs/sdk/ai-billing/reference/stripe/typedoc",
+  "publicPath": "/sdk/ai-billing/reference/stripe/typedoc/"
 }

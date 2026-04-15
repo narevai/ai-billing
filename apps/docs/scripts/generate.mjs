@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DOCS_APP_DIR = path.resolve(__dirname, '..');
-const REFERENCE_DIR = path.resolve(DOCS_APP_DIR, 'reference');
+const REFERENCE_DIR = path.resolve(DOCS_APP_DIR, 'sdk/ai-billing/reference');
 const DOCS_JSON_PATH = path.resolve(DOCS_APP_DIR, 'docs.json');
 
 if (!fs.existsSync(DOCS_JSON_PATH)) {
@@ -95,7 +95,7 @@ function buildTypedocPages(typedocDir, pkg) {
     const [firstSegment] = rel.split('/');
 
     if (/^(README|index)\.(md|mdx)$/.test(rel)) {
-      bucketed.readme.push(`reference/${pkg}/typedoc/index`);
+      bucketed.readme.push(`sdk/ai-billing/reference/${pkg}/typedoc/index`);
       continue;
     }
 
@@ -147,7 +147,7 @@ function buildHandwrittenPages(pkgDir, pkg) {
     pages.push(toMintPagePath(path.join(pkgDir, entry.name)));
   }
 
-  const indexPage = `reference/${pkg}/index`;
+  const indexPage = `sdk/ai-billing/reference/${pkg}/index`;
   const idx = pages.indexOf(indexPage);
   if (idx >= 0) pages.splice(idx, 1);
 
@@ -211,6 +211,13 @@ function syncNavigation() {
     });
   }
 
+  const existingSdkParent = sdkTab.groups.find(
+    (g) => g?.group === SDK_PARENT_GROUP,
+  );
+  const preservedTopLevelPages = existingSdkParent?.pages
+    ? existingSdkParent.pages.filter((p) => typeof p === 'string')
+    : [];
+
   const withoutLegacySdkGroups = sdkTab.groups.filter(
     (g) =>
       g?.group !== SDK_PARENT_GROUP && !g?.group?.startsWith('@ai-billing/'),
@@ -222,7 +229,7 @@ function syncNavigation() {
       {
         group: SDK_PARENT_GROUP,
         icon: 'npm',
-        pages: nestedSdkGroups,
+        pages: [...preservedTopLevelPages, ...nestedSdkGroups],
       },
     ];
   } else {

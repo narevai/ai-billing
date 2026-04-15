@@ -1,0 +1,42 @@
+[**@ai-billing/openmeter**](../index)
+
+***
+
+[@ai-billing/openmeter](/sdk/ai-billing/reference/openmeter/typedoc/index) / createOpenMeterDestination
+
+# Function: createOpenMeterDestination()
+
+> **createOpenMeterDestination**\<`TTags`\>(`options`): `Destination`\<`TTags`\>
+
+Defined in: [openmeter-destination.ts:73](https://github.com/narevai/ai-billing/blob/main/packages/openmeter/src/destination/openmeter-destination.ts#L73)
+
+Creates a Destination that ingests billing events into OpenMeter.
+
+Identity is extracted from tags (CloudEvents `subject`). If no identity is present, the event is
+skipped to avoid ingesting anonymous data.
+
+**Cost:** Each event must include BillingEvent.cost. The payload always includes `cost_nanos`
+and `currency` derived from `event.cost` using non-null assertion; omitting `cost` causes undefined
+runtime behavior (typically a throw in costToNumber or when reading `currency`).
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject` = `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`OpenMeterDestinationOptions`](/sdk/ai-billing/reference/openmeter/typedoc/interfaces/OpenMeterDestinationOptions)\<`TTags`\>
+
+Destination configuration; see [OpenMeterDestinationOptions](/sdk/ai-billing/reference/openmeter/typedoc/interfaces/OpenMeterDestinationOptions).
+
+## Returns
+
+`Destination`\<`TTags`\>
+
+A destination function that sends events to OpenMeter.

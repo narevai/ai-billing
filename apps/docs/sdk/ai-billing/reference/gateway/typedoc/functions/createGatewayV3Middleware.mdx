@@ -1,0 +1,59 @@
+[**@ai-billing/gateway**](../index)
+
+***
+
+[@ai-billing/gateway](/sdk/ai-billing/reference/gateway/typedoc/index) / createGatewayV3Middleware
+
+# Function: createGatewayV3Middleware()
+
+> **createGatewayV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
+
+Defined in: [gateway/src/ai-sdk/language-model-middleware/v3/language-model-v3-ai-gateway-billing-middleware.ts:101](https://github.com/narevai/ai-billing/blob/main/packages/gateway/src/ai-sdk/language-model-middleware/v3/language-model-v3-ai-gateway-billing-middleware.ts#L101)
+
+Creates a V3 billing middleware configured for the Vercel AI Gateway provider.
+Extracts cost and usage data from gateway-specific provider metadata.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags. Defaults to standard tags.
+
+## Parameters
+
+### options
+
+[`GatewayV3MiddlewareOptions`](/sdk/ai-billing/reference/gateway/typedoc/interfaces/GatewayV3MiddlewareOptions)\<`TTags`\>
+
+Shared billing options; see [GatewayV3MiddlewareOptions](/sdk/ai-billing/reference/gateway/typedoc/interfaces/GatewayV3MiddlewareOptions) for what you can pass and
+what is implied by the gateway provider.
+
+## Returns
+
+`LanguageModelV3Middleware`
+
+A V3 billing middleware instance for the AI Gateway.
+
+## Example
+
+Same wiring as `examples/dev-sandbox/app/api/gateway` (`createGatewayMiddleware` is this function’s export
+alias from `@ai-billing/gateway`).
+
+```ts
+import { createGateway, wrapLanguageModel } from 'ai';
+import { createGatewayMiddleware } from '@ai-billing/gateway';
+import { consoleDestination } from '@ai-billing/core';
+
+const gateway = createGateway({ apiKey: process.env.AI_GATEWAY_API_KEY });
+
+const billingMiddleware = createGatewayMiddleware({
+  destinations: [consoleDestination()],
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: gateway('gpt-5'),
+  middleware: billingMiddleware,
+});
+```

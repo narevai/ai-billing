@@ -1,0 +1,95 @@
+[**@ai-billing/openmeter**](../index)
+
+***
+
+[@ai-billing/openmeter](/sdk/ai-billing/reference/openmeter/typedoc/index) / OpenMeterDestinationOptions
+
+# Interface: OpenMeterDestinationOptions\<TTags\>
+
+Defined in: [openmeter-destination.ts:24](https://github.com/narevai/ai-billing/blob/main/packages/openmeter/src/destination/openmeter-destination.ts#L24)
+
+Options for [createOpenMeterDestination](/sdk/ai-billing/reference/openmeter/typedoc/functions/createOpenMeterDestination).
+
+OpenMeter ingests usage as CloudEvents where the event `type` identifies the meter and the `subject`
+identifies the customer. This destination extracts identity from billing event tags, builds default
+`data` from the event (usage + tags), and always sets `cost_nanos` and `currency` from
+BillingEvent.cost. Callers must supply a defined `cost` on each event; the implementation
+asserts it is present and may throw at runtime if it is omitted.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `DefaultTags` = `DefaultTags`
+
+The shape of the tags object, extending DefaultTags.
+
+## Properties
+
+### apiKey
+
+> **apiKey**: `string`
+
+Defined in: [openmeter-destination.ts:28](https://github.com/narevai/ai-billing/blob/main/packages/openmeter/src/destination/openmeter-destination.ts#L28)
+
+OpenMeter API key.
+
+***
+
+### apiUrl?
+
+> `optional` **apiUrl?**: `string`
+
+Defined in: [openmeter-destination.ts:30](https://github.com/narevai/ai-billing/blob/main/packages/openmeter/src/destination/openmeter-destination.ts#L30)
+
+OpenMeter API base URL. Defaults to 'https://eu.api.konghq.com'.
+
+***
+
+### eventType?
+
+> `optional` **eventType?**: `string`
+
+Defined in: [openmeter-destination.ts:36](https://github.com/narevai/ai-billing/blob/main/packages/openmeter/src/destination/openmeter-destination.ts#L36)
+
+OpenMeter metering event type (CloudEvents `type`).
+
+Defaults to `'llm_usage'`.
+
+***
+
+### customerIdKey?
+
+> `optional` **customerIdKey?**: keyof `TTags`
+
+Defined in: [openmeter-destination.ts:42](https://github.com/narevai/ai-billing/blob/main/packages/openmeter/src/destination/openmeter-destination.ts#L42)
+
+Tag key used to read the OpenMeter customer identifier (CloudEvents `subject`). When omitted, common
+tag keys are checked: `openMeterCustomerId`, `userId`.
+
+***
+
+### mapMetadata?
+
+> `optional` **mapMetadata?**: (`event`) => `Record`\<`string`, `string` \| `number` \| `boolean`\>
+
+Defined in: [openmeter-destination.ts:54](https://github.com/narevai/ai-billing/blob/main/packages/openmeter/src/destination/openmeter-destination.ts#L54)
+
+Optional override for the `data` payload sent to OpenMeter.
+
+When omitted, metadata is built from buildMeterMetadata and includes:
+- token/usage dimensions
+- `tag_*` values from event tags
+
+Note: this destination always merges `cost_nanos` and `currency` into `data` from `event.cost` via
+non-null assertion. Missing BillingEvent.cost is not supported and will throw when converting.
+
+#### Parameters
+
+##### event
+
+`BillingEvent`\<`TTags`\>
+
+#### Returns
+
+`Record`\<`string`, `string` \| `number` \| `boolean`\>
