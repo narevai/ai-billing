@@ -15,7 +15,9 @@ import type {
  *
  * OpenMeter ingests usage as CloudEvents where the event `type` identifies the meter and the `subject`
  * identifies the customer. This destination extracts identity from billing event tags, builds default
- * `data` from the event (usage + tags), and includes cost fields when a cost is present on the event.
+ * `data` from the event (usage + tags), and always sets `cost_nanos` and `currency` from
+ * {@link BillingEvent.cost}. Callers must supply a defined `cost` on each event; the implementation
+ * asserts it is present and may throw at runtime if it is omitted.
  *
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
  */
@@ -46,8 +48,8 @@ export interface OpenMeterDestinationOptions<
    * - token/usage dimensions
    * - `tag_*` values from event tags
    *
-   * Note: this destination currently also adds `cost_nanos` and `currency` to `data`. If `event.cost` is
-   * missing at runtime, those fields may be `undefined`.
+   * Note: this destination always merges `cost_nanos` and `currency` into `data` from `event.cost` via
+   * non-null assertion. Missing {@link BillingEvent.cost} is not supported and will throw when converting.
    */
   mapMetadata?: (
     event: BillingEvent<TTags>,
@@ -59,6 +61,10 @@ export interface OpenMeterDestinationOptions<
  *
  * Identity is extracted from tags (CloudEvents `subject`). If no identity is present, the event is
  * skipped to avoid ingesting anonymous data.
+ *
+ * **Cost:** Each event must include {@link BillingEvent.cost}. The payload always includes `cost_nanos`
+ * and `currency` derived from `event.cost` using non-null assertion; omitting `cost` causes undefined
+ * runtime behavior (typically a throw in {@link costToNumber} or when reading `currency`).
  *
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
  * @param options - Destination configuration; see {@link OpenMeterDestinationOptions}.
