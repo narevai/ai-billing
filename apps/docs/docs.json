@@ -14,15 +14,10 @@
         "tab": "SDKs",
         "groups": [
           {
-            "group": "Getting Started",
-            "pages": [
-              "index"
-            ]
-          },
-          {
             "group": "@ai-billing SDK",
             "icon": "npm",
             "pages": [
+              "sdk/ai-billing/index",
               {
                 "group": "@ai-billing/core",
                 "pages": [
