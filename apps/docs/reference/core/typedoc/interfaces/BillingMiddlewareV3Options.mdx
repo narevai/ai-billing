@@ -6,7 +6,12 @@
 
 # Interface: BillingMiddlewareV3Options\<TTags\>
 
-Defined in: [packages/core/src/ai-sdk/language-model-middleware/v3/language-model-v3-base-billing-middleware.ts:26](https://github.com/narevai/ai-billing/blob/main/packages/core/src/ai-sdk/language-model-middleware/v3/language-model-v3-base-billing-middleware.ts#L26)
+Defined in: [packages/core/src/ai-sdk/language-model-middleware/v3/language-model-v3-base-billing-middleware.ts:34](https://github.com/narevai/ai-billing/blob/main/packages/core/src/ai-sdk/language-model-middleware/v3/language-model-v3-base-billing-middleware.ts#L34)
+
+Configuration for [createV3BillingMiddleware](../functions/createV3BillingMiddleware).
+
+Extends [BaseBillingMiddlewareOptions](BaseBillingMiddlewareOptions) (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
+requires an [EventBuilder](../type-aliases/EventBuilder) to construct the [BillingEvent](BillingEvent).
 
 ## Extends
 
@@ -18,13 +23,17 @@ Defined in: [packages/core/src/ai-sdk/language-model-middleware/v3/language-mode
 
 `TTags` *extends* [`DefaultTags`](../type-aliases/DefaultTags) = [`DefaultTags`](../type-aliases/DefaultTags)
 
+The shape of the tags object, extending [DefaultTags](../type-aliases/DefaultTags).
+
 ## Properties
 
 ### buildEvent
 
 > **buildEvent**: [`EventBuilder`](../type-aliases/EventBuilder)\<[`BuildV3EventPayload`](BuildV3EventPayload)\<`TTags`\>, `TTags`\>
 
-Defined in: [packages/core/src/ai-sdk/language-model-middleware/v3/language-model-v3-base-billing-middleware.ts:29](https://github.com/narevai/ai-billing/blob/main/packages/core/src/ai-sdk/language-model-middleware/v3/language-model-v3-base-billing-middleware.ts#L29)
+Defined in: [packages/core/src/ai-sdk/language-model-middleware/v3/language-model-v3-base-billing-middleware.ts:38](https://github.com/narevai/ai-billing/blob/main/packages/core/src/ai-sdk/language-model-middleware/v3/language-model-v3-base-billing-middleware.ts#L38)
+
+Builds a billing event from the model response data.
 
 ***
 
@@ -32,7 +41,9 @@ Defined in: [packages/core/src/ai-sdk/language-model-middleware/v3/language-mode
 
 > `optional` **destinations?**: [`Destination`](../type-aliases/Destination)\<`TTags`\>[]
 
-Defined in: [packages/core/src/types/middleware.ts:9](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L9)
+Defined in: [packages/core/src/types/middleware.ts:10](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L10)
+
+One or more billing destinations that receive each emitted [BillingEvent](BillingEvent).
 
 #### Inherited from
 
@@ -44,7 +55,9 @@ Defined in: [packages/core/src/types/middleware.ts:9](https://github.com/narevai
 
 > `optional` **defaultTags?**: `TTags`
 
-Defined in: [packages/core/src/types/middleware.ts:10](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L10)
+Defined in: [packages/core/src/types/middleware.ts:12](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L12)
+
+Tags merged into every emitted event.
 
 #### Inherited from
 
@@ -56,7 +69,10 @@ Defined in: [packages/core/src/types/middleware.ts:10](https://github.com/nareva
 
 > `optional` **waitUntil?**: (`promise`) => `void`
 
-Defined in: [packages/core/src/types/middleware.ts:11](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L11)
+Defined in: [packages/core/src/types/middleware.ts:17](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L17)
+
+Edge-runtime hook (e.g. `ctx.waitUntil`) used to keep the process alive
+while billing events are flushed asynchronously.
 
 #### Parameters
 
@@ -78,7 +94,9 @@ Defined in: [packages/core/src/types/middleware.ts:11](https://github.com/nareva
 
 > `optional` **onError?**: (`error`) => `void`
 
-Defined in: [packages/core/src/types/middleware.ts:12](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L12)
+Defined in: [packages/core/src/types/middleware.ts:19](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L19)
+
+Called when an error occurs during event extraction or dispatch. Defaults to a silent no-op.
 
 #### Parameters
 

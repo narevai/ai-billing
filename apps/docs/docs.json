@@ -15,7 +15,9 @@
         "groups": [
           {
             "group": "Getting Started",
-            "pages": ["index"]
+            "pages": [
+              "index"
+            ]
           },
           {
             "group": "@ai-billing/core",
@@ -29,19 +31,13 @@
                   {
                     "group": "Functions",
                     "pages": [
-                      "reference/core/typedoc/functions/addCosts",
-                      "reference/core/typedoc/functions/applyDiscount",
                       "reference/core/typedoc/functions/buildMeterMetadata",
                       "reference/core/typedoc/functions/consoleDestination",
-                      "reference/core/typedoc/functions/convertCostUnit",
-                      "reference/core/typedoc/functions/costToNumber",
                       "reference/core/typedoc/functions/createBasePriceResolver",
                       "reference/core/typedoc/functions/createDestination",
                       "reference/core/typedoc/functions/createNarevPriceResolver",
                       "reference/core/typedoc/functions/createObjectPriceResolver",
                       "reference/core/typedoc/functions/createV3BillingMiddleware",
-                      "reference/core/typedoc/functions/multiplyCost",
-                      "reference/core/typedoc/functions/rateToCost",
                       "reference/core/typedoc/functions/toJSONObject"
                     ]
                   },
@@ -77,6 +73,210 @@
                       "reference/core/typedoc/classes/AiBillingDestinationError",
                       "reference/core/typedoc/classes/AIBillingError",
                       "reference/core/typedoc/classes/AiBillingExtractorError"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "@ai-billing/gateway",
+            "pages": [
+              {
+                "group": "Reference",
+                "icon": "book-open",
+                "pages": [
+                  "reference/gateway/typedoc/index",
+                  {
+                    "group": "Functions",
+                    "pages": [
+                      "reference/gateway/typedoc/functions/createGatewayV3Middleware"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "@ai-billing/groq",
+            "pages": [
+              {
+                "group": "Reference",
+                "icon": "book-open",
+                "pages": [
+                  "reference/groq/typedoc/index",
+                  {
+                    "group": "Functions",
+                    "pages": [
+                      "reference/groq/typedoc/functions/createGroqV3Middleware"
+                    ]
+                  },
+                  {
+                    "group": "Interfaces",
+                    "pages": [
+                      "reference/groq/typedoc/interfaces/GroqMiddlewareOptions"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "@ai-billing/lago",
+            "pages": [
+              {
+                "group": "Reference",
+                "icon": "book-open",
+                "pages": [
+                  "reference/lago/typedoc/index",
+                  {
+                    "group": "Functions",
+                    "pages": [
+                      "reference/lago/typedoc/functions/createLagoDestination"
+                    ]
+                  },
+                  {
+                    "group": "Interfaces",
+                    "pages": [
+                      "reference/lago/typedoc/interfaces/LagoDestinationOptions"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "@ai-billing/openai",
+            "pages": [
+              {
+                "group": "Reference",
+                "icon": "book-open",
+                "pages": [
+                  "reference/openai/typedoc/index",
+                  {
+                    "group": "Functions",
+                    "pages": [
+                      "reference/openai/typedoc/functions/createOpenAIV3Middleware"
+                    ]
+                  },
+                  {
+                    "group": "Interfaces",
+                    "pages": [
+                      "reference/openai/typedoc/interfaces/OpenAIV3MiddlewareOptions"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "@ai-billing/openai-compatible",
+            "pages": [
+              {
+                "group": "Reference",
+                "icon": "book-open",
+                "pages": [
+                  "reference/openai-compatible/typedoc/index",
+                  {
+                    "group": "Functions",
+                    "pages": [
+                      "reference/openai-compatible/typedoc/functions/createOpenAICompatibleV3Middleware"
+                    ]
+                  },
+                  {
+                    "group": "Interfaces",
+                    "pages": [
+                      "reference/openai-compatible/typedoc/interfaces/OpenAICompatibleV3MiddlewareOptions"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "@ai-billing/openmeter",
+            "pages": [
+              {
+                "group": "Reference",
+                "icon": "book-open",
+                "pages": [
+                  "reference/openmeter/typedoc/index",
+                  {
+                    "group": "Functions",
+                    "pages": [
+                      "reference/openmeter/typedoc/functions/createOpenMeterDestination"
+                    ]
+                  },
+                  {
+                    "group": "Interfaces",
+                    "pages": [
+                      "reference/openmeter/typedoc/interfaces/OpenMeterDestinationOptions"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "@ai-billing/openrouter",
+            "pages": [
+              {
+                "group": "Reference",
+                "icon": "book-open",
+                "pages": [
+                  "reference/openrouter/typedoc/index",
+                  {
+                    "group": "Functions",
+                    "pages": [
+                      "reference/openrouter/typedoc/functions/createOpenRouterV3Middleware"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "@ai-billing/polar",
+            "pages": [
+              {
+                "group": "Reference",
+                "icon": "book-open",
+                "pages": [
+                  "reference/polar/typedoc/index",
+                  {
+                    "group": "Functions",
+                    "pages": [
+                      "reference/polar/typedoc/functions/createPolarDestination"
+                    ]
+                  },
+                  {
+                    "group": "Interfaces",
+                    "pages": [
+                      "reference/polar/typedoc/interfaces/PolarDestinationOptions"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "@ai-billing/stripe",
+            "pages": [
+              {
+                "group": "Reference",
+                "icon": "book-open",
+                "pages": [
+                  "reference/stripe/typedoc/index",
+                  {
+                    "group": "Functions",
+                    "pages": [
+                      "reference/stripe/typedoc/functions/createStripeDestination"
+                    ]
+                  },
+                  {
+                    "group": "Interfaces",
+                    "pages": [
+                      "reference/stripe/typedoc/interfaces/StripeDestinationOptions"
                     ]
                   }
                 ]

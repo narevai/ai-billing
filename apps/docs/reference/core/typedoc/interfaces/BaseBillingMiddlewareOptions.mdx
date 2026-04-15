@@ -24,7 +24,9 @@ Defined in: [packages/core/src/types/middleware.ts:6](https://github.com/narevai
 
 > `optional` **destinations?**: [`Destination`](../type-aliases/Destination)\<`TTags`\>[]
 
-Defined in: [packages/core/src/types/middleware.ts:9](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L9)
+Defined in: [packages/core/src/types/middleware.ts:10](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L10)
+
+One or more billing destinations that receive each emitted [BillingEvent](BillingEvent).
 
 ***
 
@@ -32,7 +34,9 @@ Defined in: [packages/core/src/types/middleware.ts:9](https://github.com/narevai
 
 > `optional` **defaultTags?**: `TTags`
 
-Defined in: [packages/core/src/types/middleware.ts:10](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L10)
+Defined in: [packages/core/src/types/middleware.ts:12](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L12)
+
+Tags merged into every emitted event.
 
 ***
 
@@ -40,7 +44,10 @@ Defined in: [packages/core/src/types/middleware.ts:10](https://github.com/nareva
 
 > `optional` **waitUntil?**: (`promise`) => `void`
 
-Defined in: [packages/core/src/types/middleware.ts:11](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L11)
+Defined in: [packages/core/src/types/middleware.ts:17](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L17)
+
+Edge-runtime hook (e.g. `ctx.waitUntil`) used to keep the process alive
+while billing events are flushed asynchronously.
 
 #### Parameters
 
@@ -58,7 +65,9 @@ Defined in: [packages/core/src/types/middleware.ts:11](https://github.com/nareva
 
 > `optional` **onError?**: (`error`) => `void`
 
-Defined in: [packages/core/src/types/middleware.ts:12](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L12)
+Defined in: [packages/core/src/types/middleware.ts:19](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L19)
+
+Called when an error occurs during event extraction or dispatch. Defaults to a silent no-op.
 
 #### Parameters
 

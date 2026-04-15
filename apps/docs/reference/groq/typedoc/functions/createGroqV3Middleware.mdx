@@ -1,0 +1,76 @@
+[**@ai-billing/groq**](../index)
+
+***
+
+[@ai-billing/groq](../index) / createGroqV3Middleware
+
+# Function: createGroqV3Middleware()
+
+> **createGroqV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
+
+Defined in: [groq/src/ai-sdk/language-model-middleware/v3/language-model-v3-groq-billing-middleware.ts:96](https://github.com/narevai/ai-billing/blob/main/packages/groq/src/ai-sdk/language-model-middleware/v3/language-model-v3-groq-billing-middleware.ts#L96)
+
+Creates a V3 billing middleware for the Groq provider (`@ai-sdk/groq`).
+Derives token usage from Groq's raw usage payload and resolves cost from pricing plus usage.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`GroqMiddlewareOptions`](../interfaces/GroqMiddlewareOptions)\<`TTags`\>
+
+Billing options; see [GroqV3MiddlewareOptions](../interfaces/GroqMiddlewareOptions). A `priceResolver` is required
+because Groq does not supply billed amounts in provider metadata the way the AI Gateway does.
+
+## Returns
+
+`LanguageModelV3Middleware`
+
+A V3 billing middleware instance for Groq.
+
+## Example
+
+Same wiring as `examples/dev-sandbox/app/api/groq` (`createGroqMiddleware` is this function's export alias
+from `@ai-billing/groq`).
+
+```ts
+import { createGroq } from '@ai-sdk/groq';
+import { wrapLanguageModel } from 'ai';
+import { createGroqMiddleware } from '@ai-billing/groq';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const groq = createGroq({ apiKey: process.env.GROQ_API_KEY });
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'openai/gpt-oss-120b': {
+    promptTokens: 0.15 / 1_000_000,
+    completionTokens: 0.6 / 1_000_000,
+    inputCacheReadTokens: 0.075 / 1_000_000,
+    inputCacheWriteTokens: 0,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createGroqMiddleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: groq('openai/gpt-oss-120b'),
+  middleware: billingMiddleware,
+});
+```
