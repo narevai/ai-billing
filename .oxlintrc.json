@@ -54,7 +54,7 @@
     {
       "files": ["packages/testing/**/*.ts"],
       "rules": {
-        "jsdoc-js/require-jsdoc": "off"
+        "jsdoc/require-jsdoc": "off"
       }
     }
   ],
