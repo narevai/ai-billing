@@ -1,0 +1,127 @@
+[**@ai-billing/core**](../index)
+
+***
+
+[@ai-billing/core](/sdk/ai-billing/reference/core/typedoc/index) / AiBillingDestinationError
+
+# Class: AiBillingDestinationError
+
+Defined in: [packages/core/src/error/destination-error.ts:10](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/destination-error.ts#L10)
+
+Error raised when billing data processing fails for a destination.
+
+## Extends
+
+- [`AIBillingError`](/sdk/ai-billing/reference/core/typedoc/classes/AIBillingError)
+
+## Constructors
+
+### Constructor
+
+> **new AiBillingDestinationError**(`__namedParameters`): `AiBillingDestinationError`
+
+Defined in: [packages/core/src/error/destination-error.ts:16](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/destination-error.ts#L16)
+
+#### Parameters
+
+##### \_\_namedParameters
+
+###### destinationId?
+
+`string`
+
+###### message?
+
+`string` = `...`
+
+###### cause?
+
+`unknown`
+
+#### Returns
+
+`AiBillingDestinationError`
+
+#### Overrides
+
+[`AIBillingError`](/sdk/ai-billing/reference/core/typedoc/classes/AIBillingError).[`constructor`](/sdk/ai-billing/reference/core/typedoc/classes/AIBillingError#constructor)
+
+## Properties
+
+### cause?
+
+> `readonly` `optional` **cause?**: `unknown`
+
+Defined in: [packages/core/src/error/ai-billing-error.ts:8](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/ai-billing-error.ts#L8)
+
+#### Inherited from
+
+[`AIBillingError`](/sdk/ai-billing/reference/core/typedoc/classes/AIBillingError).[`cause`](/sdk/ai-billing/reference/core/typedoc/classes/AIBillingError#cause)
+
+***
+
+### destinationId?
+
+> `readonly` `optional` **destinationId?**: `string`
+
+Defined in: [packages/core/src/error/destination-error.ts:14](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/destination-error.ts#L14)
+
+The ID of the destination that failed to process billing data.
+
+***
+
+### name
+
+> **name**: `string`
+
+Defined in: node\_modules/.pnpm/typescript@5.9.2/node\_modules/typescript/lib/lib.es5.d.ts:1076
+
+#### Inherited from
+
+[`AIBillingError`](/sdk/ai-billing/reference/core/typedoc/classes/AIBillingError).[`name`](/sdk/ai-billing/reference/core/typedoc/classes/AIBillingError#name)
+
+***
+
+### message
+
+> **message**: `string`
+
+Defined in: node\_modules/.pnpm/typescript@5.9.2/node\_modules/typescript/lib/lib.es5.d.ts:1077
+
+#### Inherited from
+
+[`AIBillingError`](/sdk/ai-billing/reference/core/typedoc/classes/AIBillingError).[`message`](/sdk/ai-billing/reference/core/typedoc/classes/AIBillingError#message)
+
+***
+
+### stack?
+
+> `optional` **stack?**: `string`
+
+Defined in: node\_modules/.pnpm/typescript@5.9.2/node\_modules/typescript/lib/lib.es5.d.ts:1078
+
+#### Inherited from
+
+[`AIBillingError`](/sdk/ai-billing/reference/core/typedoc/classes/AIBillingError).[`stack`](/sdk/ai-billing/reference/core/typedoc/classes/AIBillingError#stack)
+
+## Methods
+
+### isInstance()
+
+> `static` **isInstance**(`error`): `error is AiBillingDestinationError`
+
+Defined in: [packages/core/src/error/destination-error.ts:29](https://github.com/narevai/ai-billing/blob/main/packages/core/src/error/destination-error.ts#L29)
+
+#### Parameters
+
+##### error
+
+`unknown`
+
+#### Returns
+
+`error is AiBillingDestinationError`
+
+#### Overrides
+
+[`AIBillingError`](/sdk/ai-billing/reference/core/typedoc/classes/AIBillingError).[`isInstance`](/sdk/ai-billing/reference/core/typedoc/classes/AIBillingError#isinstance)

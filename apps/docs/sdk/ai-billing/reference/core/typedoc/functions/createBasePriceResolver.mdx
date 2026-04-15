@@ -1,0 +1,27 @@
+[**@ai-billing/core**](../index)
+
+***
+
+[@ai-billing/core](/sdk/ai-billing/reference/core/typedoc/index) / createBasePriceResolver
+
+# Function: createBasePriceResolver()
+
+> **createBasePriceResolver**(`handler`): [`PriceResolver`](/sdk/ai-billing/reference/core/typedoc/type-aliases/PriceResolver)
+
+Defined in: [packages/core/src/pricing/base-price-resolver.ts:12](https://github.com/narevai/ai-billing/blob/main/packages/core/src/pricing/base-price-resolver.ts#L12)
+
+Creates a base price resolver that wraps a handler function.
+
+## Parameters
+
+### handler
+
+(`context`) => [`ModelPricing`](/sdk/ai-billing/reference/core/typedoc/interfaces/ModelPricing) \| `Promise`\<[`ModelPricing`](/sdk/ai-billing/reference/core/typedoc/interfaces/ModelPricing) \| `undefined`\> \| `undefined`
+
+The function that resolves model pricing.
+
+## Returns
+
+[`PriceResolver`](/sdk/ai-billing/reference/core/typedoc/type-aliases/PriceResolver)
+
+A price resolver that wraps the handler function.

@@ -1,0 +1,27 @@
+[**@ai-billing/core**](../index)
+
+***
+
+[@ai-billing/core](/sdk/ai-billing/reference/core/typedoc/index) / createObjectPriceResolver
+
+# Function: createObjectPriceResolver()
+
+> **createObjectPriceResolver**(`pricingMap`): [`PriceResolver`](/sdk/ai-billing/reference/core/typedoc/type-aliases/PriceResolver)
+
+Defined in: [packages/core/src/pricing/object-price-resolver.ts:13](https://github.com/narevai/ai-billing/blob/main/packages/core/src/pricing/object-price-resolver.ts#L13)
+
+Creates a price resolver that uses a static pricing map.
+
+## Parameters
+
+### pricingMap
+
+`Record`\<`string`, [`ModelPricing`](/sdk/ai-billing/reference/core/typedoc/interfaces/ModelPricing)\>
+
+A mapping of model IDs to model pricing.
+
+## Returns
+
+[`PriceResolver`](/sdk/ai-billing/reference/core/typedoc/type-aliases/PriceResolver)
+
+A price resolver that uses the static pricing map.

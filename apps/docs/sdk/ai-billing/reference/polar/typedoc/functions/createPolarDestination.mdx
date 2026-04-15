@@ -1,0 +1,42 @@
+[**@ai-billing/polar**](../index)
+
+***
+
+[@ai-billing/polar](/sdk/ai-billing/reference/polar/typedoc/index) / createPolarDestination
+
+# Function: createPolarDestination()
+
+> **createPolarDestination**\<`TTags`\>(`options`): `Destination`\<`TTags`\>
+
+Defined in: [polar-destination.ts:75](https://github.com/narevai/ai-billing/blob/main/packages/polar/src/destination/polar-destination.ts#L75)
+
+Creates a Destination that ingests billing events into Polar.
+
+**Identity:** Resolves an internal Polar `customerId` and an optional `externalId` from tags. When both are
+missing, a warning is logged (`No identity found in tags. Skipping event.`), but the destination does not
+return: it still calls Polar with `customerId: String(internalId)`, which becomes the literal string
+`"undefined"` when the internal id is absent, and it only adds `externalId` when that tag value is truthy.
+When the internal id is absent but `externalId` is present, no warning is logged, yet `customerId` is
+still the string `"undefined"`.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject` = `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`PolarDestinationOptions`](/sdk/ai-billing/reference/polar/typedoc/interfaces/PolarDestinationOptions)\<`TTags`\>
+
+Destination configuration; see [PolarDestinationOptions](/sdk/ai-billing/reference/polar/typedoc/interfaces/PolarDestinationOptions).
+
+## Returns
+
+`Destination`\<`TTags`\>
+
+A destination function that sends events to Polar.

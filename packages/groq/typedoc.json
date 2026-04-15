@@ -1,5 +1,6 @@
 {
   "extends": ["../../typedoc.base.json"],
   "entryPoints": ["src/index.ts"],
-  "out": "../../apps/docs/reference/groq/typedoc"
+  "out": "../../apps/docs/sdk/ai-billing/reference/groq/typedoc",
+  "publicPath": "/sdk/ai-billing/reference/groq/typedoc/"
 }

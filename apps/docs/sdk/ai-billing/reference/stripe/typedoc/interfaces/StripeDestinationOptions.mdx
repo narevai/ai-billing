@@ -1,0 +1,81 @@
+[**@ai-billing/stripe**](../index)
+
+***
+
+[@ai-billing/stripe](/sdk/ai-billing/reference/stripe/typedoc/index) / StripeDestinationOptions
+
+# Interface: StripeDestinationOptions\<TTags\>
+
+Defined in: [stripe-destination.ts:23](https://github.com/narevai/ai-billing/blob/main/packages/stripe/src/destination/stripe-destination.ts#L23)
+
+Options for [createStripeDestination](/sdk/ai-billing/reference/stripe/typedoc/functions/createStripeDestination).
+
+Stripe Meters ingest usage via `billing.meterEvents.create`, keyed by an event name plus a payload map.
+This destination reads the Stripe customer identity from event tags, derives an `event_name`, and maps
+billing metadata into a payload (with Stripe's payload size constraints in mind).
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `DefaultTags` = `DefaultTags`
+
+The shape of the tags object, extending DefaultTags.
+
+## Properties
+
+### client?
+
+> `optional` **client?**: `Stripe`
+
+Defined in: [stripe-destination.ts:29](https://github.com/narevai/ai-billing/blob/main/packages/stripe/src/destination/stripe-destination.ts#L29)
+
+Optional pre-configured Stripe SDK client. When omitted, a client is constructed from `apiKey`.
+
+***
+
+### apiKey?
+
+> `optional` **apiKey?**: `string`
+
+Defined in: [stripe-destination.ts:35](https://github.com/narevai/ai-billing/blob/main/packages/stripe/src/destination/stripe-destination.ts#L35)
+
+Stripe secret key used when creating a Stripe SDK client (e.g. `sk_live_...`).
+
+Only used when `client` is not provided.
+
+***
+
+### meterName
+
+> **meterName**: `string` \| ((`event`) => `string`)
+
+Defined in: [stripe-destination.ts:39](https://github.com/narevai/ai-billing/blob/main/packages/stripe/src/destination/stripe-destination.ts#L39)
+
+Stripe meter event name (`event_name`), or a function that derives it from the billing event.
+
+***
+
+### mapMetadata?
+
+> `optional` **mapMetadata?**: (`event`) => `Record`\<`string`, `string`\>
+
+Defined in: [stripe-destination.ts:49](https://github.com/narevai/ai-billing/blob/main/packages/stripe/src/destination/stripe-destination.ts#L49)
+
+Optional override for the metadata included in the Stripe meter event payload.
+
+When omitted, metadata is built from buildMeterMetadata. This destination then:
+- always includes `value` (cost in nanos; requires a defined BillingEvent.cost on each event)
+  and `stripe_customer_id` (from tags; see [createStripeDestination](/sdk/ai-billing/reference/stripe/typedoc/functions/createStripeDestination) for missing-tag behavior)
+- prioritizes a small set of commonly useful fields first
+- hard-stops at 10 payload keys (Stripe constraint)
+
+#### Parameters
+
+##### event
+
+`BillingEvent`\<`TTags`\>
+
+#### Returns
+
+`Record`\<`string`, `string`\>

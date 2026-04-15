@@ -1,0 +1,83 @@
+[**@ai-billing/openai-compatible**](../index)
+
+***
+
+[@ai-billing/openai-compatible](/sdk/ai-billing/reference/openai-compatible/typedoc/index) / createOpenAICompatibleV3Middleware
+
+# Function: createOpenAICompatibleV3Middleware()
+
+> **createOpenAICompatibleV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
+
+Defined in: [openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts:90](https://github.com/narevai/ai-billing/blob/main/packages/openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts#L90)
+
+Creates a V3 billing middleware for OpenAI-compatible providers (for example `@ai-sdk/openai-compatible`).
+Normalizes usage and resolves cost via your PriceResolver; billing events use `options.providerId`
+as the provider.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`OpenAICompatibleV3MiddlewareOptions`](/sdk/ai-billing/reference/openai-compatible/typedoc/interfaces/OpenAICompatibleV3MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [OpenAICompatibleV3MiddlewareOptions](/sdk/ai-billing/reference/openai-compatible/typedoc/interfaces/OpenAICompatibleV3MiddlewareOptions).
+
+## Returns
+
+`LanguageModelV3Middleware`
+
+A V3 billing middleware instance for the configured provider.
+
+## Example
+
+Same wiring as `examples/dev-sandbox/app/api/openai-compatible` (`createOpenAICompatibleMiddleware` is this
+function's export alias from `@ai-billing/openai-compatible`).
+
+```ts
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+import { wrapLanguageModel } from 'ai';
+import { createOpenAICompatibleMiddleware } from '@ai-billing/openai-compatible';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+import type { LanguageModelV3 } from '@ai-sdk/provider';
+
+const xai = createOpenAICompatible({
+  name: 'xai', // must match `providerId` below
+  baseURL: 'https://api.x.ai/v1',
+  apiKey: process.env.XAI_API_KEY,
+  includeUsage: true,
+});
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'grok-4-1-fast-reasoning': {
+    promptTokens: 0.2 / 1_000_000,
+    completionTokens: 0.5 / 1_000_000,
+    internalReasoningTokens: 0,
+    inputCacheReadTokens: 0.15 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createOpenAICompatibleMiddleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+  providerId: 'xai',
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: xai('grok-4-1-fast-reasoning') as unknown as LanguageModelV3,
+  middleware: billingMiddleware,
+});
+```
