@@ -41,7 +41,8 @@ export interface StripeDestinationOptions<
    * Optional override for the metadata included in the Stripe meter event payload.
    *
    * When omitted, metadata is built from {@link buildMeterMetadata}. This destination then:
-   * - always includes `value` (cost in nanos) and `stripe_customer_id`
+   * - always includes `value` (cost in nanos; requires a defined {@link BillingEvent.cost} on each event)
+   *   and `stripe_customer_id` (from tags; see {@link createStripeDestination} for missing-tag behavior)
    * - prioritizes a small set of commonly useful fields first
    * - hard-stops at 10 payload keys (Stripe constraint)
    */
@@ -51,8 +52,15 @@ export interface StripeDestinationOptions<
 /**
  * Creates a {@link Destination} that ingests billing events into Stripe Meters.
  *
- * Identity is extracted from tags using `stripe_customer_id`. If no identity is present, a warning is
- * logged; the current implementation still sends the event with an `undefined` identity value.
+ * **Identity:** Reads `stripe_customer_id` from {@link BillingEvent.tags}. When it is missing or falsy,
+ * a warning is logged (`No identity found in tags. Skipping event.`), but execution continues: the
+ * destination still builds the payload and calls Stripe. The payload field is set with
+ * `String(identity)`, so a missing tag becomes the literal string `"undefined"`, not a skipped request.
+ *
+ * **Cost:** The meter payload always includes `value` from {@link BillingEvent.cost} via
+ * {@link costToNumber}. The implementation uses non-null assertion on `event.cost`; callers should pass
+ * a defined {@link BillingEvent.cost}. If `cost` is omitted, runtime behavior is undefined and may throw
+ * when converting.
  *
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
  * @param options - Destination configuration; see {@link StripeDestinationOptions}.
