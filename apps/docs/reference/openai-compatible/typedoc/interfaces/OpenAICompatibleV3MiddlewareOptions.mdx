@@ -1,0 +1,124 @@
+[**@ai-billing/openai-compatible**](../index)
+
+***
+
+[@ai-billing/openai-compatible](../index) / OpenAICompatibleV3MiddlewareOptions
+
+# Interface: OpenAICompatibleV3MiddlewareOptions\<TTags\>
+
+Defined in: [openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts:29](https://github.com/narevai/ai-billing/blob/main/packages/openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts#L29)
+
+Configuration for [createOpenAICompatibleV3Middleware](../functions/createOpenAICompatibleV3Middleware).
+
+Extends BaseBillingMiddlewareOptions (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
+adds `priceResolver` plus `providerId`. Usage comes from the AI SDK's normalized usage fields for
+OpenAI-compatible responses; cost is computed from that usage and the resolved ModelPricing using
+the same rules as the package's cost helper.
+
+`providerId` must match the `name` you pass to `createOpenAICompatible` from `@ai-sdk/openai-compatible`
+so PriceResolver calls and emitted `provider` on events stay aligned.
+
+## Extends
+
+- `BaseBillingMiddlewareOptions`\<`TTags`\>
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `DefaultTags`
+
+The shape of the tags object, extending DefaultTags.
+
+## Properties
+
+### destinations?
+
+> `optional` **destinations?**: `Destination`\<`TTags`\>[]
+
+Defined in: core/dist/index.d.ts:30
+
+One or more billing destinations that receive each emitted BillingEvent.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.destinations`
+
+***
+
+### defaultTags?
+
+> `optional` **defaultTags?**: `TTags`
+
+Defined in: core/dist/index.d.ts:32
+
+Tags merged into every emitted event.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.defaultTags`
+
+***
+
+### waitUntil?
+
+> `optional` **waitUntil?**: (`promise`) => `void`
+
+Defined in: core/dist/index.d.ts:37
+
+Edge-runtime hook (e.g. `ctx.waitUntil`) used to keep the process alive
+while billing events are flushed asynchronously.
+
+#### Parameters
+
+##### promise
+
+`Promise`\<`unknown`\>
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.waitUntil`
+
+***
+
+### onError?
+
+> `optional` **onError?**: (`error`) => `void`
+
+Defined in: core/dist/index.d.ts:39
+
+Called when an error occurs during event extraction or dispatch. Defaults to a silent no-op.
+
+#### Parameters
+
+##### error
+
+`unknown`
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.onError`
+
+***
+
+### priceResolver
+
+> **priceResolver**: `PriceResolver`
+
+Defined in: [openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts:32](https://github.com/narevai/ai-billing/blob/main/packages/openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts#L32)
+
+***
+
+### providerId
+
+> **providerId**: `string`
+
+Defined in: [openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts:33](https://github.com/narevai/ai-billing/blob/main/packages/openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts#L33)

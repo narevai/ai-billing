@@ -1,0 +1,24 @@
+[**@ai-billing/openrouter**](../index)
+
+***
+
+[@ai-billing/openrouter](../index) / OpenRouterV3MiddlewareOptions
+
+# Type Alias: OpenRouterV3MiddlewareOptions\<TTags\>
+
+> **OpenRouterV3MiddlewareOptions**\<`TTags`\> = `BaseBillingMiddlewareOptions`\<`TTags`\>
+
+Defined in: [language-model-middleware/v3/language-model-v3-openrouter-billing-middleware.ts:34](https://github.com/narevai/ai-billing/blob/main/packages/openrouter/src/ai-sdk/language-model-middleware/v3/language-model-v3-openrouter-billing-middleware.ts#L34)
+
+Configuration for [createOpenRouterV3Middleware](../functions/createOpenRouterV3Middleware).
+
+Matches BaseBillingMiddlewareOptions (`destinations`, `defaultTags`, `waitUntil`, `onError`). There
+is no `priceResolver`: billed amount and token breakdown come from OpenRouter metadata (`usage.cost`, etc.).
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `DefaultTags`
+
+The shape of the tags object, extending DefaultTags.

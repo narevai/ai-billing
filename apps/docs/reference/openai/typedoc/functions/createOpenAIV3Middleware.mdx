@@ -1,0 +1,78 @@
+[**@ai-billing/openai**](../index)
+
+***
+
+[@ai-billing/openai](../index) / createOpenAIV3Middleware
+
+# Function: createOpenAIV3Middleware()
+
+> **createOpenAIV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
+
+Defined in: [openai/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-billing-middleware.ts:91](https://github.com/narevai/ai-billing/blob/main/packages/openai/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-billing-middleware.ts#L91)
+
+Creates a V3 billing middleware for the OpenAI provider (`@ai-sdk/openai`).
+Maps AI SDK usage into billing fields and resolves cost from pricing plus usage.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`OpenAIV3MiddlewareOptions`](../interfaces/OpenAIV3MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [OpenAIV3MiddlewareOptions](../interfaces/OpenAIV3MiddlewareOptions).
+
+## Returns
+
+`LanguageModelV3Middleware`
+
+A V3 billing middleware instance for OpenAI.
+
+## Example
+
+Same wiring as `examples/dev-sandbox/app/api/openai` (`createOpenAIMiddleware` is this function's export
+alias from `@ai-billing/openai`).
+
+```ts
+import { createOpenAI } from '@ai-sdk/openai';
+import { wrapLanguageModel } from 'ai';
+import { createOpenAIMiddleware } from '@ai-billing/openai';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const openai = createOpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'gpt-5': {
+    promptTokens: 1.25 / 1_000_000,
+    completionTokens: 10.0 / 1_000_000,
+    inputCacheReadTokens: 0.125 / 1_000_000,
+  },
+  'gpt-4o': {
+    promptTokens: 5.0 / 1_000_000,
+    completionTokens: 15.0 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createOpenAIMiddleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: openai('gpt-5'),
+  middleware: billingMiddleware,
+});
+```

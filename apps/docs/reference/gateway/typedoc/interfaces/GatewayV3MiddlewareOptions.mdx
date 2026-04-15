@@ -1,0 +1,105 @@
+[**@ai-billing/gateway**](../index)
+
+***
+
+[@ai-billing/gateway](../index) / GatewayV3MiddlewareOptions
+
+# Interface: GatewayV3MiddlewareOptions\<TTags\>
+
+Defined in: [gateway/src/ai-sdk/language-model-middleware/v3/language-model-v3-ai-gateway-billing-middleware.ts:67](https://github.com/narevai/ai-billing/blob/main/packages/gateway/src/ai-sdk/language-model-middleware/v3/language-model-v3-ai-gateway-billing-middleware.ts#L67)
+
+Configuration for [createGatewayV3Middleware](../functions/createGatewayV3Middleware).
+
+The shape matches BaseBillingMiddlewareOptions: `destinations`, `defaultTags`, `waitUntil`, and
+`onError`. The gateway middleware does not add provider-specific fields (for example there is no
+`priceResolver`). Model cost is read from AI Gateway metadata (`gateway.cost` / `gateway.marketCost` on
+the response) rather than from a local pricing table.
+
+## Extends
+
+- `BaseBillingMiddlewareOptions`\<`TTags`\>
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `DefaultTags` = `DefaultTags`
+
+The shape of the tags object, extending DefaultTags. Defaults to standard tags.
+
+## Properties
+
+### destinations?
+
+> `optional` **destinations?**: `Destination`\<`TTags`\>[]
+
+Defined in: core/dist/index.d.ts:30
+
+One or more billing destinations that receive each emitted BillingEvent.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.destinations`
+
+***
+
+### defaultTags?
+
+> `optional` **defaultTags?**: `TTags`
+
+Defined in: core/dist/index.d.ts:32
+
+Tags merged into every emitted event.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.defaultTags`
+
+***
+
+### waitUntil?
+
+> `optional` **waitUntil?**: (`promise`) => `void`
+
+Defined in: core/dist/index.d.ts:37
+
+Edge-runtime hook (e.g. `ctx.waitUntil`) used to keep the process alive
+while billing events are flushed asynchronously.
+
+#### Parameters
+
+##### promise
+
+`Promise`\<`unknown`\>
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.waitUntil`
+
+***
+
+### onError?
+
+> `optional` **onError?**: (`error`) => `void`
+
+Defined in: core/dist/index.d.ts:39
+
+Called when an error occurs during event extraction or dispatch. Defaults to a silent no-op.
+
+#### Parameters
+
+##### error
+
+`unknown`
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.onError`

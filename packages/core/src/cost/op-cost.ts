@@ -3,11 +3,15 @@ import { AiBillingCostError } from '../index.js';
 import { convertCostUnit } from './convert-cost.js';
 
 /**
- * Multiplies a cost amount by a numeric multiplier.
+ * Scales a {@link Cost} by `multiplier` (for example token count × per-token rate).
  *
- * @param cost - The base cost to scale.
- * @param multiplier - The number used to scale the cost amount.
+ * Converts to {@link CostUnit} `nanos`, multiplies the integer nanos amount (rounded), and returns a
+ * {@link Cost} with `unit: 'nanos'` and the same `currency` as the input.
+ *
+ * @param cost - Base cost to scale.
+ * @param multiplier - Factor applied to the nanos amount (often a non-negative token count).
  * @returns The scaled cost in nanos.
+ * @internal
  */
 export const multiplyCost = (cost: Cost, multiplier: number): Cost => {
   const nanosCost = convertCostUnit(cost, 'nanos');
@@ -18,10 +22,14 @@ export const multiplyCost = (cost: Cost, multiplier: number): Cost => {
 };
 
 /**
- * Sums multiple costs into a single nanos-based cost.
+ * Adds any number of {@link Cost} values after converting each to nanos.
  *
- * @param costs - Costs to add together.
- * @returns The total cost in nanos.
+ * All arguments must share the same `currency`; otherwise throws {@link AiBillingCostError}. With no
+ * arguments, returns a zero USD cost in nanos. With a single cost, still normalizes to nanos.
+ *
+ * @param costs - Costs to sum (variadic).
+ * @returns The total as a {@link Cost} with `unit: 'nanos'` and the shared `currency`.
+ * @internal
  */
 export const addCosts = (...costs: Cost[]): Cost => {
   if (costs.length === 0) {
@@ -49,11 +57,16 @@ export const addCosts = (...costs: Cost[]): Cost => {
 };
 
 /**
- * Applies a percentage discount to a cost.
+ * Applies a fractional discount to `cost` in nanos: `amount * (1 - discount)`.
  *
- * @param cost - The original cost.
- * @param discount - Discount ratio between 0 and 1.
- * @returns The discounted cost in nanos.
+ * If `discount` is falsy or `<= 0`, returns `cost` unchanged (same unit and amount). Otherwise converts to
+ * nanos, subtracts `round(amount * discount)`, and clamps the result at zero. Typical `discount` values are
+ * between `0` and `1` (for example `0.1` for 10% off).
+ *
+ * @param cost - Original cost.
+ * @param discount - Fraction of the nanos amount to remove (not a percentage label).
+ * @returns Either the original `cost` or a discounted {@link Cost} in nanos.
+ * @internal
  */
 export const applyDiscount = (cost: Cost, discount: number): Cost => {
   if (!discount || discount <= 0) return cost;

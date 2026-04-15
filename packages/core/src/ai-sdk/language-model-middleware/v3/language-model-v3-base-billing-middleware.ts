@@ -23,15 +23,26 @@ export interface BuildV3EventPayload<TTags extends DefaultTags = DefaultTags> {
   tags: TTags;
 }
 
+/**
+ * Configuration for {@link createV3BillingMiddleware}.
+ *
+ * Extends {@link BaseBillingMiddlewareOptions} (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
+ * requires an {@link EventBuilder} to construct the {@link BillingEvent}.
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
+ */
 export interface BillingMiddlewareV3Options<
   TTags extends DefaultTags = DefaultTags,
 > extends BaseBillingMiddlewareOptions<TTags> {
+  /** Builds a billing event from the model response data. */
   buildEvent: EventBuilder<BuildV3EventPayload<TTags>, TTags>;
 }
 
 /**
  * Creates a billing middleware for the Language Model V3 API.
- * @param options The options for the billing middleware.
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
+ * @param options - Billing options; see {@link BillingMiddlewareV3Options}.
  * @returns The billing middleware.
  */
 export function createV3BillingMiddleware<

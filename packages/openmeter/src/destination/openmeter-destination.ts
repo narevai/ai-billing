@@ -10,6 +10,17 @@ import type {
   MeterMetadata,
 } from '@ai-billing/core';
 
+/**
+ * Options for {@link createOpenMeterDestination}.
+ *
+ * OpenMeter ingests usage as CloudEvents where the event `type` identifies the meter and the `subject`
+ * identifies the customer. This destination extracts identity from billing event tags, builds default
+ * `data` from the event (usage + tags), and always sets `cost_nanos` and `currency` from
+ * {@link BillingEvent.cost}. Callers must supply a defined `cost` on each event; the implementation
+ * asserts it is present and may throw at runtime if it is omitted.
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
+ */
 export interface OpenMeterDestinationOptions<
   TTags extends DefaultTags = DefaultTags,
 > {
@@ -17,19 +28,48 @@ export interface OpenMeterDestinationOptions<
   apiKey: string;
   /** OpenMeter API base URL. Defaults to 'https://eu.api.konghq.com'. */
   apiUrl?: string;
-  /** OpenMeter metering event type. Defaults to 'llm_usage'. */
+  /**
+   * OpenMeter metering event type (CloudEvents `type`).
+   *
+   * Defaults to `'llm_usage'`.
+   */
   eventType?: string;
 
-  /** Custom key to look for in tags for the OpenMeter customer ID.
-   * Defaults to: 'userId' | 'openMeterCustomerId'
+  /**
+   * Tag key used to read the OpenMeter customer identifier (CloudEvents `subject`). When omitted, common
+   * tag keys are checked: `openMeterCustomerId`, `userId`.
    */
   customerIdKey?: keyof TTags;
 
+  /**
+   * Optional override for the `data` payload sent to OpenMeter.
+   *
+   * When omitted, metadata is built from {@link buildMeterMetadata} and includes:
+   * - token/usage dimensions
+   * - `tag_*` values from event tags
+   *
+   * Note: this destination always merges `cost_nanos` and `currency` into `data` from `event.cost` via
+   * non-null assertion. Missing {@link BillingEvent.cost} is not supported and will throw when converting.
+   */
   mapMetadata?: (
     event: BillingEvent<TTags>,
   ) => Record<string, string | number | boolean>;
 }
 
+/**
+ * Creates a {@link Destination} that ingests billing events into OpenMeter.
+ *
+ * Identity is extracted from tags (CloudEvents `subject`). If no identity is present, the event is
+ * skipped to avoid ingesting anonymous data.
+ *
+ * **Cost:** Each event must include {@link BillingEvent.cost}. The payload always includes `cost_nanos`
+ * and `currency` derived from `event.cost` using non-null assertion; omitting `cost` causes undefined
+ * runtime behavior (typically a throw in {@link costToNumber} or when reading `currency`).
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
+ * @param options - Destination configuration; see {@link OpenMeterDestinationOptions}.
+ * @returns A destination function that sends events to OpenMeter.
+ */
 export function createOpenMeterDestination<
   TTags extends DefaultTags = DefaultTags,
 >(options: OpenMeterDestinationOptions<TTags>): Destination<TTags> {

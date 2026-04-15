@@ -54,11 +54,52 @@ export type GatewayProviderMetadata = SharedV3ProviderMetadata & {
   };
 };
 
-type GatewayMiddlewareOptions<TTags extends DefaultTags> =
-  BaseBillingMiddlewareOptions<TTags>;
+/**
+ * Configuration for {@link createGatewayV3Middleware}.
+ *
+ * The shape matches {@link BaseBillingMiddlewareOptions}: `destinations`, `defaultTags`, `waitUntil`, and
+ * `onError`. The gateway middleware does not add provider-specific fields (for example there is no
+ * `priceResolver`). Model cost is read from AI Gateway metadata (`gateway.cost` / `gateway.marketCost` on
+ * the response) rather than from a local pricing table.
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}. Defaults to standard tags.
+ */
+export interface GatewayV3MiddlewareOptions<
+  TTags extends DefaultTags = DefaultTags,
+> extends BaseBillingMiddlewareOptions<TTags> {}
 
+/**
+ * Creates a V3 billing middleware configured for the Vercel AI Gateway provider.
+ * Extracts cost and usage data from gateway-specific provider metadata.
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}. Defaults to standard tags.
+ * @param options - Shared billing options; see {@link GatewayV3MiddlewareOptions} for what you can pass and
+ * what is implied by the gateway provider.
+ * @returns A V3 billing middleware instance for the AI Gateway.
+ *
+ * @example
+ * Same wiring as `examples/dev-sandbox/app/api/gateway` (`createGatewayMiddleware` is this function’s export
+ * alias from `@ai-billing/gateway`).
+ *
+ * ```ts
+ * import { createGateway, wrapLanguageModel } from 'ai';
+ * import { createGatewayMiddleware } from '@ai-billing/gateway';
+ * import { consoleDestination } from '@ai-billing/core';
+ *
+ * const gateway = createGateway({ apiKey: process.env.AI_GATEWAY_API_KEY });
+ *
+ * const billingMiddleware = createGatewayMiddleware({
+ *   destinations: [consoleDestination()],
+ * });
+ *
+ * const wrappedModel = wrapLanguageModel({
+ *   model: gateway('gpt-5'),
+ *   middleware: billingMiddleware,
+ * });
+ * ```
+ */
 export function createGatewayV3Middleware<TTags extends DefaultTags>(
-  options: GatewayMiddlewareOptions<TTags>,
+  options: GatewayV3MiddlewareOptions<TTags>,
 ) {
   return createV3BillingMiddleware<TTags>({
     ...options,

@@ -1,0 +1,38 @@
+[**@ai-billing/stripe**](../index)
+
+***
+
+[@ai-billing/stripe](../index) / createStripeDestination
+
+# Function: createStripeDestination()
+
+> **createStripeDestination**\<`TTags`\>(`options`): `Destination`\<`TTags`\>
+
+Defined in: [stripe-destination.ts:61](https://github.com/narevai/ai-billing/blob/main/packages/stripe/src/destination/stripe-destination.ts#L61)
+
+Creates a Destination that ingests billing events into Stripe Meters.
+
+Identity is extracted from tags using `stripe_customer_id`. If no identity is present, a warning is
+logged; the current implementation still sends the event with an `undefined` identity value.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject` = `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`StripeDestinationOptions`](../interfaces/StripeDestinationOptions)\<`TTags`\>
+
+Destination configuration; see [StripeDestinationOptions](../interfaces/StripeDestinationOptions).
+
+## Returns
+
+`Destination`\<`TTags`\>
+
+A destination function that sends events to Stripe.
