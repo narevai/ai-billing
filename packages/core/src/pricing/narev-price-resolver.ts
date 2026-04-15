@@ -30,17 +30,20 @@ function rowToModelPricing(row: PricingRow): ModelPricing {
   };
 }
 
+/**
+ * Configuration for {@link createNarevPriceResolver}.
+ */
 export type NarevPriceResolverOptions = {
+  /** API key used for authenticated pricing requests. */
   apiKey: string;
+  /** Optional base URL for the Narev API. */
   apiUrl?: string;
 };
 
 /**
  * Creates a price resolver that fetches model pricing from the Narev API.
  *
- * @param options Resolver options for Narev API access.
- * @param options.apiKey API key used for authenticated pricing requests.
- * @param [options.apiUrl] Optional base URL for the Narev API.
+ * @param options - Resolver options; see {@link NarevPriceResolverOptions}.
  * @returns A base price resolver that resolves model pricing from Narev.
  */
 export function createNarevPriceResolver(

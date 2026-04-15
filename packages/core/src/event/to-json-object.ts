@@ -3,7 +3,7 @@ import type { JSONObject } from '@ai-sdk/provider';
 
 /**
  * Casts a billing event into a JSON object payload.
- * @param event The billing event to cast.
+ * @param event - The billing event to cast.
  * @returns The billing event represented as a JSON object.
  */
 export function toJSONObject(event: BillingEvent<DefaultTags>): JSONObject {
