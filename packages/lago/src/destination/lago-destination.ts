@@ -10,24 +10,60 @@ import type {
   MeterMetadata,
 } from '@ai-billing/core';
 
+/**
+ * Options for {@link createLagoDestination}.
+ *
+ * Lago ingests metered usage as events tied to an `external_customer_id` plus a `code` (billable metric
+ * code). This destination extracts identity from billing event tags, builds default `properties` from the
+ * event (usage + tags), and includes cost fields when a cost is present on the event.
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
+ */
 export interface LagoDestinationOptions<
   TTags extends DefaultTags = DefaultTags,
 > {
+  /** Lago API key used for `Authorization: Bearer ...`. */
   apiKey: string;
+  /** Base URL for the Lago API. Defaults to `https://api.getlago.com`. */
   apiUrl?: string;
-  /** Lago billable metric code. Defaults to 'llm_usage'. */
+  /**
+   * Lago billable metric code (`event.code`), or a function that derives the code from the billing event.
+   *
+   * Defaults to `'llm_usage'`.
+   */
   meterCode?: string | ((event: BillingEvent<TTags>) => string);
 
-  /** Custom key to look for in tags for the Lago external customer ID.
-   * Defaults to: 'userId' | 'externalCustomerId'
+  /**
+   * Tag key used to read the Lago `external_customer_id`. When omitted, common tag keys are checked:
+   * `userId`, `externalCustomerId`.
    */
   externalCustomerIdKey?: keyof TTags;
 
+  /**
+   * Optional override for the `properties` payload sent to Lago.
+   *
+   * When omitted, metadata is built from {@link buildMeterMetadata} and includes:
+   * - token/usage dimensions
+   * - `tag_*` values from event tags
+   *
+   * Note: this destination currently also adds `cost_nanos` and `currency` to properties. If `event.cost`
+   * is missing at runtime, those fields may be `undefined`.
+   */
   mapMetadata?: (
     event: BillingEvent<TTags>,
   ) => Record<string, string | number | boolean>;
 }
 
+/**
+ * Creates a {@link Destination} that ingests billing events into Lago.
+ *
+ * Identity is extracted from tags (Lago `external_customer_id`). If no identity is present, the event is
+ * skipped to avoid ingesting anonymous data.
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
+ * @param options - Destination configuration; see {@link LagoDestinationOptions}.
+ * @returns A destination function that sends events to Lago.
+ */
 export function createLagoDestination<TTags extends DefaultTags = DefaultTags>(
   options: LagoDestinationOptions<TTags>,
 ): Destination<TTags> {
