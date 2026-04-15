@@ -6,7 +6,12 @@ import {
 } from '@ai-billing/core';
 import type { ModelPricing, Cost } from '@ai-billing/core';
 
-/** Token usage counts extracted from an OpenAI API response. */
+/**
+ * Token usage passed into {@link calculateOpenAICost}.
+ *
+ * Counts match an OpenAI-style completion: prompt vs completion, cache read/write, and reasoning. The OpenAI
+ * billing middleware maps AI SDK `usage` into this shape.
+ */
 export interface OpenAICostInputs {
   /** Number of prompt (input) tokens. */
   promptTokens: number;
@@ -16,15 +21,22 @@ export interface OpenAICostInputs {
   cacheReadTokens: number;
   /** Number of tokens written to the prompt cache. */
   cacheWriteTokens: number;
-  /** Number of internal reasoning tokens (o-series models). */
+  /**
+   * Number of reasoning tokens (priced with `internalReasoningTokens` when present in {@link ModelPricing},
+   * otherwise at the completion rate).
+   */
   reasoningTokens: number;
 }
 
 /**
- * Calculates the total cost of an OpenAI API call from token usage and model pricing.
+ * Computes total cost for an OpenAI completion from {@link ModelPricing} and token usage.
  *
- * @param params - Inputs required to calculate the request cost.
- * @returns The calculated {@link Cost}, or `undefined` when `pricing` is not provided.
+ * Builds line items for prompt, completion, cache read, cache write, and reasoning (using `internalReasoningTokens` when defined on {@link ModelPricing}, otherwise the completion rate), adds an
+ * optional per-request fee when `pricing.request` is set, then applies `pricing.discount`.
+ *
+ * @param params - Calculation inputs: `pricing` is {@link ModelPricing} or `undefined` when the model is not
+ * in your table; `usage` is token counts as {@link OpenAICostInputs}.
+ * @returns A {@link Cost}, or `undefined` when `pricing` is missing.
  * @internal
  */
 export const calculateOpenAICost = (params: {

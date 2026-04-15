@@ -8,6 +8,12 @@ import {
 import type { SharedV3ProviderMetadata } from '@ai-sdk/provider';
 import type { OpenRouterUsageAccounting } from '@openrouter/ai-sdk-provider';
 
+/**
+ * OpenRouter-specific fields attached to AI SDK {@link SharedV3ProviderMetadata}.
+ *
+ * The billing middleware reads token and cost fields from `openrouter.usage` (including numeric `cost`) and
+ * ignores normalized SDK usage counts in favor of these values.
+ */
 export type OpenRouterProviderMetadata = SharedV3ProviderMetadata & {
   openrouter?: {
     provider?: string;
@@ -17,9 +23,49 @@ export type OpenRouterProviderMetadata = SharedV3ProviderMetadata & {
   };
 };
 
+/**
+ * Configuration for {@link createOpenRouterV3Middleware}.
+ *
+ * Matches {@link BaseBillingMiddlewareOptions} (`destinations`, `defaultTags`, `waitUntil`, `onError`). There
+ * is no `priceResolver`: billed amount and token breakdown come from OpenRouter metadata (`usage.cost`, etc.).
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
+ */
 type OpenRouterMiddlewareOptions<TTags extends DefaultTags> =
   BaseBillingMiddlewareOptions<TTags>;
 
+/**
+ * Creates a V3 billing middleware for OpenRouter (`@openrouter/ai-sdk-provider`).
+ * Extracts cost and usage from `openrouter` provider metadata; requires numeric `usage.cost`.
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
+ * @param options - Shared billing options; see {@link BaseBillingMiddlewareOptions}.
+ * @returns A V3 billing middleware instance for OpenRouter.
+ *
+ * @example
+ * Same wiring as `examples/dev-sandbox/app/api/openrouter` (`createOpenRouterMiddleware` is this function's
+ * export alias from `@ai-billing/openrouter`).
+ *
+ * ```ts
+ * import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+ * import { wrapLanguageModel } from 'ai';
+ * import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
+ * import { consoleDestination } from '@ai-billing/core';
+ *
+ * const openrouter = createOpenRouter({
+ *   apiKey: process.env.OPENROUTER_API_KEY,
+ * });
+ *
+ * const billingMiddleware = createOpenRouterV3Middleware({
+ *   destinations: [consoleDestination()],
+ * });
+ *
+ * const wrappedModel = wrapLanguageModel({
+ *   model: openrouter('google/gemini-2.0-flash-001'),
+ *   middleware: billingMiddleware,
+ * });
+ * ```
+ */
 export function createOpenRouterV3Middleware<TTags extends DefaultTags>(
   options: OpenRouterMiddlewareOptions<TTags>,
 ) {
