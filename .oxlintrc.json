@@ -37,7 +37,7 @@
             "definedTags": ["typeParam"]
           }
         ],
-        "jsdoc/require-jsdoc": [
+        "jsdoc-js/require-jsdoc": [
           "error",
           {
             "publicOnly": true,
@@ -54,7 +54,7 @@
     {
       "files": ["packages/testing/**/*.ts"],
       "rules": {
-        "jsdoc/require-jsdoc": "off"
+        "jsdoc-js/require-jsdoc": "off"
       }
     }
   ],
