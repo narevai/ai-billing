@@ -211,6 +211,13 @@ function syncNavigation() {
     });
   }
 
+  const existingSdkParent = sdkTab.groups.find(
+    (g) => g?.group === SDK_PARENT_GROUP,
+  );
+  const preservedTopLevelPages = existingSdkParent?.pages
+    ? existingSdkParent.pages.filter((p) => typeof p === 'string')
+    : [];
+
   const withoutLegacySdkGroups = sdkTab.groups.filter(
     (g) =>
       g?.group !== SDK_PARENT_GROUP && !g?.group?.startsWith('@ai-billing/'),
@@ -222,7 +229,7 @@ function syncNavigation() {
       {
         group: SDK_PARENT_GROUP,
         icon: 'npm',
-        pages: nestedSdkGroups,
+        pages: [...preservedTopLevelPages, ...nestedSdkGroups],
       },
     ];
   } else {
