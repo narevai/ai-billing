@@ -157,6 +157,8 @@ function buildHandwrittenPages(pkgDir, pkg) {
   return pages;
 }
 
+const SDK_PARENT_GROUP = '@ai-billing SDK';
+
 function syncNavigation() {
   const packages = discoverPackages();
   if (packages.length === 0) {
@@ -177,7 +179,7 @@ function syncNavigation() {
 
   if (!Array.isArray(sdkTab.groups)) sdkTab.groups = [];
 
-  const activeGroups = new Set();
+  const nestedSdkGroups = [];
 
   for (const pkg of packages.sort(sortAlpha)) {
     const pkgDir = path.join(REFERENCE_DIR, pkg);
@@ -203,19 +205,29 @@ function syncNavigation() {
 
     if (groupPages.length === 0) continue;
 
-    let existing = sdkTab.groups.find((g) => g?.group === groupName);
-    if (!existing) {
-      existing = { group: groupName, pages: [] };
-      sdkTab.groups.push(existing);
-    }
-
-    existing.pages = groupPages;
-    activeGroups.add(groupName);
+    nestedSdkGroups.push({
+      group: groupName,
+      pages: groupPages,
+    });
   }
 
-  sdkTab.groups = sdkTab.groups.filter(
-    (g) => !g?.group?.startsWith('@ai-billing/') || activeGroups.has(g.group),
+  const withoutLegacySdkGroups = sdkTab.groups.filter(
+    (g) =>
+      g?.group !== SDK_PARENT_GROUP && !g?.group?.startsWith('@ai-billing/'),
   );
+
+  if (nestedSdkGroups.length > 0) {
+    sdkTab.groups = [
+      ...withoutLegacySdkGroups,
+      {
+        group: SDK_PARENT_GROUP,
+        icon: 'npm',
+        pages: nestedSdkGroups,
+      },
+    ];
+  } else {
+    sdkTab.groups = withoutLegacySdkGroups;
+  }
 
   fs.writeFileSync(DOCS_JSON_PATH, `${JSON.stringify(docsJson, null, 2)}\n`);
 }
