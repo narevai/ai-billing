@@ -61,8 +61,12 @@ export interface PolarDestinationOptions<
 /**
  * Creates a {@link Destination} that ingests billing events into Polar.
  *
- * Identity is extracted from tags (internal `customerId`, plus optional `externalId`). If neither identity
- * is present, the event is skipped to avoid ingesting anonymous data.
+ * **Identity:** Resolves an internal Polar `customerId` and an optional `externalId` from tags. When both are
+ * missing, a warning is logged (`No identity found in tags. Skipping event.`), but the destination does not
+ * return: it still calls Polar with `customerId: String(internalId)`, which becomes the literal string
+ * `"undefined"` when the internal id is absent, and it only adds `externalId` when that tag value is truthy.
+ * When the internal id is absent but `externalId` is present, no warning is logged, yet `customerId` is
+ * still the string `"undefined"`.
  *
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
  * @param options - Destination configuration; see {@link PolarDestinationOptions}.
