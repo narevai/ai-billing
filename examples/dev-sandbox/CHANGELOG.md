@@ -1,5 +1,25 @@
 # dev-sandbox
 
+## 0.0.9
+
+### Patch Changes
+
+- ddfd4eb: add consistent naming for meters
+- 11d4fc1: update next version
+- Updated dependencies [645cb17]
+- Updated dependencies [551224b]
+- Updated dependencies [df01f60]
+  - @ai-billing/openrouter@0.0.5
+  - @ai-billing/openmeter@0.0.2
+  - @ai-billing/gateway@0.0.3
+  - @ai-billing/stripe@0.0.2
+  - @ai-billing/core@0.0.5
+  - @ai-billing/openai-compatible@0.0.3
+  - @ai-billing/openai@0.0.4
+  - @ai-billing/polar@0.0.6
+  - @ai-billing/groq@0.0.3
+  - @ai-billing/lago@0.0.2
+
 ## 0.0.8
 
 ### Patch Changes

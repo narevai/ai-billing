@@ -1,5 +1,11 @@
 # @ai-billing/testing
 
+## 0.0.3
+
+### Patch Changes
+
+- 645cb17: rename subProviderId to subProvider
+
 ## 0.0.2
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @ai-billing/core
 
+## 0.0.5
+
+### Patch Changes
+
+- 645cb17: rename subProviderId to subProvider
+- 551224b: chore: add Typedoc and docs:generate for sdk docs
+- df01f60: docs(core): add TSDoc signatures
+
 ## 0.0.4
 
 ### Patch Changes
