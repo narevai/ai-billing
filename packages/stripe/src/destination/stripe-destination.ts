@@ -11,15 +11,53 @@ import type {
   MeterMetadata,
 } from '@ai-billing/core';
 
+/**
+ * Options for {@link createStripeDestination}.
+ *
+ * Stripe Meters ingest usage via `billing.meterEvents.create`, keyed by an event name plus a payload map.
+ * This destination reads the Stripe customer identity from event tags, derives an `event_name`, and maps
+ * billing metadata into a payload (with Stripe's payload size constraints in mind).
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
+ */
 export interface StripeDestinationOptions<
   TTags extends DefaultTags = DefaultTags,
 > {
+  /**
+   * Optional pre-configured Stripe SDK client. When omitted, a client is constructed from `apiKey`.
+   */
   client?: Stripe;
+  /**
+   * Stripe secret key used when creating a Stripe SDK client (e.g. `sk_live_...`).
+   *
+   * Only used when `client` is not provided.
+   */
   apiKey?: string;
+  /**
+   * Stripe meter event name (`event_name`), or a function that derives it from the billing event.
+   */
   meterName: string | ((event: BillingEvent<TTags>) => string);
+  /**
+   * Optional override for the metadata included in the Stripe meter event payload.
+   *
+   * When omitted, metadata is built from {@link buildMeterMetadata}. This destination then:
+   * - always includes `value` (cost in nanos) and `stripe_customer_id`
+   * - prioritizes a small set of commonly useful fields first
+   * - hard-stops at 10 payload keys (Stripe constraint)
+   */
   mapMetadata?: (event: BillingEvent<TTags>) => Record<string, string>;
 }
 
+/**
+ * Creates a {@link Destination} that ingests billing events into Stripe Meters.
+ *
+ * Identity is extracted from tags using `stripe_customer_id`. If no identity is present, a warning is
+ * logged; the current implementation still sends the event with an `undefined` identity value.
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
+ * @param options - Destination configuration; see {@link StripeDestinationOptions}.
+ * @returns A destination function that sends events to Stripe.
+ */
 export function createStripeDestination<
   TTags extends DefaultTags = DefaultTags,
 >(options: StripeDestinationOptions<TTags>): Destination<TTags> {
