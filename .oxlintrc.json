@@ -63,6 +63,12 @@
           }
         ]
       }
+    },
+    {
+      "files": ["packages/testing/**/*.ts"],
+      "rules": {
+        "jsdoc-js/require-jsdoc": "off"
+      }
     }
   ],
   "ignorePatterns": ["**/dist/**", "**/coverage/**"]
