@@ -64,7 +64,7 @@ export type GatewayProviderMetadata = SharedV3ProviderMetadata & {
  *
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}. Defaults to standard tags.
  */
-export interface GatewayMiddlewareOptions<
+export interface GatewayV3MiddlewareOptions<
   TTags extends DefaultTags = DefaultTags,
 > extends BaseBillingMiddlewareOptions<TTags> {}
 
@@ -73,7 +73,7 @@ export interface GatewayMiddlewareOptions<
  * Extracts cost and usage data from gateway-specific provider metadata.
  *
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}. Defaults to standard tags.
- * @param options - Shared billing options; see {@link GatewayMiddlewareOptions} for what you can pass and
+ * @param options - Shared billing options; see {@link GatewayV3MiddlewareOptions} for what you can pass and
  * what is implied by the gateway provider.
  * @returns A V3 billing middleware instance for the AI Gateway.
  *
@@ -99,7 +99,7 @@ export interface GatewayMiddlewareOptions<
  * ```
  */
 export function createGatewayV3Middleware<TTags extends DefaultTags>(
-  options: GatewayMiddlewareOptions<TTags>,
+  options: GatewayV3MiddlewareOptions<TTags>,
 ) {
   return createV3BillingMiddleware<TTags>({
     ...options,
