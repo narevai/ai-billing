@@ -96,7 +96,6 @@ export function createPolarDestination<TTags extends DefaultTags = DefaultTags>(
       console.warn(
         '[ai-billing] Polar: No identity found in tags. Skipping event.',
       );
-      return;
     }
 
     const eventName =

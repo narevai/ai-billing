@@ -10,7 +10,6 @@ const mockIngest = vi.fn();
 vi.mock('@polar-sh/sdk', () => {
   return {
     Polar: vi.fn().mockImplementation(function () {
-      // 2. Use a standard function here so 'new' works
       return {
         events: {
           ingest: mockIngest.mockResolvedValue({ success: true }),
