@@ -31,7 +31,7 @@ export type OpenRouterProviderMetadata = SharedV3ProviderMetadata & {
  *
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
  */
-type OpenRouterMiddlewareOptions<TTags extends DefaultTags> =
+export type OpenRouterV3MiddlewareOptions<TTags extends DefaultTags> =
   BaseBillingMiddlewareOptions<TTags>;
 
 /**
@@ -67,7 +67,7 @@ type OpenRouterMiddlewareOptions<TTags extends DefaultTags> =
  * ```
  */
 export function createOpenRouterV3Middleware<TTags extends DefaultTags>(
-  options: OpenRouterMiddlewareOptions<TTags>,
+  options: OpenRouterV3MiddlewareOptions<TTags>,
 ) {
   return createV3BillingMiddleware<TTags>({
     ...options,
