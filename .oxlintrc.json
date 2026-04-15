@@ -16,40 +16,27 @@
     }
   ],
   "rules": {
-    "typescript/no-explicit-any": "error",
-    "tsdoc/syntax": "error",
-
-    "jsdoc-js/require-jsdoc": [
-      "warn",
-      {
-        "publicOnly": true,
-        "require": {
-          "FunctionDeclaration": true,
-          "MethodDefinition": true,
-          "ClassDeclaration": true,
-          "ArrowFunctionExpression": true
-        }
-      }
-    ],
-    "jsdoc/require-param": "warn",
-    "jsdoc/require-param-description": "warn",
-    "jsdoc/require-returns": "off",
-    "jsdoc/require-returns-description": "warn",
-    "jsdoc/require-param-type": "off",
-    "jsdoc/require-returns-type": "off",
-    "jsdoc/check-param-names": "warn",
-
-    "jsdoc/check-tag-names": [
-      "warn",
-      {
-        "definedTags": ["typeParam"]
-      }
-    ]
+    "typescript/no-explicit-any": "error"
   },
   "overrides": [
     {
       "files": ["packages/**/*.ts"],
       "rules": {
+        "tsdoc/syntax": "error",
+        "jsdoc/require-param": "warn",
+        "jsdoc/require-param-description": "warn",
+        "jsdoc/require-returns": "off",
+        "jsdoc/require-returns-description": "warn",
+        "jsdoc/require-param-type": "off",
+        "jsdoc/require-returns-type": "off",
+        "jsdoc/check-param-names": "warn",
+
+        "jsdoc/check-tag-names": [
+          "warn",
+          {
+            "definedTags": ["typeParam"]
+          }
+        ],
         "jsdoc/require-jsdoc": [
           "error",
           {
