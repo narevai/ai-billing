@@ -15,7 +15,9 @@
         "groups": [
           {
             "group": "Getting Started",
-            "pages": ["index"]
+            "pages": [
+              "index"
+            ]
           },
           {
             "group": "@ai-billing/core",
@@ -90,6 +92,12 @@
                     "pages": [
                       "reference/gateway/typedoc/functions/createGatewayV3Middleware"
                     ]
+                  },
+                  {
+                    "group": "Interfaces",
+                    "pages": [
+                      "reference/gateway/typedoc/interfaces/GatewayV3MiddlewareOptions"
+                    ]
                   }
                 ]
               }
@@ -112,7 +120,7 @@
                   {
                     "group": "Interfaces",
                     "pages": [
-                      "reference/groq/typedoc/interfaces/GroqMiddlewareOptions"
+                      "reference/groq/typedoc/interfaces/GroqV3MiddlewareOptions"
                     ]
                   }
                 ]
@@ -227,6 +235,12 @@
                     "group": "Functions",
                     "pages": [
                       "reference/openrouter/typedoc/functions/createOpenRouterV3Middleware"
+                    ]
+                  },
+                  {
+                    "group": "Types",
+                    "pages": [
+                      "reference/openrouter/typedoc/type-aliases/OpenRouterV3MiddlewareOptions"
                     ]
                   }
                 ]

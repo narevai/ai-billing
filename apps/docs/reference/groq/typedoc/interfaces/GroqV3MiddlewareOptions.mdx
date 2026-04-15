@@ -2,9 +2,9 @@
 
 ***
 
-[@ai-billing/groq](../index) / GroqMiddlewareOptions
+[@ai-billing/groq](../index) / GroqV3MiddlewareOptions
 
-# Interface: GroqMiddlewareOptions\<TTags\>
+# Interface: GroqV3MiddlewareOptions\<TTags\>
 
 Defined in: [groq/src/ai-sdk/language-model-middleware/v3/language-model-v3-groq-billing-middleware.ts:43](https://github.com/narevai/ai-billing/blob/main/packages/groq/src/ai-sdk/language-model-middleware/v3/language-model-v3-groq-billing-middleware.ts#L43)
 
@@ -32,7 +32,9 @@ The shape of the tags object, extending DefaultTags.
 
 > `optional` **destinations?**: `Destination`\<`TTags`\>[]
 
-Defined in: core/dist/index.d.ts:29
+Defined in: core/dist/index.d.ts:30
+
+One or more billing destinations that receive each emitted BillingEvent.
 
 #### Inherited from
 
@@ -44,7 +46,9 @@ Defined in: core/dist/index.d.ts:29
 
 > `optional` **defaultTags?**: `TTags`
 
-Defined in: core/dist/index.d.ts:30
+Defined in: core/dist/index.d.ts:32
+
+Tags merged into every emitted event.
 
 #### Inherited from
 
@@ -56,7 +60,10 @@ Defined in: core/dist/index.d.ts:30
 
 > `optional` **waitUntil?**: (`promise`) => `void`
 
-Defined in: core/dist/index.d.ts:31
+Defined in: core/dist/index.d.ts:37
+
+Edge-runtime hook (e.g. `ctx.waitUntil`) used to keep the process alive
+while billing events are flushed asynchronously.
 
 #### Parameters
 
@@ -78,7 +85,9 @@ Defined in: core/dist/index.d.ts:31
 
 > `optional` **onError?**: (`error`) => `void`
 
-Defined in: core/dist/index.d.ts:32
+Defined in: core/dist/index.d.ts:39
+
+Called when an error occurs during event extraction or dispatch. Defaults to a silent no-op.
 
 #### Parameters
 

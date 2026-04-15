@@ -1,19 +1,19 @@
-[**@ai-billing/openai**](../index)
+[**@ai-billing/gateway**](../index)
 
 ***
 
-[@ai-billing/openai](../index) / OpenAIV3MiddlewareOptions
+[@ai-billing/gateway](../index) / GatewayV3MiddlewareOptions
 
-# Interface: OpenAIV3MiddlewareOptions\<TTags\>
+# Interface: GatewayV3MiddlewareOptions\<TTags\>
 
-Defined in: [openai/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-billing-middleware.ts:36](https://github.com/narevai/ai-billing/blob/main/packages/openai/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-billing-middleware.ts#L36)
+Defined in: [gateway/src/ai-sdk/language-model-middleware/v3/language-model-v3-ai-gateway-billing-middleware.ts:67](https://github.com/narevai/ai-billing/blob/main/packages/gateway/src/ai-sdk/language-model-middleware/v3/language-model-v3-ai-gateway-billing-middleware.ts#L67)
 
-Configuration for [createOpenAIV3Middleware](../functions/createOpenAIV3Middleware).
+Configuration for [createGatewayV3Middleware](../functions/createGatewayV3Middleware).
 
-Extends BaseBillingMiddlewareOptions (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
-requires a PriceResolver. Usage is taken from the AI SDK's normalized OpenAI usage fields; cost is
-computed from that usage and the resolved ModelPricing using the same rules as the package's cost
-helper.
+The shape matches BaseBillingMiddlewareOptions: `destinations`, `defaultTags`, `waitUntil`, and
+`onError`. The gateway middleware does not add provider-specific fields (for example there is no
+`priceResolver`). Model cost is read from AI Gateway metadata (`gateway.cost` / `gateway.marketCost` on
+the response) rather than from a local pricing table.
 
 ## Extends
 
@@ -23,9 +23,9 @@ helper.
 
 ### TTags
 
-`TTags` *extends* `DefaultTags`
+`TTags` *extends* `DefaultTags` = `DefaultTags`
 
-The shape of the tags object, extending DefaultTags.
+The shape of the tags object, extending DefaultTags. Defaults to standard tags.
 
 ## Properties
 
@@ -103,11 +103,3 @@ Called when an error occurs during event extraction or dispatch. Defaults to a s
 #### Inherited from
 
 `BaseBillingMiddlewareOptions.onError`
-
-***
-
-### priceResolver
-
-> **priceResolver**: `PriceResolver`
-
-Defined in: [openai/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-billing-middleware.ts:39](https://github.com/narevai/ai-billing/blob/main/packages/openai/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-billing-middleware.ts#L39)
