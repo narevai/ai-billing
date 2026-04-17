@@ -6,7 +6,8 @@ import type {
 } from '../types/index.js';
 
 type PricingRow = Record<string, number | string>;
-type PricingMap = Record<string, PricingRow[]>;
+type PricingEntry = { model_id: string; prices: PricingRow[] };
+type PricingResponse = PricingEntry[];
 
 function rowToModelPricing(row: PricingRow): ModelPricing {
   return {
@@ -58,27 +59,27 @@ export function createNarevPriceResolver(
       subProvider,
     }: PriceResolverContext): Promise<ModelPricing | undefined> => {
       const params = new URLSearchParams({ model_id: modelId });
-      if (providerId) params.set('gateway', providerId);
-      if (subProvider) params.set('provider', subProvider);
+      if (providerId) params.set('provider', providerId);
+      if (subProvider) params.set('subprovider', subProvider);
 
       const url = `${apiUrl}/api/models/pricing?${params}`;
       const headers: Record<string, string> = apiKey
         ? { Authorization: `Bearer ${apiKey}` }
         : {};
 
-      let data: PricingMap | null;
+      let data: PricingResponse | null;
       try {
         const res = await fetch(url, { headers });
         if (!res.ok) return undefined;
-        data = (await res.json()) as PricingMap | null;
+        data = (await res.json()) as PricingResponse | null;
       } catch {
         return undefined;
       }
 
       if (!data) return undefined;
 
-      const rows = data[modelId];
-      const row = rows?.[0];
+      const entry = data.find(e => e.model_id === modelId);
+      const row = entry?.prices?.[0];
       if (!row) return undefined;
 
       return rowToModelPricing(row);
