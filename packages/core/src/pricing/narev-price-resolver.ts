@@ -59,8 +59,8 @@ export function createNarevPriceResolver(
       subProvider,
     }: PriceResolverContext): Promise<ModelPricing | undefined> => {
       const params = new URLSearchParams({ model_id: modelId });
-      if (providerId) params.set('gateway', providerId);
-      if (subProvider) params.set('provider', subProvider);
+      if (providerId) params.set('provider', providerId);
+      if (subProvider) params.set('subprovider', subProvider);
 
       const url = `${apiUrl}/api/models/pricing?${params}`;
       const headers: Record<string, string> = apiKey
