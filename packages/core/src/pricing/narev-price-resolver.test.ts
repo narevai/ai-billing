@@ -44,7 +44,10 @@ describe('createNarevPriceResolver', () => {
   it('should pass providerId as provider query param', async () => {
     mockFetch.mockResolvedValue(
       mockResponse([
-        { model_id: 'gpt-4o', prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }] },
+        {
+          model_id: 'gpt-4o',
+          prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }],
+        },
       ]),
     );
 
@@ -58,7 +61,10 @@ describe('createNarevPriceResolver', () => {
   it('should pass subProvider as subprovider query param', async () => {
     mockFetch.mockResolvedValue(
       mockResponse([
-        { model_id: 'gpt-4o', prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }] },
+        {
+          model_id: 'gpt-4o',
+          prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }],
+        },
       ]),
     );
 
@@ -111,28 +117,40 @@ describe('createNarevPriceResolver', () => {
   it('should send Authorization header when apiKey is provided', async () => {
     mockFetch.mockResolvedValue(
       mockResponse([
-        { model_id: 'gpt-4o', prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }] },
+        {
+          model_id: 'gpt-4o',
+          prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }],
+        },
       ]),
     );
 
     const resolver = createNarevPriceResolver({ apiKey: 'my-secret' });
     await resolver({ modelId: 'gpt-4o' });
 
-    const calledHeaders = mockFetch.mock.calls[0]![1].headers as Record<string, string>;
+    const calledHeaders = mockFetch.mock.calls[0]![1].headers as Record<
+      string,
+      string
+    >;
     expect(calledHeaders['Authorization']).toBe('Bearer my-secret');
   });
 
   it('should not send Authorization header when apiKey is empty', async () => {
     mockFetch.mockResolvedValue(
       mockResponse([
-        { model_id: 'gpt-4o', prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }] },
+        {
+          model_id: 'gpt-4o',
+          prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }],
+        },
       ]),
     );
 
     const resolver = createNarevPriceResolver({ apiKey: '' });
     await resolver({ modelId: 'gpt-4o' });
 
-    const calledHeaders = mockFetch.mock.calls[0]![1].headers as Record<string, string>;
+    const calledHeaders = mockFetch.mock.calls[0]![1].headers as Record<
+      string,
+      string
+    >;
     expect(calledHeaders['Authorization']).toBeUndefined();
   });
 
@@ -189,7 +207,10 @@ describe('createNarevPriceResolver', () => {
   it('should use custom apiUrl', async () => {
     mockFetch.mockResolvedValue(
       mockResponse([
-        { model_id: 'gpt-4o', prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }] },
+        {
+          model_id: 'gpt-4o',
+          prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }],
+        },
       ]),
     );
 
