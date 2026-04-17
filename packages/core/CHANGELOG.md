@@ -1,5 +1,11 @@
 # @ai-billing/core
 
+## 0.0.6
+
+### Patch Changes
+
+- 91da798: Use new response format for narev price resolver
+
 ## 0.0.5
 
 ### Patch Changes
