@@ -1,5 +1,21 @@
 # dev-sandbox
 
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies [91da798]
+  - @ai-billing/core@0.0.6
+  - @ai-billing/gateway@0.0.4
+  - @ai-billing/groq@0.0.4
+  - @ai-billing/lago@0.0.3
+  - @ai-billing/openai@0.0.5
+  - @ai-billing/openai-compatible@0.0.4
+  - @ai-billing/openmeter@0.0.3
+  - @ai-billing/openrouter@0.0.6
+  - @ai-billing/polar@0.0.7
+  - @ai-billing/stripe@0.0.3
+
 ## 0.0.9
 
 ### Patch Changes

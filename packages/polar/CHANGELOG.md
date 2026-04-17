@@ -1,5 +1,12 @@
 # @ai-billing/polar
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [91da798]
+  - @ai-billing/core@0.0.6
+
 ## 0.0.6
 
 ### Patch Changes
