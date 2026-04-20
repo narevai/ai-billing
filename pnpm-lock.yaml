@@ -124,6 +124,9 @@ importers:
       '@ai-billing/gateway':
         specifier: workspace:*
         version: link:../../packages/gateway
+      '@ai-billing/google':
+        specifier: workspace:*
+        version: link:../../packages/google
       '@ai-billing/groq':
         specifier: workspace:*
         version: link:../../packages/groq
@@ -148,6 +151,9 @@ importers:
       '@ai-billing/stripe':
         specifier: workspace:*
         version: link:../../packages/stripe
+      '@ai-sdk/google':
+        specifier: ^3.0.0
+        version: 3.0.64(zod@4.3.6)
       '@ai-sdk/groq':
         specifier: ^3.0.0
         version: 3.0.34(zod@4.3.6)
@@ -230,6 +236,49 @@ importers:
       '@ai-billing/core':
         specifier: workspace:*
         version: link:../core
+    devDependencies:
+      '@ai-billing/testing':
+        specifier: workspace:*
+        version: link:../testing
+      '@ai-billing/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@ai-sdk/provider':
+        specifier: 'catalog:'
+        version: 3.0.8
+      '@edge-runtime/vm':
+        specifier: 'catalog:'
+        version: 5.0.0
+      ai:
+        specifier: 'catalog:'
+        version: 6.0.138(zod@4.3.6)
+      tsup:
+        specifier: 'catalog:'
+        version: 8.5.1(jiti@2.6.1)(postcss@8.5.8)(typescript@5.9.2)(yaml@2.8.3)
+      typedoc:
+        specifier: 'catalog:'
+        version: 0.28.19(typescript@5.9.2)
+      typedoc-plugin-markdown:
+        specifier: 'catalog:'
+        version: 4.11.0(typedoc@0.28.19(typescript@5.9.2))
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.1(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.0)(@types/node@22.19.15)(vite@8.0.2(@types/node@22.19.15)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.8.3))
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
+
+  packages/google:
+    dependencies:
+      '@ai-billing/core':
+        specifier: workspace:*
+        version: link:../core
+      '@ai-sdk/google':
+        specifier: ^3.0.0
+        version: 3.0.64(zod@4.3.6)
     devDependencies:
       '@ai-billing/testing':
         specifier: workspace:*
@@ -592,6 +641,12 @@ packages:
 
   '@ai-sdk/gateway@3.0.80':
     resolution: {integrity: sha512-uM7kpZB5l977lW7+2X1+klBUxIZQ78+1a9jHlaHFEzcOcmmslTl3sdP0QqfuuBcO0YBM2gwOiqVdp8i4TRQYcw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  '@ai-sdk/google@3.0.64':
+    resolution: {integrity: sha512-CbR82EgGPNrj/6q0HtclwuCqe0/pDShyv3nWDP/A9DroujzWXnLMlUJVrgPOsg4b40zQCwwVs2XSKCxvt/4QaA==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -3289,6 +3344,12 @@ snapshots:
       '@ai-sdk/provider': 3.0.8
       '@ai-sdk/provider-utils': 4.0.21(zod@4.3.6)
       '@vercel/oidc': 3.1.0
+      zod: 4.3.6
+
+  '@ai-sdk/google@3.0.64(zod@4.3.6)':
+    dependencies:
+      '@ai-sdk/provider': 3.0.8
+      '@ai-sdk/provider-utils': 4.0.23(zod@4.3.6)
       zod: 4.3.6
 
   '@ai-sdk/groq@3.0.34(zod@4.3.6)':
