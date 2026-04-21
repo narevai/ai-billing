@@ -65,6 +65,14 @@ To finalize a release:
 
 Security note: publishing uses OIDC, so `NPM_TOKEN` is not required for CI publishing.
 
+When publishing the package for the first time:
+
+```bash
+npm login
+npm publish --dry-run
+npm publish --access public --tag alpha
+```
+
 ### Maintenance and special commands
 
 #### Pre-release mode
