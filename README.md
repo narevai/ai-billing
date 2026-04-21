@@ -84,11 +84,11 @@ const { textStream } = await streamText({
 | [**Vercel AI Gateway**](https://ai-sdk.dev/providers/ai-sdk-providers/ai-gateway) | [`@ai-billing/gateway`](https://www.npmjs.com/package/@ai-billing/gateway) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fgateway) |
 | [**OpenAI Compatible**](https://ai-sdk.dev/providers/openai-compatible-providers) | [`@ai-billing/openai-compatible`](https://www.npmjs.com/package/@ai-billing/openai-compatible) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenai-compatible) |
 | [**Groq**](https://ai-sdk.dev/providers/ai-sdk-providers/groq) | [`@ai-billing/groq`](https://www.npmjs.com/package/@ai-billing/groq) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fgroq) |
+| [**Google Generative AI**](https://ai-sdk.dev/providers/ai-sdk-providers/google-generative-ai) | [`@ai-billing/google`](https://www.npmjs.com/package/@ai-billing/google) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fgoogle) |
+| [**Anthropic**](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic) | [`@ai-billing/anthropic`](https://www.npmjs.com/package/@ai-billing/anthropic) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fanthropic) |
 
 
 **Active Development**
-* [Anthropic](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic) ([#46](https://github.com/narevai/ai-billing/issues/46))
-* [Google Generative AI](https://ai-sdk.dev/providers/ai-sdk-providers/google-generative-ai) ([#47](https://github.com/narevai/ai-billing/issues/47))
 * [Requesty](https://ai-sdk.dev/providers/community-providers/requesty)
 * [Cloudflare AI Gateway](https://ai-sdk.dev/providers/community-providers/cloudflare-ai-gateway)
 
