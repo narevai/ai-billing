@@ -19,6 +19,30 @@
             "pages": [
               "sdk/ai-billing/index",
               {
+                "group": "@ai-billing/anthropic",
+                "pages": [
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/anthropic/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/anthropic/typedoc/functions/createAnthropicV3Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/anthropic/typedoc/interfaces/AnthropicV3MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/core",
                 "pages": [
                   {
