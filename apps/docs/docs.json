@@ -102,6 +102,30 @@
                 ]
               },
               {
+                "group": "@ai-billing/google",
+                "pages": [
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/google/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/google/typedoc/functions/createGoogleV3Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/google/typedoc/interfaces/GoogleV3MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/groq",
                 "pages": [
                   {
