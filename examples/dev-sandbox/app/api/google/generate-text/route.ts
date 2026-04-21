@@ -19,10 +19,10 @@ const google = createGoogleGenerativeAI({
 
 const customPricingMap: Record<string, ModelPricing> = {
   'models/gemini-3.1-flash-lite-preview': {
-    promptTokens: 0.15 / 1_000_000, // $0.15 per 1M tokens
-    completionTokens: 0.6 / 1_000_000, // $0.60 per 1M tokens
-    inputCacheReadTokens: 0.075 / 1_000_000, // 50% discount for cache reads
-    inputCacheWriteTokens: 0, // Free cache writes
+    promptTokens: 0.00000025, // $0.25 per 1M tokens
+    completionTokens: 0.0000015, // $1.50 per 1M tokens
+    inputCacheReadTokens: 0.000000025, // $0.025 per 1M tokens
+    internalReasoningTokens: 0.0000015, // $1.50 per 1M tokens
   },
 };
 

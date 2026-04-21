@@ -55,7 +55,44 @@ export interface GoogleV3MiddlewareOptions<
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
  * @param options - Billing options; see {@link GoogleV3MiddlewareOptions}.
  * @returns A V3 billing middleware instance for Google.
-
+ *
+ * @example
+ * Same wiring as `examples/dev-sandbox/app/api/google` (`createGoogleV3Middleware` is this function's export
+ * alias from `@ai-billing/google`).
+ *
+ * ```ts
+ * import { createGoogleGenerativeAI } from '@ai-sdk/google';
+ * import { wrapLanguageModel } from 'ai';
+ * import { createGoogleV3Middleware } from '@ai-billing/google';
+ * import {
+ *   consoleDestination,
+ *   createObjectPriceResolver,
+ *   type ModelPricing,
+ * } from '@ai-billing/core';
+ *
+ * const google = createGoogleGenerativeAI({ apiKey: process.env.GOOGLE_AI_STUDIO_KEY });
+ *
+ * const customPricingMap: Record<string, ModelPricing> = {
+ *  'models/gemini-3.1-flash-lite-preview': {
+ *    promptTokens: 0.00000025, // $0.25 per 1M tokens
+ *    completionTokens: 0.0000015, // $1.50 per 1M tokens
+ *    inputCacheReadTokens: 0.000000025, // $0.025 per 1M tokens
+ *    internalReasoningTokens: 0.0000015, // $1.50 per 1M tokens
+ *  },
+ * };
+ *
+ * const priceResolver = createObjectPriceResolver(customPricingMap);
+ *
+ * const billingMiddleware = createGoogleV3Middleware({
+ *   destinations: [consoleDestination()],
+ *   priceResolver,
+ * });
+ *
+ * const wrappedModel = wrapLanguageModel({
+ *   model: google('models/gemini-3.1-flash-lite-preview'),
+ *   middleware: billingMiddleware,
+ * });
+ * ```
  */
 export function createGoogleV3Middleware<TTags extends DefaultTags>(
   options: GoogleV3MiddlewareOptions<TTags>,
