@@ -1,6 +1,6 @@
 import { calculateAnthropicCost } from '../../../cost/index.js';
-import type { AnthropicCostInputs } from '../../../cost/calculate-anthropic-cost.js';
 import { createV3BillingMiddleware } from '@ai-billing/core';
+import type { CostInputs } from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
   PriceResolver,
@@ -92,7 +92,7 @@ export function createAnthropicV3Middleware<TTags extends DefaultTags>(
         0;
       const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
 
-      const anthropicUsage: AnthropicCostInputs = {
+      const anthropicUsage: CostInputs = {
         promptTokens: inputTokensTotal,
         completionTokens: outputTokensTotal,
         cacheReadTokens: cacheReadTokens,

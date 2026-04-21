@@ -1,6 +1,6 @@
 import { calculateGoogleCost } from '../../../cost/index.js';
-import type { GoogleCostInputs } from '../../../cost/index.js';
 import { createV3BillingMiddleware } from '@ai-billing/core';
+import type { CostInputs } from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
   PriceResolver,
@@ -122,7 +122,7 @@ export function createGoogleV3Middleware<TTags extends DefaultTags>(
       const outputTokensReasoning =
         googleMetadata?.google?.usageMetadata?.thoughtsTokenCount ?? 0;
 
-      const googleAIUsage: GoogleCostInputs = {
+      const googleAIUsage: CostInputs = {
         promptTokens: inputTokensTotal,
         completionTokens: outputTokensTotal ?? 0,
         cacheReadTokens: inputTokensCacheRead,

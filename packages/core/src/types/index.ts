@@ -2,5 +2,6 @@ export * from './destination.js';
 export * from './event.js';
 export * from './middleware.js';
 export * from './cost.js';
+export * from './cost-inputs.js';
 export * from './pricing.js';
 export * from './meter.js';

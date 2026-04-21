@@ -1,6 +1,6 @@
 import { calculateOpenAICost } from '../../../cost/index.js';
-import type { OpenAICostInputs as OpenAIUsageInputs } from '../../../cost/calculate-openai-cost.js';
 import { createV3BillingMiddleware } from '@ai-billing/core';
+import type { CostInputs } from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
   PriceResolver,
@@ -111,7 +111,7 @@ export function createOpenAIV3Middleware<TTags extends DefaultTags>(
       const outputTokensTotal = usage?.outputTokens?.text ?? 0;
       const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
 
-      const openAIUsage: OpenAIUsageInputs = {
+      const openAIUsage: CostInputs = {
         promptTokens: inputTokensTotal,
         completionTokens: usage?.outputTokens?.text ?? 0,
         cacheReadTokens: usage?.inputTokens?.cacheRead ?? 0,
