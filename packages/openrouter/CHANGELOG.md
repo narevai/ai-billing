@@ -1,5 +1,13 @@
 # @ai-billing/openrouter
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [6010076]
+- Updated dependencies [37b9935]
+  - @ai-billing/core@0.0.7
+
 ## 0.0.6
 
 ### Patch Changes

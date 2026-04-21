@@ -1,5 +1,26 @@
 # dev-sandbox
 
+## 0.0.13
+
+### Patch Changes
+
+- 6010076: Add support for web search cost calculation
+- Updated dependencies [6010076]
+- Updated dependencies [5ecb2a9]
+- Updated dependencies [37b9935]
+  - @ai-billing/openai-compatible@0.0.5
+  - @ai-billing/anthropic@0.0.2
+  - @ai-billing/google@0.0.2
+  - @ai-billing/openai@0.0.6
+  - @ai-billing/core@0.0.7
+  - @ai-billing/groq@0.0.5
+  - @ai-billing/gateway@0.0.5
+  - @ai-billing/openrouter@0.0.7
+  - @ai-billing/polar@0.0.8
+  - @ai-billing/stripe@0.0.4
+  - @ai-billing/lago@0.0.4
+  - @ai-billing/openmeter@0.0.4
+
 ## 0.0.12
 
 ### Patch Changes
