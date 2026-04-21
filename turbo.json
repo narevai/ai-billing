@@ -66,7 +66,8 @@
         "@ai-billing/openai#docs:generate",
         "@ai-billing/openai-compatible#docs:generate",
         "@ai-billing/groq#docs:generate",
-        "@ai-billing/gateway#docs:generate"
+        "@ai-billing/gateway#docs:generate",
+        "@ai-billing/google#docs:generate"
       ],
       "cache": false
     }
