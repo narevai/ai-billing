@@ -10,6 +10,7 @@ export const UsageSchema = z
     reasoningTokens: z.number().optional(),
     cacheReadTokens: z.number().optional(),
     cacheWriteTokens: z.number().optional(),
+    webSearchCount: z.number().optional(),
     requestCount: z.number().optional(),
     rawProviderCost: z.number().optional(),
     rawUpstreamInferenceCost: z.number().optional(),

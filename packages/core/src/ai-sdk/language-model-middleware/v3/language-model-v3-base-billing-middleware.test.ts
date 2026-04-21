@@ -73,6 +73,69 @@ describe('createV3BillingMiddleware', () => {
   };
 
   describe('wrapGenerate', () => {
+    it('should pass webSearchCount=0 to buildEvent when content has no sources', async () => {
+      const buildEventSpy = vi.fn().mockResolvedValue(null);
+      const middleware = createV3BillingMiddleware({
+        buildEvent: buildEventSpy,
+        destinations: [],
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        doGenerate: createGenerateResult('resp-1'),
+      });
+
+      await middleware.wrapGenerate!({
+        model: mockModel,
+        params: testParams,
+        doGenerate: () => mockModel.doGenerate(testParams),
+        doStream: () => mockModel.doStream(testParams),
+      });
+
+      expect(buildEventSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ webSearchCount: 0 }),
+      );
+    });
+
+    it('should count sources in content and pass webSearchCount to buildEvent', async () => {
+      const buildEventSpy = vi.fn().mockResolvedValue(null);
+      const middleware = createV3BillingMiddleware({
+        buildEvent: buildEventSpy,
+        destinations: [],
+      });
+
+      const resultWithSources = createGenerateResult('resp-1');
+      resultWithSources.content = [
+        { type: 'text', text: 'Answer' },
+        {
+          type: 'source',
+          sourceType: 'url',
+          id: 'src-1',
+          url: 'https://example.com',
+        },
+        {
+          type: 'source',
+          sourceType: 'url',
+          id: 'src-2',
+          url: 'https://example.org',
+        },
+      ];
+
+      const mockModel = new MockLanguageModelV3({
+        doGenerate: resultWithSources,
+      });
+
+      await middleware.wrapGenerate!({
+        model: mockModel,
+        params: testParams,
+        doGenerate: () => mockModel.doGenerate(testParams),
+        doStream: () => mockModel.doStream(testParams),
+      });
+
+      expect(buildEventSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ webSearchCount: 2 }),
+      );
+    });
+
     it('should broadcast the event to destinations', async () => {
       const destinationSpy = vi.fn();
       const mockEvent = createMockEvent();
@@ -271,6 +334,102 @@ describe('createV3BillingMiddleware', () => {
   });
 
   describe('wrapStream', () => {
+    it('should pass webSearchCount=0 to buildEvent when there are no source chunks', async () => {
+      const buildEventSpy = vi.fn().mockResolvedValue(null);
+      const middleware = createV3BillingMiddleware({
+        buildEvent: buildEventSpy,
+        destinations: [],
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        doStream: {
+          stream: convertArrayToReadableStream<LanguageModelV3StreamPart>([
+            { type: 'text-delta', id: 'block-1', delta: 'Hello' },
+            {
+              type: 'finish',
+              finishReason: { unified: 'stop', raw: 'stop' },
+              usage: {
+                inputTokens: {
+                  total: 1,
+                  noCache: 1,
+                  cacheRead: 0,
+                  cacheWrite: 0,
+                },
+                outputTokens: { total: 1, text: 1, reasoning: 0 },
+              },
+            },
+          ]),
+        },
+      });
+
+      const { stream } = await middleware.wrapStream!({
+        model: mockModel,
+        params: testParams,
+        doGenerate: () => mockModel.doGenerate(testParams),
+        doStream: () => mockModel.doStream(testParams),
+      });
+
+      await consumeStream({ stream });
+
+      expect(buildEventSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ webSearchCount: 0 }),
+      );
+    });
+
+    it('should count source chunks and pass webSearchCount to buildEvent', async () => {
+      const buildEventSpy = vi.fn().mockResolvedValue(null);
+      const middleware = createV3BillingMiddleware({
+        buildEvent: buildEventSpy,
+        destinations: [],
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        doStream: {
+          stream: convertArrayToReadableStream<LanguageModelV3StreamPart>([
+            { type: 'text-delta', id: 'block-1', delta: 'Hello' },
+            {
+              type: 'source',
+              sourceType: 'url',
+              id: 'src-1',
+              url: 'https://example.com',
+            },
+            {
+              type: 'source',
+              sourceType: 'url',
+              id: 'src-2',
+              url: 'https://example.org',
+            },
+            {
+              type: 'finish',
+              finishReason: { unified: 'stop', raw: 'stop' },
+              usage: {
+                inputTokens: {
+                  total: 1,
+                  noCache: 1,
+                  cacheRead: 0,
+                  cacheWrite: 0,
+                },
+                outputTokens: { total: 1, text: 1, reasoning: 0 },
+              },
+            },
+          ]),
+        },
+      });
+
+      const { stream } = await middleware.wrapStream!({
+        model: mockModel,
+        params: testParams,
+        doGenerate: () => mockModel.doGenerate(testParams),
+        doStream: () => mockModel.doStream(testParams),
+      });
+
+      await consumeStream({ stream });
+
+      expect(buildEventSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ webSearchCount: 2 }),
+      );
+    });
+
     it('should not drop or modify any non-finish chunks (Parity Check)', async () => {
       const middleware = createV3BillingMiddleware({
         buildEvent: vi.fn().mockResolvedValue(null),

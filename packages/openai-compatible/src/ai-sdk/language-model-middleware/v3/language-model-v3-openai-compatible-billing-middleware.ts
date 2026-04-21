@@ -93,7 +93,7 @@ export function createOpenAICompatibleV3Middleware<TTags extends DefaultTags>(
   return createV3BillingMiddleware<TTags>({
     ...options,
 
-    buildEvent: async ({ model, usage, responseId, tags }) => {
+    buildEvent: async ({ model, usage, responseId, tags, webSearchCount }) => {
       const inputTokensTotal = usage?.inputTokens?.total ?? 0;
       const inputTokensCacheRead = usage?.inputTokens?.cacheRead ?? 0;
       const outputTokensTotal = usage?.outputTokens?.total ?? 0;
@@ -105,6 +105,7 @@ export function createOpenAICompatibleV3Middleware<TTags extends DefaultTags>(
         cacheReadTokens: inputTokensCacheRead,
         cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
         reasoningTokens: outputTokensReasoning,
+        webSearchCount: webSearchCount,
       };
 
       const pricing: ModelPricing | undefined = await options.priceResolver({
@@ -128,6 +129,7 @@ export function createOpenAICompatibleV3Middleware<TTags extends DefaultTags>(
           cacheReadTokens: inputTokensCacheRead,
           reasoningTokens: outputTokensReasoning,
           totalTokens: inputTokensTotal + outputTokensTotal,
+          webSearchCount: webSearchCount,
         },
         ...(calculatedCost !== undefined && { cost: calculatedCost }),
       } satisfies BillingEvent<TTags>;

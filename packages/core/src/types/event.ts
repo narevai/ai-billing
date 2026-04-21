@@ -9,6 +9,7 @@ export interface Usage {
   readonly cacheReadTokens?: number;
   readonly cacheWriteTokens?: number;
   readonly requestCount?: number;
+  readonly webSearchCount?: number;
   readonly rawProviderCost?: number;
   readonly rawUpstreamInferenceCost?: number;
 }

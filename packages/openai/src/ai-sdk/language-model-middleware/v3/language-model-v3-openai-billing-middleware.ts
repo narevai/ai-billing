@@ -100,6 +100,7 @@ export function createOpenAIV3Middleware<TTags extends DefaultTags>(
       providerMetadata,
       responseId,
       tags,
+      webSearchCount,
     }) => {
       const _openaiMetadata = providerMetadata as
         | OpenAIProviderMetadata
@@ -116,6 +117,7 @@ export function createOpenAIV3Middleware<TTags extends DefaultTags>(
         cacheReadTokens: usage?.inputTokens?.cacheRead ?? 0,
         cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
         reasoningTokens: usage?.outputTokens?.reasoning ?? 0,
+        webSearchCount: webSearchCount,
       };
 
       const pricing: ModelPricing | undefined = await options.priceResolver({
@@ -139,6 +141,7 @@ export function createOpenAIV3Middleware<TTags extends DefaultTags>(
           cacheReadTokens: inputTokensCacheRead,
           reasoningTokens: outputTokensReasoning,
           totalTokens: inputTokensTotal + outputTokensTotal,
+          webSearchCount: webSearchCount,
         },
         ...(calculatedCost !== undefined && {
           cost: calculatedCost,

@@ -21,6 +21,7 @@ export interface BuildV3EventPayload<TTags extends DefaultTags = DefaultTags> {
   usage: LanguageModelV3Usage | undefined;
   providerMetadata: SharedV3ProviderMetadata | undefined;
   tags: TTags;
+  webSearchCount: number;
 }
 
 /**
@@ -56,12 +57,14 @@ export function createV3BillingMiddleware<
     usage,
     providerMetadata,
     responseId,
+    webSearchCount,
   }: {
     model: LanguageModelV3;
     params: LanguageModelV3CallOptions;
     usage: LanguageModelV3Usage | undefined;
     providerMetadata: SharedV3ProviderMetadata | undefined;
     responseId: string | undefined;
+    webSearchCount: number;
   }): Promise<BillingEvent<TTags> | null> => {
     try {
       const requestTags = params.providerOptions?.['ai-billing-tags'];
@@ -77,6 +80,7 @@ export function createV3BillingMiddleware<
         usage,
         providerMetadata,
         tags,
+        webSearchCount,
       });
 
       if (event && destinations && destinations?.length > 0) {
@@ -99,12 +103,17 @@ export function createV3BillingMiddleware<
     wrapGenerate: async ({ doGenerate, model, params }) => {
       const result: LanguageModelV3GenerateResult = await doGenerate();
 
+      const webSearchCount = result.content.filter(
+        c => c.type === 'source',
+      ).length;
+
       const event = await processEvent({
         model,
         params,
         usage: result.usage,
         providerMetadata: result.providerMetadata,
         responseId: result.response?.id,
+        webSearchCount,
       });
 
       const providerMetadataWithBilling = {
@@ -130,6 +139,7 @@ export function createV3BillingMiddleware<
       let finishChunk:
         | Extract<LanguageModelV3StreamPart, { type: 'finish' }>
         | undefined;
+      let webSearchCount = 0;
 
       const billedStream = stream.pipeThrough(
         new TransformStream<
@@ -140,6 +150,9 @@ export function createV3BillingMiddleware<
             if (chunk.type === 'text-start') responseId = chunk.id;
             if (chunk.type === 'response-metadata' && !responseId) {
               responseId = chunk.id;
+            }
+            if (chunk.type === 'source') {
+              webSearchCount++;
             }
             if (chunk.type === 'finish') {
               usage = chunk.usage;
@@ -156,6 +169,7 @@ export function createV3BillingMiddleware<
               usage,
               providerMetadata,
               responseId,
+              webSearchCount,
             });
 
             const providerMetadataWithBilling = {

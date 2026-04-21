@@ -105,6 +105,7 @@ export function createGroqV3Middleware<TTags extends DefaultTags>(
       providerMetadata: _empty,
       responseId,
       tags,
+      webSearchCount,
     }) => {
       const rawUsage = usage?.raw as GroqRawUsage | undefined;
 
@@ -128,6 +129,7 @@ export function createGroqV3Middleware<TTags extends DefaultTags>(
         cacheReadTokens: inputTokensCacheRead,
         cacheWriteTokens: 0,
         reasoningTokens: outputTokensReasoning,
+        webSearchCount: webSearchCount,
       };
 
       const pricing: ModelPricing | undefined = await options.priceResolver({
@@ -152,6 +154,7 @@ export function createGroqV3Middleware<TTags extends DefaultTags>(
           cacheWriteTokens: 0,
           reasoningTokens: outputTokensReasoning,
           totalTokens: inputTokensTotal + outputTokensTotal,
+          webSearchCount: webSearchCount,
         },
         ...(calculatedCost !== undefined && {
           cost: calculatedCost,

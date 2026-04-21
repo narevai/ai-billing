@@ -38,6 +38,7 @@ export function buildMeterMetadata<TTags extends DefaultTags = DefaultTags>(
   addOptional('cache_read_tokens', u.cacheReadTokens);
   addOptional('cache_write_tokens', u.cacheWriteTokens);
   addOptional('request_count', u.requestCount);
+  addOptional('web_search_count', u.webSearchCount);
   addOptional('raw_provider_cost', u.rawProviderCost);
   addOptional('raw_upstream_inference_cost', u.rawUpstreamInferenceCost);
 

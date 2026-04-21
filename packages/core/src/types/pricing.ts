@@ -5,6 +5,7 @@ export interface ModelPricing {
   inputCacheWriteTokens?: number;
   internalReasoningTokens?: number;
   request?: number;
+  webSearch?: number;
   discount?: number;
 }
 
