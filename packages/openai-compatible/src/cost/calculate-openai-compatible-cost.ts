@@ -23,6 +23,8 @@ export interface OpenAICompatibleCostInputs {
   cacheWriteTokens: number;
   /** Number of reasoning tokens (priced with `internalReasoningTokens` when present in {@link ModelPricing}). */
   reasoningTokens: number;
+  /** Number of web search calls (each billed at `pricing.webSearch` when set). */
+  webSearchCount?: number;
 }
 
 /**
@@ -74,6 +76,11 @@ export const calculateOpenAICompatibleCost = (params: {
 
   const requestCost = rateToCost(pricing.request);
 
+  const webSearchCost = multiplyCost(
+    rateToCost(pricing.webSearch),
+    usage.webSearchCount ?? 0,
+  );
+
   const grossCost = addCosts(
     promptCost,
     completionCost,
@@ -81,6 +88,7 @@ export const calculateOpenAICompatibleCost = (params: {
     cacheWriteCost,
     reasoningCost,
     requestCost,
+    webSearchCost,
   );
 
   return applyDiscount(grossCost, pricing.discount ?? 0);

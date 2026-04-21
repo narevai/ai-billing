@@ -11,6 +11,7 @@ export interface MeterMetadata {
   cache_read_tokens?: number;
   cache_write_tokens?: number;
   request_count?: number;
+  web_search_count?: number;
   raw_provider_cost?: number;
   raw_upstream_inference_cost?: number;
 

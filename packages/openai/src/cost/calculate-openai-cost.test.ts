@@ -100,6 +100,56 @@ describe('calculateOpenAICost (Integration)', () => {
     });
   });
 
+  it('should bill web search calls when webSearch price is set', () => {
+    const mockPricing: ModelPricing = {
+      promptTokens: 0,
+      completionTokens: 0,
+      webSearch: 0.03, // $0.03 per search = 30,000,000 nanos
+    };
+
+    const result = calculateOpenAICost({
+      pricing: mockPricing,
+      usage: {
+        promptTokens: 0,
+        completionTokens: 0,
+        cacheReadTokens: 0,
+        cacheWriteTokens: 0,
+        reasoningTokens: 0,
+        webSearchCount: 3,
+      },
+    });
+
+    // 3 * 0.03 * 1e9 = 90,000,000 nanos
+    expect(result).toEqual({
+      amount: 90000000,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
+
+  it('should not add web search cost when webSearchCount is 0', () => {
+    const mockPricing: ModelPricing = {
+      promptTokens: 0.0000002,
+      completionTokens: 0,
+      webSearch: 0.03,
+    };
+
+    const result = calculateOpenAICost({
+      pricing: mockPricing,
+      usage: {
+        promptTokens: 10,
+        completionTokens: 0,
+        cacheReadTokens: 0,
+        cacheWriteTokens: 0,
+        reasoningTokens: 0,
+        webSearchCount: 0,
+      },
+    });
+
+    // Only prompt: 10 * 200 = 2,000 nanos
+    expect(result).toEqual({ amount: 2000, unit: 'nanos', currency: 'USD' });
+  });
+
   it('should apply a discount correctly if one is provided in pricing', () => {
     const mockPricing: ModelPricing = {
       promptTokens: 0.0000002,

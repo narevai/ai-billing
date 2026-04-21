@@ -26,6 +26,8 @@ export interface GoogleCostInputs {
    * otherwise at the completion rate).
    */
   reasoningTokens: number;
+  /** Number of web search calls (each billed at `pricing.webSearch` when set). */
+  webSearchCount?: number;
 }
 
 /**
@@ -76,6 +78,11 @@ export const calculateGoogleCost = (params: {
 
   const requestCost = rateToCost(pricing.request);
 
+  const webSearchCost = multiplyCost(
+    rateToCost(pricing.webSearch),
+    usage.webSearchCount ?? 0,
+  );
+
   const grossCost = addCosts(
     promptCost,
     completionCost,
@@ -83,6 +90,7 @@ export const calculateGoogleCost = (params: {
     cacheWriteCost,
     reasoningCost,
     requestCost,
+    webSearchCost,
   );
 
   return applyDiscount(grossCost, pricing.discount ?? 0);

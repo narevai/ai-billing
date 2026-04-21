@@ -165,6 +165,53 @@ describe('OpenAIBillingMiddlewareV3 Integration', () => {
     });
   });
 
+  it('should include webSearchCount in usage and cost when sources are in content', async () => {
+    const destinationSpy = vi.fn();
+    const webSearchPricing: ModelPricing = {
+      ...mockPricing,
+      webSearch: 0.03, // $0.03 per search = 30,000,000 nanos
+    };
+    const middleware = createOpenAIV3Middleware({
+      destinations: [destinationSpy],
+      priceResolver: vi.fn().mockResolvedValue(webSearchPricing),
+    });
+
+    const baseResult = createResult({
+      content: [
+        { type: 'text', text: 'Answer' },
+        {
+          type: 'source',
+          sourceType: 'url',
+          id: 'src-1',
+          url: 'https://example.com',
+        },
+        {
+          type: 'source',
+          sourceType: 'url',
+          id: 'src-2',
+          url: 'https://example.org',
+        },
+      ],
+    });
+
+    const mockModel = new MockLanguageModelV3({
+      modelId: 'gpt-4o-search-preview',
+      provider: 'openai',
+      doGenerate: async () => baseResult,
+    });
+
+    const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
+    await generateText({ model: wrappedModel, prompt: 'Latest news?' });
+
+    await vi.waitFor(() => expect(destinationSpy).toHaveBeenCalledTimes(1));
+
+    const emittedPayload = destinationSpy.mock.calls[0]![0] as BillingEvent;
+    expect(emittedPayload.usage.webSearchCount).toBe(2);
+    // Prompt: 13 * 200 = 2,600 + Completion: 54 * 1,250 = 67,500 + 2 searches * 30,000,000 = 60,000,000
+    // Total: 60,070,100 nanos
+    expect(emittedPayload.cost?.amount).toBe(60070100);
+  });
+
   it('should omit the cost object entirely if pricing resolves to undefined', async () => {
     const destinationSpy = vi.fn();
     const missingPriceResolver = vi.fn().mockResolvedValue(undefined);
