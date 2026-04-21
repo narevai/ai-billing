@@ -1,5 +1,13 @@
 # @ai-billing/stripe
 
+## 0.0.4
+
+### Patch Changes
+
+- Updated dependencies [6010076]
+- Updated dependencies [37b9935]
+  - @ai-billing/core@0.0.7
+
 ## 0.0.3
 
 ### Patch Changes

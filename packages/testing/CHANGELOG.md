@@ -1,5 +1,11 @@
 # @ai-billing/testing
 
+## 0.0.4
+
+### Patch Changes
+
+- 6010076: Add support for web search cost calculation
+
 ## 0.0.3
 
 ### Patch Changes

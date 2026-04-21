@@ -1,5 +1,12 @@
 # @ai-billing/core
 
+## 0.0.7
+
+### Patch Changes
+
+- 6010076: Add support for web search cost calculation
+- 37b9935: Unify cost input and move to ai-billing/core
+
 ## 0.0.6
 
 ### Patch Changes
