@@ -1,0 +1,6 @@
+{
+  "extends": ["../../typedoc.base.json"],
+  "entryPoints": ["src/index.ts"],
+  "out": "../../apps/docs/sdk/ai-billing/reference/google/typedoc",
+  "publicPath": "/sdk/ai-billing/reference/google/typedoc/"
+}
