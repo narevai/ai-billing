@@ -99,6 +99,33 @@ describe('calculateGroqCost (Integration)', () => {
     });
   });
 
+  it('should bill web search calls when webSearch price is set', () => {
+    const mockPricing: ModelPricing = {
+      promptTokens: 0,
+      completionTokens: 0,
+      webSearch: 0.03, // $0.03 per search = 30,000,000 nanos
+    };
+
+    const result = calculateGroqCost({
+      pricing: mockPricing,
+      usage: {
+        promptTokens: 0,
+        completionTokens: 0,
+        cacheReadTokens: 0,
+        cacheWriteTokens: 0,
+        reasoningTokens: 0,
+        webSearchCount: 2,
+      },
+    });
+
+    // 2 * 0.03 * 1e9 = 60,000,000 nanos
+    expect(result).toEqual({
+      amount: 60000000,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
+
   it('should apply a discount correctly if one is provided in pricing', () => {
     const mockPricing: ModelPricing = {
       promptTokens: 0.0000002,
