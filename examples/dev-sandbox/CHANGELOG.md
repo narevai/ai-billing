@@ -1,5 +1,13 @@
 # dev-sandbox
 
+## 0.0.12
+
+### Patch Changes
+
+- e50ac32: feat(anthropic): add middleware
+- Updated dependencies [e50ac32]
+  - @ai-billing/anthropic@0.0.1
+
 ## 0.0.11
 
 ### Patch Changes
