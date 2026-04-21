@@ -1,6 +1,6 @@
 import { calculateGroqCost } from '../../../cost/index.js';
-import type { GroqCostInputs } from '../../../cost/calculate-groq-cost.js';
 import { createV3BillingMiddleware } from '@ai-billing/core';
+import type { CostInputs } from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
   PriceResolver,
@@ -123,7 +123,7 @@ export function createGroqV3Middleware<TTags extends DefaultTags>(
         totalOutput - outputTokensReasoning,
       );
 
-      const groqUsage: GroqCostInputs = {
+      const groqUsage: CostInputs = {
         promptTokens: inputTokensTotal,
         completionTokens: outputTokensTotal,
         cacheReadTokens: inputTokensCacheRead,
