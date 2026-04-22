@@ -1,5 +1,13 @@
 # docs
 
+## 0.0.3
+
+### Patch Changes
+
+- 3120d68: feat(minimax): first release
+- 4e823d2: feat(xai): first release
+- 38546c9: feat(chutes): first release
+
 ## 0.0.2
 
 ### Patch Changes
