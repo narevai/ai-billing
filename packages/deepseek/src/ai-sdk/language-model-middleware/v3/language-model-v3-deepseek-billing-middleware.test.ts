@@ -201,6 +201,107 @@ describe('DeepSeekBillingMiddlewareV3 Integration', () => {
     });
   });
 
+  it('should omit the cost object entirely if pricing resolves to undefined', async () => {
+    const destinationSpy = vi.fn();
+    const missingPriceResolver = vi.fn().mockResolvedValue(undefined);
+
+    const middleware = createDeepSeekV3Middleware({
+      destinations: [destinationSpy],
+      priceResolver: missingPriceResolver,
+    });
+
+    const baseResult = createResult();
+    const mockModel = new MockLanguageModelV3({
+      modelId: 'unknown-future-model',
+      doGenerate: async () => baseResult,
+    });
+
+    const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
+    await generateText({ model: wrappedModel, prompt: 'Hello' });
+
+    const expectedEvent = StrictBillingEventSchema.parse({
+      generationId: baseResult.response?.id,
+      modelId: mockModel.modelId,
+      provider: 'deepseek',
+      usage: {
+        inputTokens: 13,
+        outputTokens: 54,
+        cacheReadTokens: 0,
+        reasoningTokens: 0,
+        totalTokens: 67,
+      },
+      tags: {},
+    });
+
+    expect(destinationSpy).toHaveBeenCalledTimes(1);
+    const emittedPayload = destinationSpy.mock.calls[0]![0];
+    let parsedEmittedEvent: BillingEvent;
+    expect(() => {
+      parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+    }).not.toThrow();
+    expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
+    expect(parsedEmittedEvent!).not.toHaveProperty('cost');
+  });
+
+  it('should hit all fallback branches for full coverage (UUID generation, empty usage)', async () => {
+    const destinationSpy = vi.fn();
+    const middleware = createDeepSeekV3Middleware({
+      destinations: [destinationSpy],
+      priceResolver: mockPriceResolver,
+    });
+
+    const baseResult = createResult({
+      response: { id: undefined },
+      usage: {
+        inputTokens: {
+          total: undefined,
+          noCache: undefined,
+          cacheRead: undefined,
+          cacheWrite: undefined,
+        },
+        outputTokens: {
+          total: undefined,
+          text: undefined,
+          reasoning: undefined,
+        },
+        // raw intentionally omitted — covers the rawUsage = undefined path
+      },
+    });
+
+    const mockModel = new MockLanguageModelV3({
+      modelId: 'deepseek-chat',
+      provider: '',
+      doGenerate: async () => baseResult,
+    });
+
+    const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
+    await generateText({ model: wrappedModel, prompt: 'Hi' });
+
+    await vi.waitFor(() => expect(destinationSpy).toHaveBeenCalledTimes(1));
+    const emittedPayload = destinationSpy.mock.calls[0]![0];
+    let parsedEmittedEvent: BillingEvent;
+    expect(() => {
+      parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+    }).not.toThrow();
+
+    const expectedEvent = StrictBillingEventSchema.parse({
+      generationId: parsedEmittedEvent!.generationId,
+      modelId: mockModel.modelId,
+      provider: 'deepseek',
+      usage: {
+        inputTokens: 0,
+        outputTokens: 0,
+        cacheReadTokens: 0,
+        reasoningTokens: 0,
+        totalTokens: 0,
+      },
+      cost: { amount: 0, unit: 'nanos', currency: 'USD' },
+      tags: {},
+    });
+    expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
+    expect(parsedEmittedEvent!.generationId).toHaveLength(36);
+  });
+
   describe('wrapStream', () => {
     it('should extract usage and calculate cost from stream finish chunk', async () => {
       const destinationSpy = vi.fn();
