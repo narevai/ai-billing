@@ -71,7 +71,8 @@
         "@ai-billing/anthropic#docs:generate",
         "@ai-billing/deepseek#docs:generate",
         "@ai-billing/chutes#docs:generate",
-        "@ai-billing/xai#docs:generate"
+        "@ai-billing/xai#docs:generate",
+        "@ai-billing/minimax#docs:generate"
       ],
       "cache": false
     }

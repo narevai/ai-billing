@@ -247,6 +247,30 @@
                 ]
               },
               {
+                "group": "@ai-billing/minimax",
+                "pages": [
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/minimax/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/minimax/typedoc/functions/createMinimaxV3Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/minimax/typedoc/interfaces/MinimaxV3MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/openai",
                 "pages": [
                   {
