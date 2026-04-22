@@ -68,7 +68,8 @@
         "@ai-billing/groq#docs:generate",
         "@ai-billing/gateway#docs:generate",
         "@ai-billing/google#docs:generate",
-        "@ai-billing/anthropic#docs:generate"
+        "@ai-billing/anthropic#docs:generate",
+        "@ai-billing/deepseek#docs:generate"
       ],
       "cache": false
     }
