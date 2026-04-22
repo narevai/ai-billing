@@ -1,0 +1,77 @@
+[**@ai-billing/chutes**](../index)
+
+***
+
+[@ai-billing/chutes](/sdk/ai-billing/reference/chutes/typedoc/index) / createChutesV3Middleware
+
+# Function: createChutesV3Middleware()
+
+> **createChutesV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
+
+Defined in: [chutes/src/ai-sdk/language-model-middleware/v3/language-model-v3-chutes-billing-middleware.ts:78](https://github.com/narevai/ai-billing/blob/main/packages/chutes/src/ai-sdk/language-model-middleware/v3/language-model-v3-chutes-billing-middleware.ts#L78)
+
+Creates a V3 billing middleware for the Chutes provider (`llm.chutes.ai` via `@ai-sdk/openai-compatible`).
+Deducts cache-read tokens from prompt tokens before billing — Chutes charges only non-cached input at the
+prompt rate, and cached tokens separately at the cache-read rate.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`ChutesV3MiddlewareOptions`](/sdk/ai-billing/reference/chutes/typedoc/interfaces/ChutesV3MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [ChutesV3MiddlewareOptions](/sdk/ai-billing/reference/chutes/typedoc/interfaces/ChutesV3MiddlewareOptions). A `priceResolver` is required.
+
+## Returns
+
+`LanguageModelV3Middleware`
+
+A V3 billing middleware instance for Chutes.
+
+## Example
+
+```ts
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+import { wrapLanguageModel } from 'ai';
+import { createChutesMiddleware } from '@ai-billing/chutes';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+import type { LanguageModelV3 } from '@ai-sdk/provider';
+
+const chutes = createOpenAICompatible({
+  name: 'chutes',
+  baseURL: 'https://llm.chutes.ai/v1',
+  apiKey: process.env.CHUTES_API_KEY,
+});
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'deepseek-ai/DeepSeek-V3-0324': {
+    promptTokens: 0.27 / 1_000_000,
+    completionTokens: 1.10 / 1_000_000,
+    inputCacheReadTokens: 0.07 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createChutesMiddleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: chutes('deepseek-ai/DeepSeek-V3-0324') as unknown as LanguageModelV3,
+  middleware: billingMiddleware,
+});
+```
