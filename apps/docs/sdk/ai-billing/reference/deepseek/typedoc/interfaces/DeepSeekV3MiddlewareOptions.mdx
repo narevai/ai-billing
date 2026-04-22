@@ -1,19 +1,18 @@
-[**@ai-billing/anthropic**](../index)
+[**@ai-billing/deepseek**](../index)
 
 ***
 
-[@ai-billing/anthropic](/sdk/ai-billing/reference/anthropic/typedoc/index) / AnthropicV3MiddlewareOptions
+[@ai-billing/deepseek](/sdk/ai-billing/reference/deepseek/typedoc/index) / DeepSeekV3MiddlewareOptions
 
-# Interface: AnthropicV3MiddlewareOptions\<TTags\>
+# Interface: DeepSeekV3MiddlewareOptions\<TTags\>
 
-Defined in: [anthropic/src/ai-sdk/language-model-middleware/v3/language-model-v3-anthropic-billing-middleware.ts:47](https://github.com/narevai/ai-billing/blob/main/packages/anthropic/src/ai-sdk/language-model-middleware/v3/language-model-v3-anthropic-billing-middleware.ts#L47)
+Defined in: [deepseek/src/ai-sdk/language-model-middleware/v3/language-model-v3-deepseek-billing-middleware.ts:36](https://github.com/narevai/ai-billing/blob/main/packages/deepseek/src/ai-sdk/language-model-middleware/v3/language-model-v3-deepseek-billing-middleware.ts#L36)
 
-Configuration for [createAnthropicV3Middleware](/sdk/ai-billing/reference/anthropic/typedoc/functions/createAnthropicV3Middleware).
+Configuration for [createDeepSeekV3Middleware](/sdk/ai-billing/reference/deepseek/typedoc/functions/createDeepSeekV3Middleware).
 
 Extends BaseBillingMiddlewareOptions (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
-requires a PriceResolver. Usage is taken from the AI SDK's normalized OpenAI usage fields; cost is
-computed from that usage and the resolved ModelPricing using the same rules as the package's cost
-helper.
+requires a PriceResolver. Usage is taken from the DeepSeek response; cost is computed from that
+usage and the resolved ModelPricing using the same rules as the package's cost helper.
 
 ## Extends
 
@@ -28,14 +27,6 @@ helper.
 The shape of the tags object, extending DefaultTags.
 
 ## Properties
-
-### priceResolver
-
-> **priceResolver**: `PriceResolver`
-
-Defined in: [anthropic/src/ai-sdk/language-model-middleware/v3/language-model-v3-anthropic-billing-middleware.ts:50](https://github.com/narevai/ai-billing/blob/main/packages/anthropic/src/ai-sdk/language-model-middleware/v3/language-model-v3-anthropic-billing-middleware.ts#L50)
-
-***
 
 ### destinations?
 
@@ -111,3 +102,11 @@ Called when an error occurs during event extraction or dispatch. Defaults to a s
 #### Inherited from
 
 `BaseBillingMiddlewareOptions.onError`
+
+***
+
+### priceResolver
+
+> **priceResolver**: `PriceResolver`
+
+Defined in: [deepseek/src/ai-sdk/language-model-middleware/v3/language-model-v3-deepseek-billing-middleware.ts:39](https://github.com/narevai/ai-billing/blob/main/packages/deepseek/src/ai-sdk/language-model-middleware/v3/language-model-v3-deepseek-billing-middleware.ts#L39)

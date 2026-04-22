@@ -1,0 +1,82 @@
+[**@ai-billing/deepseek**](../index)
+
+***
+
+[@ai-billing/deepseek](/sdk/ai-billing/reference/deepseek/typedoc/index) / createDeepSeekV3Middleware
+
+# Function: createDeepSeekV3Middleware()
+
+> **createDeepSeekV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
+
+Defined in: [deepseek/src/ai-sdk/language-model-middleware/v3/language-model-v3-deepseek-billing-middleware.ts:95](https://github.com/narevai/ai-billing/blob/main/packages/deepseek/src/ai-sdk/language-model-middleware/v3/language-model-v3-deepseek-billing-middleware.ts#L95)
+
+Creates a V3 billing middleware for the DeepSeek provider (`@ai-sdk/deepseek`).
+Derives token usage from DeepSeek's raw usage payload and resolves cost from pricing plus usage.
+
+DeepSeek uses `prompt_cache_hit_tokens` / `prompt_cache_miss_tokens` for cache accounting, and
+`completion_tokens_details.reasoning_tokens` for deepseek-reasoner models.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`DeepSeekV3MiddlewareOptions`](/sdk/ai-billing/reference/deepseek/typedoc/interfaces/DeepSeekV3MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [DeepSeekV3MiddlewareOptions](/sdk/ai-billing/reference/deepseek/typedoc/interfaces/DeepSeekV3MiddlewareOptions). A `priceResolver` is required.
+
+## Returns
+
+`LanguageModelV3Middleware`
+
+A V3 billing middleware instance for DeepSeek.
+
+## Example
+
+```ts
+import { createDeepSeek } from '@ai-sdk/deepseek';
+import { wrapLanguageModel } from 'ai';
+import { createDeepSeekMiddleware } from '@ai-billing/deepseek';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const deepseek = createDeepSeek({ apiKey: process.env.DEEPSEEK_API_KEY });
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'deepseek-chat': {
+    promptTokens: 0.27 / 1_000_000,
+    completionTokens: 1.10 / 1_000_000,
+    inputCacheReadTokens: 0.07 / 1_000_000,
+    inputCacheWriteTokens: 0,
+  },
+  'deepseek-reasoner': {
+    promptTokens: 0.55 / 1_000_000,
+    completionTokens: 2.19 / 1_000_000,
+    inputCacheReadTokens: 0.14 / 1_000_000,
+    inputCacheWriteTokens: 0,
+    internalReasoningTokens: 2.19 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createDeepSeekMiddleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: deepseek('deepseek-chat'),
+  middleware: billingMiddleware,
+});
+```

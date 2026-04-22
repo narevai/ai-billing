@@ -71,6 +71,7 @@
                           "sdk/ai-billing/reference/core/typedoc/interfaces/BillingMiddlewareV3Options",
                           "sdk/ai-billing/reference/core/typedoc/interfaces/BuildV3EventPayload",
                           "sdk/ai-billing/reference/core/typedoc/interfaces/Cost",
+                          "sdk/ai-billing/reference/core/typedoc/interfaces/CostInputs",
                           "sdk/ai-billing/reference/core/typedoc/interfaces/MeterMetadata",
                           "sdk/ai-billing/reference/core/typedoc/interfaces/ModelPricing",
                           "sdk/ai-billing/reference/core/typedoc/interfaces/Usage"
@@ -95,6 +96,30 @@
                           "sdk/ai-billing/reference/core/typedoc/classes/AiBillingDestinationError",
                           "sdk/ai-billing/reference/core/typedoc/classes/AIBillingError",
                           "sdk/ai-billing/reference/core/typedoc/classes/AiBillingExtractorError"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "@ai-billing/deepseek",
+                "pages": [
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/deepseek/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/deepseek/typedoc/functions/createDeepSeekV3Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/deepseek/typedoc/interfaces/DeepSeekV3MiddlewareOptions"
                         ]
                       }
                     ]
