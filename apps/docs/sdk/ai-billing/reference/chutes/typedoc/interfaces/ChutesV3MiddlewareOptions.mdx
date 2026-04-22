@@ -1,0 +1,113 @@
+[**@ai-billing/chutes**](../index)
+
+***
+
+[@ai-billing/chutes](/sdk/ai-billing/reference/chutes/typedoc/index) / ChutesV3MiddlewareOptions
+
+# Interface: ChutesV3MiddlewareOptions\<TTags\>
+
+Defined in: [chutes/src/ai-sdk/language-model-middleware/v3/language-model-v3-chutes-billing-middleware.ts:24](https://github.com/narevai/ai-billing/blob/main/packages/chutes/src/ai-sdk/language-model-middleware/v3/language-model-v3-chutes-billing-middleware.ts#L24)
+
+Configuration for [createChutesV3Middleware](/sdk/ai-billing/reference/chutes/typedoc/functions/createChutesV3Middleware).
+
+Extends BaseBillingMiddlewareOptions (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
+requires a PriceResolver. Usage is taken from the AI SDK's normalized usage fields; cost is
+computed from that usage and the resolved ModelPricing using the same rules as the package's cost
+helper.
+
+## Extends
+
+- `BaseBillingMiddlewareOptions`\<`TTags`\>
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `DefaultTags`
+
+The shape of the tags object, extending DefaultTags.
+
+## Properties
+
+### priceResolver
+
+> **priceResolver**: `PriceResolver`
+
+Defined in: [chutes/src/ai-sdk/language-model-middleware/v3/language-model-v3-chutes-billing-middleware.ts:27](https://github.com/narevai/ai-billing/blob/main/packages/chutes/src/ai-sdk/language-model-middleware/v3/language-model-v3-chutes-billing-middleware.ts#L27)
+
+***
+
+### destinations?
+
+> `optional` **destinations?**: `Destination`\<`TTags`\>[]
+
+Defined in: core/dist/index.d.ts:31
+
+One or more billing destinations that receive each emitted BillingEvent.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.destinations`
+
+***
+
+### defaultTags?
+
+> `optional` **defaultTags?**: `TTags`
+
+Defined in: core/dist/index.d.ts:33
+
+Tags merged into every emitted event.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.defaultTags`
+
+***
+
+### waitUntil?
+
+> `optional` **waitUntil?**: (`promise`) => `void`
+
+Defined in: core/dist/index.d.ts:38
+
+Edge-runtime hook (e.g. `ctx.waitUntil`) used to keep the process alive
+while billing events are flushed asynchronously.
+
+#### Parameters
+
+##### promise
+
+`Promise`\<`unknown`\>
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.waitUntil`
+
+***
+
+### onError?
+
+> `optional` **onError?**: (`error`) => `void`
+
+Defined in: core/dist/index.d.ts:40
+
+Called when an error occurs during event extraction or dispatch. Defaults to a silent no-op.
+
+#### Parameters
+
+##### error
+
+`unknown`
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.onError`

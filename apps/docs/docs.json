@@ -43,6 +43,30 @@
                 ]
               },
               {
+                "group": "@ai-billing/chutes",
+                "pages": [
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/chutes/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/chutes/typedoc/functions/createChutesV3Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/chutes/typedoc/interfaces/ChutesV3MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/core",
                 "pages": [
                   {
