@@ -70,7 +70,8 @@
         "@ai-billing/google#docs:generate",
         "@ai-billing/anthropic#docs:generate",
         "@ai-billing/deepseek#docs:generate",
-        "@ai-billing/chutes#docs:generate"
+        "@ai-billing/chutes#docs:generate",
+        "@ai-billing/xai#docs:generate"
       ],
       "cache": false
     }
