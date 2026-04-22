@@ -1,0 +1,78 @@
+[**@ai-billing/xai**](../index)
+
+***
+
+[@ai-billing/xai](/sdk/ai-billing/reference/xai/typedoc/index) / createXAIV3Middleware
+
+# Function: createXAIV3Middleware()
+
+> **createXAIV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
+
+Defined in: [xai/src/ai-sdk/language-model-middleware/v3/language-model-v3-xai-billing-middleware.ts:79](https://github.com/narevai/ai-billing/blob/main/packages/xai/src/ai-sdk/language-model-middleware/v3/language-model-v3-xai-billing-middleware.ts#L79)
+
+Creates a V3 billing middleware for the xAI provider (`@ai-sdk/xai`).
+Deducts cache-read tokens from prompt tokens before billing — xAI charges only non-cached input at the
+prompt rate, and cached tokens separately at the cache-read rate.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`XAIV3MiddlewareOptions`](/sdk/ai-billing/reference/xai/typedoc/interfaces/XAIV3MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [XAIV3MiddlewareOptions](/sdk/ai-billing/reference/xai/typedoc/interfaces/XAIV3MiddlewareOptions). A `priceResolver` is required.
+
+## Returns
+
+`LanguageModelV3Middleware`
+
+A V3 billing middleware instance for xAI.
+
+## Example
+
+```ts
+import { createXai } from '@ai-sdk/xai';
+import { wrapLanguageModel } from 'ai';
+import { createXAIMiddleware } from '@ai-billing/xai';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const xai = createXai({ apiKey: process.env.XAI_API_KEY });
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'grok-3': {
+    promptTokens: 3.0 / 1_000_000,
+    completionTokens: 15.0 / 1_000_000,
+    inputCacheReadTokens: 0.75 / 1_000_000,
+  },
+  'grok-3-mini': {
+    promptTokens: 0.3 / 1_000_000,
+    completionTokens: 0.5 / 1_000_000,
+    internalReasoningTokens: 0.5 / 1_000_000,
+    inputCacheReadTokens: 0.075 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createXAIMiddleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: xai('grok-3'),
+  middleware: billingMiddleware,
+});
+```

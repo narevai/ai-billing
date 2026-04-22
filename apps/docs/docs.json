@@ -389,6 +389,30 @@
                     ]
                   }
                 ]
+              },
+              {
+                "group": "@ai-billing/xai",
+                "pages": [
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/xai/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/xai/typedoc/functions/createXAIV3Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/xai/typedoc/interfaces/XAIV3MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }
