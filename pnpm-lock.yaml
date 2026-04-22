@@ -520,6 +520,49 @@ importers:
         specifier: 'catalog:'
         version: 4.1.1(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.0)(@types/node@22.19.15)(vite@8.0.2(@types/node@22.19.15)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.8.3))
 
+  packages/minimax:
+    dependencies:
+      '@ai-billing/core':
+        specifier: workspace:*
+        version: link:../core
+      '@ai-sdk/openai-compatible':
+        specifier: ^2.0.0
+        version: 2.0.41(zod@4.3.6)
+    devDependencies:
+      '@ai-billing/testing':
+        specifier: workspace:*
+        version: link:../testing
+      '@ai-billing/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@ai-sdk/provider':
+        specifier: 'catalog:'
+        version: 3.0.8
+      '@edge-runtime/vm':
+        specifier: 'catalog:'
+        version: 5.0.0
+      ai:
+        specifier: 'catalog:'
+        version: 6.0.138(zod@4.3.6)
+      tsup:
+        specifier: 'catalog:'
+        version: 8.5.1(jiti@2.6.1)(postcss@8.5.8)(typescript@5.9.2)(yaml@2.8.3)
+      typedoc:
+        specifier: 'catalog:'
+        version: 0.28.19(typescript@5.9.2)
+      typedoc-plugin-markdown:
+        specifier: 'catalog:'
+        version: 4.11.0(typedoc@0.28.19(typescript@5.9.2))
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.1(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.0)(@types/node@22.19.15)(vite@8.0.2(@types/node@22.19.15)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.8.3))
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
+
   packages/openai:
     dependencies:
       '@ai-billing/core':
