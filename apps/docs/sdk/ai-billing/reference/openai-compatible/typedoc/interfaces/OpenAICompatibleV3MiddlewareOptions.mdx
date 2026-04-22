@@ -6,7 +6,7 @@
 
 # Interface: OpenAICompatibleV3MiddlewareOptions\<TTags\>
 
-Defined in: [openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts:29](https://github.com/narevai/ai-billing/blob/main/packages/openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts#L29)
+Defined in: [openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts:27](https://github.com/narevai/ai-billing/blob/main/packages/openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts#L27)
 
 Configuration for [createOpenAICompatibleV3Middleware](/sdk/ai-billing/reference/openai-compatible/typedoc/functions/createOpenAICompatibleV3Middleware).
 
@@ -36,7 +36,7 @@ The shape of the tags object, extending DefaultTags.
 
 > `optional` **destinations?**: `Destination`\<`TTags`\>[]
 
-Defined in: core/dist/index.d.ts:30
+Defined in: core/dist/index.d.ts:31
 
 One or more billing destinations that receive each emitted BillingEvent.
 
@@ -50,7 +50,7 @@ One or more billing destinations that receive each emitted BillingEvent.
 
 > `optional` **defaultTags?**: `TTags`
 
-Defined in: core/dist/index.d.ts:32
+Defined in: core/dist/index.d.ts:33
 
 Tags merged into every emitted event.
 
@@ -64,7 +64,7 @@ Tags merged into every emitted event.
 
 > `optional` **waitUntil?**: (`promise`) => `void`
 
-Defined in: core/dist/index.d.ts:37
+Defined in: core/dist/index.d.ts:38
 
 Edge-runtime hook (e.g. `ctx.waitUntil`) used to keep the process alive
 while billing events are flushed asynchronously.
@@ -89,7 +89,7 @@ while billing events are flushed asynchronously.
 
 > `optional` **onError?**: (`error`) => `void`
 
-Defined in: core/dist/index.d.ts:39
+Defined in: core/dist/index.d.ts:40
 
 Called when an error occurs during event extraction or dispatch. Defaults to a silent no-op.
 
@@ -113,7 +113,7 @@ Called when an error occurs during event extraction or dispatch. Defaults to a s
 
 > **priceResolver**: `PriceResolver`
 
-Defined in: [openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts:32](https://github.com/narevai/ai-billing/blob/main/packages/openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts#L32)
+Defined in: [openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts:30](https://github.com/narevai/ai-billing/blob/main/packages/openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts#L30)
 
 ***
 
@@ -121,4 +121,4 @@ Defined in: [openai-compatible/src/ai-sdk/language-model-middleware/v3/language-
 
 > **providerId**: `string`
 
-Defined in: [openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts:33](https://github.com/narevai/ai-billing/blob/main/packages/openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts#L33)
+Defined in: [openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts:31](https://github.com/narevai/ai-billing/blob/main/packages/openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts#L31)

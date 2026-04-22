@@ -1,0 +1,72 @@
+[**@ai-billing/core**](../index)
+
+***
+
+[@ai-billing/core](/sdk/ai-billing/reference/core/typedoc/index) / CostInputs
+
+# Interface: CostInputs
+
+Defined in: [packages/core/src/types/cost-inputs.ts:4](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/cost-inputs.ts#L4)
+
+Token usage passed into a provider cost calculation function.
+
+## Properties
+
+### promptTokens
+
+> **promptTokens**: `number`
+
+Defined in: [packages/core/src/types/cost-inputs.ts:6](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/cost-inputs.ts#L6)
+
+Number of prompt (input) tokens.
+
+***
+
+### completionTokens
+
+> **completionTokens**: `number`
+
+Defined in: [packages/core/src/types/cost-inputs.ts:8](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/cost-inputs.ts#L8)
+
+Number of completion (output) tokens.
+
+***
+
+### cacheReadTokens
+
+> **cacheReadTokens**: `number`
+
+Defined in: [packages/core/src/types/cost-inputs.ts:10](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/cost-inputs.ts#L10)
+
+Number of tokens served from the prompt cache.
+
+***
+
+### cacheWriteTokens
+
+> **cacheWriteTokens**: `number`
+
+Defined in: [packages/core/src/types/cost-inputs.ts:12](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/cost-inputs.ts#L12)
+
+Number of tokens written to the prompt cache.
+
+***
+
+### reasoningTokens
+
+> **reasoningTokens**: `number`
+
+Defined in: [packages/core/src/types/cost-inputs.ts:17](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/cost-inputs.ts#L17)
+
+Number of reasoning tokens (priced with `internalReasoningTokens` when present in `ModelPricing`,
+otherwise at the completion rate).
+
+***
+
+### webSearchCount?
+
+> `optional` **webSearchCount?**: `number`
+
+Defined in: [packages/core/src/types/cost-inputs.ts:19](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/cost-inputs.ts#L19)
+
+Number of web search calls (each billed at `pricing.webSearch` when set).
