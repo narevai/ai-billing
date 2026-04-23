@@ -1,8 +1,11 @@
 # ai-billing
 
+Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) seing events directly to billing platforms (Stripe, Polar, and Lago).
+
 [![codecov](https://codecov.io/github/narevai/ai-billing/graph/badge.svg?token=KZG0YE4THI)](https://codecov.io/github/narevai/ai-billing)
 ![Node Current](https://img.shields.io/node/v/%40ai-billing%2Fcore)
 ![NPM License](https://img.shields.io/npm/l/%40ai-billing%2Fcore)
+
 <a href="https://discord.gg/eAFaCwmEEy">
     <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
 </a>
@@ -10,8 +13,6 @@
 <p align="center">
   <img src="/assets/header-1.png" alt="AI Billing Header 1">
 </p>
-
-Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) to send usage events directly to billing platforms (Stripe, Polar, and Lago).
 
 ### Supported Providers
 
@@ -29,12 +30,14 @@ Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) to send usage eve
 
 ### Supported Destinations
 
-| Provider | Package | Size |
+| Destination | Package | Size |
 | :--- | :--- | :--- |
 | **Polar.sh** | [`@ai-billing/polar`](https://www.npmjs.com/package/@ai-billing/polar) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fpolar) |
 | **Stripe** | [`@ai-billing/stripe`](https://www.npmjs.com/package/@ai-billing/stripe) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fstripe) |
 | **OpenMeter** (Kong) | [`@ai-billing/openmeter`](https://www.npmjs.com/package/@ai-billing/openmeter) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenmeter) |
 | **Lago** | [`@ai-billing/lago`](https://www.npmjs.com/package/@ai-billing/lago) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Flago) |
+
+---
 
 ## Installation
 
