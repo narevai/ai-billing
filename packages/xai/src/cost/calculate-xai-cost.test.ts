@@ -77,30 +77,53 @@ describe('calculateXAICost', () => {
     });
   });
 
-  it('should handle reasoning tokens for grok-3-mini', () => {
+  it('should calculate actual xAI grok-3-mini usage log correctly', () => {
     const mockPricing: ModelPricing = {
       promptTokens: 0.0000003,
       completionTokens: 0.0000005,
-      internalReasoningTokens: 0.0000005,
+      inputCacheReadTokens: 0.000000075,
       request: 0,
     };
 
     const usage = {
-      promptTokens: 10,
-      completionTokens: 5,
-      cacheReadTokens: 0,
+      promptTokens: 22,
+      completionTokens: 289,
+      cacheReadTokens: 4,
       cacheWriteTokens: 0,
-      reasoningTokens: 20,
+      reasoningTokens: 227,
     };
 
     const result = calculateXAICost({ pricing: mockPricing, usage });
 
-    // Prompt: 0.0000003 * 1e9 * 10 = 3,000 nanos
-    // Completion: 0.0000005 * 1e9 * 5 = 2,500 nanos
-    // Reasoning: 0.0000005 * 1e9 * 20 = 10,000 nanos
-    // Total: 15,500 nanos
     expect(result).toEqual({
-      amount: 15500,
+      amount: 150200,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
+
+  it('should calculate actual xAI grok-3 usage log correctly', () => {
+    const mockPricing: ModelPricing = {
+      promptTokens: 0.000003,
+      completionTokens: 0.000015,
+      inputCacheReadTokens: 0.00000075,
+      request: 0,
+    };
+
+    const rawUsage = {
+      promptTokens: 21,
+      completionTokens: 58,
+      cacheReadTokens: 2,
+      cacheWriteTokens: 0,
+      reasoningTokens: 0,
+    };
+
+    const rawResult = calculateXAICost({
+      pricing: mockPricing,
+      usage: rawUsage,
+    });
+    expect(rawResult).toEqual({
+      amount: 928500,
       unit: 'nanos',
       currency: 'USD',
     });
