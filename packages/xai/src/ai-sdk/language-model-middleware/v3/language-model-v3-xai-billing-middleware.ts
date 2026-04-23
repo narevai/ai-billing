@@ -91,24 +91,16 @@ export function createXAIV3Middleware<TTags extends DefaultTags>(
       webSearchCount,
     }) => {
       const inputTokensTotal = usage?.inputTokens?.total ?? 0;
-      const inputTokensCacheRead = usage?.inputTokens?.cacheRead ?? 0;
-      const inputTokensNonCached = Math.max(
-        0,
-        inputTokensTotal - inputTokensCacheRead,
-      );
-
       const outputTokensTotal = usage?.outputTokens?.total ?? 0;
+      const inputTokensCacheRead = usage?.inputTokens?.cacheRead ?? 0;
+      const inputTokensCacheWrite = usage?.inputTokens?.cacheWrite ?? 0;
       const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
-      const outputTokensText = Math.max(
-        0,
-        outputTokensTotal - outputTokensReasoning,
-      );
 
       const xaiUsage: CostInputs = {
-        promptTokens: inputTokensNonCached,
-        completionTokens: outputTokensText,
+        promptTokens: inputTokensTotal,
+        completionTokens: outputTokensTotal,
         cacheReadTokens: inputTokensCacheRead,
-        cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
+        cacheWriteTokens: inputTokensCacheWrite,
         reasoningTokens: outputTokensReasoning,
         webSearchCount: webSearchCount,
       };
@@ -129,12 +121,12 @@ export function createXAIV3Middleware<TTags extends DefaultTags>(
         provider: 'xai',
         tags,
         usage: {
-          inputTokens: inputTokensNonCached,
-          outputTokens: outputTokensText,
+          inputTokens: inputTokensTotal,
+          outputTokens: outputTokensTotal,
           cacheReadTokens: inputTokensCacheRead,
-          cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
+          cacheWriteTokens: inputTokensCacheWrite,
           reasoningTokens: outputTokensReasoning,
-          totalTokens: inputTokensNonCached + outputTokensText,
+          totalTokens: inputTokensTotal + outputTokensTotal,
           webSearchCount: webSearchCount,
         },
         ...(calculatedCost !== undefined && { cost: calculatedCost }),

@@ -57,21 +57,21 @@ describe('calculateXAICost', () => {
     };
 
     const usage = {
-      promptTokens: 80,
+      promptTokens: 80, // Total input tokens
       completionTokens: 20,
-      cacheReadTokens: 40,
+      cacheReadTokens: 40, // Subset of input tokens
       cacheWriteTokens: 0,
       reasoningTokens: 0,
     };
 
     const result = calculateXAICost({ pricing: mockPricing, usage });
 
-    // Prompt (non-cached): 0.000002 * 1e9 * 80 = 160,000 nanos
-    // Cache read: 0.000001 * 1e9 * 40 = 40,000 nanos
-    // Completion: 0.000006 * 1e9 * 20 = 120,000 nanos
-    // Total: 320,000 nanos
+    // Prompt (non-cached): (80 - 40) = 40 * 0.000002 * 1e9 = 80,000 nanos
+    // Cache read: 40 * 0.000001 * 1e9 = 40,000 nanos
+    // Completion: 20 * 0.000006 * 1e9 = 120,000 nanos
+    // Total: 80,000 + 40,000 + 120,000 = 240,000 nanos
     expect(result).toEqual({
-      amount: 320000,
+      amount: 240000,
       unit: 'nanos',
       currency: 'USD',
     });
@@ -124,6 +124,34 @@ describe('calculateXAICost', () => {
     });
     expect(rawResult).toEqual({
       amount: 928500,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
+
+  it('should calculate actual xAI grok-4-1-fast-reasoning usage log correctly', () => {
+    const mockPricing: ModelPricing = {
+      promptTokens: 0.0000002,
+      completionTokens: 0.0000005,
+      inputCacheReadTokens: 0.00000005,
+      webSearch: 0.005,
+      request: 0,
+    };
+
+    const rawUsage = {
+      promptTokens: 171,
+      completionTokens: 175,
+      cacheReadTokens: 151,
+      cacheWriteTokens: 0,
+      reasoningTokens: 119,
+    };
+
+    const rawResult = calculateXAICost({
+      pricing: mockPricing,
+      usage: rawUsage,
+    });
+    expect(rawResult).toEqual({
+      amount: 0.00009905 * 1e9, // 99,050 nanos
       unit: 'nanos',
       currency: 'USD',
     });

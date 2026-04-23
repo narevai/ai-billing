@@ -92,7 +92,7 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
       expect(parsedEmittedEvent!).toMatchObject(expectedEvent!);
     });
 
-    it('should deduct cache-read tokens from prompt and bill them separately', async () => {
+    it('should pass inclusive token totals and calculate cached token cost accurately', async () => {
       const destinationSpy = vi.fn();
       const middleware = createXAIV3Middleware({
         destinations: [destinationSpy],
@@ -124,23 +124,27 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
       const emittedPayload = destinationSpy.mock.calls[0]![0];
       const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
 
-      // Prompt (non-cached): 0.000001 * 1e9 * 60 = 60,000 nanos
+      // Cost calculation internally deducts 40 from 100 base prompt tokens:
+      // Prompt (non-cached): 0.000001 * 1e9 * (100 - 40) = 60,000 nanos
       // Cache read: 0.0000005 * 1e9 * 40 = 20,000 nanos
       // Completion: 0.000003 * 1e9 * 30 = 90,000 nanos
       // Total: 170,000 nanos
-      expect(parsedEvent.usage.inputTokens).toBe(60);
+
+      // Middleware now emits the inclusive totals directly
+      expect(parsedEvent.usage.inputTokens).toBe(100);
       expect(parsedEvent.usage.cacheReadTokens).toBe(40);
       expect(parsedEvent.cost?.amount).toBe(170000);
     });
 
-    it('should handle reasoning tokens for grok-3-mini', async () => {
-      const reasonerPricing: ModelPricing = {
+    it('should handle reasoning and cached tokens for grok-3-mini using actual logs', async () => {
+      const actualPricing: ModelPricing = {
         promptTokens: 0.0000003,
         completionTokens: 0.0000005,
-        internalReasoningTokens: 0.0000005,
+        inputCacheReadTokens: 0.000000075,
         request: 0,
       };
-      const reasonerPriceResolver = vi.fn().mockResolvedValue(reasonerPricing);
+
+      const reasonerPriceResolver = vi.fn().mockResolvedValue(actualPricing);
 
       const destinationSpy = vi.fn();
       const middleware = createXAIV3Middleware({
@@ -148,10 +152,20 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
         priceResolver: reasonerPriceResolver,
       });
 
+      // Simulating the nested structure the AI SDK returns for these totals
       const resultWithReasoning = createResult({
         usage: {
-          inputTokens: { total: 50, noCache: 50, cacheRead: 0, cacheWrite: 0 },
-          outputTokens: { total: 200, text: 80, reasoning: 120 },
+          inputTokens: {
+            total: 22,
+            noCache: 18, // 22 total - 4 cached
+            cacheRead: 4,
+            cacheWrite: 0,
+          },
+          outputTokens: {
+            total: 289,
+            text: 62, // 289 total - 227 reasoning
+            reasoning: 227,
+          },
           raw: {},
         },
       });
@@ -168,8 +182,13 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
       const emittedPayload = destinationSpy.mock.calls[0]![0];
       const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
 
-      expect(parsedEvent.usage.outputTokens).toBe(80);
-      expect(parsedEvent.usage.reasoningTokens).toBe(120);
+      expect(parsedEvent.usage.inputTokens).toBe(22);
+      expect(parsedEvent.usage.cacheReadTokens).toBe(4);
+      expect(parsedEvent.usage.outputTokens).toBe(289);
+      expect(parsedEvent.usage.reasoningTokens).toBe(227);
+
+      expect(parsedEvent.cost?.amount).toBe(150200);
+      expect(parsedEvent.cost?.unit).toBe('nanos');
     });
 
     it('should omit the cost object entirely if pricing resolves to undefined', async () => {
