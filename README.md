@@ -7,7 +7,9 @@
     <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
 </a>
 
-![AI Billing Header 1](/assets/header-1.png)
+<p align="center">
+  <img src="/assets/header-1.png" alt="AI Billing Header 1">
+</p>
 
 Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) to send usage events directly to billing platforms (Stripe, Polar, and Lago).
 
@@ -59,7 +61,9 @@ const model = wrapLanguageModel({
 
 ---
 
-![AI Billing Header 2](/assets/header-2.png)
+<p align="center">
+  <img src="/assets/header-2.png" alt="AI Billing Header 2">
+</p>
 
 ## Send usage to Polar.sh
 
