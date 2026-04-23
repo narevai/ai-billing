@@ -1,4 +1,4 @@
-import { calculateXAICost } from '../../../cost/index.js';
+import { calculateXaiCost } from '../../../cost/index.js';
 import { createV3BillingMiddleware } from '@ai-billing/core';
 import type { CostInputs } from '@ai-billing/core';
 import type {
@@ -12,7 +12,7 @@ import type {
 } from '@ai-billing/core';
 
 /**
- * Configuration for {@link createXAIV3Middleware}.
+ * Configuration for {@link createXaiV3Middleware}.
  *
  * Extends {@link BaseBillingMiddlewareOptions} (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
  * requires a {@link PriceResolver}. Usage is taken from the AI SDK's normalized usage fields; cost is
@@ -21,7 +21,7 @@ import type {
  *
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
  */
-export interface XAIV3MiddlewareOptions<
+export interface XaiV3MiddlewareOptions<
   TTags extends DefaultTags,
 > extends BaseBillingMiddlewareOptions<TTags> {
   priceResolver: PriceResolver;
@@ -33,7 +33,7 @@ export interface XAIV3MiddlewareOptions<
  * prompt rate, and cached tokens separately at the cache-read rate.
  *
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
- * @param options - Billing options; see {@link XAIV3MiddlewareOptions}. A `priceResolver` is required.
+ * @param options - Billing options; see {@link XaiV3MiddlewareOptions}. A `priceResolver` is required.
  * @returns A V3 billing middleware instance for xAI.
  *
  * @example
@@ -76,8 +76,8 @@ export interface XAIV3MiddlewareOptions<
  * });
  * ```
  */
-export function createXAIV3Middleware<TTags extends DefaultTags>(
-  options: XAIV3MiddlewareOptions<TTags>,
+export function createXaiV3Middleware<TTags extends DefaultTags>(
+  options: XaiV3MiddlewareOptions<TTags>,
 ) {
   return createV3BillingMiddleware<TTags>({
     ...options,
@@ -110,7 +110,7 @@ export function createXAIV3Middleware<TTags extends DefaultTags>(
         providerId: 'xai',
       } as PriceResolverContext);
 
-      const calculatedCost: Cost | undefined = calculateXAICost({
+      const calculatedCost: Cost | undefined = calculateXaiCost({
         pricing,
         usage: xaiUsage,
       });

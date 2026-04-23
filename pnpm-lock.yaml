@@ -154,6 +154,9 @@ importers:
       '@ai-billing/stripe':
         specifier: workspace:*
         version: link:../../packages/stripe
+      '@ai-billing/xai':
+        specifier: workspace:*
+        version: link:../../packages/xai
       '@ai-sdk/anthropic':
         specifier: ^3.0.0
         version: 3.0.71(zod@4.3.6)
@@ -172,6 +175,9 @@ importers:
       '@ai-sdk/provider':
         specifier: 'catalog:'
         version: 3.0.8
+      '@ai-sdk/xai':
+        specifier: ^3.0.0
+        version: 3.0.83(zod@4.3.6)
       '@openrouter/ai-sdk-provider':
         specifier: 'catalog:'
         version: 2.3.3(ai@6.0.138(zod@4.3.6))(zod@4.3.6)

@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { calculateXAICost } from './calculate-xai-cost.js';
+import { calculateXaiCost } from './calculate-xai-cost.js';
 import type { ModelPricing } from '@ai-billing/core';
 
 describe('calculateXAICost', () => {
   it('should return undefined if no pricing is provided', () => {
-    const result = calculateXAICost({
+    const result = calculateXaiCost({
       pricing: undefined,
       usage: {
         promptTokens: 10,
@@ -35,7 +35,7 @@ describe('calculateXAICost', () => {
       reasoningTokens: 0,
     };
 
-    const result = calculateXAICost({ pricing: mockPricing, usage });
+    const result = calculateXaiCost({ pricing: mockPricing, usage });
 
     // Prompt: 0.000001 * 1e9 * 41 = 41,000 nanos
     // Completion: 0.000003 * 1e9 * 26 = 78,000 nanos
@@ -64,7 +64,7 @@ describe('calculateXAICost', () => {
       reasoningTokens: 0,
     };
 
-    const result = calculateXAICost({ pricing: mockPricing, usage });
+    const result = calculateXaiCost({ pricing: mockPricing, usage });
 
     // Prompt (non-cached): (80 - 40) = 40 * 0.000002 * 1e9 = 80,000 nanos
     // Cache read: 40 * 0.000001 * 1e9 = 40,000 nanos
@@ -93,7 +93,7 @@ describe('calculateXAICost', () => {
       reasoningTokens: 227,
     };
 
-    const result = calculateXAICost({ pricing: mockPricing, usage });
+    const result = calculateXaiCost({ pricing: mockPricing, usage });
 
     expect(result).toEqual({
       amount: 150200,
@@ -118,7 +118,7 @@ describe('calculateXAICost', () => {
       reasoningTokens: 0,
     };
 
-    const rawResult = calculateXAICost({
+    const rawResult = calculateXaiCost({
       pricing: mockPricing,
       usage: rawUsage,
     });
@@ -146,60 +146,12 @@ describe('calculateXAICost', () => {
       reasoningTokens: 119,
     };
 
-    const rawResult = calculateXAICost({
+    const rawResult = calculateXaiCost({
       pricing: mockPricing,
       usage: rawUsage,
     });
     expect(rawResult).toEqual({
       amount: 0.00009905 * 1e9, // 99,050 nanos
-      unit: 'nanos',
-      currency: 'USD',
-    });
-  });
-
-  it('should fallback to completion rate for reasoning when internalReasoningTokens is undefined', () => {
-    const mockPricing: ModelPricing = {
-      promptTokens: 0.0000003,
-      completionTokens: 0.0000005,
-    };
-
-    const usage = {
-      promptTokens: 0,
-      completionTokens: 0,
-      cacheReadTokens: 0,
-      cacheWriteTokens: 0,
-      reasoningTokens: 10,
-    };
-
-    const result = calculateXAICost({ pricing: mockPricing, usage });
-
-    // Reasoning: 0.0000005 * 1e9 * 10 = 5,000 nanos
-    expect(result).toEqual({
-      amount: 5000,
-      unit: 'nanos',
-      currency: 'USD',
-    });
-  });
-
-  it('should fallback to half prompt rate for cache read when inputCacheReadTokens is undefined', () => {
-    const mockPricing: ModelPricing = {
-      promptTokens: 0.000002,
-      completionTokens: 0.000006,
-    };
-
-    const usage = {
-      promptTokens: 0,
-      completionTokens: 0,
-      cacheReadTokens: 100,
-      cacheWriteTokens: 0,
-      reasoningTokens: 0,
-    };
-
-    const result = calculateXAICost({ pricing: mockPricing, usage });
-
-    // Cache read: 0.000001 * 1e9 * 100 = 100,000 nanos (half of prompt rate)
-    expect(result).toEqual({
-      amount: 100000,
       unit: 'nanos',
       currency: 'USD',
     });
@@ -220,7 +172,7 @@ describe('calculateXAICost', () => {
       reasoningTokens: 0,
     };
 
-    const result = calculateXAICost({ pricing: mockPricing, usage });
+    const result = calculateXaiCost({ pricing: mockPricing, usage });
 
     // Gross: 0.000001 * 1e9 * 1000 + 0.000002 * 1e9 * 500 = 2,000,000 nanos
     // After 10% discount: 1,800,000 nanos

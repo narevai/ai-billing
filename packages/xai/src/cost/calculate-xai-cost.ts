@@ -18,7 +18,7 @@ import type { ModelPricing, Cost, CostInputs } from '@ai-billing/core';
  * @returns A {@link Cost}, or `undefined` when `pricing` is missing.
  * @internal
  */
-export const calculateXAICost = (params: {
+export const calculateXaiCost = (params: {
   pricing: ModelPricing | undefined;
   usage: CostInputs;
 }): Cost | undefined => {
@@ -48,7 +48,7 @@ export const calculateXAICost = (params: {
   );
 
   const cacheReadCost = multiplyCost(
-    rateToCost(pricing.inputCacheReadTokens ?? pricing.promptTokens * 0.5),
+    rateToCost(pricing.inputCacheReadTokens),
     cacheReadTokens,
   );
 
@@ -58,12 +58,12 @@ export const calculateXAICost = (params: {
   );
 
   const reasoningCost = multiplyCost(
-    rateToCost(pricing.internalReasoningTokens ?? pricing.completionTokens),
+    rateToCost(pricing.internalReasoningTokens),
     reasoningTokens,
   );
 
   const cacheWriteCost = multiplyCost(
-    rateToCost(pricing.inputCacheWriteTokens ?? 0),
+    rateToCost(pricing.inputCacheWriteTokens),
     cacheWriteTokens,
   );
 

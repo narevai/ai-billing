@@ -1,6 +1,6 @@
 import { generateText, streamText, wrapLanguageModel } from 'ai';
 import { describe, expect, it, vi } from 'vitest';
-import { createXAIV3Middleware } from './language-model-v3-xai-billing-middleware.js';
+import { createXaiV3Middleware } from './language-model-v3-xai-billing-middleware.js';
 import {
   BillingEventSchema,
   MockLanguageModelV3,
@@ -41,7 +41,7 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
   describe('wrapGenerate', () => {
     it('should extract usage, resolve pricing, calculate cost, and broadcast event', async () => {
       const destinationSpy = vi.fn();
-      const middleware = createXAIV3Middleware({
+      const middleware = createXaiV3Middleware({
         destinations: [destinationSpy],
         priceResolver: mockPriceResolver,
       });
@@ -94,7 +94,7 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
 
     it('should pass inclusive token totals and calculate cached token cost accurately', async () => {
       const destinationSpy = vi.fn();
-      const middleware = createXAIV3Middleware({
+      const middleware = createXaiV3Middleware({
         destinations: [destinationSpy],
         priceResolver: mockPriceResolver,
       });
@@ -147,7 +147,7 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
       const reasonerPriceResolver = vi.fn().mockResolvedValue(actualPricing);
 
       const destinationSpy = vi.fn();
-      const middleware = createXAIV3Middleware({
+      const middleware = createXaiV3Middleware({
         destinations: [destinationSpy],
         priceResolver: reasonerPriceResolver,
       });
@@ -195,7 +195,7 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
       const destinationSpy = vi.fn();
       const missingPriceResolver = vi.fn().mockResolvedValue(undefined);
 
-      const middleware = createXAIV3Middleware({
+      const middleware = createXaiV3Middleware({
         destinations: [destinationSpy],
         priceResolver: missingPriceResolver,
       });
@@ -219,7 +219,7 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
 
     it('should hit all fallback branches for full coverage (UUID generation, empty usage)', async () => {
       const destinationSpy = vi.fn();
-      const middleware = createXAIV3Middleware({
+      const middleware = createXaiV3Middleware({
         destinations: [destinationSpy],
         priceResolver: mockPriceResolver,
       });
@@ -279,7 +279,7 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
   describe('wrapStream', () => {
     it('should extract usage and calculate cost from stream finish chunk', async () => {
       const destinationSpy = vi.fn();
-      const middleware = createXAIV3Middleware({
+      const middleware = createXaiV3Middleware({
         destinations: [destinationSpy],
         priceResolver: mockPriceResolver,
       });
