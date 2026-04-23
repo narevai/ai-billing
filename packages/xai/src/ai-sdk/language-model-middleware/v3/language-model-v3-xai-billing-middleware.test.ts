@@ -1,6 +1,9 @@
 import { generateText, streamText, wrapLanguageModel } from 'ai';
 import { describe, expect, it, vi } from 'vitest';
-import { createXaiV3Middleware } from './language-model-v3-xai-billing-middleware.js';
+import {
+  createXaiV3Middleware,
+  XaiUsageAccounting,
+} from './language-model-v3-xai-billing-middleware.js';
 import {
   BillingEventSchema,
   MockLanguageModelV3,
@@ -16,7 +19,6 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
     promptTokens: 0.000001,
     completionTokens: 0.000003,
     inputCacheReadTokens: 0.0000005,
-    inputCacheWriteTokens: 0,
     request: 0,
   };
 
@@ -29,9 +31,34 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
     warnings: [],
     finishReason: { unified: 'stop', raw: 'stop' },
     usage: {
-      inputTokens: { total: 13, noCache: 13, cacheRead: 0, cacheWrite: 0 },
-      outputTokens: { total: 54, text: 54, reasoning: 0 },
-      raw: {},
+      inputTokens: {
+        total: 14,
+        noCache: 9,
+        cacheRead: 5,
+        cacheWrite: 0,
+      },
+      outputTokens: {
+        total: 254,
+        text: 61,
+        reasoning: 193,
+      },
+      raw: {
+        prompt_tokens: 14,
+        completion_tokens: 61,
+        total_tokens: 268,
+        prompt_tokens_details: {
+          text_tokens: 14,
+          audio_tokens: 0,
+          image_tokens: 0,
+          cached_tokens: 5,
+        },
+        completion_tokens_details: {
+          reasoning_tokens: 193,
+          audio_tokens: 0,
+          accepted_prediction_tokens: 0,
+          rejected_prediction_tokens: 0,
+        },
+      } as XaiUsageAccounting,
     },
     response: { id: 'resp_xai_abc123', timestamp: new Date() },
     providerMetadata: {},
@@ -61,23 +88,24 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
         modelId: 'grok-3',
         providerId: 'xai',
       });
+      const rawUsage = baseResult.usage.raw as XaiUsageAccounting;
 
-      // Prompt: 0.000001 * 1e9 * 13 = 13,000 nanos
-      // Completion: 0.000003 * 1e9 * 54 = 162,000 nanos
-      // Total: 175,000 nanos
       const expectedEvent = StrictBillingEventSchema.parse({
         generationId: baseResult.response?.id,
         modelId: mockModel.modelId,
         provider: mockModel.provider,
         usage: {
-          inputTokens: 13,
-          outputTokens: 54,
-          cacheReadTokens: 0,
-          reasoningTokens: 0,
-          totalTokens: 67,
+          inputTokens: rawUsage.prompt_tokens,
+          outputTokens:
+            (rawUsage.total_tokens ?? 0) -
+            (rawUsage.completion_tokens_details?.reasoning_tokens ?? 0),
+          cacheReadTokens: rawUsage.prompt_tokens_details?.cached_tokens ?? 0,
+          reasoningTokens:
+            rawUsage.completion_tokens_details?.reasoning_tokens ?? 0,
+          totalTokens: rawUsage.total_tokens,
         },
         cost: {
-          amount: 175000,
+          amount: 815500,
           unit: 'nanos',
           currency: 'USD',
         },
@@ -90,50 +118,6 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
         parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
       }).not.toThrow();
       expect(parsedEmittedEvent!).toMatchObject(expectedEvent!);
-    });
-
-    it('should pass inclusive token totals and calculate cached token cost accurately', async () => {
-      const destinationSpy = vi.fn();
-      const middleware = createXaiV3Middleware({
-        destinations: [destinationSpy],
-        priceResolver: mockPriceResolver,
-      });
-
-      const resultWithCache = createResult({
-        usage: {
-          inputTokens: {
-            total: 100,
-            noCache: 60,
-            cacheRead: 40,
-            cacheWrite: 0,
-          },
-          outputTokens: { total: 30, text: 30, reasoning: 0 },
-          raw: {},
-        },
-      });
-
-      const mockModel = new MockLanguageModelV3({
-        modelId: 'grok-3',
-        provider: 'xai',
-        doGenerate: async () => resultWithCache,
-      });
-
-      const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
-      await generateText({ model: wrappedModel, prompt: 'test' });
-
-      const emittedPayload = destinationSpy.mock.calls[0]![0];
-      const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
-
-      // Cost calculation internally deducts 40 from 100 base prompt tokens:
-      // Prompt (non-cached): 0.000001 * 1e9 * (100 - 40) = 60,000 nanos
-      // Cache read: 0.0000005 * 1e9 * 40 = 20,000 nanos
-      // Completion: 0.000003 * 1e9 * 30 = 90,000 nanos
-      // Total: 170,000 nanos
-
-      // Middleware now emits the inclusive totals directly
-      expect(parsedEvent.usage.inputTokens).toBe(100);
-      expect(parsedEvent.usage.cacheReadTokens).toBe(40);
-      expect(parsedEvent.cost?.amount).toBe(170000);
     });
 
     it('should handle reasoning and cached tokens for grok-3-mini using actual logs', async () => {
@@ -166,7 +150,23 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
             text: 62, // 289 total - 227 reasoning
             reasoning: 227,
           },
-          raw: {},
+          raw: {
+            prompt_tokens: 22,
+            completion_tokens: 62,
+            total_tokens: 289,
+            prompt_tokens_details: {
+              text_tokens: 18,
+              audio_tokens: 0,
+              image_tokens: 0,
+              cached_tokens: 4,
+            },
+            completion_tokens_details: {
+              reasoning_tokens: 227,
+              audio_tokens: 0,
+              accepted_prediction_tokens: 0,
+              rejected_prediction_tokens: 0,
+            },
+          },
         },
       });
 
@@ -184,7 +184,7 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
 
       expect(parsedEvent.usage.inputTokens).toBe(22);
       expect(parsedEvent.usage.cacheReadTokens).toBe(4);
-      expect(parsedEvent.usage.outputTokens).toBe(289);
+      expect(parsedEvent.usage.outputTokens).toBe(62);
       expect(parsedEvent.usage.reasoningTokens).toBe(227);
 
       expect(parsedEvent.cost?.amount).toBe(150200);

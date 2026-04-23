@@ -28,18 +28,17 @@ export const calculateXaiCost = (params: {
     return undefined;
   }
 
-  // xAI returns inclusive token totals. We must subtract subsets to prevent double-billing.
   const cacheReadTokens = usage.cacheReadTokens ?? 0;
-  const cacheWriteTokens = usage.cacheWriteTokens ?? 0;
   const reasoningTokens = usage.reasoningTokens ?? 0;
 
   const basePromptTokens = Math.max(
     0,
-    (usage.promptTokens ?? 0) - cacheReadTokens - cacheWriteTokens,
+    usage.promptTokens - usage.cacheReadTokens,
   );
+
   const baseCompletionTokens = Math.max(
     0,
-    (usage.completionTokens ?? 0) - reasoningTokens,
+    usage.completionTokens - reasoningTokens,
   );
 
   const promptCost = multiplyCost(
@@ -58,13 +57,8 @@ export const calculateXaiCost = (params: {
   );
 
   const reasoningCost = multiplyCost(
-    rateToCost(pricing.internalReasoningTokens),
+    rateToCost(pricing.completionTokens),
     reasoningTokens,
-  );
-
-  const cacheWriteCost = multiplyCost(
-    rateToCost(pricing.inputCacheWriteTokens),
-    cacheWriteTokens,
   );
 
   const requestCost = rateToCost(pricing.request);
@@ -78,7 +72,6 @@ export const calculateXaiCost = (params: {
     promptCost,
     completionCost,
     cacheReadCost,
-    cacheWriteCost,
     reasoningCost,
     requestCost,
     webSearchCost,

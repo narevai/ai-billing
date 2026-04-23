@@ -10,6 +10,25 @@ import type {
   ModelPricing,
   BillingEvent,
 } from '@ai-billing/core';
+import { JSONObject } from '@ai-sdk/provider';
+
+export interface XaiUsageAccounting extends JSONObject {
+  prompt_tokens: number;
+  completion_tokens: number;
+  total_tokens: number;
+  prompt_tokens_details?: {
+    text_tokens?: number | null;
+    audio_tokens?: number | null;
+    image_tokens?: number | null;
+    cached_tokens?: number | null;
+  } | null;
+  completion_tokens_details?: {
+    reasoning_tokens?: number | null;
+    audio_tokens?: number | null;
+    accepted_prediction_tokens?: number | null;
+    rejected_prediction_tokens?: number | null;
+  } | null;
+}
 
 /**
  * Configuration for {@link createXaiV3Middleware}.
@@ -90,11 +109,15 @@ export function createXaiV3Middleware<TTags extends DefaultTags>(
       tags,
       webSearchCount,
     }) => {
-      const inputTokensTotal = usage?.inputTokens?.total ?? 0;
-      const outputTokensTotal = usage?.outputTokens?.total ?? 0;
-      const inputTokensCacheRead = usage?.inputTokens?.cacheRead ?? 0;
-      const inputTokensCacheWrite = usage?.inputTokens?.cacheWrite ?? 0;
-      const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
+      const xaiRawUsage = usage?.raw as XaiUsageAccounting | undefined;
+
+      const inputTokensTotal = xaiRawUsage?.prompt_tokens ?? 0;
+      const outputTokensTotal = xaiRawUsage?.total_tokens ?? 0;
+      const inputTokensCacheRead =
+        xaiRawUsage?.prompt_tokens_details?.cached_tokens ?? 0;
+      const inputTokensCacheWrite = 0;
+      const outputTokensReasoning =
+        xaiRawUsage?.completion_tokens_details?.reasoning_tokens ?? 0;
 
       const xaiUsage: CostInputs = {
         promptTokens: inputTokensTotal,
@@ -122,11 +145,11 @@ export function createXaiV3Middleware<TTags extends DefaultTags>(
         tags,
         usage: {
           inputTokens: inputTokensTotal,
-          outputTokens: outputTokensTotal,
+          outputTokens: xaiUsage.completionTokens - xaiUsage.reasoningTokens,
           cacheReadTokens: inputTokensCacheRead,
           cacheWriteTokens: inputTokensCacheWrite,
           reasoningTokens: outputTokensReasoning,
-          totalTokens: inputTokensTotal + outputTokensTotal,
+          totalTokens: outputTokensTotal,
           webSearchCount: webSearchCount,
         },
         ...(calculatedCost !== undefined && { cost: calculatedCost }),
