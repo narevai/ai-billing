@@ -5,7 +5,6 @@ Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) seing events dire
 [![codecov](https://codecov.io/github/narevai/ai-billing/graph/badge.svg?token=KZG0YE4THI)](https://codecov.io/github/narevai/ai-billing)
 ![Node Current](https://img.shields.io/node/v/%40ai-billing%2Fcore)
 ![NPM License](https://img.shields.io/npm/l/%40ai-billing%2Fcore)
-
 <a href="https://discord.gg/eAFaCwmEEy">
     <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
 </a>
