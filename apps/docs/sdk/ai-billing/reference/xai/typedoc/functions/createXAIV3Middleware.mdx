@@ -2,13 +2,13 @@
 
 ***
 
-[@ai-billing/xai](/sdk/ai-billing/reference/xai/typedoc/index) / createXAIV3Middleware
+[@ai-billing/xai](/sdk/ai-billing/reference/xai/typedoc/index) / createXaiV3Middleware
 
-# Function: createXAIV3Middleware()
+# Function: createXaiV3Middleware()
 
-> **createXAIV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
+> **createXaiV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
 
-Defined in: [xai/src/ai-sdk/language-model-middleware/v3/language-model-v3-xai-billing-middleware.ts:79](https://github.com/narevai/ai-billing/blob/main/packages/xai/src/ai-sdk/language-model-middleware/v3/language-model-v3-xai-billing-middleware.ts#L79)
+Defined in: [xai/src/ai-sdk/language-model-middleware/v3/language-model-v3-xai-billing-middleware.ts:98](https://github.com/narevai/ai-billing/blob/main/packages/xai/src/ai-sdk/language-model-middleware/v3/language-model-v3-xai-billing-middleware.ts#L98)
 
 Creates a V3 billing middleware for the xAI provider (`@ai-sdk/xai`).
 Deducts cache-read tokens from prompt tokens before billing — xAI charges only non-cached input at the
@@ -26,9 +26,9 @@ The shape of the tags object, extending DefaultTags.
 
 ### options
 
-[`XAIV3MiddlewareOptions`](/sdk/ai-billing/reference/xai/typedoc/interfaces/XAIV3MiddlewareOptions)\<`TTags`\>
+[`XaiV3MiddlewareOptions`](/sdk/ai-billing/reference/xai/typedoc/interfaces/XaiV3MiddlewareOptions)\<`TTags`\>
 
-Billing options; see [XAIV3MiddlewareOptions](/sdk/ai-billing/reference/xai/typedoc/interfaces/XAIV3MiddlewareOptions). A `priceResolver` is required.
+Billing options; see [XaiV3MiddlewareOptions](/sdk/ai-billing/reference/xai/typedoc/interfaces/XaiV3MiddlewareOptions). A `priceResolver` is required.
 
 ## Returns
 

@@ -425,13 +425,13 @@
                       {
                         "group": "Functions",
                         "pages": [
-                          "sdk/ai-billing/reference/xai/typedoc/functions/createXAIV3Middleware"
+                          "sdk/ai-billing/reference/xai/typedoc/functions/createXaiV3Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "sdk/ai-billing/reference/xai/typedoc/interfaces/XAIV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/xai/typedoc/interfaces/XaiV3MiddlewareOptions"
                         ]
                       }
                     ]
