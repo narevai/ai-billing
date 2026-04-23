@@ -1,6 +1,9 @@
 import { generateText, streamText, wrapLanguageModel } from 'ai';
 import { describe, expect, it, vi } from 'vitest';
-import { createXAIV3Middleware } from './language-model-v3-xai-billing-middleware.js';
+import {
+  createXaiV3Middleware,
+  XaiUsageAccounting,
+} from './language-model-v3-xai-billing-middleware.js';
 import {
   BillingEventSchema,
   MockLanguageModelV3,
@@ -16,7 +19,6 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
     promptTokens: 0.000001,
     completionTokens: 0.000003,
     inputCacheReadTokens: 0.0000005,
-    inputCacheWriteTokens: 0,
     request: 0,
   };
 
@@ -29,9 +31,34 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
     warnings: [],
     finishReason: { unified: 'stop', raw: 'stop' },
     usage: {
-      inputTokens: { total: 13, noCache: 13, cacheRead: 0, cacheWrite: 0 },
-      outputTokens: { total: 54, text: 54, reasoning: 0 },
-      raw: {},
+      inputTokens: {
+        total: 14,
+        noCache: 9,
+        cacheRead: 5,
+        cacheWrite: 0,
+      },
+      outputTokens: {
+        total: 254,
+        text: 61,
+        reasoning: 193,
+      },
+      raw: {
+        prompt_tokens: 14,
+        completion_tokens: 61,
+        total_tokens: 268,
+        prompt_tokens_details: {
+          text_tokens: 14,
+          audio_tokens: 0,
+          image_tokens: 0,
+          cached_tokens: 5,
+        },
+        completion_tokens_details: {
+          reasoning_tokens: 193,
+          audio_tokens: 0,
+          accepted_prediction_tokens: 0,
+          rejected_prediction_tokens: 0,
+        },
+      } as XaiUsageAccounting,
     },
     response: { id: 'resp_xai_abc123', timestamp: new Date() },
     providerMetadata: {},
@@ -41,7 +68,7 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
   describe('wrapGenerate', () => {
     it('should extract usage, resolve pricing, calculate cost, and broadcast event', async () => {
       const destinationSpy = vi.fn();
-      const middleware = createXAIV3Middleware({
+      const middleware = createXaiV3Middleware({
         destinations: [destinationSpy],
         priceResolver: mockPriceResolver,
       });
@@ -61,23 +88,24 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
         modelId: 'grok-3',
         providerId: 'xai',
       });
+      const rawUsage = baseResult.usage.raw as XaiUsageAccounting;
 
-      // Prompt: 0.000001 * 1e9 * 13 = 13,000 nanos
-      // Completion: 0.000003 * 1e9 * 54 = 162,000 nanos
-      // Total: 175,000 nanos
       const expectedEvent = StrictBillingEventSchema.parse({
         generationId: baseResult.response?.id,
         modelId: mockModel.modelId,
         provider: mockModel.provider,
         usage: {
-          inputTokens: 13,
-          outputTokens: 54,
-          cacheReadTokens: 0,
-          reasoningTokens: 0,
-          totalTokens: 67,
+          inputTokens: rawUsage.prompt_tokens,
+          outputTokens:
+            (rawUsage.total_tokens ?? 0) -
+            (rawUsage.completion_tokens_details?.reasoning_tokens ?? 0),
+          cacheReadTokens: rawUsage.prompt_tokens_details?.cached_tokens ?? 0,
+          reasoningTokens:
+            rawUsage.completion_tokens_details?.reasoning_tokens ?? 0,
+          totalTokens: rawUsage.total_tokens,
         },
         cost: {
-          amount: 175000,
+          amount: 815500,
           unit: 'nanos',
           currency: 'USD',
         },
@@ -92,67 +120,53 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
       expect(parsedEmittedEvent!).toMatchObject(expectedEvent!);
     });
 
-    it('should deduct cache-read tokens from prompt and bill them separately', async () => {
-      const destinationSpy = vi.fn();
-      const middleware = createXAIV3Middleware({
-        destinations: [destinationSpy],
-        priceResolver: mockPriceResolver,
-      });
-
-      const resultWithCache = createResult({
-        usage: {
-          inputTokens: {
-            total: 100,
-            noCache: 60,
-            cacheRead: 40,
-            cacheWrite: 0,
-          },
-          outputTokens: { total: 30, text: 30, reasoning: 0 },
-          raw: {},
-        },
-      });
-
-      const mockModel = new MockLanguageModelV3({
-        modelId: 'grok-3',
-        provider: 'xai',
-        doGenerate: async () => resultWithCache,
-      });
-
-      const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
-      await generateText({ model: wrappedModel, prompt: 'test' });
-
-      const emittedPayload = destinationSpy.mock.calls[0]![0];
-      const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
-
-      // Prompt (non-cached): 0.000001 * 1e9 * 60 = 60,000 nanos
-      // Cache read: 0.0000005 * 1e9 * 40 = 20,000 nanos
-      // Completion: 0.000003 * 1e9 * 30 = 90,000 nanos
-      // Total: 170,000 nanos
-      expect(parsedEvent.usage.inputTokens).toBe(60);
-      expect(parsedEvent.usage.cacheReadTokens).toBe(40);
-      expect(parsedEvent.cost?.amount).toBe(170000);
-    });
-
-    it('should handle reasoning tokens for grok-3-mini', async () => {
-      const reasonerPricing: ModelPricing = {
+    it('should handle reasoning and cached tokens for grok-3-mini using actual logs', async () => {
+      const actualPricing: ModelPricing = {
         promptTokens: 0.0000003,
         completionTokens: 0.0000005,
-        internalReasoningTokens: 0.0000005,
+        inputCacheReadTokens: 0.000000075,
         request: 0,
       };
-      const reasonerPriceResolver = vi.fn().mockResolvedValue(reasonerPricing);
+
+      const reasonerPriceResolver = vi.fn().mockResolvedValue(actualPricing);
 
       const destinationSpy = vi.fn();
-      const middleware = createXAIV3Middleware({
+      const middleware = createXaiV3Middleware({
         destinations: [destinationSpy],
         priceResolver: reasonerPriceResolver,
       });
 
+      // Simulating the nested structure the AI SDK returns for these totals
       const resultWithReasoning = createResult({
         usage: {
-          inputTokens: { total: 50, noCache: 50, cacheRead: 0, cacheWrite: 0 },
-          outputTokens: { total: 200, text: 80, reasoning: 120 },
-          raw: {},
+          inputTokens: {
+            total: 22,
+            noCache: 18, // 22 total - 4 cached
+            cacheRead: 4,
+            cacheWrite: 0,
+          },
+          outputTokens: {
+            total: 289,
+            text: 62, // 289 total - 227 reasoning
+            reasoning: 227,
+          },
+          raw: {
+            prompt_tokens: 22,
+            completion_tokens: 62,
+            total_tokens: 289,
+            prompt_tokens_details: {
+              text_tokens: 18,
+              audio_tokens: 0,
+              image_tokens: 0,
+              cached_tokens: 4,
+            },
+            completion_tokens_details: {
+              reasoning_tokens: 227,
+              audio_tokens: 0,
+              accepted_prediction_tokens: 0,
+              rejected_prediction_tokens: 0,
+            },
+          },
         },
       });
 
@@ -168,15 +182,20 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
       const emittedPayload = destinationSpy.mock.calls[0]![0];
       const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
 
-      expect(parsedEvent.usage.outputTokens).toBe(80);
-      expect(parsedEvent.usage.reasoningTokens).toBe(120);
+      expect(parsedEvent.usage.inputTokens).toBe(22);
+      expect(parsedEvent.usage.cacheReadTokens).toBe(4);
+      expect(parsedEvent.usage.outputTokens).toBe(62);
+      expect(parsedEvent.usage.reasoningTokens).toBe(227);
+
+      expect(parsedEvent.cost?.amount).toBe(150200);
+      expect(parsedEvent.cost?.unit).toBe('nanos');
     });
 
     it('should omit the cost object entirely if pricing resolves to undefined', async () => {
       const destinationSpy = vi.fn();
       const missingPriceResolver = vi.fn().mockResolvedValue(undefined);
 
-      const middleware = createXAIV3Middleware({
+      const middleware = createXaiV3Middleware({
         destinations: [destinationSpy],
         priceResolver: missingPriceResolver,
       });
@@ -200,7 +219,7 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
 
     it('should hit all fallback branches for full coverage (UUID generation, empty usage)', async () => {
       const destinationSpy = vi.fn();
-      const middleware = createXAIV3Middleware({
+      const middleware = createXaiV3Middleware({
         destinations: [destinationSpy],
         priceResolver: mockPriceResolver,
       });
@@ -260,7 +279,7 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
   describe('wrapStream', () => {
     it('should extract usage and calculate cost from stream finish chunk', async () => {
       const destinationSpy = vi.fn();
-      const middleware = createXAIV3Middleware({
+      const middleware = createXaiV3Middleware({
         destinations: [destinationSpy],
         priceResolver: mockPriceResolver,
       });

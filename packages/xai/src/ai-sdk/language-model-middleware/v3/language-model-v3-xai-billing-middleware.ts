@@ -1,4 +1,4 @@
-import { calculateXAICost } from '../../../cost/index.js';
+import { calculateXaiCost } from '../../../cost/index.js';
 import { createV3BillingMiddleware } from '@ai-billing/core';
 import type { CostInputs } from '@ai-billing/core';
 import type {
@@ -10,9 +10,28 @@ import type {
   ModelPricing,
   BillingEvent,
 } from '@ai-billing/core';
+import { JSONObject } from '@ai-sdk/provider';
+
+export interface XaiUsageAccounting extends JSONObject {
+  prompt_tokens: number;
+  completion_tokens: number;
+  total_tokens: number;
+  prompt_tokens_details?: {
+    text_tokens?: number | null;
+    audio_tokens?: number | null;
+    image_tokens?: number | null;
+    cached_tokens?: number | null;
+  } | null;
+  completion_tokens_details?: {
+    reasoning_tokens?: number | null;
+    audio_tokens?: number | null;
+    accepted_prediction_tokens?: number | null;
+    rejected_prediction_tokens?: number | null;
+  } | null;
+}
 
 /**
- * Configuration for {@link createXAIV3Middleware}.
+ * Configuration for {@link createXaiV3Middleware}.
  *
  * Extends {@link BaseBillingMiddlewareOptions} (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
  * requires a {@link PriceResolver}. Usage is taken from the AI SDK's normalized usage fields; cost is
@@ -21,7 +40,7 @@ import type {
  *
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
  */
-export interface XAIV3MiddlewareOptions<
+export interface XaiV3MiddlewareOptions<
   TTags extends DefaultTags,
 > extends BaseBillingMiddlewareOptions<TTags> {
   priceResolver: PriceResolver;
@@ -33,7 +52,7 @@ export interface XAIV3MiddlewareOptions<
  * prompt rate, and cached tokens separately at the cache-read rate.
  *
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
- * @param options - Billing options; see {@link XAIV3MiddlewareOptions}. A `priceResolver` is required.
+ * @param options - Billing options; see {@link XaiV3MiddlewareOptions}. A `priceResolver` is required.
  * @returns A V3 billing middleware instance for xAI.
  *
  * @example
@@ -76,8 +95,8 @@ export interface XAIV3MiddlewareOptions<
  * });
  * ```
  */
-export function createXAIV3Middleware<TTags extends DefaultTags>(
-  options: XAIV3MiddlewareOptions<TTags>,
+export function createXaiV3Middleware<TTags extends DefaultTags>(
+  options: XaiV3MiddlewareOptions<TTags>,
 ) {
   return createV3BillingMiddleware<TTags>({
     ...options,
@@ -90,25 +109,21 @@ export function createXAIV3Middleware<TTags extends DefaultTags>(
       tags,
       webSearchCount,
     }) => {
-      const inputTokensTotal = usage?.inputTokens?.total ?? 0;
-      const inputTokensCacheRead = usage?.inputTokens?.cacheRead ?? 0;
-      const inputTokensNonCached = Math.max(
-        0,
-        inputTokensTotal - inputTokensCacheRead,
-      );
+      const xaiRawUsage = usage?.raw as XaiUsageAccounting | undefined;
 
-      const outputTokensTotal = usage?.outputTokens?.total ?? 0;
-      const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
-      const outputTokensText = Math.max(
-        0,
-        outputTokensTotal - outputTokensReasoning,
-      );
+      const inputTokensTotal = xaiRawUsage?.prompt_tokens ?? 0;
+      const outputTokensTotal = xaiRawUsage?.total_tokens ?? 0;
+      const inputTokensCacheRead =
+        xaiRawUsage?.prompt_tokens_details?.cached_tokens ?? 0;
+      const inputTokensCacheWrite = 0;
+      const outputTokensReasoning =
+        xaiRawUsage?.completion_tokens_details?.reasoning_tokens ?? 0;
 
       const xaiUsage: CostInputs = {
-        promptTokens: inputTokensNonCached,
-        completionTokens: outputTokensText,
+        promptTokens: inputTokensTotal,
+        completionTokens: outputTokensTotal,
         cacheReadTokens: inputTokensCacheRead,
-        cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
+        cacheWriteTokens: inputTokensCacheWrite,
         reasoningTokens: outputTokensReasoning,
         webSearchCount: webSearchCount,
       };
@@ -118,7 +133,7 @@ export function createXAIV3Middleware<TTags extends DefaultTags>(
         providerId: 'xai',
       } as PriceResolverContext);
 
-      const calculatedCost: Cost | undefined = calculateXAICost({
+      const calculatedCost: Cost | undefined = calculateXaiCost({
         pricing,
         usage: xaiUsage,
       });
@@ -129,12 +144,12 @@ export function createXAIV3Middleware<TTags extends DefaultTags>(
         provider: 'xai',
         tags,
         usage: {
-          inputTokens: inputTokensNonCached,
-          outputTokens: outputTokensText,
+          inputTokens: inputTokensTotal,
+          outputTokens: xaiUsage.completionTokens - xaiUsage.reasoningTokens,
           cacheReadTokens: inputTokensCacheRead,
-          cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
+          cacheWriteTokens: inputTokensCacheWrite,
           reasoningTokens: outputTokensReasoning,
-          totalTokens: inputTokensNonCached + outputTokensText,
+          totalTokens: outputTokensTotal,
           webSearchCount: webSearchCount,
         },
         ...(calculatedCost !== undefined && { cost: calculatedCost }),
