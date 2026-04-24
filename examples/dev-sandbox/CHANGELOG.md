@@ -1,5 +1,34 @@
 # dev-sandbox
 
+## 0.1.0
+
+### Minor Changes
+
+- ae29741: fix: remove totalTokens, correct cache-aware billing, expose raw provider cost in usage
+
+### Patch Changes
+
+- d3a3943: docs(deepseek): add examples of endpoints
+- d4e7a4c: fix(xai): move token adjustment into a cost function
+- Updated dependencies [d4e7a4c]
+- Updated dependencies [ae29741]
+  - @ai-billing/xai@0.1.0
+  - @ai-billing/openai-compatible@0.1.0
+  - @ai-billing/openrouter@0.1.0
+  - @ai-billing/anthropic@0.1.0
+  - @ai-billing/openmeter@1.0.0
+  - @ai-billing/deepseek@0.1.0
+  - @ai-billing/gateway@0.1.0
+  - @ai-billing/minimax@0.1.0
+  - @ai-billing/chutes@0.1.0
+  - @ai-billing/google@0.1.0
+  - @ai-billing/openai@0.1.0
+  - @ai-billing/stripe@1.0.0
+  - @ai-billing/polar@1.0.0
+  - @ai-billing/core@0.1.0
+  - @ai-billing/groq@0.1.0
+  - @ai-billing/lago@1.0.0
+
 ## 0.0.13
 
 ### Patch Changes
