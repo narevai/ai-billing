@@ -1,5 +1,11 @@
 # docs
 
+## 0.1.0
+
+### Minor Changes
+
+- ae29741: fix: remove totalTokens, correct cache-aware billing, expose raw provider cost in usage
+
 ## 0.0.3
 
 ### Patch Changes
