@@ -94,7 +94,6 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
           reasoningTokens:
             realMetadata.openrouter?.usage?.completionTokensDetails
               ?.reasoningTokens,
-          totalTokens: realMetadata.openrouter?.usage?.totalTokens,
           rawProviderCost: realMetadata.openrouter?.usage?.cost,
           rawUpstreamInferenceCost:
             realMetadata.openrouter?.usage?.costDetails?.upstreamInferenceCost,
@@ -170,7 +169,6 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
           reasoningTokens:
             realMetadata.openrouter?.usage?.completionTokensDetails
               ?.reasoningTokens,
-          totalTokens: realMetadata.openrouter?.usage?.totalTokens,
           rawProviderCost: realMetadata.openrouter?.usage?.cost,
           rawUpstreamInferenceCost:
             realMetadata.openrouter?.usage?.costDetails?.upstreamInferenceCost,
@@ -279,7 +277,6 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
         cacheReadTokens: 0,
         outputTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 0,
         rawProviderCost: 0.000004653,
         rawUpstreamInferenceCost: 0.0000047,
       },

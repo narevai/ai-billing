@@ -1,5 +1,5 @@
 import { calculateChutesCost } from '../../../cost/index.js';
-import { createV3BillingMiddleware } from '@ai-billing/core';
+import { createV3BillingMiddleware, toUsage } from '@ai-billing/core';
 import type { CostInputs } from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
@@ -46,8 +46,6 @@ export interface ChutesV3MiddlewareOptions<
  *   createObjectPriceResolver,
  *   type ModelPricing,
  * } from '@ai-billing/core';
- * import type { LanguageModelV3 } from '@ai-sdk/provider';
- *
  * const chutes = createOpenAICompatible({
  *   name: 'chutes',
  *   baseURL: 'https://llm.chutes.ai/v1',
@@ -70,7 +68,7 @@ export interface ChutesV3MiddlewareOptions<
  * });
  *
  * const wrappedModel = wrapLanguageModel({
- *   model: chutes('deepseek-ai/DeepSeek-V3-0324') as unknown as LanguageModelV3,
+ *   model: chutes('deepseek-ai/DeepSeek-V3-0324'),
  *   middleware: billingMiddleware,
  * });
  * ```
@@ -91,21 +89,12 @@ export function createChutesV3Middleware<TTags extends DefaultTags>(
     }) => {
       const inputTokensTotal = usage?.inputTokens?.total ?? 0;
       const inputTokensCacheRead = usage?.inputTokens?.cacheRead ?? 0;
-      const inputTokensNonCached = Math.max(
-        0,
-        inputTokensTotal - inputTokensCacheRead,
-      );
-
       const outputTokensTotal = usage?.outputTokens?.total ?? 0;
       const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
-      const outputTokensText = Math.max(
-        0,
-        outputTokensTotal - outputTokensReasoning,
-      );
 
       const chutesUsage: CostInputs = {
-        promptTokens: inputTokensNonCached,
-        completionTokens: outputTokensText,
+        promptTokens: inputTokensTotal,
+        completionTokens: outputTokensTotal,
         cacheReadTokens: inputTokensCacheRead,
         cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
         reasoningTokens: outputTokensReasoning,
@@ -127,15 +116,7 @@ export function createChutesV3Middleware<TTags extends DefaultTags>(
         modelId: model.modelId,
         provider: 'chutes',
         tags,
-        usage: {
-          inputTokens: inputTokensNonCached,
-          outputTokens: outputTokensText,
-          cacheReadTokens: inputTokensCacheRead,
-          cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
-          reasoningTokens: outputTokensReasoning,
-          totalTokens: inputTokensNonCached + outputTokensText,
-          webSearchCount: webSearchCount,
-        },
+        usage: toUsage(chutesUsage),
         ...(calculatedCost !== undefined && { cost: calculatedCost }),
       } satisfies BillingEvent<TTags>;
     },

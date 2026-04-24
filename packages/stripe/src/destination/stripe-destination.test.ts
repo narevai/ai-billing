@@ -58,7 +58,6 @@ describe('Stripe Destination', () => {
         outputTokens: 50,
         cacheReadTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 150,
       },
       cost: { amount: 0.000004653, currency: 'USD', unit: 'base' },
       ...overrides,

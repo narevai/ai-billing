@@ -84,7 +84,8 @@
                           "sdk/ai-billing/reference/core/typedoc/functions/createNarevPriceResolver",
                           "sdk/ai-billing/reference/core/typedoc/functions/createObjectPriceResolver",
                           "sdk/ai-billing/reference/core/typedoc/functions/createV3BillingMiddleware",
-                          "sdk/ai-billing/reference/core/typedoc/functions/toJSONObject"
+                          "sdk/ai-billing/reference/core/typedoc/functions/toJSONObject",
+                          "sdk/ai-billing/reference/core/typedoc/functions/toUsage"
                         ]
                       },
                       {

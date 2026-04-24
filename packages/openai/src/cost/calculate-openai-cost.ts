@@ -45,7 +45,7 @@ export const calculateOpenAICost = (params: {
   );
 
   const reasoningCost = multiplyCost(
-    rateToCost(pricing.internalReasoningTokens ?? pricing.completionTokens),
+    rateToCost(pricing.internalReasoningTokens ?? 0),
     usage.reasoningTokens,
   );
 

@@ -66,12 +66,12 @@ describe('calculateChutesCost', () => {
 
     const result = calculateChutesCost({ pricing: mockPricing, usage });
 
-    // Prompt (non-cached): 0.000002 * 1e9 * 80 = 160,000 nanos
+    // Prompt (non-cached): 0.000002 * 1e9 * (80 - 40) = 80,000 nanos
     // Cache read: 0.000001 * 1e9 * 40 = 40,000 nanos
     // Completion: 0.000006 * 1e9 * 20 = 120,000 nanos
-    // Total: 320,000 nanos
+    // Total: 240,000 nanos
     expect(result).toEqual({
-      amount: 320000,
+      amount: 240000,
       unit: 'nanos',
       currency: 'USD',
     });
@@ -106,7 +106,7 @@ describe('calculateChutesCost', () => {
     });
   });
 
-  it('should fallback to completion rate for reasoning when internalReasoningTokens is undefined', () => {
+  it('should not bill reasoning tokens when internalReasoningTokens is undefined', () => {
     const mockPricing: ModelPricing = {
       promptTokens: 0.0000002,
       completionTokens: 0.000001,
@@ -122,15 +122,14 @@ describe('calculateChutesCost', () => {
 
     const result = calculateChutesCost({ pricing: mockPricing, usage });
 
-    // Reasoning: 0.000001 * 1e9 * 10 = 10,000 nanos
     expect(result).toEqual({
-      amount: 10000,
+      amount: 0,
       unit: 'nanos',
       currency: 'USD',
     });
   });
 
-  it('should fallback to half prompt rate for cache read when inputCacheReadTokens is undefined', () => {
+  it('should not bill cache read tokens when inputCacheReadTokens is undefined', () => {
     const mockPricing: ModelPricing = {
       promptTokens: 0.000002,
       completionTokens: 0.000006,
@@ -146,9 +145,8 @@ describe('calculateChutesCost', () => {
 
     const result = calculateChutesCost({ pricing: mockPricing, usage });
 
-    // Cache read: 0.000001 * 1e9 * 100 = 100,000 nanos (half of prompt rate)
     expect(result).toEqual({
-      amount: 100000,
+      amount: 0,
       unit: 'nanos',
       currency: 'USD',
     });

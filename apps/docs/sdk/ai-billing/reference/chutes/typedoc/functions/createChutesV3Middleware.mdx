@@ -8,7 +8,7 @@
 
 > **createChutesV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
 
-Defined in: [chutes/src/ai-sdk/language-model-middleware/v3/language-model-v3-chutes-billing-middleware.ts:78](https://github.com/narevai/ai-billing/blob/main/packages/chutes/src/ai-sdk/language-model-middleware/v3/language-model-v3-chutes-billing-middleware.ts#L78)
+Defined in: [chutes/src/ai-sdk/language-model-middleware/v3/language-model-v3-chutes-billing-middleware.ts:76](https://github.com/narevai/ai-billing/blob/main/packages/chutes/src/ai-sdk/language-model-middleware/v3/language-model-v3-chutes-billing-middleware.ts#L76)
 
 Creates a V3 billing middleware for the Chutes provider (`llm.chutes.ai` via `@ai-sdk/openai-compatible`).
 Deducts cache-read tokens from prompt tokens before billing — Chutes charges only non-cached input at the
@@ -47,8 +47,6 @@ import {
   createObjectPriceResolver,
   type ModelPricing,
 } from '@ai-billing/core';
-import type { LanguageModelV3 } from '@ai-sdk/provider';
-
 const chutes = createOpenAICompatible({
   name: 'chutes',
   baseURL: 'https://llm.chutes.ai/v1',
@@ -71,7 +69,7 @@ const billingMiddleware = createChutesMiddleware({
 });
 
 const wrappedModel = wrapLanguageModel({
-  model: chutes('deepseek-ai/DeepSeek-V3-0324') as unknown as LanguageModelV3,
+  model: chutes('deepseek-ai/DeepSeek-V3-0324'),
   middleware: billingMiddleware,
 });
 ```

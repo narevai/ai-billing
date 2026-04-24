@@ -1,5 +1,5 @@
 import { calculateMinimaxCost } from '../../../cost/index.js';
-import { createV3BillingMiddleware } from '@ai-billing/core';
+import { createV3BillingMiddleware, toUsage } from '@ai-billing/core';
 import type { CostInputs } from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
@@ -10,6 +10,13 @@ import type {
   ModelPricing,
   BillingEvent,
 } from '@ai-billing/core';
+
+interface MinimaxAnthropicUsage {
+  input_tokens?: number;
+  output_tokens?: number;
+  cache_creation_input_tokens?: number;
+  cache_read_input_tokens?: number;
+}
 
 /**
  * Configuration for {@link createMinimaxV3Middleware}.
@@ -28,7 +35,7 @@ export interface MinimaxV3MiddlewareOptions<
 }
 
 /**
- * Creates a V3 billing middleware for the Minimax provider (via `@ai-sdk/openai-compatible`).
+ * Creates a V3 billing middleware for the Minimax provider (via `@ai-sdk/anthropic` with MiniMax base URL).
  * Maps AI SDK usage into billing fields and resolves cost from pricing plus usage.
  *
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
@@ -37,7 +44,7 @@ export interface MinimaxV3MiddlewareOptions<
  *
  * @example
  * ```ts
- * import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+ * import { createAnthropic } from '@ai-sdk/anthropic';
  * import { wrapLanguageModel } from 'ai';
  * import { createMinimaxMiddleware } from '@ai-billing/minimax';
  * import {
@@ -45,12 +52,10 @@ export interface MinimaxV3MiddlewareOptions<
  *   createObjectPriceResolver,
  *   type ModelPricing,
  * } from '@ai-billing/core';
- * import type { LanguageModelV3 } from '@ai-sdk/provider';
  *
- * const minimax = createOpenAICompatible({
- *   name: 'minimax',
- *   baseURL: 'https://api.minimax.chat/v1',
+ * const minimax = createAnthropic({
  *   apiKey: process.env.MINIMAX_API_KEY,
+ *   baseURL: 'https://api.minimax.io/anthropic/v1',
  * });
  *
  * const customPricingMap: Record<string, ModelPricing> = {
@@ -69,7 +74,7 @@ export interface MinimaxV3MiddlewareOptions<
  * });
  *
  * const wrappedModel = wrapLanguageModel({
- *   model: minimax('minimax-m1') as unknown as LanguageModelV3,
+ *   model: minimax('minimax-m1'),
  *   middleware: billingMiddleware,
  * });
  * ```
@@ -83,21 +88,30 @@ export function createMinimaxV3Middleware<TTags extends DefaultTags>(
     buildEvent: async ({
       model,
       usage,
-      providerMetadata: _empty,
+      providerMetadata,
       responseId,
       tags,
       webSearchCount,
     }) => {
-      const inputTokensTotal = usage?.inputTokens?.total ?? 0;
-      const inputTokensCacheRead = usage?.inputTokens?.cacheRead ?? 0;
-      const outputTokensTotal = usage?.outputTokens?.total ?? 0;
+      const minimaxRawUsage = (
+        providerMetadata as
+          | { anthropic?: { usage?: MinimaxAnthropicUsage } }
+          | undefined
+      )?.anthropic?.usage;
+
+      const inputTokensTotal = minimaxRawUsage?.input_tokens ?? 0;
+      const inputTokensCacheRead =
+        minimaxRawUsage?.cache_read_input_tokens ?? 0;
+      const inputTokensCacheWrite =
+        minimaxRawUsage?.cache_creation_input_tokens ?? 0;
+      const outputTokensText = minimaxRawUsage?.output_tokens ?? 0;
       const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
 
       const minimaxUsage: CostInputs = {
         promptTokens: inputTokensTotal,
-        completionTokens: outputTokensTotal,
+        completionTokens: outputTokensText,
         cacheReadTokens: inputTokensCacheRead,
-        cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
+        cacheWriteTokens: inputTokensCacheWrite,
         reasoningTokens: outputTokensReasoning,
         webSearchCount: webSearchCount,
       };
@@ -117,15 +131,7 @@ export function createMinimaxV3Middleware<TTags extends DefaultTags>(
         modelId: model.modelId,
         provider: 'minimax',
         tags,
-        usage: {
-          inputTokens: inputTokensTotal,
-          outputTokens: outputTokensTotal,
-          cacheReadTokens: inputTokensCacheRead,
-          cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
-          reasoningTokens: outputTokensReasoning,
-          totalTokens: inputTokensTotal + outputTokensTotal,
-          webSearchCount: webSearchCount,
-        },
+        usage: toUsage(minimaxUsage),
         ...(calculatedCost !== undefined && { cost: calculatedCost }),
       } satisfies BillingEvent<TTags>;
     },

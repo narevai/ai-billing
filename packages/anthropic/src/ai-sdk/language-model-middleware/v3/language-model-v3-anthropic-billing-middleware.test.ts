@@ -39,8 +39,12 @@ describe('AnthropicBillingMiddlewareV3 Integration', () => {
     response: { id: 'resp_0e07e75c3318ef', timestamp: new Date() },
     providerMetadata: {
       anthropic: {
-        cacheCreationInputTokens: 0,
-        cacheReadInputTokens: 0,
+        usage: {
+          input_tokens: 24,
+          output_tokens: 62,
+          cache_creation_input_tokens: 0,
+          cache_read_input_tokens: 0,
+        },
       },
     },
     ...overrides,
@@ -83,7 +87,6 @@ describe('AnthropicBillingMiddlewareV3 Integration', () => {
           outputTokens: 62,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 86, // 24 + 62
         },
         cost: {
           amount: 1002000,
@@ -152,7 +155,6 @@ describe('AnthropicBillingMiddlewareV3 Integration', () => {
           outputTokens: 62,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 86,
         },
         cost: {
           amount: 1002000, // 24 * 3.0 + 62 * 15.0 = 1002 micro-cents -> 1002000 nanos
@@ -203,7 +205,6 @@ describe('AnthropicBillingMiddlewareV3 Integration', () => {
         outputTokens: 62,
         cacheReadTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 86,
       },
       tags: {},
     });
@@ -240,11 +241,9 @@ describe('AnthropicBillingMiddlewareV3 Integration', () => {
           reasoning: undefined,
         },
       },
+      // No anthropic.usage — forces fallback to usage.inputTokens/outputTokens (which are also undefined → 0)
       providerMetadata: {
-        anthropic: {
-          cacheCreationInputTokens: undefined,
-          cacheReadInputTokens: undefined,
-        },
+        anthropic: {},
       },
     });
 
@@ -273,7 +272,6 @@ describe('AnthropicBillingMiddlewareV3 Integration', () => {
         outputTokens: 0,
         cacheReadTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 0,
       },
       cost: { amount: 0, unit: 'nanos', currency: 'USD' },
       tags: {},

@@ -121,9 +121,6 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
           cacheReadTokens: baseResult.usage?.inputTokens.cacheRead,
           cacheWriteTokens: baseResult.usage?.inputTokens.cacheWrite,
           reasoningTokens: baseResult.usage?.outputTokens.reasoning,
-          totalTokens:
-            baseResult.usage?.inputTokens.total! +
-            baseResult.usage?.outputTokens.total!,
           rawProviderCost: Number(realMetadata.gateway?.cost),
           rawUpstreamInferenceCost: Number(realMetadata.gateway?.marketCost),
         },
@@ -195,9 +192,6 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
           cacheReadTokens: baseResult.usage?.inputTokens.cacheRead,
           cacheWriteTokens: baseResult.usage?.inputTokens.cacheWrite,
           reasoningTokens: baseResult.usage?.outputTokens.reasoning,
-          totalTokens:
-            baseResult.usage?.inputTokens.total! +
-            baseResult.usage?.outputTokens.total!,
           rawProviderCost: Number(realMetadata.gateway?.cost),
           rawUpstreamInferenceCost: Number(realMetadata.gateway?.marketCost),
         },
@@ -298,7 +292,6 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
         cacheWriteTokens: 0,
         outputTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 0,
         rawProviderCost: 0.000004653,
       },
       cost: {

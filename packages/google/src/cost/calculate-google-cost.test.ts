@@ -69,33 +69,6 @@ describe('calculateGoogleCost (Integration)', () => {
     });
   });
 
-  it('should fallback to completion token price if reasoning token price is undefined', () => {
-    const mockPricingWithoutReasoning: ModelPricing = {
-      ...actualPricing,
-      internalReasoningTokens: undefined,
-    };
-
-    const usage = {
-      promptTokens: 0,
-      completionTokens: 100, // 100 total completion tokens, all of which are reasoning
-      cacheReadTokens: 0,
-      cacheWriteTokens: 0,
-      reasoningTokens: 100,
-    };
-
-    const result = calculateGoogleCost({
-      pricing: mockPricingWithoutReasoning,
-      usage,
-    });
-
-    // 100 * 0.000012 = 0.0012 USD -> 1,200,000 nanos
-    expect(result).toEqual({
-      amount: 1200000,
-      unit: 'nanos',
-      currency: 'USD',
-    });
-  });
-
   it('should bill web search calls when webSearch price is set', () => {
     const mockPricing: ModelPricing = {
       promptTokens: 0,

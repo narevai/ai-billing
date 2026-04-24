@@ -14,7 +14,7 @@ describe('Lago Destination', () => {
     modelId: 'gpt-4o',
     provider: 'openai',
     tags: { userId: 'user_42' },
-    usage: { inputTokens: 100, outputTokens: 50, totalTokens: 150 },
+    usage: { inputTokens: 100, outputTokens: 50 },
     cost: { amount: 70100, currency: 'USD', unit: 'nanos' },
     ...overrides,
   });

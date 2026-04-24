@@ -108,7 +108,6 @@ export function createOpenRouterV3Middleware<TTags extends DefaultTags>(
             openRouterUsage.promptTokensDetails?.cachedTokens ?? 0,
           reasoningTokens:
             openRouterUsage.completionTokensDetails?.reasoningTokens ?? 0,
-          totalTokens: openRouterUsage.totalTokens ?? 0,
           rawProviderCost: openRouterUsage.cost,
           rawUpstreamInferenceCost:
             openRouterUsage.costDetails?.upstreamInferenceCost,

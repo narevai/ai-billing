@@ -1,5 +1,5 @@
 import { calculateAnthropicCost } from '../../../cost/index.js';
-import { createV3BillingMiddleware } from '@ai-billing/core';
+import { createV3BillingMiddleware, toUsage } from '@ai-billing/core';
 import type { CostInputs } from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
@@ -115,14 +115,7 @@ export function createAnthropicV3Middleware<TTags extends DefaultTags>(
         modelId: model.modelId,
         provider: 'anthropic',
         tags: tags,
-        usage: {
-          inputTokens: inputTokensTotal,
-          outputTokens: outputTokensTotal,
-          cacheReadTokens: cacheReadTokens,
-          cacheWriteTokens: cacheWriteTokens,
-          reasoningTokens: outputTokensReasoning,
-          totalTokens: inputTokensTotal + outputTokensTotal,
-        },
+        usage: toUsage(anthropicUsage),
         ...(calculatedCost !== undefined && {
           cost: calculatedCost,
         }),

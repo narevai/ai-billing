@@ -54,7 +54,6 @@ describe('createV3BillingMiddleware', () => {
         outputTokens: 20,
         cacheReadTokens: 5,
         reasoningTokens: 2,
-        totalTokens: 37,
         rawProviderCost: 0.00000001,
         rawUpstreamInferenceCost: 0.00000001,
       },

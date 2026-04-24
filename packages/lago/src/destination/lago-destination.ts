@@ -111,12 +111,6 @@ export function createLagoDestination<TTags extends DefaultTags = DefaultTags>(
       }
     }
 
-    console.log('[ai-billing] Sending to Lago:', {
-      meter_code: meterCode,
-      properties,
-      transaction_id: event.generationId,
-    });
-
     try {
       const response = await fetch(`${apiUrl}/api/v1/events`, {
         method: 'POST',

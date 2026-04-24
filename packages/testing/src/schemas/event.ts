@@ -6,7 +6,6 @@ export const UsageSchema = z
     subProvider: z.string().optional(),
     inputTokens: z.number(),
     outputTokens: z.number(),
-    totalTokens: z.number(),
     reasoningTokens: z.number().optional(),
     cacheReadTokens: z.number().optional(),
     cacheWriteTokens: z.number().optional(),

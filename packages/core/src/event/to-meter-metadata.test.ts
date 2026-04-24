@@ -24,7 +24,6 @@ describe('buildMeterMetadata with Strict Schema', () => {
       usage: {
         inputTokens: 1000,
         outputTokens: 500,
-        totalTokens: 1500,
       },
     });
 
@@ -36,7 +35,6 @@ describe('buildMeterMetadata with Strict Schema', () => {
       provider: event.provider,
       input_tokens: event.usage.inputTokens,
       output_tokens: event.usage.outputTokens,
-      total_tokens: event.usage.totalTokens,
     });
   });
 
@@ -45,7 +43,6 @@ describe('buildMeterMetadata with Strict Schema', () => {
       usage: {
         inputTokens: 1000,
         outputTokens: 500,
-        totalTokens: 1500,
         reasoningTokens: 100,
         cacheReadTokens: 200,
         cacheWriteTokens: 50,
@@ -59,7 +56,6 @@ describe('buildMeterMetadata with Strict Schema', () => {
 
     expect(result.input_tokens).toBe(event.usage.inputTokens);
     expect(result.output_tokens).toBe(event.usage.outputTokens);
-    expect(result.total_tokens).toBe(event.usage.totalTokens);
     expect(result.reasoning_tokens).toBe(event.usage.reasoningTokens);
     expect(result.cache_read_tokens).toBe(event.usage.cacheReadTokens);
     expect(result.cache_write_tokens).toBe(event.usage.cacheWriteTokens);
@@ -75,7 +71,6 @@ describe('buildMeterMetadata with Strict Schema', () => {
       usage: {
         inputTokens: 1000,
         outputTokens: 500,
-        totalTokens: 1500,
       },
       tags: {
         env: 'prod',
@@ -99,7 +94,6 @@ describe('buildMeterMetadata with Strict Schema', () => {
       usage: {
         inputTokens: 1000,
         outputTokens: 500,
-        totalTokens: 1500,
       },
       // tags: {}, explicitly malformed as undefined
     } as unknown as BillingEvent;
@@ -108,7 +102,6 @@ describe('buildMeterMetadata with Strict Schema', () => {
 
     expect(result.input_tokens).toBe(malformedEvent.usage.inputTokens);
     expect(result.output_tokens).toBe(malformedEvent.usage.outputTokens);
-    expect(result.total_tokens).toBe(malformedEvent.usage.totalTokens);
     expect(result).not.toHaveProperty('tag_');
   });
 
@@ -118,7 +111,6 @@ describe('buildMeterMetadata with Strict Schema', () => {
         subProvider: undefined,
         inputTokens: 1000,
         outputTokens: 500,
-        totalTokens: 1500,
         reasoningTokens: undefined,
         cacheReadTokens: undefined,
         // rawProviderCost: 0.0012, explicitly ignored
@@ -133,7 +125,6 @@ describe('buildMeterMetadata with Strict Schema', () => {
 
     expect(result.input_tokens).toBe(event.usage.inputTokens);
     expect(result.output_tokens).toBe(event.usage.outputTokens);
-    expect(result.total_tokens).toBe(event.usage.totalTokens);
     expect(result).not.toHaveProperty('sub_provider');
     expect(result).not.toHaveProperty('tag_invalid');
     expect(result.tag_valid).toBe('true');
@@ -145,7 +136,6 @@ describe('buildMeterMetadata with Strict Schema', () => {
         subProvider: 'azure-deployment-1',
         inputTokens: 1000,
         outputTokens: 500,
-        totalTokens: 1500,
       },
     });
 

@@ -33,7 +33,6 @@ export function buildMeterMetadata<TTags extends DefaultTags = DefaultTags>(
   addOptional('sub_provider', u.subProvider);
   addOptional('input_tokens', u.inputTokens);
   addOptional('output_tokens', u.outputTokens);
-  addOptional('total_tokens', u.totalTokens);
   addOptional('reasoning_tokens', u.reasoningTokens);
   addOptional('cache_read_tokens', u.cacheReadTokens);
   addOptional('cache_write_tokens', u.cacheWriteTokens);

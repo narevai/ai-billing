@@ -4,7 +4,6 @@ export interface Usage {
   readonly subProvider?: string;
   readonly inputTokens: number;
   readonly outputTokens: number;
-  readonly totalTokens: number;
   readonly reasoningTokens?: number;
   readonly cacheReadTokens?: number;
   readonly cacheWriteTokens?: number;

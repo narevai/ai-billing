@@ -118,12 +118,6 @@ export function createOpenMeterDestination<
       data: properties,
     };
 
-    console.log('[ai-billing] Sending to OpenMeter:', {
-      event_type: eventType,
-      subject: String(customerId),
-      transaction_id: event.generationId,
-    });
-
     try {
       const response = await fetch(`${apiUrl}/v3/openmeter/events`, {
         method: 'POST',

@@ -1,5 +1,5 @@
 import { calculateXaiCost } from '../../../cost/index.js';
-import { createV3BillingMiddleware } from '@ai-billing/core';
+import { createV3BillingMiddleware, toUsage } from '@ai-billing/core';
 import type { CostInputs } from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
@@ -112,7 +112,7 @@ export function createXaiV3Middleware<TTags extends DefaultTags>(
       const xaiRawUsage = usage?.raw as XaiUsageAccounting | undefined;
 
       const inputTokensTotal = xaiRawUsage?.prompt_tokens ?? 0;
-      const outputTokensTotal = xaiRawUsage?.total_tokens ?? 0;
+      const outputTokensTotal = xaiRawUsage?.completion_tokens ?? 0;
       const inputTokensCacheRead =
         xaiRawUsage?.prompt_tokens_details?.cached_tokens ?? 0;
       const inputTokensCacheWrite = 0;
@@ -143,15 +143,7 @@ export function createXaiV3Middleware<TTags extends DefaultTags>(
         modelId: model.modelId,
         provider: 'xai',
         tags,
-        usage: {
-          inputTokens: inputTokensTotal,
-          outputTokens: xaiUsage.completionTokens - xaiUsage.reasoningTokens,
-          cacheReadTokens: inputTokensCacheRead,
-          cacheWriteTokens: inputTokensCacheWrite,
-          reasoningTokens: outputTokensReasoning,
-          totalTokens: outputTokensTotal,
-          webSearchCount: webSearchCount,
-        },
+        usage: toUsage(xaiUsage),
         ...(calculatedCost !== undefined && { cost: calculatedCost }),
       } satisfies BillingEvent<TTags>;
     },

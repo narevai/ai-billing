@@ -34,7 +34,7 @@ export const calculateGroqCost = (params: {
   );
 
   const cacheReadCost = multiplyCost(
-    rateToCost(pricing.inputCacheReadTokens ?? pricing.promptTokens * 0.5),
+    rateToCost(pricing.inputCacheReadTokens ?? 0),
     usage.cacheReadTokens,
   );
 
@@ -44,7 +44,7 @@ export const calculateGroqCost = (params: {
   );
 
   const reasoningCost = multiplyCost(
-    rateToCost(pricing.internalReasoningTokens ?? pricing.completionTokens),
+    rateToCost(pricing.internalReasoningTokens ?? 0),
     usage.reasoningTokens,
   );
 

@@ -83,7 +83,6 @@ describe('DeepSeekBillingMiddlewareV3 Integration', () => {
           outputTokens: 54,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 67,
         },
         cost: {
           amount: 62910,
@@ -108,6 +107,8 @@ describe('DeepSeekBillingMiddlewareV3 Integration', () => {
         priceResolver: mockPriceResolver,
       });
 
+      // prompt_tokens = 100, prompt_cache_hit_tokens = 40, prompt_cache_miss_tokens = 60
+      // Cost: prompt (miss) 60 * 270 = 16,200, cacheRead 40 * 70 = 2,800, completion 30 * 1100 = 33,000, total = 52,000
       const resultWithCache = createResult({
         usage: {
           inputTokens: {
@@ -140,11 +141,7 @@ describe('DeepSeekBillingMiddlewareV3 Integration', () => {
       const emittedPayload = destinationSpy.mock.calls[0]![0];
       const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
 
-      // Non-cached prompt: 60 tokens * 270 = 16200 nanos
-      // Cache read: 40 tokens * 70 = 2800 nanos
-      // Completion: 30 tokens * 1100 = 33000 nanos
-      // Total: 52000 nanos
-      expect(parsedEvent.usage.inputTokens).toBe(60);
+      expect(parsedEvent.usage.inputTokens).toBe(100);
       expect(parsedEvent.usage.cacheReadTokens).toBe(40);
       expect(parsedEvent.cost?.amount).toBe(52000);
     });
@@ -166,6 +163,7 @@ describe('DeepSeekBillingMiddlewareV3 Integration', () => {
         priceResolver: reasonerPriceResolver,
       });
 
+      // completion_tokens = text + reasoning
       const resultWithReasoning = createResult({
         usage: {
           inputTokens: { total: 50, noCache: 50, cacheRead: 0, cacheWrite: 0 },
@@ -196,7 +194,7 @@ describe('DeepSeekBillingMiddlewareV3 Integration', () => {
       const emittedPayload = destinationSpy.mock.calls[0]![0];
       const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
 
-      expect(parsedEvent.usage.outputTokens).toBe(80);
+      expect(parsedEvent.usage.outputTokens).toBe(200);
       expect(parsedEvent.usage.reasoningTokens).toBe(120);
     });
   });
@@ -228,7 +226,6 @@ describe('DeepSeekBillingMiddlewareV3 Integration', () => {
         outputTokens: 54,
         cacheReadTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 67,
       },
       tags: {},
     });
@@ -293,7 +290,6 @@ describe('DeepSeekBillingMiddlewareV3 Integration', () => {
         outputTokens: 0,
         cacheReadTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 0,
       },
       cost: { amount: 0, unit: 'nanos', currency: 'USD' },
       tags: {},
