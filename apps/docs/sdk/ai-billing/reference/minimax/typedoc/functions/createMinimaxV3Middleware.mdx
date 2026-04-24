@@ -8,9 +8,9 @@
 
 > **createMinimaxV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
 
-Defined in: [minimax/src/ai-sdk/language-model-middleware/v3/language-model-v3-minimax-billing-middleware.ts:77](https://github.com/narevai/ai-billing/blob/main/packages/minimax/src/ai-sdk/language-model-middleware/v3/language-model-v3-minimax-billing-middleware.ts#L77)
+Defined in: [minimax/src/ai-sdk/language-model-middleware/v3/language-model-v3-minimax-billing-middleware.ts:82](https://github.com/narevai/ai-billing/blob/main/packages/minimax/src/ai-sdk/language-model-middleware/v3/language-model-v3-minimax-billing-middleware.ts#L82)
 
-Creates a V3 billing middleware for the Minimax provider (via `@ai-sdk/openai-compatible`).
+Creates a V3 billing middleware for the Minimax provider (via `@ai-sdk/anthropic` with MiniMax base URL).
 Maps AI SDK usage into billing fields and resolves cost from pricing plus usage.
 
 ## Type Parameters
@@ -38,7 +38,7 @@ A V3 billing middleware instance for Minimax.
 ## Example
 
 ```ts
-import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+import { createAnthropic } from '@ai-sdk/anthropic';
 import { wrapLanguageModel } from 'ai';
 import { createMinimaxMiddleware } from '@ai-billing/minimax';
 import {
@@ -46,12 +46,10 @@ import {
   createObjectPriceResolver,
   type ModelPricing,
 } from '@ai-billing/core';
-import type { LanguageModelV3 } from '@ai-sdk/provider';
 
-const minimax = createOpenAICompatible({
-  name: 'minimax',
-  baseURL: 'https://api.minimax.chat/v1',
+const minimax = createAnthropic({
   apiKey: process.env.MINIMAX_API_KEY,
+  baseURL: 'https://api.minimax.io/anthropic/v1',
 });
 
 const customPricingMap: Record<string, ModelPricing> = {
@@ -70,7 +68,7 @@ const billingMiddleware = createMinimaxMiddleware({
 });
 
 const wrappedModel = wrapLanguageModel({
-  model: minimax('minimax-m1') as unknown as LanguageModelV3,
+  model: minimax('minimax-m1'),
   middleware: billingMiddleware,
 });
 ```
