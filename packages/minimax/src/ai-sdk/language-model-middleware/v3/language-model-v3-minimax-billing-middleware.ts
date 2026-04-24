@@ -93,11 +93,17 @@ export function createMinimaxV3Middleware<TTags extends DefaultTags>(
       tags,
       webSearchCount,
     }) => {
-      const minimaxRawUsage = (providerMetadata as { anthropic?: { usage?: MinimaxAnthropicUsage } } | undefined)?.anthropic?.usage;
+      const minimaxRawUsage = (
+        providerMetadata as
+          | { anthropic?: { usage?: MinimaxAnthropicUsage } }
+          | undefined
+      )?.anthropic?.usage;
 
       const inputTokensTotal = minimaxRawUsage?.input_tokens ?? 0;
-      const inputTokensCacheRead = minimaxRawUsage?.cache_read_input_tokens ?? 0;
-      const inputTokensCacheWrite = minimaxRawUsage?.cache_creation_input_tokens ?? 0;
+      const inputTokensCacheRead =
+        minimaxRawUsage?.cache_read_input_tokens ?? 0;
+      const inputTokensCacheWrite =
+        minimaxRawUsage?.cache_creation_input_tokens ?? 0;
       const outputTokensText = minimaxRawUsage?.output_tokens ?? 0;
       const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
 

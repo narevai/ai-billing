@@ -113,7 +113,8 @@ export function createDeepSeekV3Middleware<TTags extends DefaultTags>(
         completionTokens: rawUsage?.completion_tokens ?? 0,
         cacheReadTokens: rawUsage?.prompt_cache_hit_tokens ?? 0,
         cacheWriteTokens: 0,
-        reasoningTokens: rawUsage?.completion_tokens_details?.reasoning_tokens ?? 0,
+        reasoningTokens:
+          rawUsage?.completion_tokens_details?.reasoning_tokens ?? 0,
         webSearchCount: webSearchCount,
       };
 
