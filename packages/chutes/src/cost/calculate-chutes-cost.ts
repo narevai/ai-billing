@@ -30,7 +30,7 @@ export const calculateChutesCost = (params: {
 
   const nonCachedPromptTokens = Math.max(
     0,
-    (usage.promptTokens ?? 0) - (usage.cacheReadTokens ?? 0),
+    usage.promptTokens - usage.cacheReadTokens,
   );
 
   const promptCost = multiplyCost(
