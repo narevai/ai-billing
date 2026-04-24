@@ -124,6 +124,9 @@ importers:
       '@ai-billing/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@ai-billing/deepseek':
+        specifier: workspace:*
+        version: link:../../packages/deepseek
       '@ai-billing/gateway':
         specifier: workspace:*
         version: link:../../packages/gateway
@@ -160,6 +163,9 @@ importers:
       '@ai-sdk/anthropic':
         specifier: ^3.0.0
         version: 3.0.71(zod@4.3.6)
+      '@ai-sdk/deepseek':
+        specifier: ^2.0.0
+        version: 2.0.29(zod@4.3.6)
       '@ai-sdk/google':
         specifier: ^3.0.0
         version: 3.0.64(zod@4.3.6)
