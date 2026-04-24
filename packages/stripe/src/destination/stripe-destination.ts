@@ -129,12 +129,6 @@ export function createStripeDestination<
       }
     }
 
-    console.log('[ai-billing] Sending to Stripe:', {
-      event_name: meterName,
-      payload,
-      identifier: event.generationId,
-    });
-
     try {
       await stripe.billing.meterEvents.create(
         {
