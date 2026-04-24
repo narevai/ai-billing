@@ -14,9 +14,6 @@ jobs:
   quality-checks:
     name: ${{ matrix.name }}
     runs-on: ubuntu-latest
-    # pnpm audit hits retired npm registry endpoints (410)
-    # re-block when fixed: https://github.com/pnpm/pnpm/issues/11265
-    continue-on-error: ${{ matrix.name == 'Security Audit' }}
     strategy:
       fail-fast: false
       matrix:
