@@ -22,18 +22,21 @@ describe('toUsage', () => {
     });
   });
 
-  it('should pass through undefined for optional fields when not provided', () => {
+  it('should pass through undefined for optional webSearchCount when not provided', () => {
     const result = toUsage({
       promptTokens: 10,
       completionTokens: 5,
+      cacheReadTokens: 0,
+      cacheWriteTokens: 0,
+      reasoningTokens: 0,
     });
 
     expect(result).toEqual({
       inputTokens: 10,
       outputTokens: 5,
-      cacheReadTokens: undefined,
-      cacheWriteTokens: undefined,
-      reasoningTokens: undefined,
+      cacheReadTokens: 0,
+      cacheWriteTokens: 0,
+      reasoningTokens: 0,
       webSearchCount: undefined,
     });
   });
