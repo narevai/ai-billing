@@ -84,7 +84,6 @@ describe('GoogleBillingMiddlewareV3 Integration', () => {
           outputTokens: 396,
           cacheReadTokens: 0,
           reasoningTokens: 342,
-          totalTokens: 412, // 16 + 396
         },
         cost: {
           amount: 4784000,
@@ -157,7 +156,6 @@ describe('GoogleBillingMiddlewareV3 Integration', () => {
           outputTokens: 396,
           cacheReadTokens: 0,
           reasoningTokens: 342,
-          totalTokens: 412,
         },
         cost: {
           amount: 4784000,
@@ -207,7 +205,6 @@ describe('GoogleBillingMiddlewareV3 Integration', () => {
         outputTokens: 396,
         cacheReadTokens: 0,
         reasoningTokens: 342,
-        totalTokens: 412,
       },
       tags: {},
     });
@@ -262,7 +259,6 @@ describe('GoogleBillingMiddlewareV3 Integration', () => {
         outputTokens: 0,
         cacheReadTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 0,
       },
       cost: { amount: 0, unit: 'nanos', currency: 'USD' },
       tags: {},

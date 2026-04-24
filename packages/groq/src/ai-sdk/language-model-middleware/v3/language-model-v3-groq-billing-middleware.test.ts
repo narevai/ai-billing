@@ -86,7 +86,6 @@ describe('GroqBillingMiddlewareV3 Integration', () => {
           outputTokens: 54,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 67, // 13 + 54
         },
         cost: {
           amount: 70100,
@@ -102,6 +101,69 @@ describe('GroqBillingMiddlewareV3 Integration', () => {
         parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
       }).not.toThrow();
       expect(parsedEmittedEvent!).toMatchObject(expectedEvent!);
+    });
+  });
+
+  describe('reasoning tokens', () => {
+    it('should handle reasoning tokens correctly', async () => {
+      const destinationSpy = vi.fn();
+      const middleware = createGroqV3Middleware({
+        destinations: [destinationSpy],
+        priceResolver: mockPriceResolver,
+      });
+
+      // Mirrors the real openai/gpt-oss-120b response: 78 input, 19 text + 24 reasoning output
+      const reasoningResult = createResult({
+        usage: {
+          inputTokens: { total: 78, noCache: 78, cacheRead: 0, cacheWrite: 0 },
+          outputTokens: { total: 43, text: 19, reasoning: 24 },
+          raw: {
+            prompt_tokens: 78,
+            completion_tokens: 43,
+            total_tokens: 121,
+            prompt_tokens_details: { cached_tokens: 0 },
+            completion_tokens_details: { reasoning_tokens: 24 },
+          },
+        },
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        modelId: 'openai/gpt-oss-120b',
+        provider: 'groq',
+        doGenerate: async () => reasoningResult,
+      });
+
+      const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
+      await generateText({
+        model: wrappedModel,
+        prompt: 'What is the capital of Sweden?',
+      });
+
+      // Prompt: 78 * 0.0000002 * 1e9 = 15,600 nanos
+      // Completion: 43 * 0.00000125 * 1e9 = 53,750 nanos
+      // Reasoning (no internalReasoningTokens rate): 0 nanos
+      // Total: 69,350 nanos
+      const expectedEvent = StrictBillingEventSchema.parse({
+        generationId: reasoningResult.response?.id,
+        modelId: mockModel.modelId,
+        provider: mockModel.provider,
+        usage: {
+          inputTokens: 78,
+          outputTokens: 43,
+          cacheReadTokens: 0,
+          reasoningTokens: 24,
+        },
+        cost: { amount: 69350, unit: 'nanos', currency: 'USD' },
+        tags: {},
+      });
+
+      expect(destinationSpy).toHaveBeenCalledTimes(1);
+      const emittedPayload = destinationSpy.mock.calls[0]![0];
+      let parsedEmittedEvent: BillingEvent;
+      expect(() => {
+        parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
+      }).not.toThrow();
+      expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
     });
   });
 
@@ -155,7 +217,6 @@ describe('GroqBillingMiddlewareV3 Integration', () => {
           outputTokens: 54,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 67,
         },
         cost: {
           amount: 70100, // 13 * 0.2 + 54 * 1.25 = 70.1 micro-cents -> 70100 nanos
@@ -205,7 +266,6 @@ describe('GroqBillingMiddlewareV3 Integration', () => {
         outputTokens: 54,
         cacheReadTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 67,
       },
       tags: {},
     });
@@ -269,7 +329,6 @@ describe('GroqBillingMiddlewareV3 Integration', () => {
         outputTokens: 0,
         cacheReadTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 0,
       },
       cost: { amount: 0, unit: 'nanos', currency: 'USD' },
       tags: {},

@@ -136,8 +136,6 @@ export function createGatewayV3Middleware<TTags extends DefaultTags>(
           cacheReadTokens: usage?.inputTokens.cacheRead ?? 0,
           cacheWriteTokens: usage?.inputTokens.cacheWrite ?? 0,
           reasoningTokens: usage?.outputTokens.reasoning ?? 0,
-          totalTokens:
-            (usage?.outputTokens.total ?? 0) + (usage?.inputTokens.total ?? 0),
           rawProviderCost: gatewayCost,
           rawUpstreamInferenceCost: upstreamCost,
         },

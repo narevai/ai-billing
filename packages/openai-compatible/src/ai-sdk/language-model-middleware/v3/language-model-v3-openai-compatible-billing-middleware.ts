@@ -1,5 +1,5 @@
 import { calculateOpenAICompatibleCost } from '../../../cost/index.js';
-import { createV3BillingMiddleware } from '@ai-billing/core';
+import { createV3BillingMiddleware, toUsage } from '@ai-billing/core';
 import type { CostInputs } from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
@@ -121,14 +121,7 @@ export function createOpenAICompatibleV3Middleware<TTags extends DefaultTags>(
         modelId: model.modelId,
         provider: options.providerId,
         tags,
-        usage: {
-          inputTokens: inputTokensTotal,
-          outputTokens: outputTokensTotal,
-          cacheReadTokens: inputTokensCacheRead,
-          reasoningTokens: outputTokensReasoning,
-          totalTokens: inputTokensTotal + outputTokensTotal,
-          webSearchCount: webSearchCount,
-        },
+        usage: toUsage(openAICompatibleUsage),
         ...(calculatedCost !== undefined && { cost: calculatedCost }),
       } satisfies BillingEvent<TTags>;
     },

@@ -38,7 +38,7 @@ export const calculateGoogleCost = (params: {
   );
 
   const cacheReadCost = multiplyCost(
-    rateToCost(pricing.inputCacheReadTokens),
+    rateToCost(pricing.inputCacheReadTokens ?? 0),
     usage.cacheReadTokens,
   );
 
@@ -48,7 +48,7 @@ export const calculateGoogleCost = (params: {
   );
 
   const reasoningCost = multiplyCost(
-    rateToCost(pricing.internalReasoningTokens ?? pricing.completionTokens),
+    rateToCost(pricing.internalReasoningTokens ?? 0),
     usage.reasoningTokens,
   );
 

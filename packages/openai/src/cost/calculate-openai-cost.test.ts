@@ -77,29 +77,6 @@ describe('calculateOpenAICost (Integration)', () => {
     });
   });
 
-  it('should fallback to completion token price if reasoning token price is undefined', () => {
-    const mockPricing: ModelPricing = {
-      promptTokens: 0.0000002,
-      completionTokens: 0.000001, // $1.00 per 1M
-    };
-
-    const usage = {
-      promptTokens: 0,
-      completionTokens: 0,
-      cacheReadTokens: 0,
-      cacheWriteTokens: 0,
-      reasoningTokens: 10, // Should use the 0.000001 completion price -> 10,000 nanos
-    };
-
-    const result = calculateOpenAICost({ pricing: mockPricing, usage });
-
-    expect(result).toEqual({
-      amount: 10000,
-      unit: 'nanos',
-      currency: 'USD',
-    });
-  });
-
   it('should bill web search calls when webSearch price is set', () => {
     const mockPricing: ModelPricing = {
       promptTokens: 0,

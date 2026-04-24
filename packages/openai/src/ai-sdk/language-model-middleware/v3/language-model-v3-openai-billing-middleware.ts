@@ -1,5 +1,5 @@
 import { calculateOpenAICost } from '../../../cost/index.js';
-import { createV3BillingMiddleware } from '@ai-billing/core';
+import { createV3BillingMiddleware, toUsage } from '@ai-billing/core';
 import type { CostInputs } from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
@@ -106,13 +106,8 @@ export function createOpenAIV3Middleware<TTags extends DefaultTags>(
         | OpenAIProviderMetadata
         | undefined;
 
-      const inputTokensTotal = usage?.inputTokens?.total ?? 0;
-      const inputTokensCacheRead = usage?.inputTokens?.cacheRead ?? 0;
-      const outputTokensTotal = usage?.outputTokens?.text ?? 0;
-      const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
-
       const openAIUsage: CostInputs = {
-        promptTokens: inputTokensTotal,
+        promptTokens: usage?.inputTokens?.total ?? 0,
         completionTokens: usage?.outputTokens?.text ?? 0,
         cacheReadTokens: usage?.inputTokens?.cacheRead ?? 0,
         cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
@@ -135,14 +130,7 @@ export function createOpenAIV3Middleware<TTags extends DefaultTags>(
         modelId: model.modelId,
         provider: 'openai',
         tags: tags,
-        usage: {
-          inputTokens: inputTokensTotal,
-          outputTokens: outputTokensTotal,
-          cacheReadTokens: inputTokensCacheRead,
-          reasoningTokens: outputTokensReasoning,
-          totalTokens: inputTokensTotal + outputTokensTotal,
-          webSearchCount: webSearchCount,
-        },
+        usage: toUsage(openAIUsage),
         ...(calculatedCost !== undefined && {
           cost: calculatedCost,
         }),

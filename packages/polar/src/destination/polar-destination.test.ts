@@ -37,7 +37,6 @@ describe('Polar Destination', () => {
         cacheReadTokens: 0,
         cacheWriteTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 150,
       },
       cost: { amount: 0.000004653, currency: 'USD', unit: 'base' },
       ...overrides,
@@ -76,7 +75,6 @@ describe('Polar Destination', () => {
             cache_read_tokens: mockEvent.usage?.cacheReadTokens,
             cache_write_tokens: mockEvent.usage?.cacheWriteTokens,
             reasoning_tokens: mockEvent.usage?.reasoningTokens,
-            total_tokens: mockEvent.usage?.totalTokens,
             tag_customerId: mockEvent.tags?.customerId,
             cost_nanos: costToNumber(mockEvent.cost!, 'nanos'),
             cost_currency: mockEvent.cost?.currency,
@@ -210,7 +208,6 @@ describe('Polar Destination', () => {
       usage: {
         inputTokens: 0,
         outputTokens: 0,
-        totalTokens: 0,
       },
       cost: undefined,
     });
@@ -270,7 +267,7 @@ describe('Polar Destination', () => {
       modelId: 'gpt-4',
       provider: 'openai',
       //tags: {}, // no tags
-      usage: { inputTokens: 100, outputTokens: 50, totalTokens: 150 },
+      usage: { inputTokens: 100, outputTokens: 50 },
       cost: { amount: 0.000004653, currency: 'USD', unit: 'base' },
     } as BillingEvent;
 
@@ -285,7 +282,6 @@ describe('Polar Destination', () => {
     expect(metadata).toHaveProperty('provider');
     expect(metadata).toHaveProperty('input_tokens');
     expect(metadata).toHaveProperty('output_tokens');
-    expect(metadata).toHaveProperty('total_tokens');
 
     const tagKeys = Object.keys(metadata ?? {}).filter(k =>
       k.startsWith('tag_'),

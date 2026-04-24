@@ -74,7 +74,6 @@ describe('ChutesBillingMiddlewareV3 Integration', () => {
           outputTokens: 54,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 67,
         },
         cost: {
           amount: 175000,
@@ -124,11 +123,11 @@ describe('ChutesBillingMiddlewareV3 Integration', () => {
       const emittedPayload = destinationSpy.mock.calls[0]![0];
       const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
 
-      // Prompt (non-cached): 0.000001 * 1e9 * 60 = 60,000 nanos
+      // Prompt (non-cached): 0.000001 * 1e9 * (100 - 40) = 60,000 nanos
       // Cache read: 0.0000005 * 1e9 * 40 = 20,000 nanos
       // Completion: 0.000003 * 1e9 * 30 = 90,000 nanos
       // Total: 170,000 nanos
-      expect(parsedEvent.usage.inputTokens).toBe(60);
+      expect(parsedEvent.usage.inputTokens).toBe(100);
       expect(parsedEvent.usage.cacheReadTokens).toBe(40);
       expect(parsedEvent.cost?.amount).toBe(170000);
     });
@@ -168,7 +167,7 @@ describe('ChutesBillingMiddlewareV3 Integration', () => {
       const emittedPayload = destinationSpy.mock.calls[0]![0];
       const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
 
-      expect(parsedEvent.usage.outputTokens).toBe(80);
+      expect(parsedEvent.usage.outputTokens).toBe(200);
       expect(parsedEvent.usage.reasoningTokens).toBe(120);
     });
 
@@ -247,7 +246,6 @@ describe('ChutesBillingMiddlewareV3 Integration', () => {
           outputTokens: 0,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 0,
         },
         cost: { amount: 0, unit: 'nanos', currency: 'USD' },
         tags: {},

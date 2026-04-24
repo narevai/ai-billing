@@ -90,22 +90,24 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
       });
       const rawUsage = baseResult.usage.raw as XaiUsageAccounting;
 
+      // prompt: 0.000001 * 1e9 * (14 - 5) = 9,000 nanos
+      // completion: 0.000003 * 1e9 * (61 - 193) = 0 nanos (negative, floored to 0)
+      // cacheRead: 0.0000005 * 1e9 * 5 = 2,500 nanos
+      // reasoning: 0.000003 * 1e9 * 193 = 579,000 nanos
+      // Total: 9,000 + 0 + 2,500 + 579,000 = 590,500 nanos
       const expectedEvent = StrictBillingEventSchema.parse({
         generationId: baseResult.response?.id,
         modelId: mockModel.modelId,
         provider: mockModel.provider,
         usage: {
           inputTokens: rawUsage.prompt_tokens,
-          outputTokens:
-            (rawUsage.total_tokens ?? 0) -
-            (rawUsage.completion_tokens_details?.reasoning_tokens ?? 0),
+          outputTokens: rawUsage.completion_tokens,
           cacheReadTokens: rawUsage.prompt_tokens_details?.cached_tokens ?? 0,
           reasoningTokens:
             rawUsage.completion_tokens_details?.reasoning_tokens ?? 0,
-          totalTokens: rawUsage.total_tokens,
         },
         cost: {
-          amount: 815500,
+          amount: 590500,
           unit: 'nanos',
           currency: 'USD',
         },
@@ -137,6 +139,7 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
       });
 
       // Simulating the nested structure the AI SDK returns for these totals
+      // completion_tokens should be text + reasoning
       const resultWithReasoning = createResult({
         usage: {
           inputTokens: {
@@ -147,12 +150,12 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
           },
           outputTokens: {
             total: 289,
-            text: 62, // 289 total - 227 reasoning
+            text: 62,
             reasoning: 227,
           },
           raw: {
             prompt_tokens: 22,
-            completion_tokens: 62,
+            completion_tokens: 62 + 227, // 289
             total_tokens: 289,
             prompt_tokens_details: {
               text_tokens: 18,
@@ -182,11 +185,21 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
       const emittedPayload = destinationSpy.mock.calls[0]![0];
       const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
 
+      // usage.raw:
+      // prompt_tokens: 22
+      // completion_tokens: 289
+      // prompt_tokens_details.cached_tokens: 4
+      // completion_tokens_details.reasoning_tokens: 227
       expect(parsedEvent.usage.inputTokens).toBe(22);
       expect(parsedEvent.usage.cacheReadTokens).toBe(4);
-      expect(parsedEvent.usage.outputTokens).toBe(62);
+      expect(parsedEvent.usage.outputTokens).toBe(289);
       expect(parsedEvent.usage.reasoningTokens).toBe(227);
 
+      // prompt: 0.0000003 * 1e9 * (22 - 4) = 5,400 nanos
+      // completion: 0.0000005 * 1e9 * (289 - 227) = 31,000 nanos
+      // cacheRead: 0.000000075 * 1e9 * 4 = 300 nanos
+      // reasoning: 0.0000005 * 1e9 * 227 = 113,500 nanos
+      // Total: 5,400 + 31,000 + 300 + 113,500 = 150,200 nanos
       expect(parsedEvent.cost?.amount).toBe(150200);
       expect(parsedEvent.cost?.unit).toBe('nanos');
     });
@@ -266,7 +279,6 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
           outputTokens: 0,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 0,
         },
         cost: { amount: 0, unit: 'nanos', currency: 'USD' },
         tags: {},

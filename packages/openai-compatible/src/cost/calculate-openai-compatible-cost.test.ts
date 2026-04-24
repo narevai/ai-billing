@@ -66,27 +66,6 @@ describe('calculateOpenAICompatibleCost', () => {
     expect(result).toEqual({ amount: 727150, unit: 'nanos', currency: 'USD' });
   });
 
-  it('should fallback to completion price for reasoning when internalReasoningTokens is not set', () => {
-    const pricing: ModelPricing = {
-      promptTokens: 0.0000002,
-      completionTokens: 0.00000125,
-    };
-
-    const result = calculateOpenAICompatibleCost({
-      pricing,
-      usage: {
-        promptTokens: 0,
-        completionTokens: 0,
-        cacheReadTokens: 0,
-        cacheWriteTokens: 0,
-        reasoningTokens: 10,
-      },
-    });
-
-    // Reasoning: 10 * 1,250 = 12,500 nanos
-    expect(result).toEqual({ amount: 12500, unit: 'nanos', currency: 'USD' });
-  });
-
   it('should handle cache read and write tokens', () => {
     const pricing: ModelPricing = {
       promptTokens: 0.0000002,

@@ -74,7 +74,7 @@ describe('calculateMinimaxCost', () => {
     });
   });
 
-  it('should fallback to completion rate for reasoning when internalReasoningTokens is undefined', () => {
+  it('should not bill reasoning tokens when internalReasoningTokens is undefined', () => {
     const mockPricing: ModelPricing = {
       promptTokens: 0.000001,
       completionTokens: 0.000003,
@@ -90,9 +90,8 @@ describe('calculateMinimaxCost', () => {
 
     const result = calculateMinimaxCost({ pricing: mockPricing, usage });
 
-    // Reasoning: 0.000003 * 1e9 * 10 = 30,000 nanos
     expect(result).toEqual({
-      amount: 30000,
+      amount: 0,
       unit: 'nanos',
       currency: 'USD',
     });

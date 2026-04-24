@@ -32,7 +32,16 @@ describe('MinimaxBillingMiddlewareV3 Integration', () => {
       raw: {},
     },
     response: { id: 'resp_minimax_abc123', timestamp: new Date() },
-    providerMetadata: {},
+    providerMetadata: {
+      anthropic: {
+        usage: {
+          input_tokens: 13,
+          output_tokens: 54,
+          cache_creation_input_tokens: 0,
+          cache_read_input_tokens: 0,
+        },
+      },
+    },
     ...overrides,
   });
 
@@ -72,7 +81,6 @@ describe('MinimaxBillingMiddlewareV3 Integration', () => {
           outputTokens: 54,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 67,
         },
         cost: {
           amount: 175000,
@@ -111,6 +119,17 @@ describe('MinimaxBillingMiddlewareV3 Integration', () => {
           outputTokens: { total: 200, text: 80, reasoning: 120 },
           raw: {},
         },
+        providerMetadata: {
+          anthropic: {
+            usage: {
+              input_tokens: 50,
+              output_tokens: 80,
+              cache_creation_input_tokens: 0,
+              cache_read_input_tokens: 0,
+              reasoning_tokens: 120,
+            },
+          },
+        },
       });
 
       const mockModel = new MockLanguageModelV3({
@@ -125,7 +144,7 @@ describe('MinimaxBillingMiddlewareV3 Integration', () => {
       const emittedPayload = destinationSpy.mock.calls[0]![0];
       const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
 
-      expect(parsedEvent.usage.outputTokens).toBe(200);
+      expect(parsedEvent.usage.outputTokens).toBe(80);
       expect(parsedEvent.usage.reasoningTokens).toBe(120);
     });
 
@@ -176,7 +195,9 @@ describe('MinimaxBillingMiddlewareV3 Integration', () => {
             text: undefined,
             reasoning: undefined,
           },
+          raw: {},
         },
+        providerMetadata: {},
       });
 
       const mockModel = new MockLanguageModelV3({
@@ -204,7 +225,6 @@ describe('MinimaxBillingMiddlewareV3 Integration', () => {
           outputTokens: 0,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 0,
         },
         cost: { amount: 0, unit: 'nanos', currency: 'USD' },
         tags: {},

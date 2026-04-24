@@ -74,7 +74,6 @@ describe('OpenAIBillingMiddlewareV3 Integration', () => {
           outputTokens: 54,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 67, // 13 + 54
         },
         cost: {
           amount: 70100,
@@ -143,7 +142,6 @@ describe('OpenAIBillingMiddlewareV3 Integration', () => {
           outputTokens: 54,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 67,
         },
         cost: {
           amount: 70100, // 13 * 0.2 + 54 * 1.25 = 70.1 micro-cents -> 70100 nanos
@@ -240,7 +238,6 @@ describe('OpenAIBillingMiddlewareV3 Integration', () => {
         outputTokens: 54,
         cacheReadTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 67,
       },
       tags: {},
     });
@@ -304,7 +301,6 @@ describe('OpenAIBillingMiddlewareV3 Integration', () => {
         outputTokens: 0,
         cacheReadTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 0,
       },
       cost: { amount: 0, unit: 'nanos', currency: 'USD' },
       tags: {},

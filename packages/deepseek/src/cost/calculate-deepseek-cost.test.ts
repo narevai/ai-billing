@@ -58,7 +58,7 @@ describe('calculateDeepSeekCost', () => {
     };
 
     const usage = {
-      promptTokens: 800, // non-cached input tokens
+      promptTokens: 800,
       completionTokens: 200,
       cacheReadTokens: 500,
       cacheWriteTokens: 0,
@@ -67,12 +67,12 @@ describe('calculateDeepSeekCost', () => {
 
     const result = calculateDeepSeekCost({ pricing: mockPricing, usage });
 
-    // Prompt (non-cached): 0.00000027 * 1e9 * 800 = 216,000 nanos
-    // Cache read: 0.00000007 * 1e9 * 500 = 35,000 nanos
-    // Completion: 0.0000011 * 1e9 * 200 = 220,000 nanos
-    // Total: 471,000 nanos
+    // nonCachedPrompt: (800 - 500) * 270 = 81,000 nanos
+    // CacheRead: 500 * 70 = 35,000 nanos
+    // Completion: 200 * 1100 = 220,000 nanos
+    // Total: 336,000 nanos
     expect(result).toEqual({
-      amount: 471000,
+      amount: 336000,
       unit: 'nanos',
       currency: 'USD',
     });
@@ -105,30 +105,6 @@ describe('calculateDeepSeekCost', () => {
     // Total: 602500 nanos
     expect(result).toEqual({
       amount: 602500,
-      unit: 'nanos',
-      currency: 'USD',
-    });
-  });
-
-  it('should fallback to completion rate for reasoning when internalReasoningTokens is undefined', () => {
-    const mockPricing: ModelPricing = {
-      promptTokens: 0.00000055,
-      completionTokens: 0.00000219,
-    };
-
-    const usage = {
-      promptTokens: 0,
-      completionTokens: 0,
-      cacheReadTokens: 0,
-      cacheWriteTokens: 0,
-      reasoningTokens: 100,
-    };
-
-    const result = calculateDeepSeekCost({ pricing: mockPricing, usage });
-
-    // Reasoning: 100 * 2190 = 219000 nanos
-    expect(result).toEqual({
-      amount: 219000,
       unit: 'nanos',
       currency: 'USD',
     });

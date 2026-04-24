@@ -121,9 +121,15 @@ importers:
       '@ai-billing/anthropic':
         specifier: workspace:*
         version: link:../../packages/anthropic
+      '@ai-billing/chutes':
+        specifier: workspace:*
+        version: link:../../packages/chutes
       '@ai-billing/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@ai-billing/deepseek':
+        specifier: workspace:*
+        version: link:../../packages/deepseek
       '@ai-billing/gateway':
         specifier: workspace:*
         version: link:../../packages/gateway
@@ -136,6 +142,9 @@ importers:
       '@ai-billing/lago':
         specifier: workspace:*
         version: link:../../packages/lago
+      '@ai-billing/minimax':
+        specifier: workspace:*
+        version: link:../../packages/minimax
       '@ai-billing/openai':
         specifier: workspace:*
         version: link:../../packages/openai
@@ -160,6 +169,9 @@ importers:
       '@ai-sdk/anthropic':
         specifier: ^3.0.0
         version: 3.0.71(zod@4.3.6)
+      '@ai-sdk/deepseek':
+        specifier: ^2.0.29
+        version: 2.0.29(zod@4.3.6)
       '@ai-sdk/google':
         specifier: ^3.0.0
         version: 3.0.64(zod@4.3.6)

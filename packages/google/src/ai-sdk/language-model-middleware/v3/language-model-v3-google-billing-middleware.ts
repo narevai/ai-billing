@@ -1,5 +1,5 @@
 import { calculateGoogleCost } from '../../../cost/index.js';
-import { createV3BillingMiddleware } from '@ai-billing/core';
+import { createV3BillingMiddleware, toUsage } from '@ai-billing/core';
 import type { CostInputs } from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
@@ -145,13 +145,7 @@ export function createGoogleV3Middleware<TTags extends DefaultTags>(
         modelId: model.modelId,
         provider: 'google',
         tags: tags,
-        usage: {
-          inputTokens: inputTokensTotal,
-          outputTokens: outputTokensTotal,
-          cacheReadTokens: inputTokensCacheRead,
-          reasoningTokens: outputTokensReasoning,
-          totalTokens: inputTokensTotal + outputTokensTotal,
-        },
+        usage: toUsage(googleAIUsage),
         ...(calculatedCost !== undefined && {
           cost: calculatedCost,
         }),

@@ -1,5 +1,5 @@
 import { calculateDeepSeekCost } from '../../../cost/index.js';
-import { createV3BillingMiddleware } from '@ai-billing/core';
+import { createV3BillingMiddleware, toUsage } from '@ai-billing/core';
 import type { CostInputs } from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
@@ -108,24 +108,12 @@ export function createDeepSeekV3Middleware<TTags extends DefaultTags>(
     }) => {
       const rawUsage = usage?.raw as DeepSeekRawUsage | undefined;
 
-      const totalInput = rawUsage?.prompt_tokens ?? 0;
-      const inputTokensCacheRead = rawUsage?.prompt_cache_hit_tokens ?? 0;
-      const inputTokensTotal = Math.max(0, totalInput - inputTokensCacheRead);
-
-      const totalOutput = rawUsage?.completion_tokens ?? 0;
-      const outputTokensReasoning =
-        rawUsage?.completion_tokens_details?.reasoning_tokens ?? 0;
-      const outputTokensTotal = Math.max(
-        0,
-        totalOutput - outputTokensReasoning,
-      );
-
       const deepSeekUsage: CostInputs = {
-        promptTokens: inputTokensTotal,
-        completionTokens: outputTokensTotal,
-        cacheReadTokens: inputTokensCacheRead,
+        promptTokens: rawUsage?.prompt_tokens ?? 0,
+        completionTokens: rawUsage?.completion_tokens ?? 0,
+        cacheReadTokens: rawUsage?.prompt_cache_hit_tokens ?? 0,
         cacheWriteTokens: 0,
-        reasoningTokens: outputTokensReasoning,
+        reasoningTokens: rawUsage?.completion_tokens_details?.reasoning_tokens ?? 0,
         webSearchCount: webSearchCount,
       };
 
@@ -144,15 +132,7 @@ export function createDeepSeekV3Middleware<TTags extends DefaultTags>(
         modelId: model.modelId,
         provider: 'deepseek',
         tags: tags,
-        usage: {
-          inputTokens: inputTokensTotal,
-          outputTokens: outputTokensTotal,
-          cacheReadTokens: inputTokensCacheRead,
-          cacheWriteTokens: 0,
-          reasoningTokens: outputTokensReasoning,
-          totalTokens: inputTokensTotal + outputTokensTotal,
-          webSearchCount: webSearchCount,
-        },
+        usage: toUsage(deepSeekUsage),
         ...(calculatedCost !== undefined && {
           cost: calculatedCost,
         }),

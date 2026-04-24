@@ -28,13 +28,18 @@ export const calculateChutesCost = (params: {
     return undefined;
   }
 
+  const nonCachedPromptTokens = Math.max(
+    0,
+    (usage.promptTokens ?? 0) - (usage.cacheReadTokens ?? 0),
+  );
+
   const promptCost = multiplyCost(
     rateToCost(pricing.promptTokens),
-    usage.promptTokens,
+    nonCachedPromptTokens,
   );
 
   const cacheReadCost = multiplyCost(
-    rateToCost(pricing.inputCacheReadTokens ?? pricing.promptTokens * 0.5),
+    rateToCost(pricing.inputCacheReadTokens ?? 0),
     usage.cacheReadTokens,
   );
 
@@ -44,7 +49,7 @@ export const calculateChutesCost = (params: {
   );
 
   const reasoningCost = multiplyCost(
-    rateToCost(pricing.internalReasoningTokens ?? pricing.completionTokens),
+    rateToCost(pricing.internalReasoningTokens ?? 0),
     usage.reasoningTokens,
   );
 

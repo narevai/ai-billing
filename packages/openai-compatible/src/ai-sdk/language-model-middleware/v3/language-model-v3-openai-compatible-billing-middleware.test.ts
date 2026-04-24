@@ -75,7 +75,6 @@ describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
           outputTokens: 54,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 67,
         },
         cost: {
           amount: 70100,
@@ -127,7 +126,6 @@ describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
           outputTokens: 54,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 67,
         },
         cost: {
           amount: 70100,
@@ -198,7 +196,6 @@ describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
           outputTokens: 54,
           cacheReadTokens: 0,
           reasoningTokens: 0,
-          totalTokens: 67,
         },
         cost: {
           amount: 70100,
@@ -257,12 +254,6 @@ describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
     const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
     await generateText({ model: wrappedModel, prompt: 'Hi' });
 
-    const rawCostNanos =
-      (inputTokens * mockPricing.promptTokens! +
-        (outputTokens + reasoningTokens) * mockPricing.completionTokens!) *
-      1e9;
-    const expectedCostNanos = Math.round(rawCostNanos);
-
     const expectedEvent = StrictBillingEventSchema.parse({
       generationId: baseResult.response?.id,
       modelId: 'xai/grok-3-mini',
@@ -272,10 +263,9 @@ describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
         outputTokens: outputTokens,
         cacheReadTokens: 0,
         reasoningTokens: reasoningTokens,
-        totalTokens: inputTokens + outputTokens, // 17 + 3
       },
       cost: {
-        amount: expectedCostNanos, // (17 * 0.2) + (3 * 1.25) = 3.4 + 3.75 = 7.15 micro-cents -> 7150 nanos
+        amount: 7150, // (17 * 0.2) + (3 * 1.25) = 3.4 + 3.75 = 7.15 micro-cents -> 7150 nanos
         unit: 'nanos',
         currency: 'USD',
       },
@@ -321,7 +311,6 @@ describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
         outputTokens: 54,
         cacheReadTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 67,
       },
       tags: {},
     });
@@ -390,7 +379,6 @@ describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {
         outputTokens: 0,
         cacheReadTokens: 0,
         reasoningTokens: 0,
-        totalTokens: 0,
       },
       cost: { amount: 0, unit: 'nanos', currency: 'USD' },
       tags: {},
