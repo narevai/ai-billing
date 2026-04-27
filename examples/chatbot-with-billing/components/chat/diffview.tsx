@@ -1,42 +1,42 @@
-import OrderedMap from "orderedmap";
+import OrderedMap from 'orderedmap';
 import {
   DOMParser,
   type MarkSpec,
   type Node as ProsemirrorNode,
   Schema,
-} from "prosemirror-model";
-import { schema } from "prosemirror-schema-basic";
-import { addListNodes } from "prosemirror-schema-list";
-import { EditorState } from "prosemirror-state";
-import { EditorView } from "prosemirror-view";
-import { useEffect, useRef } from "react";
-import { renderToString } from "react-dom/server";
+} from 'prosemirror-model';
+import { schema } from 'prosemirror-schema-basic';
+import { addListNodes } from 'prosemirror-schema-list';
+import { EditorState } from 'prosemirror-state';
+import { EditorView } from 'prosemirror-view';
+import { useEffect, useRef } from 'react';
+import { renderToString } from 'react-dom/server';
 
-import { MessageResponse } from "@/components/ai-elements/message";
-import { DiffType, diffEditor } from "@/lib/editor/diff";
+import { MessageResponse } from '@/components/ai-elements/message';
+import { DiffType, diffEditor } from '@/lib/editor/diff';
 
 const diffSchema = new Schema({
-  nodes: addListNodes(schema.spec.nodes, "paragraph block*", "block"),
+  nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
   marks: OrderedMap.from({
     ...schema.spec.marks.toObject(),
     diffMark: {
-      attrs: { type: { default: "" } },
+      attrs: { type: { default: '' } },
       toDOM(mark) {
-        let className = "";
+        let className = '';
 
         switch (mark.attrs.type) {
           case DiffType.Inserted:
             className =
-              "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 rounded-sm px-0.5 -mx-0.5";
+              'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 rounded-sm px-0.5 -mx-0.5';
             break;
           case DiffType.Deleted:
             className =
-              "bg-red-500/15 line-through text-red-600 dark:text-red-400 rounded-sm px-0.5 -mx-0.5 opacity-70";
+              'bg-red-500/15 line-through text-red-600 dark:text-red-400 rounded-sm px-0.5 -mx-0.5 opacity-70';
             break;
           default:
-            className = "";
+            className = '';
         }
-        return ["span", { class: className }, 0];
+        return ['span', { class: className }, 0];
       },
     } as MarkSpec,
   }),
@@ -60,16 +60,16 @@ export const DiffView = ({ oldContent, newContent }: DiffEditorProps) => {
       const parser = DOMParser.fromSchema(diffSchema);
 
       const oldHtmlContent = renderToString(
-        <MessageResponse>{oldContent}</MessageResponse>
+        <MessageResponse>{oldContent}</MessageResponse>,
       );
       const newHtmlContent = renderToString(
-        <MessageResponse>{newContent}</MessageResponse>
+        <MessageResponse>{newContent}</MessageResponse>,
       );
 
-      const oldContainer = document.createElement("div");
+      const oldContainer = document.createElement('div');
       oldContainer.innerHTML = oldHtmlContent;
 
-      const newContainer = document.createElement("div");
+      const newContainer = document.createElement('div');
       newContainer.innerHTML = newHtmlContent;
 
       const oldDoc = parser.parse(oldContainer);
@@ -89,10 +89,10 @@ export const DiffView = ({ oldContent, newContent }: DiffEditorProps) => {
 
       requestAnimationFrame(() => {
         const firstDiff = editorRef.current?.querySelector(
-          "[class*='bg-emerald'], [class*='bg-red']"
+          "[class*='bg-emerald'], [class*='bg-red']",
         );
         if (firstDiff) {
-          firstDiff.scrollIntoView({ behavior: "smooth", block: "center" });
+          firstDiff.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       });
     }

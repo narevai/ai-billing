@@ -1,18 +1,18 @@
-import { memo, useState } from "react";
-import { toast } from "sonner";
-import { cn } from "@/lib/utils";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { artifactDefinitions, type UIArtifact } from "./artifact";
-import type { ArtifactActionContext } from "./create-artifact";
+import { memo, useState } from 'react';
+import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { artifactDefinitions, type UIArtifact } from './artifact';
+import type { ArtifactActionContext } from './create-artifact';
 
 type ArtifactActionsProps = {
   artifact: UIArtifact;
-  handleVersionChange: (type: "next" | "prev" | "toggle" | "latest") => void;
+  handleVersionChange: (type: 'next' | 'prev' | 'toggle' | 'latest') => void;
   currentVersionIndex: number;
   isCurrentVersion: boolean;
-  mode: "edit" | "diff";
-  metadata: ArtifactActionContext["metadata"];
-  setMetadata: ArtifactActionContext["setMetadata"];
+  mode: 'edit' | 'diff';
+  metadata: ArtifactActionContext['metadata'];
+  setMetadata: ArtifactActionContext['setMetadata'];
 };
 
 function PureArtifactActions({
@@ -27,11 +27,11 @@ function PureArtifactActions({
   const [isLoading, setIsLoading] = useState(false);
 
   const artifactDefinition = artifactDefinitions.find(
-    (definition) => definition.kind === artifact.kind
+    definition => definition.kind === artifact.kind,
   );
 
   if (!artifactDefinition) {
-    throw new Error("Artifact definition not found!");
+    throw new Error('Artifact definition not found!');
   }
 
   const actionContext: ArtifactActionContext = {
@@ -46,9 +46,9 @@ function PureArtifactActions({
 
   return (
     <div className="flex flex-col items-center gap-0.5">
-      {artifactDefinition.actions.map((action) => {
+      {artifactDefinition.actions.map(action => {
         const disabled =
-          isLoading || artifact.status === "streaming"
+          isLoading || artifact.status === 'streaming'
             ? true
             : action.isDisabled
               ? action.isDisabled(actionContext)
@@ -59,14 +59,14 @@ function PureArtifactActions({
             <TooltipTrigger asChild>
               <button
                 className={cn(
-                  "flex items-center justify-center rounded-full p-3 text-muted-foreground transition-all duration-150",
-                  "hover:text-foreground",
-                  "active:scale-95",
-                  "disabled:pointer-events-none disabled:opacity-30",
+                  'flex items-center justify-center rounded-full p-3 text-muted-foreground transition-all duration-150',
+                  'hover:text-foreground',
+                  'active:scale-95',
+                  'disabled:pointer-events-none disabled:opacity-30',
                   {
-                    "text-foreground":
-                      mode === "diff" && action.description === "View changes",
-                  }
+                    'text-foreground':
+                      mode === 'diff' && action.description === 'View changes',
+                  },
                 )}
                 disabled={disabled}
                 onClick={async () => {
@@ -75,7 +75,7 @@ function PureArtifactActions({
                   try {
                     await Promise.resolve(action.onClick(actionContext));
                   } catch (_error) {
-                    toast.error("Failed to execute action");
+                    toast.error('Failed to execute action');
                   } finally {
                     setIsLoading(false);
                   }
@@ -115,5 +115,5 @@ export const ArtifactActions = memo(
     }
 
     return true;
-  }
+  },
 );

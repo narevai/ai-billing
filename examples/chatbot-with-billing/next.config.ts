@@ -1,16 +1,16 @@
-import { withBotId } from "botid/next/config";
-import type { NextConfig } from "next";
+import { withBotId } from 'botid/next/config';
+import type { NextConfig } from 'next';
 
-const basePath = process.env.IS_DEMO === "1" ? "/demo" : "";
+const basePath = process.env.IS_DEMO === '1' ? '/demo' : '';
 
 const nextConfig: NextConfig = {
   ...(basePath
     ? {
         basePath,
-        assetPrefix: "/demo-assets",
+        assetPrefix: '/demo-assets',
         redirects: async () => [
           {
-            source: "/",
+            source: '/',
             destination: basePath,
             permanent: false,
             basePath: false,
@@ -34,11 +34,11 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: "avatar.vercel.sh",
+        hostname: 'avatar.vercel.sh',
       },
       {
-        protocol: "https",
-        hostname: "*.public.blob.vercel-storage.com",
+        protocol: 'https',
+        hostname: '*.public.blob.vercel-storage.com',
       },
     ],
   },

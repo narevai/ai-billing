@@ -5,21 +5,21 @@ import {
   useEffect,
   useRef,
   useState,
-} from "react";
-import { useArtifactSelector } from "@/hooks/use-artifact";
-import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { Spinner } from "../ui/spinner";
-import { CrossSmallIcon, TerminalWindowIcon } from "./icons";
+} from 'react';
+import { useArtifactSelector } from '@/hooks/use-artifact';
+import { cn } from '@/lib/utils';
+import { Button } from '../ui/button';
+import { Spinner } from '../ui/spinner';
+import { CrossSmallIcon, TerminalWindowIcon } from './icons';
 
 export type ConsoleOutputContent = {
-  type: "text" | "image";
+  type: 'text' | 'image';
   value: string;
 };
 
 export type ConsoleOutput = {
   id: string;
-  status: "in_progress" | "loading_packages" | "completed" | "failed";
+  status: 'in_progress' | 'loading_packages' | 'completed' | 'failed';
   contents: ConsoleOutputContent[];
 };
 
@@ -32,7 +32,7 @@ export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {
   const [height, setHeight] = useState<number>(300);
   const [isResizing, setIsResizing] = useState(false);
 
-  const isArtifactVisible = useArtifactSelector((state) => state.isVisible);
+  const isArtifactVisible = useArtifactSelector(state => state.isVisible);
 
   const minHeight = 100;
   const maxHeight = 800;
@@ -54,15 +54,15 @@ export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {
         }
       }
     },
-    [isResizing]
+    [isResizing],
   );
 
   useEffect(() => {
-    window.addEventListener("mousemove", resize);
-    window.addEventListener("mouseup", stopResizing);
+    window.addEventListener('mousemove', resize);
+    window.addEventListener('mouseup', stopResizing);
     return () => {
-      window.removeEventListener("mousemove", resize);
-      window.removeEventListener("mouseup", stopResizing);
+      window.removeEventListener('mousemove', resize);
+      window.removeEventListener('mouseup', stopResizing);
     };
   }, [resize, stopResizing]);
 
@@ -70,7 +70,7 @@ export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {
 
   useEffect(() => {
     if (consoleOutputs.length > 0) {
-      consoleContainerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+      consoleContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [consoleOutputs.length]);
 
@@ -89,11 +89,11 @@ export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {
         aria-valuemin={minHeight}
         aria-valuenow={height}
         className="fixed z-50 h-2 w-full cursor-ns-resize"
-        onKeyDown={(e) => {
-          if (e.key === "ArrowUp") {
-            setHeight((prev) => Math.min(prev + 10, maxHeight));
-          } else if (e.key === "ArrowDown") {
-            setHeight((prev) => Math.max(prev - 10, minHeight));
+        onKeyDown={e => {
+          if (e.key === 'ArrowUp') {
+            setHeight(prev => Math.min(prev + 10, maxHeight));
+          } else if (e.key === 'ArrowDown') {
+            setHeight(prev => Math.max(prev - 10, minHeight));
           }
         }}
         onMouseDown={startResizing}
@@ -104,8 +104,8 @@ export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {
 
       <div
         className={cn(
-          "fixed bottom-0 z-40 flex w-full flex-col overflow-x-hidden overflow-y-auto border-t border-border/50 bg-background",
-          { "select-none": isResizing }
+          'fixed bottom-0 z-40 flex w-full flex-col overflow-x-hidden overflow-y-auto border-t border-border/50 bg-background',
+          { 'select-none': isResizing },
         )}
         ref={consoleContainerRef}
         style={{ height }}
@@ -132,36 +132,36 @@ export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {
               key={consoleOutput.id}
             >
               <div
-                className={cn("w-10 shrink-0 tabular-nums", {
-                  "text-muted-foreground": [
-                    "in_progress",
-                    "loading_packages",
+                className={cn('w-10 shrink-0 tabular-nums', {
+                  'text-muted-foreground': [
+                    'in_progress',
+                    'loading_packages',
                   ].includes(consoleOutput.status),
-                  "text-emerald-500": consoleOutput.status === "completed",
-                  "text-red-400": consoleOutput.status === "failed",
+                  'text-emerald-500': consoleOutput.status === 'completed',
+                  'text-red-400': consoleOutput.status === 'failed',
                 })}
               >
                 [{consoleOutputs.length - index}]
               </div>
-              {["in_progress", "loading_packages"].includes(
-                consoleOutput.status
+              {['in_progress', 'loading_packages'].includes(
+                consoleOutput.status,
               ) ? (
                 <div className="flex items-center gap-2">
                   <Spinner className="size-3.5" />
                   <span className="text-muted-foreground">
-                    {consoleOutput.status === "in_progress"
-                      ? "Initializing..."
-                      : consoleOutput.status === "loading_packages"
-                        ? consoleOutput.contents.map((content) =>
-                            content.type === "text" ? content.value : null
+                    {consoleOutput.status === 'in_progress'
+                      ? 'Initializing...'
+                      : consoleOutput.status === 'loading_packages'
+                        ? consoleOutput.contents.map(content =>
+                            content.type === 'text' ? content.value : null,
                           )
                         : null}
                   </span>
                 </div>
               ) : (
                 <div className="no-scrollbar flex w-full min-w-0 flex-col gap-2 overflow-x-auto text-foreground">
-                  {consoleOutput.contents.map((content) =>
-                    content.type === "image" ? (
+                  {consoleOutput.contents.map(content =>
+                    content.type === 'image' ? (
                       <picture
                         key={`${consoleOutput.id}-img-${content.value.slice(0, 32)}`}
                       >
@@ -178,7 +178,7 @@ export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {
                       >
                         {content.value}
                       </div>
-                    )
+                    ),
                   )}
                 </div>
               )}

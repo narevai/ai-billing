@@ -1,7 +1,7 @@
-import type { Node } from "prosemirror-model";
-import { Plugin, PluginKey } from "prosemirror-state";
-import { DecorationSet } from "prosemirror-view";
-import type { Suggestion } from "@/lib/db/schema";
+import type { Node } from 'prosemirror-model';
+import { Plugin, PluginKey } from 'prosemirror-state';
+import { DecorationSet } from 'prosemirror-view';
+import type { Suggestion } from '@/lib/db/schema';
 
 export interface UISuggestion extends Suggestion {
   selectionStart: number;
@@ -38,9 +38,9 @@ function findPositionsInDoc(doc: Node, searchText: string): Position | null {
 
 export function projectWithPositions(
   doc: Node,
-  suggestions: Suggestion[]
+  suggestions: Suggestion[],
 ): UISuggestion[] {
-  return suggestions.map((suggestion) => {
+  return suggestions.map(suggestion => {
     const positions = findPositionsInDoc(doc, suggestion.originalText);
 
     if (!positions) {
@@ -59,7 +59,7 @@ export function projectWithPositions(
   });
 }
 
-export const suggestionsPluginKey = new PluginKey("suggestions");
+export const suggestionsPluginKey = new PluginKey('suggestions');
 export const suggestionsPlugin = new Plugin({
   key: suggestionsPluginKey,
   state: {
@@ -85,7 +85,7 @@ export const suggestionsPlugin = new Plugin({
     handleDOMEvents: {
       mousedown(_view, event) {
         const target = event.target as HTMLElement;
-        if (target.closest(".suggestion-highlight")) {
+        if (target.closest('.suggestion-highlight')) {
           event.preventDefault();
           return true;
         }

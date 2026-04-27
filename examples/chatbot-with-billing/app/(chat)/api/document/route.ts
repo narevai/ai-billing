@@ -1,36 +1,36 @@
-import { z } from "zod";
-import { auth } from "@/app/(auth)/auth";
-import type { ArtifactKind } from "@/components/chat/artifact";
+import { z } from 'zod';
+import { auth } from '@/app/(auth)/auth';
+import type { ArtifactKind } from '@/components/chat/artifact';
 import {
   deleteDocumentsByIdAfterTimestamp,
   getDocumentsById,
   saveDocument,
   updateDocumentContent,
-} from "@/lib/db/queries";
-import { ChatbotError } from "@/lib/errors";
+} from '@/lib/db/queries';
+import { ChatbotError } from '@/lib/errors';
 
 const documentSchema = z.object({
   content: z.string(),
   title: z.string(),
-  kind: z.enum(["text", "code", "image", "sheet"]),
+  kind: z.enum(['text', 'code', 'image', 'sheet']),
   isManualEdit: z.boolean().optional(),
 });
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const id = searchParams.get("id");
+  const id = searchParams.get('id');
 
   if (!id) {
     return new ChatbotError(
-      "bad_request:api",
-      "Parameter id is missing"
+      'bad_request:api',
+      'Parameter id is missing',
     ).toResponse();
   }
 
   const session = await auth();
 
   if (!session?.user) {
-    return new ChatbotError("unauthorized:document").toResponse();
+    return new ChatbotError('unauthorized:document').toResponse();
   }
 
   const documents = await getDocumentsById({ id });
@@ -38,11 +38,11 @@ export async function GET(request: Request) {
   const [document] = documents;
 
   if (!document) {
-    return new ChatbotError("not_found:document").toResponse();
+    return new ChatbotError('not_found:document').toResponse();
   }
 
   if (document.userId !== session.user.id) {
-    return new ChatbotError("forbidden:document").toResponse();
+    return new ChatbotError('forbidden:document').toResponse();
   }
 
   return Response.json(documents, { status: 200 });
@@ -50,19 +50,19 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const { searchParams } = new URL(request.url);
-  const id = searchParams.get("id");
+  const id = searchParams.get('id');
 
   if (!id) {
     return new ChatbotError(
-      "bad_request:api",
-      "Parameter id is required."
+      'bad_request:api',
+      'Parameter id is required.',
     ).toResponse();
   }
 
   const session = await auth();
 
   if (!session?.user) {
-    return new ChatbotError("not_found:document").toResponse();
+    return new ChatbotError('not_found:document').toResponse();
   }
 
   let content: string;
@@ -78,8 +78,8 @@ export async function POST(request: Request) {
     isManualEdit = parsed.isManualEdit;
   } catch {
     return new ChatbotError(
-      "bad_request:api",
-      "Invalid request body."
+      'bad_request:api',
+      'Invalid request body.',
     ).toResponse();
   }
 
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
     const [doc] = documents;
 
     if (doc.userId !== session.user.id) {
-      return new ChatbotError("forbidden:document").toResponse();
+      return new ChatbotError('forbidden:document').toResponse();
     }
   }
 
@@ -111,27 +111,27 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   const { searchParams } = new URL(request.url);
-  const id = searchParams.get("id");
-  const timestamp = searchParams.get("timestamp");
+  const id = searchParams.get('id');
+  const timestamp = searchParams.get('timestamp');
 
   if (!id) {
     return new ChatbotError(
-      "bad_request:api",
-      "Parameter id is required."
+      'bad_request:api',
+      'Parameter id is required.',
     ).toResponse();
   }
 
   if (!timestamp) {
     return new ChatbotError(
-      "bad_request:api",
-      "Parameter timestamp is required."
+      'bad_request:api',
+      'Parameter timestamp is required.',
     ).toResponse();
   }
 
   const session = await auth();
 
   if (!session?.user) {
-    return new ChatbotError("unauthorized:document").toResponse();
+    return new ChatbotError('unauthorized:document').toResponse();
   }
 
   const documents = await getDocumentsById({ id });
@@ -139,15 +139,15 @@ export async function DELETE(request: Request) {
   const [document] = documents;
 
   if (document.userId !== session.user.id) {
-    return new ChatbotError("forbidden:document").toResponse();
+    return new ChatbotError('forbidden:document').toResponse();
   }
 
   const parsedTimestamp = new Date(timestamp);
 
   if (Number.isNaN(parsedTimestamp.getTime())) {
     return new ChatbotError(
-      "bad_request:api",
-      "Invalid timestamp."
+      'bad_request:api',
+      'Invalid timestamp.',
     ).toResponse();
   }
 

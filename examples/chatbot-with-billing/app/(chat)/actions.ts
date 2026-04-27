@@ -1,23 +1,23 @@
-"use server";
+'use server';
 
-import { generateText, type UIMessage } from "ai";
-import { cookies } from "next/headers";
-import { auth } from "@/app/(auth)/auth";
-import type { VisibilityType } from "@/components/chat/visibility-selector";
-import { titleModel } from "@/lib/ai/models";
-import { titlePrompt } from "@/lib/ai/prompts";
-import { getTitleModel } from "@/lib/ai/providers";
+import { generateText, type UIMessage } from 'ai';
+import { cookies } from 'next/headers';
+import { auth } from '@/app/(auth)/auth';
+import type { VisibilityType } from '@/components/chat/visibility-selector';
+import { titleModel } from '@/lib/ai/models';
+import { titlePrompt } from '@/lib/ai/prompts';
+import { getTitleModel } from '@/lib/ai/providers';
 import {
   deleteMessagesByChatIdAfterTimestamp,
   getChatById,
   getMessageById,
   updateChatVisibilityById,
-} from "@/lib/db/queries";
-import { getTextFromMessage } from "@/lib/utils";
+} from '@/lib/db/queries';
+import { getTextFromMessage } from '@/lib/utils';
 
 export async function saveChatModelAsCookie(model: string) {
   const cookieStore = await cookies();
-  cookieStore.set("chat-model", model);
+  cookieStore.set('chat-model', model);
 }
 
 export async function generateTitleFromUserMessage({
@@ -34,25 +34,25 @@ export async function generateTitleFromUserMessage({
     },
   });
   return text
-    .replace(/^[#*"\s]+/, "")
-    .replace(/["]+$/, "")
+    .replace(/^[#*"\s]+/, '')
+    .replace(/["]+$/, '')
     .trim();
 }
 
 export async function deleteTrailingMessages({ id }: { id: string }) {
   const session = await auth();
   if (!session?.user?.id) {
-    throw new Error("Unauthorized");
+    throw new Error('Unauthorized');
   }
 
   const [message] = await getMessageById({ id });
   if (!message) {
-    throw new Error("Message not found");
+    throw new Error('Message not found');
   }
 
   const chat = await getChatById({ id: message.chatId });
   if (!chat || chat.userId !== session.user.id) {
-    throw new Error("Unauthorized");
+    throw new Error('Unauthorized');
   }
 
   await deleteMessagesByChatIdAfterTimestamp({
@@ -70,12 +70,12 @@ export async function updateChatVisibility({
 }) {
   const session = await auth();
   if (!session?.user?.id) {
-    throw new Error("Unauthorized");
+    throw new Error('Unauthorized');
   }
 
   const chat = await getChatById({ id: chatId });
   if (!chat || chat.userId !== session.user.id) {
-    throw new Error("Unauthorized");
+    throw new Error('Unauthorized');
   }
 
   await updateChatVisibilityById({ chatId, visibility });

@@ -1,5 +1,5 @@
-import { expect as baseExpect, test as baseTest } from "@playwright/test";
-import { ChatPage } from "./pages/chat";
+import { expect as baseExpect, test as baseTest } from '@playwright/test';
+import { ChatPage } from './pages/chat';
 
 type Fixtures = {
   chatPage: ChatPage;

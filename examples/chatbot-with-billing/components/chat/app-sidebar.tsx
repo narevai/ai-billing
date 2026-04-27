@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
 import {
   MessageSquareIcon,
   PanelLeftIcon,
   PenSquareIcon,
   TrashIcon,
-} from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import type { User } from "next-auth";
-import { useState } from "react";
-import { toast } from "sonner";
-import { useSWRConfig } from "swr";
-import { unstable_serialize } from "swr/infinite";
+} from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import type { User } from 'next-auth';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { useSWRConfig } from 'swr';
+import { unstable_serialize } from 'swr/infinite';
 import {
   getChatHistoryPaginationKey,
   SidebarHistory,
-} from "@/components/chat/sidebar-history";
-import { SidebarUserNav } from "@/components/chat/sidebar-user-nav";
+} from '@/components/chat/sidebar-history';
+import { SidebarUserNav } from '@/components/chat/sidebar-user-nav';
 import {
   Sidebar,
   SidebarContent,
@@ -31,7 +31,7 @@ import {
   SidebarRail,
   SidebarTrigger,
   useSidebar,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -41,8 +41,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "../ui/alert-dialog";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+} from '../ui/alert-dialog';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 export function AppSidebar({ user }: { user: User | undefined }) {
   const router = useRouter();
@@ -52,16 +52,16 @@ export function AppSidebar({ user }: { user: User | undefined }) {
 
   const handleDeleteAll = () => {
     setShowDeleteAllDialog(false);
-    router.replace("/");
+    router.replace('/');
     mutate(unstable_serialize(getChatHistoryPaginationKey), [], {
       revalidate: false,
     });
 
-    fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/history`, {
-      method: "DELETE",
+    fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/api/history`, {
+      method: 'DELETE',
     });
 
-    toast.success("All chats deleted");
+    toast.success('All chats deleted');
   };
 
   return (
@@ -109,7 +109,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                     className="h-8 rounded-lg border border-sidebar-border text-[13px] text-sidebar-foreground/70 transition-colors duration-150 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
                     onClick={() => {
                       setOpenMobile(false);
-                      router.push("/");
+                      router.push('/');
                     }}
                     tooltip="New Chat"
                   >

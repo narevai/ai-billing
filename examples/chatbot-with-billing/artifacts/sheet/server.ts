@@ -1,12 +1,12 @@
-import { streamText } from "ai";
-import { sheetPrompt, updateDocumentPrompt } from "@/lib/ai/prompts";
-import { getLanguageModel } from "@/lib/ai/providers";
-import { createDocumentHandler } from "@/lib/artifacts/server";
+import { streamText } from 'ai';
+import { sheetPrompt, updateDocumentPrompt } from '@/lib/ai/prompts';
+import { getLanguageModel } from '@/lib/ai/providers';
+import { createDocumentHandler } from '@/lib/artifacts/server';
 
-export const sheetDocumentHandler = createDocumentHandler<"sheet">({
-  kind: "sheet",
+export const sheetDocumentHandler = createDocumentHandler<'sheet'>({
+  kind: 'sheet',
   onCreateDocument: async ({ title, dataStream, modelId }) => {
-    let draftContent = "";
+    let draftContent = '';
 
     const { fullStream } = streamText({
       model: getLanguageModel(modelId),
@@ -15,10 +15,10 @@ export const sheetDocumentHandler = createDocumentHandler<"sheet">({
     });
 
     for await (const delta of fullStream) {
-      if (delta.type === "text-delta") {
+      if (delta.type === 'text-delta') {
         draftContent += delta.text;
         dataStream.write({
-          type: "data-sheetDelta",
+          type: 'data-sheetDelta',
           data: draftContent,
           transient: true,
         });
@@ -28,19 +28,19 @@ export const sheetDocumentHandler = createDocumentHandler<"sheet">({
     return draftContent;
   },
   onUpdateDocument: async ({ document, description, dataStream, modelId }) => {
-    let draftContent = "";
+    let draftContent = '';
 
     const { fullStream } = streamText({
       model: getLanguageModel(modelId),
-      system: `${updateDocumentPrompt(document.content, "sheet")}\n\nOutput ONLY the raw CSV data. No explanations, no markdown fences.`,
+      system: `${updateDocumentPrompt(document.content, 'sheet')}\n\nOutput ONLY the raw CSV data. No explanations, no markdown fences.`,
       prompt: description,
     });
 
     for await (const delta of fullStream) {
-      if (delta.type === "text-delta") {
+      if (delta.type === 'text-delta') {
         draftContent += delta.text;
         dataStream.write({
-          type: "data-sheetDelta",
+          type: 'data-sheetDelta',
           data: draftContent,
           transient: true,
         });

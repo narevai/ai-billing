@@ -1,13 +1,13 @@
-import { auth } from "@/app/(auth)/auth";
-import { getChatById, getMessagesByChatId } from "@/lib/db/queries";
-import { convertToUIMessages } from "@/lib/utils";
+import { auth } from '@/app/(auth)/auth';
+import { getChatById, getMessagesByChatId } from '@/lib/db/queries';
+import { convertToUIMessages } from '@/lib/utils';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const chatId = searchParams.get("chatId");
+  const chatId = searchParams.get('chatId');
 
   if (!chatId) {
-    return Response.json({ error: "chatId required" }, { status: 400 });
+    return Response.json({ error: 'chatId required' }, { status: 400 });
   }
 
   const [session, chat, messages] = await Promise.all([
@@ -19,17 +19,17 @@ export async function GET(request: Request) {
   if (!chat) {
     return Response.json({
       messages: [],
-      visibility: "private",
+      visibility: 'private',
       userId: null,
       isReadonly: false,
     });
   }
 
   if (
-    chat.visibility === "private" &&
+    chat.visibility === 'private' &&
     (!session?.user || session.user.id !== chat.userId)
   ) {
-    return Response.json({ error: "forbidden" }, { status: 403 });
+    return Response.json({ error: 'forbidden' }, { status: 403 });
   }
 
   const isReadonly = !session?.user || session.user.id !== chat.userId;

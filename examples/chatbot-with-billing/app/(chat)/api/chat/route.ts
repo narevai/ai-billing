@@ -1,4 +1,4 @@
-import { geolocation, ipAddress } from "@vercel/functions";
+import { geolocation, ipAddress } from '@vercel/functions';
 import {
   convertToModelMessages,
   createUIMessageStream,
@@ -6,26 +6,26 @@ import {
   generateId,
   stepCountIs,
   streamText,
-} from "ai";
-import { checkBotId } from "botid/server";
-import { after } from "next/server";
-import { createResumableStreamContext } from "resumable-stream";
-import { auth, type UserType } from "@/app/(auth)/auth";
-import { entitlementsByUserType } from "@/lib/ai/entitlements";
+} from 'ai';
+import { checkBotId } from 'botid/server';
+import { after } from 'next/server';
+import { createResumableStreamContext } from 'resumable-stream';
+import { auth, type UserType } from '@/app/(auth)/auth';
+import { entitlementsByUserType } from '@/lib/ai/entitlements';
 import {
   allowedModelIds,
   chatModels,
   DEFAULT_CHAT_MODEL,
   getCapabilities,
-} from "@/lib/ai/models";
-import { type RequestHints, systemPrompt } from "@/lib/ai/prompts";
-import { getLanguageModel } from "@/lib/ai/providers";
-import { createDocument } from "@/lib/ai/tools/create-document";
-import { editDocument } from "@/lib/ai/tools/edit-document";
-import { getWeather } from "@/lib/ai/tools/get-weather";
-import { requestSuggestions } from "@/lib/ai/tools/request-suggestions";
-import { updateDocument } from "@/lib/ai/tools/update-document";
-import { isProductionEnvironment } from "@/lib/constants";
+} from '@/lib/ai/models';
+import { type RequestHints, systemPrompt } from '@/lib/ai/prompts';
+import { getLanguageModel } from '@/lib/ai/providers';
+import { createDocument } from '@/lib/ai/tools/create-document';
+import { editDocument } from '@/lib/ai/tools/edit-document';
+import { getWeather } from '@/lib/ai/tools/get-weather';
+import { requestSuggestions } from '@/lib/ai/tools/request-suggestions';
+import { updateDocument } from '@/lib/ai/tools/update-document';
+import { isProductionEnvironment } from '@/lib/constants';
 import {
   createStreamId,
   deleteChatById,
@@ -36,14 +36,14 @@ import {
   saveMessages,
   updateChatTitleById,
   updateMessage,
-} from "@/lib/db/queries";
-import type { DBMessage } from "@/lib/db/schema";
-import { ChatbotError } from "@/lib/errors";
-import { checkIpRateLimit } from "@/lib/ratelimit";
-import type { ChatMessage } from "@/lib/types";
-import { convertToUIMessages, generateUUID } from "@/lib/utils";
-import { generateTitleFromUserMessage } from "../../actions";
-import { type PostRequestBody, postRequestBodySchema } from "./schema";
+} from '@/lib/db/queries';
+import type { DBMessage } from '@/lib/db/schema';
+import { ChatbotError } from '@/lib/errors';
+import { checkIpRateLimit } from '@/lib/ratelimit';
+import type { ChatMessage } from '@/lib/types';
+import { convertToUIMessages, generateUUID } from '@/lib/utils';
+import { generateTitleFromUserMessage } from '../../actions';
+import { type PostRequestBody, postRequestBodySchema } from './schema';
 
 export const maxDuration = 60;
 
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
     const json = await request.json();
     requestBody = postRequestBodySchema.parse(json);
   } catch (_) {
-    return new ChatbotError("bad_request:api").toResponse();
+    return new ChatbotError('bad_request:api').toResponse();
   }
 
   try {
@@ -77,7 +77,7 @@ export async function POST(request: Request) {
     ]);
 
     if (!session?.user) {
-      return new ChatbotError("unauthorized:chat").toResponse();
+      return new ChatbotError('unauthorized:chat').toResponse();
     }
 
     const chatModel = allowedModelIds.has(selectedChatModel)
@@ -94,7 +94,7 @@ export async function POST(request: Request) {
     });
 
     if (messageCount > entitlementsByUserType[userType].maxMessagesPerHour) {
-      return new ChatbotError("rate_limit:chat").toResponse();
+      return new ChatbotError('rate_limit:chat').toResponse();
     }
 
     const isToolApprovalFlow = Boolean(messages);
@@ -105,14 +105,14 @@ export async function POST(request: Request) {
 
     if (chat) {
       if (chat.userId !== session.user.id) {
-        return new ChatbotError("forbidden:chat").toResponse();
+        return new ChatbotError('forbidden:chat').toResponse();
       }
       messagesFromDb = await getMessagesByChatId({ id });
-    } else if (message?.role === "user") {
+    } else if (message?.role === 'user') {
       await saveChat({
         id,
         userId: session.user.id,
-        title: "New chat",
+        title: 'New chat',
         visibility: selectedVisibilityType,
       });
       titlePromise = generateTitleFromUserMessage({ message });
@@ -124,24 +124,24 @@ export async function POST(request: Request) {
       const dbMessages = convertToUIMessages(messagesFromDb);
       const approvalStates = new Map(
         messages.flatMap(
-          (m) =>
+          m =>
             m.parts
               ?.filter(
                 (p: Record<string, unknown>) =>
-                  p.state === "approval-responded" ||
-                  p.state === "output-denied"
+                  p.state === 'approval-responded' ||
+                  p.state === 'output-denied',
               )
               .map((p: Record<string, unknown>) => [
-                String(p.toolCallId ?? ""),
+                String(p.toolCallId ?? ''),
                 p,
-              ]) ?? []
-        )
+              ]) ?? [],
+        ),
       );
-      uiMessages = dbMessages.map((msg) => ({
+      uiMessages = dbMessages.map(msg => ({
         ...msg,
-        parts: msg.parts.map((part) => {
+        parts: msg.parts.map(part => {
           if (
-            "toolCallId" in part &&
+            'toolCallId' in part &&
             approvalStates.has(String(part.toolCallId))
           ) {
             return { ...part, ...approvalStates.get(String(part.toolCallId)) };
@@ -165,13 +165,13 @@ export async function POST(request: Request) {
       country,
     };
 
-    if (message?.role === "user") {
+    if (message?.role === 'user') {
       await saveMessages({
         messages: [
           {
             chatId: id,
             id: message.id,
-            role: "user",
+            role: 'user',
             parts: message.parts,
             attachments: [],
             createdAt: new Date(),
@@ -180,7 +180,7 @@ export async function POST(request: Request) {
       });
     }
 
-    const modelConfig = chatModels.find((m) => m.id === chatModel);
+    const modelConfig = chatModels.find(m => m.id === chatModel);
     const modelCapabilities = await getCapabilities();
     const capabilities = modelCapabilities[chatModel];
     const isReasoningModel = capabilities?.reasoning === true;
@@ -200,11 +200,11 @@ export async function POST(request: Request) {
             isReasoningModel && !supportsTools
               ? []
               : [
-                  "getWeather",
-                  "createDocument",
-                  "editDocument",
-                  "updateDocument",
-                  "requestSuggestions",
+                  'getWeather',
+                  'createDocument',
+                  'editDocument',
+                  'updateDocument',
+                  'requestSuggestions',
                 ],
           providerOptions: {
             ...(modelConfig?.gatewayOrder && {
@@ -235,17 +235,17 @@ export async function POST(request: Request) {
           },
           experimental_telemetry: {
             isEnabled: isProductionEnvironment,
-            functionId: "stream-text",
+            functionId: 'stream-text',
           },
         });
 
         dataStream.merge(
-          result.toUIMessageStream({ sendReasoning: isReasoningModel })
+          result.toUIMessageStream({ sendReasoning: isReasoningModel }),
         );
 
         if (titlePromise) {
           const title = await titlePromise;
-          dataStream.write({ type: "data-chat-title", data: title });
+          dataStream.write({ type: 'data-chat-title', data: title });
           updateChatTitleById({ chatId: id, title });
         }
       },
@@ -253,7 +253,7 @@ export async function POST(request: Request) {
       onFinish: async ({ messages: finishedMessages }) => {
         if (isToolApprovalFlow) {
           for (const finishedMsg of finishedMessages) {
-            const existingMsg = uiMessages.find((m) => m.id === finishedMsg.id);
+            const existingMsg = uiMessages.find(m => m.id === finishedMsg.id);
             if (existingMsg) {
               await updateMessage({
                 id: finishedMsg.id,
@@ -276,7 +276,7 @@ export async function POST(request: Request) {
           }
         } else if (finishedMessages.length > 0) {
           await saveMessages({
-            messages: finishedMessages.map((currentMessage) => ({
+            messages: finishedMessages.map(currentMessage => ({
               id: currentMessage.id,
               role: currentMessage.role,
               parts: currentMessage.parts,
@@ -287,16 +287,16 @@ export async function POST(request: Request) {
           });
         }
       },
-      onError: (error) => {
+      onError: error => {
         if (
           error instanceof Error &&
           error.message?.includes(
-            "AI Gateway requires a valid credit card on file to service requests"
+            'AI Gateway requires a valid credit card on file to service requests',
           )
         ) {
-          return "AI Gateway requires a valid credit card on file to service requests. Please visit https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai%3Fmodal%3Dadd-credit-card to add a card and unlock your free credits.";
+          return 'AI Gateway requires a valid credit card on file to service requests. Please visit https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai%3Fmodal%3Dadd-credit-card to add a card and unlock your free credits.';
         }
-        return "Oops, an error occurred!";
+        return 'Oops, an error occurred!';
       },
     });
 
@@ -313,7 +313,7 @@ export async function POST(request: Request) {
             await createStreamId({ streamId, chatId: id });
             await streamContext.createNewResumableStream(
               streamId,
-              () => sseStream
+              () => sseStream,
             );
           }
         } catch (_) {
@@ -322,7 +322,7 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    const vercelId = request.headers.get("x-vercel-id");
+    const vercelId = request.headers.get('x-vercel-id');
 
     if (error instanceof ChatbotError) {
       return error.toResponse();
@@ -331,35 +331,35 @@ export async function POST(request: Request) {
     if (
       error instanceof Error &&
       error.message?.includes(
-        "AI Gateway requires a valid credit card on file to service requests"
+        'AI Gateway requires a valid credit card on file to service requests',
       )
     ) {
-      return new ChatbotError("bad_request:activate_gateway").toResponse();
+      return new ChatbotError('bad_request:activate_gateway').toResponse();
     }
 
-    console.error("Unhandled error in chat API:", error, { vercelId });
-    return new ChatbotError("offline:chat").toResponse();
+    console.error('Unhandled error in chat API:', error, { vercelId });
+    return new ChatbotError('offline:chat').toResponse();
   }
 }
 
 export async function DELETE(request: Request) {
   const { searchParams } = new URL(request.url);
-  const id = searchParams.get("id");
+  const id = searchParams.get('id');
 
   if (!id) {
-    return new ChatbotError("bad_request:api").toResponse();
+    return new ChatbotError('bad_request:api').toResponse();
   }
 
   const session = await auth();
 
   if (!session?.user) {
-    return new ChatbotError("unauthorized:chat").toResponse();
+    return new ChatbotError('unauthorized:chat').toResponse();
   }
 
   const chat = await getChatById({ id });
 
   if (chat?.userId !== session.user.id) {
-    return new ChatbotError("forbidden:chat").toResponse();
+    return new ChatbotError('forbidden:chat').toResponse();
   }
 
   const deletedChat = await deleteChatById({ id });

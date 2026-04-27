@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   BombIcon,
@@ -8,9 +8,9 @@ import {
   PenSquareIcon,
   Trash2Icon,
   XIcon,
-} from "lucide-react";
-import { type ReactNode, useEffect, useRef } from "react";
-import { cn } from "@/lib/utils";
+} from 'lucide-react';
+import { type ReactNode, useEffect, useRef } from 'react';
+import { cn } from '@/lib/utils';
 
 export type SlashCommand = {
   name: string;
@@ -22,46 +22,46 @@ export type SlashCommand = {
 
 export const slashCommands: SlashCommand[] = [
   {
-    name: "new",
-    description: "Start a new chat",
+    name: 'new',
+    description: 'Start a new chat',
     icon: <PenSquareIcon className="size-3.5" />,
-    action: "new",
+    action: 'new',
   },
   {
-    name: "clear",
-    description: "Clear current chat",
+    name: 'clear',
+    description: 'Clear current chat',
     icon: <Trash2Icon className="size-3.5" />,
-    action: "clear",
+    action: 'clear',
   },
   {
-    name: "rename",
-    description: "Rename current chat",
+    name: 'rename',
+    description: 'Rename current chat',
     icon: <PenLineIcon className="size-3.5" />,
-    action: "rename",
+    action: 'rename',
   },
   {
-    name: "model",
-    description: "Change the AI model",
+    name: 'model',
+    description: 'Change the AI model',
     icon: <ListIcon className="size-3.5" />,
-    action: "model",
+    action: 'model',
   },
   {
-    name: "theme",
-    description: "Toggle dark/light mode",
+    name: 'theme',
+    description: 'Toggle dark/light mode',
     icon: <PaletteIcon className="size-3.5" />,
-    action: "theme",
+    action: 'theme',
   },
   {
-    name: "delete",
-    description: "Delete current chat",
+    name: 'delete',
+    description: 'Delete current chat',
     icon: <XIcon className="size-3.5" />,
-    action: "delete",
+    action: 'delete',
   },
   {
-    name: "purge",
-    description: "Delete all chats",
+    name: 'purge',
+    description: 'Delete all chats',
     icon: <BombIcon className="size-3.5" />,
-    action: "purge",
+    action: 'purge',
   },
 ];
 
@@ -79,14 +79,14 @@ export function SlashCommandMenu({
   selectedIndex,
 }: SlashCommandMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
-  const filtered = slashCommands.filter((cmd) =>
-    cmd.name.startsWith(query.toLowerCase())
+  const filtered = slashCommands.filter(cmd =>
+    cmd.name.startsWith(query.toLowerCase()),
   );
 
   useEffect(() => {
     const selected = menuRef.current?.querySelector("[data-selected='true']");
     if (selected) {
-      selected.scrollIntoView({ block: "nearest" });
+      selected.scrollIntoView({ block: 'nearest' });
     }
   }, []);
 
@@ -106,13 +106,13 @@ export function SlashCommandMenu({
         {filtered.map((cmd, index) => (
           <button
             className={cn(
-              "flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors",
-              index === selectedIndex ? "bg-muted/70" : "hover:bg-muted/40"
+              'flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors',
+              index === selectedIndex ? 'bg-muted/70' : 'hover:bg-muted/40',
             )}
             data-selected={index === selectedIndex}
             key={cmd.name}
             onClick={() => onSelect(cmd)}
-            onMouseDown={(e) => e.preventDefault()}
+            onMouseDown={e => e.preventDefault()}
             type="button"
           >
             <div className="flex size-6 shrink-0 items-center justify-center text-muted-foreground/60">

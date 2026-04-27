@@ -1,15 +1,15 @@
-import equal from "fast-deep-equal";
-import { memo } from "react";
-import { toast } from "sonner";
-import { useSWRConfig } from "swr";
-import { useCopyToClipboard } from "usehooks-ts";
-import type { Vote } from "@/lib/db/schema";
-import type { ChatMessage } from "@/lib/types";
+import equal from 'fast-deep-equal';
+import { memo } from 'react';
+import { toast } from 'sonner';
+import { useSWRConfig } from 'swr';
+import { useCopyToClipboard } from 'usehooks-ts';
+import type { Vote } from '@/lib/db/schema';
+import type { ChatMessage } from '@/lib/types';
 import {
   MessageAction as Action,
   MessageActions as Actions,
-} from "../ai-elements/message";
-import { CopyIcon, PencilEditIcon, ThumbDownIcon, ThumbUpIcon } from "./icons";
+} from '../ai-elements/message';
+import { CopyIcon, PencilEditIcon, ThumbDownIcon, ThumbUpIcon } from './icons';
 
 export function PureMessageActions({
   chatId,
@@ -32,9 +32,9 @@ export function PureMessageActions({
   }
 
   const textFromParts = message.parts
-    ?.filter((part) => part.type === "text")
-    .map((part) => part.text)
-    .join("\n")
+    ?.filter(part => part.type === 'text')
+    .map(part => part.text)
+    .join('\n')
     .trim();
 
   const handleCopy = async () => {
@@ -44,10 +44,10 @@ export function PureMessageActions({
     }
 
     await copyToClipboard(textFromParts);
-    toast.success("Copied to clipboard!");
+    toast.success('Copied to clipboard!');
   };
 
-  if (message.role === "user") {
+  if (message.role === 'user') {
     return (
       <Actions className="-mr-0.5 justify-end opacity-0 transition-opacity duration-150 group-hover/message:opacity-100">
         <div className="flex items-center gap-0.5">
@@ -89,29 +89,29 @@ export function PureMessageActions({
         disabled={vote?.isUpvoted}
         onClick={() => {
           const upvote = fetch(
-            `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/vote`,
+            `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/api/vote`,
             {
-              method: "PATCH",
+              method: 'PATCH',
               body: JSON.stringify({
                 chatId,
                 messageId: message.id,
-                type: "up",
+                type: 'up',
               }),
-            }
+            },
           );
 
           toast.promise(upvote, {
-            loading: "Upvoting Response...",
+            loading: 'Upvoting Response...',
             success: () => {
               mutate<Vote[]>(
-                `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/vote?chatId=${chatId}`,
-                (currentVotes) => {
+                `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/api/vote?chatId=${chatId}`,
+                currentVotes => {
                   if (!currentVotes) {
                     return [];
                   }
 
                   const votesWithoutCurrent = currentVotes.filter(
-                    (currentVote) => currentVote.messageId !== message.id
+                    currentVote => currentVote.messageId !== message.id,
                   );
 
                   return [
@@ -123,12 +123,12 @@ export function PureMessageActions({
                     },
                   ];
                 },
-                { revalidate: false }
+                { revalidate: false },
               );
 
-              return "Upvoted Response!";
+              return 'Upvoted Response!';
             },
-            error: "Failed to upvote response.",
+            error: 'Failed to upvote response.',
           });
         }}
         tooltip="Upvote Response"
@@ -142,29 +142,29 @@ export function PureMessageActions({
         disabled={vote && !vote.isUpvoted}
         onClick={() => {
           const downvote = fetch(
-            `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/vote`,
+            `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/api/vote`,
             {
-              method: "PATCH",
+              method: 'PATCH',
               body: JSON.stringify({
                 chatId,
                 messageId: message.id,
-                type: "down",
+                type: 'down',
               }),
-            }
+            },
           );
 
           toast.promise(downvote, {
-            loading: "Downvoting Response...",
+            loading: 'Downvoting Response...',
             success: () => {
               mutate<Vote[]>(
-                `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/vote?chatId=${chatId}`,
-                (currentVotes) => {
+                `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/api/vote?chatId=${chatId}`,
+                currentVotes => {
                   if (!currentVotes) {
                     return [];
                   }
 
                   const votesWithoutCurrent = currentVotes.filter(
-                    (currentVote) => currentVote.messageId !== message.id
+                    currentVote => currentVote.messageId !== message.id,
                   );
 
                   return [
@@ -176,12 +176,12 @@ export function PureMessageActions({
                     },
                   ];
                 },
-                { revalidate: false }
+                { revalidate: false },
               );
 
-              return "Downvoted Response!";
+              return 'Downvoted Response!';
             },
-            error: "Failed to downvote response.",
+            error: 'Failed to downvote response.',
           });
         }}
         tooltip="Downvote Response"
@@ -203,5 +203,5 @@ export const MessageActions = memo(
     }
 
     return true;
-  }
+  },
 );

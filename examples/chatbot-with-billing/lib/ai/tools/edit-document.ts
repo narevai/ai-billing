@@ -1,8 +1,8 @@
-import { tool, type UIMessageStreamWriter } from "ai";
-import type { Session } from "next-auth";
-import { z } from "zod";
-import { getDocumentById, saveDocument } from "@/lib/db/queries";
-import type { ChatMessage } from "@/lib/types";
+import { tool, type UIMessageStreamWriter } from 'ai';
+import type { Session } from 'next-auth';
+import { z } from 'zod';
+import { getDocumentById, saveDocument } from '@/lib/db/queries';
+import type { ChatMessage } from '@/lib/types';
 
 type EditDocumentProps = {
   session: Session;
@@ -12,39 +12,39 @@ type EditDocumentProps = {
 export const editDocument = ({ session, dataStream }: EditDocumentProps) =>
   tool({
     description:
-      "Make a targeted edit to an existing artifact by finding and replacing an exact string. Preferred over updateDocument for small changes. The old_string must match exactly.",
+      'Make a targeted edit to an existing artifact by finding and replacing an exact string. Preferred over updateDocument for small changes. The old_string must match exactly.',
     inputSchema: z.object({
-      id: z.string().describe("The ID of the artifact to edit"),
+      id: z.string().describe('The ID of the artifact to edit'),
       old_string: z
         .string()
         .describe(
-          "Exact string to find. Include 3-5 surrounding lines for uniqueness."
+          'Exact string to find. Include 3-5 surrounding lines for uniqueness.',
         ),
-      new_string: z.string().describe("Replacement string"),
+      new_string: z.string().describe('Replacement string'),
       replace_all: z
         .boolean()
         .optional()
         .describe(
-          "Replace all occurrences instead of just the first (default false)"
+          'Replace all occurrences instead of just the first (default false)',
         ),
     }),
     execute: async ({ id, old_string, new_string, replace_all }) => {
       const document = await getDocumentById({ id });
 
       if (!document) {
-        return { error: "Document not found" };
+        return { error: 'Document not found' };
       }
 
       if (document.userId !== session.user?.id) {
-        return { error: "Forbidden" };
+        return { error: 'Forbidden' };
       }
 
       if (!document.content) {
-        return { error: "Document has no content" };
+        return { error: 'Document has no content' };
       }
 
       if (!document.content.includes(old_string)) {
-        return { error: "old_string not found in document" };
+        return { error: 'old_string not found in document' };
       }
 
       const updated = replace_all
@@ -60,41 +60,41 @@ export const editDocument = ({ session, dataStream }: EditDocumentProps) =>
       });
 
       dataStream.write({
-        type: "data-clear",
+        type: 'data-clear',
         data: null,
         transient: true,
       });
 
-      if (document.kind === "code") {
+      if (document.kind === 'code') {
         dataStream.write({
-          type: "data-codeDelta",
+          type: 'data-codeDelta',
           data: updated,
           transient: true,
         });
-      } else if (document.kind === "sheet") {
+      } else if (document.kind === 'sheet') {
         dataStream.write({
-          type: "data-sheetDelta",
+          type: 'data-sheetDelta',
           data: updated,
           transient: true,
         });
       } else {
         dataStream.write({
-          type: "data-textDelta",
+          type: 'data-textDelta',
           data: updated,
           transient: true,
         });
       }
 
-      dataStream.write({ type: "data-finish", data: null, transient: true });
+      dataStream.write({ type: 'data-finish', data: null, transient: true });
 
       return {
         id,
         title: document.title,
         kind: document.kind,
         content:
-          document.kind === "code"
-            ? "The script has been edited successfully."
-            : "The document has been edited successfully.",
+          document.kind === 'code'
+            ? 'The script has been edited successfully.'
+            : 'The document has been edited successfully.',
       };
     },
   });

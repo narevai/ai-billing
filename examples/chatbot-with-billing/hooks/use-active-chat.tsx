@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import type { UseChatHelpers } from "@ai-sdk/react";
-import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
-import { usePathname } from "next/navigation";
+import type { UseChatHelpers } from '@ai-sdk/react';
+import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
+import { usePathname } from 'next/navigation';
 import {
   createContext,
   type Dispatch,
@@ -14,29 +14,29 @@ import {
   useMemo,
   useRef,
   useState,
-} from "react";
-import useSWR, { useSWRConfig } from "swr";
-import { unstable_serialize } from "swr/infinite";
-import { useDataStream } from "@/components/chat/data-stream-provider";
-import { getChatHistoryPaginationKey } from "@/components/chat/sidebar-history";
-import { toast } from "@/components/chat/toast";
-import type { VisibilityType } from "@/components/chat/visibility-selector";
-import { useAutoResume } from "@/hooks/use-auto-resume";
-import { DEFAULT_CHAT_MODEL } from "@/lib/ai/models";
-import type { Vote } from "@/lib/db/schema";
-import { ChatbotError } from "@/lib/errors";
-import type { ChatMessage } from "@/lib/types";
-import { fetcher, fetchWithErrorHandlers, generateUUID } from "@/lib/utils";
+} from 'react';
+import useSWR, { useSWRConfig } from 'swr';
+import { unstable_serialize } from 'swr/infinite';
+import { useDataStream } from '@/components/chat/data-stream-provider';
+import { getChatHistoryPaginationKey } from '@/components/chat/sidebar-history';
+import { toast } from '@/components/chat/toast';
+import type { VisibilityType } from '@/components/chat/visibility-selector';
+import { useAutoResume } from '@/hooks/use-auto-resume';
+import { DEFAULT_CHAT_MODEL } from '@/lib/ai/models';
+import type { Vote } from '@/lib/db/schema';
+import { ChatbotError } from '@/lib/errors';
+import type { ChatMessage } from '@/lib/types';
+import { fetcher, fetchWithErrorHandlers, generateUUID } from '@/lib/utils';
 
 type ActiveChatContextValue = {
   chatId: string;
   messages: ChatMessage[];
-  setMessages: UseChatHelpers<ChatMessage>["setMessages"];
-  sendMessage: UseChatHelpers<ChatMessage>["sendMessage"];
-  status: UseChatHelpers<ChatMessage>["status"];
-  stop: UseChatHelpers<ChatMessage>["stop"];
-  regenerate: UseChatHelpers<ChatMessage>["regenerate"];
-  addToolApprovalResponse: UseChatHelpers<ChatMessage>["addToolApprovalResponse"];
+  setMessages: UseChatHelpers<ChatMessage>['setMessages'];
+  sendMessage: UseChatHelpers<ChatMessage>['sendMessage'];
+  status: UseChatHelpers<ChatMessage>['status'];
+  stop: UseChatHelpers<ChatMessage>['stop'];
+  regenerate: UseChatHelpers<ChatMessage>['regenerate'];
+  addToolApprovalResponse: UseChatHelpers<ChatMessage>['addToolApprovalResponse'];
   input: string;
   setInput: Dispatch<SetStateAction<string>>;
   visibilityType: VisibilityType;
@@ -79,23 +79,23 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
     currentModelIdRef.current = currentModelId;
   }, [currentModelId]);
 
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [showCreditCardAlert, setShowCreditCardAlert] = useState(false);
 
   const { data: chatData, isLoading } = useSWR(
     isNewChat
       ? null
-      : `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/messages?chatId=${chatId}`,
+      : `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/api/messages?chatId=${chatId}`,
     fetcher,
-    { revalidateOnFocus: false }
+    { revalidateOnFocus: false },
   );
 
   const initialMessages: ChatMessage[] = isNewChat
     ? []
     : (chatData?.messages ?? []);
   const visibility: VisibilityType = isNewChat
-    ? "private"
-    : (chatData?.visibility ?? "private");
+    ? 'private'
+    : (chatData?.visibility ?? 'private');
 
   const {
     messages,
@@ -114,28 +114,28 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
       const lastMessage = currentMessages.at(-1);
       return (
         lastMessage?.parts?.some(
-          (part) =>
-            "state" in part &&
-            part.state === "approval-responded" &&
-            "approval" in part &&
-            (part.approval as { approved?: boolean })?.approved === true
+          part =>
+            'state' in part &&
+            part.state === 'approval-responded' &&
+            'approval' in part &&
+            (part.approval as { approved?: boolean })?.approved === true,
         ) ?? false
       );
     },
     transport: new DefaultChatTransport({
-      api: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/chat`,
+      api: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/api/chat`,
       fetch: fetchWithErrorHandlers,
       prepareSendMessagesRequest(request) {
         const lastMessage = request.messages.at(-1);
         const isToolApprovalContinuation =
-          lastMessage?.role !== "user" ||
-          request.messages.some((msg) =>
-            msg.parts?.some((part) => {
+          lastMessage?.role !== 'user' ||
+          request.messages.some(msg =>
+            msg.parts?.some(part => {
               const state = (part as { state?: string }).state;
               return (
-                state === "approval-responded" || state === "output-denied"
+                state === 'approval-responded' || state === 'output-denied'
               );
-            })
+            }),
           );
 
         return {
@@ -151,21 +151,21 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
         };
       },
     }),
-    onData: (dataPart) => {
-      setDataStream((ds) => (ds ? [...ds, dataPart] : []));
+    onData: dataPart => {
+      setDataStream(ds => (ds ? [...ds, dataPart] : []));
     },
     onFinish: () => {
       mutate(unstable_serialize(getChatHistoryPaginationKey));
     },
-    onError: (error) => {
-      if (error.message?.includes("AI Gateway requires a valid credit card")) {
+    onError: error => {
+      if (error.message?.includes('AI Gateway requires a valid credit card')) {
         setShowCreditCardAlert(true);
       } else if (error instanceof ChatbotError) {
-        toast({ type: "error", description: error.message });
+        toast({ type: 'error', description: error.message });
       } else {
         toast({
-          type: "error",
-          description: error.message || "Oops, an error occurred!",
+          type: 'error',
+          description: error.message || 'Oops, an error occurred!',
         });
       }
     },
@@ -200,9 +200,9 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (chatData && !isNewChat) {
       const cookieModel = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("chat-model="))
-        ?.split("=")[1];
+        .split('; ')
+        .find(row => row.startsWith('chat-model='))
+        ?.split('=')[1];
       if (cookieModel) {
         setCurrentModelId(decodeURIComponent(cookieModel));
       }
@@ -212,17 +212,17 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
   const hasAppendedQueryRef = useRef(false);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const query = params.get("query");
+    const query = params.get('query');
     if (query && !hasAppendedQueryRef.current) {
       hasAppendedQueryRef.current = true;
       window.history.replaceState(
         {},
-        "",
-        `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/chat/${chatId}`
+        '',
+        `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/chat/${chatId}`,
       );
       sendMessage({
-        role: "user" as const,
-        parts: [{ type: "text", text: query }],
+        role: 'user' as const,
+        parts: [{ type: 'text', text: query }],
       });
     }
   }, [sendMessage, chatId]);
@@ -238,10 +238,10 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
 
   const { data: votes } = useSWR<Vote[]>(
     !isReadonly && messages.length >= 2
-      ? `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/vote?chatId=${chatId}`
+      ? `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/api/vote?chatId=${chatId}`
       : null,
     fetcher,
-    { revalidateOnFocus: false }
+    { revalidateOnFocus: false },
   );
 
   const value = useMemo<ActiveChatContextValue>(
@@ -282,7 +282,7 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
       votes,
       currentModelId,
       showCreditCardAlert,
-    ]
+    ],
   );
 
   return (
@@ -295,7 +295,7 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
 export function useActiveChat() {
   const context = useContext(ActiveChatContext);
   if (!context) {
-    throw new Error("useActiveChat must be used within ActiveChatProvider");
+    throw new Error('useActiveChat must be used within ActiveChatProvider');
   }
   return context;
 }

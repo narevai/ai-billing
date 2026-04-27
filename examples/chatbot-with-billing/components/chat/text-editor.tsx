@@ -1,35 +1,35 @@
-"use client";
+'use client';
 
-import { exampleSetup } from "prosemirror-example-setup";
-import { inputRules } from "prosemirror-inputrules";
-import { EditorState } from "prosemirror-state";
-import { type Decoration, DecorationSet, EditorView } from "prosemirror-view";
-import { memo, useCallback, useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { exampleSetup } from 'prosemirror-example-setup';
+import { inputRules } from 'prosemirror-inputrules';
+import { EditorState } from 'prosemirror-state';
+import { type Decoration, DecorationSet, EditorView } from 'prosemirror-view';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
-import type { Suggestion } from "@/lib/db/schema";
+import type { Suggestion } from '@/lib/db/schema';
 import {
   documentSchema,
   handleTransaction,
   headingRule,
-} from "@/lib/editor/config";
+} from '@/lib/editor/config';
 import {
   buildContentFromDocument,
   buildDocumentFromContent,
   createDecorations,
-} from "@/lib/editor/functions";
+} from '@/lib/editor/functions';
 import {
   projectWithPositions,
   suggestionsPlugin,
   suggestionsPluginKey,
   type UISuggestion,
-} from "@/lib/editor/suggestions";
-import { SuggestionDialog } from "./suggestion";
+} from '@/lib/editor/suggestions';
+import { SuggestionDialog } from './suggestion';
 
 type EditorProps = {
   content: string;
   onSaveContent: (updatedContent: string, debounce: boolean) => void;
-  status: "streaming" | "idle";
+  status: 'streaming' | 'idle';
   isCurrentVersion: boolean;
   currentVersionIndex: number;
   suggestions: Suggestion[];
@@ -47,7 +47,7 @@ function PureEditor({
   const containerRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<EditorView | null>(null);
   const [activeSuggestion, setActiveSuggestion] = useState<UISuggestion | null>(
-    null
+    null,
   );
   const suggestionsRef = useRef<UISuggestion[]>([]);
 
@@ -76,10 +76,10 @@ function PureEditor({
         handleDOMEvents: {
           click(_view, event) {
             const target = event.target as HTMLElement;
-            const highlight = target.closest(".suggestion-highlight");
+            const highlight = target.closest('.suggestion-highlight');
             if (highlight) {
-              const id = highlight.getAttribute("data-suggestion-id");
-              const found = suggestionsRef.current.find((s) => s.id === id);
+              const id = highlight.getAttribute('data-suggestion-id');
+              const found = suggestionsRef.current.find(s => s.id === id);
               if (found) {
                 setActiveSuggestion(found);
               }
@@ -102,7 +102,7 @@ function PureEditor({
   useEffect(() => {
     if (editorRef.current) {
       editorRef.current.setProps({
-        dispatchTransaction: (transaction) => {
+        dispatchTransaction: transaction => {
           handleTransaction({
             transaction,
             editorRef,
@@ -116,19 +116,19 @@ function PureEditor({
   useEffect(() => {
     if (editorRef.current && content) {
       const currentContent = buildContentFromDocument(
-        editorRef.current.state.doc
+        editorRef.current.state.doc,
       );
 
-      if (status === "streaming") {
+      if (status === 'streaming') {
         const newDocument = buildDocumentFromContent(content);
 
         const transaction = editorRef.current.state.tr.replaceWith(
           0,
           editorRef.current.state.doc.content.size,
-          newDocument.content
+          newDocument.content,
         );
 
-        transaction.setMeta("no-save", true);
+        transaction.setMeta('no-save', true);
         editorRef.current.dispatch(transaction);
         return;
       }
@@ -139,10 +139,10 @@ function PureEditor({
         const transaction = editorRef.current.state.tr.replaceWith(
           0,
           editorRef.current.state.doc.content.size,
-          newDocument.content
+          newDocument.content,
         );
 
-        transaction.setMeta("no-save", true);
+        transaction.setMeta('no-save', true);
         editorRef.current.dispatch(transaction);
       }
     }
@@ -152,16 +152,16 @@ function PureEditor({
     if (editorRef.current?.state.doc && content) {
       const projectedSuggestions = projectWithPositions(
         editorRef.current.state.doc,
-        suggestions
+        suggestions,
       ).filter(
-        (suggestion) => suggestion.selectionStart && suggestion.selectionEnd
+        suggestion => suggestion.selectionStart && suggestion.selectionEnd,
       );
 
       suggestionsRef.current = projectedSuggestions;
 
       const decorations = createDecorations(
         projectedSuggestions,
-        editorRef.current
+        editorRef.current,
       );
 
       const transaction = editorRef.current.state.tr;
@@ -184,7 +184,7 @@ function PureEditor({
         state.doc,
         currentDecorations.find().filter((decoration: Decoration) => {
           return decoration.spec.suggestionId !== activeSuggestion.id;
-        })
+        }),
       );
 
       const decorationTransaction = state.tr;
@@ -198,9 +198,9 @@ function PureEditor({
     const textTransaction = editorRef.current.state.tr.replaceWith(
       activeSuggestion.selectionStart,
       activeSuggestion.selectionEnd,
-      state.schema.text(activeSuggestion.suggestedText)
+      state.schema.text(activeSuggestion.suggestedText),
     );
-    textTransaction.setMeta("no-debounce", true);
+    textTransaction.setMeta('no-debounce', true);
     dispatch(textTransaction);
 
     setActiveSuggestion(null);
@@ -221,8 +221,8 @@ function PureEditor({
             suggestion={activeSuggestion}
           />,
           containerRef.current.closest(
-            "[data-slot='artifact-content']"
-          ) as HTMLElement
+            "[data-slot='artifact-content']",
+          ) as HTMLElement,
         )}
     </>
   );
@@ -233,7 +233,7 @@ function areEqual(prevProps: EditorProps, nextProps: EditorProps) {
     prevProps.suggestions === nextProps.suggestions &&
     prevProps.currentVersionIndex === nextProps.currentVersionIndex &&
     prevProps.isCurrentVersion === nextProps.isCurrentVersion &&
-    !(prevProps.status === "streaming" && nextProps.status === "streaming") &&
+    !(prevProps.status === 'streaming' && nextProps.status === 'streaming') &&
     prevProps.content === nextProps.content &&
     prevProps.onSaveContent === nextProps.onSaveContent
   );

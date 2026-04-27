@@ -1,5 +1,5 @@
-import type { Geo } from "@vercel/functions";
-import type { ArtifactKind } from "@/components/chat/artifact";
+import type { Geo } from '@vercel/functions';
+import type { ArtifactKind } from '@/components/chat/artifact';
 
 export const artifactsPrompt = `
 Artifacts is a side panel that displays content alongside the conversation. It supports scripts (code), documents (text), and spreadsheets. Changes appear in real-time.
@@ -49,10 +49,10 @@ export const regularPrompt = `You are a helpful assistant. Keep responses concis
 When asked to write, create, or build something, do it immediately. Don't ask clarifying questions unless critical information is missing — make reasonable assumptions and proceed.`;
 
 export type RequestHints = {
-  latitude: Geo["latitude"];
-  longitude: Geo["longitude"];
-  city: Geo["city"];
-  country: Geo["country"];
+  latitude: Geo['latitude'];
+  longitude: Geo['longitude'];
+  city: Geo['city'];
+  country: Geo['country'];
 };
 
 export const getRequestPromptFromHints = (requestHints: RequestHints) => `\
@@ -105,13 +105,13 @@ Requirements:
 
 export const updateDocumentPrompt = (
   currentContent: string | null,
-  type: ArtifactKind
+  type: ArtifactKind,
 ) => {
   const mediaTypes: Record<string, string> = {
-    code: "script",
-    sheet: "spreadsheet",
+    code: 'script',
+    sheet: 'spreadsheet',
   };
-  const mediaType = mediaTypes[type] ?? "document";
+  const mediaType = mediaTypes[type] ?? 'document';
 
   return `Rewrite the following ${mediaType} based on the given prompt.
 

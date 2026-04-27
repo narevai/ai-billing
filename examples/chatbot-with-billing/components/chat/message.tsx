@@ -1,25 +1,25 @@
-"use client";
-import type { UseChatHelpers } from "@ai-sdk/react";
-import type { Vote } from "@/lib/db/schema";
-import type { ChatMessage } from "@/lib/types";
-import { cn, sanitizeText } from "@/lib/utils";
-import { MessageContent, MessageResponse } from "../ai-elements/message";
-import { Shimmer } from "../ai-elements/shimmer";
+'use client';
+import type { UseChatHelpers } from '@ai-sdk/react';
+import type { Vote } from '@/lib/db/schema';
+import type { ChatMessage } from '@/lib/types';
+import { cn, sanitizeText } from '@/lib/utils';
+import { MessageContent, MessageResponse } from '../ai-elements/message';
+import { Shimmer } from '../ai-elements/shimmer';
 import {
   Tool,
   ToolContent,
   ToolHeader,
   ToolInput,
   ToolOutput,
-} from "../ai-elements/tool";
-import { useDataStream } from "./data-stream-provider";
-import { DocumentToolResult } from "./document";
-import { DocumentPreview } from "./document-preview";
-import { SparklesIcon } from "./icons";
-import { MessageActions } from "./message-actions";
-import { MessageReasoning } from "./message-reasoning";
-import { PreviewAttachment } from "./preview-attachment";
-import { Weather } from "./weather";
+} from '../ai-elements/tool';
+import { useDataStream } from './data-stream-provider';
+import { DocumentToolResult } from './document';
+import { DocumentPreview } from './document-preview';
+import { SparklesIcon } from './icons';
+import { MessageActions } from './message-actions';
+import { MessageReasoning } from './message-reasoning';
+import { PreviewAttachment } from './preview-attachment';
+import { Weather } from './weather';
 
 const PurePreviewMessage = ({
   addToolApprovalResponse,
@@ -33,45 +33,45 @@ const PurePreviewMessage = ({
   requiresScrollPadding: _requiresScrollPadding,
   onEdit,
 }: {
-  addToolApprovalResponse: UseChatHelpers<ChatMessage>["addToolApprovalResponse"];
+  addToolApprovalResponse: UseChatHelpers<ChatMessage>['addToolApprovalResponse'];
   chatId: string;
   message: ChatMessage;
   vote: Vote | undefined;
   isLoading: boolean;
-  setMessages: UseChatHelpers<ChatMessage>["setMessages"];
-  regenerate: UseChatHelpers<ChatMessage>["regenerate"];
+  setMessages: UseChatHelpers<ChatMessage>['setMessages'];
+  regenerate: UseChatHelpers<ChatMessage>['regenerate'];
   isReadonly: boolean;
   requiresScrollPadding: boolean;
   onEdit?: (message: ChatMessage) => void;
 }) => {
   const attachmentsFromMessage = message.parts.filter(
-    (part) => part.type === "file"
+    part => part.type === 'file',
   );
 
   useDataStream();
 
-  const isUser = message.role === "user";
-  const isAssistant = message.role === "assistant";
+  const isUser = message.role === 'user';
+  const isAssistant = message.role === 'assistant';
 
   const hasAnyContent = message.parts?.some(
-    (part) =>
-      (part.type === "text" && part.text?.trim().length > 0) ||
-      (part.type === "reasoning" &&
-        "text" in part &&
+    part =>
+      (part.type === 'text' && part.text?.trim().length > 0) ||
+      (part.type === 'reasoning' &&
+        'text' in part &&
         part.text?.trim().length > 0) ||
-      part.type.startsWith("tool-")
+      part.type.startsWith('tool-'),
   );
   const isThinking = isAssistant && isLoading && !hasAnyContent;
 
   const attachments = attachmentsFromMessage.length > 0 && (
     <div
       className="flex flex-row justify-end gap-2"
-      data-testid={"message-attachments"}
+      data-testid={'message-attachments'}
     >
-      {attachmentsFromMessage.map((attachment) => (
+      {attachmentsFromMessage.map(attachment => (
         <PreviewAttachment
           attachment={{
-            name: attachment.filename ?? "file",
+            name: attachment.filename ?? 'file',
             contentType: attachment.mediaType,
             url: attachment.url,
           }}
@@ -83,23 +83,23 @@ const PurePreviewMessage = ({
 
   const mergedReasoning = message.parts?.reduce(
     (acc, part) => {
-      if (part.type === "reasoning" && part.text?.trim().length > 0) {
+      if (part.type === 'reasoning' && part.text?.trim().length > 0) {
         return {
           text: acc.text ? `${acc.text}\n\n${part.text}` : part.text,
-          isStreaming: "state" in part ? part.state === "streaming" : false,
+          isStreaming: 'state' in part ? part.state === 'streaming' : false,
           rendered: false,
         };
       }
       return acc;
     },
-    { text: "", isStreaming: false, rendered: false }
-  ) ?? { text: "", isStreaming: false, rendered: false };
+    { text: '', isStreaming: false, rendered: false },
+  ) ?? { text: '', isStreaming: false, rendered: false };
 
   const parts = message.parts?.map((part, index) => {
     const { type } = part;
     const key = `message-${message.id}-part-${index}`;
 
-    if (type === "reasoning") {
+    if (type === 'reasoning') {
       if (!mergedReasoning.rendered && mergedReasoning.text) {
         mergedReasoning.rendered = true;
         return (
@@ -113,12 +113,12 @@ const PurePreviewMessage = ({
       return null;
     }
 
-    if (type === "text") {
+    if (type === 'text') {
       return (
         <MessageContent
-          className={cn("text-[13px] leading-[1.65]", {
-            "w-fit max-w-[min(80%,56ch)] overflow-hidden break-words rounded-2xl rounded-br-lg border border-border/30 bg-gradient-to-br from-secondary to-muted px-3.5 py-2 shadow-[var(--shadow-card)]":
-              message.role === "user",
+          className={cn('text-[13px] leading-[1.65]', {
+            'w-fit max-w-[min(80%,56ch)] overflow-hidden break-words rounded-2xl rounded-br-lg border border-border/30 bg-gradient-to-br from-secondary to-muted px-3.5 py-2 shadow-[var(--shadow-card)]':
+              message.role === 'user',
           })}
           data-testid="message-content"
           key={key}
@@ -128,17 +128,17 @@ const PurePreviewMessage = ({
       );
     }
 
-    if (type === "tool-getWeather") {
+    if (type === 'tool-getWeather') {
       const { toolCallId, state } = part;
       const approvalId = (part as { approval?: { id: string } }).approval?.id;
       const isDenied =
-        state === "output-denied" ||
-        (state === "approval-responded" &&
+        state === 'output-denied' ||
+        (state === 'approval-responded' &&
           (part as { approval?: { approved?: boolean } }).approval?.approved ===
             false);
-      const widthClass = "w-[min(100%,450px)]";
+      const widthClass = 'w-[min(100%,450px)]';
 
-      if (state === "output-available") {
+      if (state === 'output-available') {
         return (
           <div className={widthClass} key={toolCallId}>
             <Weather weatherAtLocation={part.output} />
@@ -161,7 +161,7 @@ const PurePreviewMessage = ({
         );
       }
 
-      if (state === "approval-responded") {
+      if (state === 'approval-responded') {
         return (
           <div className={widthClass} key={toolCallId}>
             <Tool className="w-full" defaultOpen={true}>
@@ -179,11 +179,11 @@ const PurePreviewMessage = ({
           <Tool className="w-full" defaultOpen={true}>
             <ToolHeader state={state} type="tool-getWeather" />
             <ToolContent>
-              {(state === "input-available" ||
-                state === "approval-requested") && (
+              {(state === 'input-available' ||
+                state === 'approval-requested') && (
                 <ToolInput input={part.input} />
               )}
-              {state === "approval-requested" && approvalId && (
+              {state === 'approval-requested' && approvalId && (
                 <div className="flex items-center justify-end gap-2 border-t px-4 py-3">
                   <button
                     className="rounded-md px-3 py-1.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
@@ -191,7 +191,7 @@ const PurePreviewMessage = ({
                       addToolApprovalResponse({
                         id: approvalId,
                         approved: false,
-                        reason: "User denied weather lookup",
+                        reason: 'User denied weather lookup',
                       });
                     }}
                     type="button"
@@ -218,10 +218,10 @@ const PurePreviewMessage = ({
       );
     }
 
-    if (type === "tool-createDocument") {
+    if (type === 'tool-createDocument') {
       const { toolCallId } = part;
 
-      if (part.output && "error" in part.output) {
+      if (part.output && 'error' in part.output) {
         return (
           <div
             className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-500 dark:bg-red-950/50"
@@ -241,10 +241,10 @@ const PurePreviewMessage = ({
       );
     }
 
-    if (type === "tool-updateDocument") {
+    if (type === 'tool-updateDocument') {
       const { toolCallId } = part;
 
-      if (part.output && "error" in part.output) {
+      if (part.output && 'error' in part.output) {
         return (
           <div
             className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-500 dark:bg-red-950/50"
@@ -266,7 +266,7 @@ const PurePreviewMessage = ({
       );
     }
 
-    if (type === "tool-requestSuggestions") {
+    if (type === 'tool-requestSuggestions') {
       const { toolCallId, state } = part;
 
       return (
@@ -277,12 +277,12 @@ const PurePreviewMessage = ({
         >
           <ToolHeader state={state} type="tool-requestSuggestions" />
           <ToolContent>
-            {state === "input-available" && <ToolInput input={part.input} />}
-            {state === "output-available" && (
+            {state === 'input-available' && <ToolInput input={part.input} />}
+            {state === 'output-available' && (
               <ToolOutput
                 errorText={undefined}
                 output={
-                  "error" in part.output ? (
+                  'error' in part.output ? (
                     <div className="rounded border p-2 text-red-500">
                       Error: {String(part.output.error)}
                     </div>
@@ -332,15 +332,15 @@ const PurePreviewMessage = ({
   return (
     <div
       className={cn(
-        "group/message w-full",
-        !isAssistant && "animate-[fade-up_0.25s_cubic-bezier(0.22,1,0.36,1)]"
+        'group/message w-full',
+        !isAssistant && 'animate-[fade-up_0.25s_cubic-bezier(0.22,1,0.36,1)]',
       )}
       data-role={message.role}
       data-testid={`message-${message.role}`}
     >
       <div
         className={cn(
-          isUser ? "flex flex-col items-end gap-2" : "flex items-start gap-3"
+          isUser ? 'flex flex-col items-end gap-2' : 'flex items-start gap-3',
         )}
       >
         {isAssistant && (

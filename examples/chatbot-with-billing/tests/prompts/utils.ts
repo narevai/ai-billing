@@ -1,4 +1,4 @@
-import type { LanguageModelV3StreamPart } from "@ai-sdk/provider";
+import type { LanguageModelV3StreamPart } from '@ai-sdk/provider';
 
 const mockUsage = {
   inputTokens: { total: 10, noCache: 10, cacheRead: 0, cacheWrite: 0 },
@@ -7,27 +7,27 @@ const mockUsage = {
 
 export function getResponseChunksByPrompt(
   _prompt: unknown,
-  includeReasoning = false
+  includeReasoning = false,
 ): LanguageModelV3StreamPart[] {
   const chunks: LanguageModelV3StreamPart[] = [];
 
   if (includeReasoning) {
     chunks.push(
-      { type: "reasoning-start", id: "r1" },
-      { type: "reasoning-delta", id: "r1", delta: "Let me think about this." },
-      { type: "reasoning-end", id: "r1" }
+      { type: 'reasoning-start', id: 'r1' },
+      { type: 'reasoning-delta', id: 'r1', delta: 'Let me think about this.' },
+      { type: 'reasoning-end', id: 'r1' },
     );
   }
 
   chunks.push(
-    { type: "text-start", id: "t1" },
-    { type: "text-delta", id: "t1", delta: "Hello, world!" },
-    { type: "text-end", id: "t1" },
+    { type: 'text-start', id: 't1' },
+    { type: 'text-delta', id: 't1', delta: 'Hello, world!' },
+    { type: 'text-end', id: 't1' },
     {
-      type: "finish",
-      finishReason: { unified: "stop", raw: "stop" },
+      type: 'finish',
+      finishReason: { unified: 'stop', raw: 'stop' },
       usage: mockUsage,
-    }
+    },
   );
 
   return chunks;

@@ -1,7 +1,7 @@
 // Modified from https://github.com/hamflx/prosemirror-diff/blob/master/src/diff.js
 
-import { diff_match_patch } from "diff-match-patch";
-import { Fragment, Node } from "prosemirror-model";
+import { diff_match_patch } from 'diff-match-patch';
+import { Fragment, Node } from 'prosemirror-model';
 
 export const DiffType = {
   Unchanged: 0,
@@ -49,7 +49,7 @@ export const patchDocumentNode = (schema, oldNode, newNode) => {
     const matchedNodes = matchNodes(
       schema,
       diffOldChildren,
-      diffNewChildren
+      diffNewChildren,
     ).sort((a, b) => b.count - a.count);
     const bestMatch = matchedNodes[0];
     if (bestMatch) {
@@ -62,11 +62,11 @@ export const patchDocumentNode = (schema, oldNode, newNode) => {
         ...patchRemainNodes(
           schema,
           oldBeforeMatchChildren,
-          newBeforeMatchChildren
-        )
+          newBeforeMatchChildren,
+        ),
       );
       finalLeftChildren.push(
-        ...diffOldChildren.slice(oldStartIndex, oldEndIndex)
+        ...diffOldChildren.slice(oldStartIndex, oldEndIndex),
       );
 
       const oldAfterMatchChildren = diffOldChildren.slice(oldEndIndex);
@@ -76,17 +76,17 @@ export const patchDocumentNode = (schema, oldNode, newNode) => {
         ...patchRemainNodes(
           schema,
           oldAfterMatchChildren,
-          newAfterMatchChildren
-        )
+          newAfterMatchChildren,
+        ),
       );
     } else {
       finalLeftChildren.push(
-        ...patchRemainNodes(schema, diffOldChildren, diffNewChildren)
+        ...patchRemainNodes(schema, diffOldChildren, diffNewChildren),
       );
     }
   } else {
     finalLeftChildren.push(
-      ...patchRemainNodes(schema, diffOldChildren, diffNewChildren)
+      ...patchRemainNodes(schema, diffOldChildren, diffNewChildren),
     );
   }
 
@@ -155,7 +155,7 @@ const patchRemainNodes = (schema, oldChildren, newChildren) => {
       !isTextNode(rightOldNode) && matchNodeType(rightOldNode, rightNewNode);
     if (Array.isArray(leftOldNode) && Array.isArray(leftNewNode)) {
       finalLeftChildren.push(
-        ...patchTextNodes(schema, leftOldNode, leftNewNode)
+        ...patchTextNodes(schema, leftOldNode, leftNewNode),
       );
       left += 1;
       continue;
@@ -165,7 +165,7 @@ const patchRemainNodes = (schema, oldChildren, newChildren) => {
       const equalityLeft = computeChildEqualityFactor(leftOldNode, leftNewNode);
       const equalityRight = computeChildEqualityFactor(
         rightOldNode,
-        rightNewNode
+        rightNewNode,
       );
       if (equalityLeft < equalityRight) {
         updateLeft = false;
@@ -175,21 +175,21 @@ const patchRemainNodes = (schema, oldChildren, newChildren) => {
     }
     if (updateLeft) {
       finalLeftChildren.push(
-        patchDocumentNode(schema, leftOldNode, leftNewNode)
+        patchDocumentNode(schema, leftOldNode, leftNewNode),
       );
       left += 1;
     } else if (updateRight) {
       finalRightChildren.unshift(
-        patchDocumentNode(schema, rightOldNode, rightNewNode)
+        patchDocumentNode(schema, rightOldNode, rightNewNode),
       );
       right += 1;
     } else {
       // Delete and insert
       finalLeftChildren.push(
-        createDiffNode(schema, leftOldNode, DiffType.Deleted)
+        createDiffNode(schema, leftOldNode, DiffType.Deleted),
       );
       finalLeftChildren.push(
-        createDiffNode(schema, leftNewNode, DiffType.Inserted)
+        createDiffNode(schema, leftNewNode, DiffType.Inserted),
       );
       left += 1;
     }
@@ -202,7 +202,7 @@ const patchRemainNodes = (schema, oldChildren, newChildren) => {
       ...oldChildren
         .slice(left, left + deleteNodeLen)
         .flat()
-        .map((node) => createDiffNode(schema, node, DiffType.Deleted))
+        .map(node => createDiffNode(schema, node, DiffType.Deleted)),
     );
   }
 
@@ -211,7 +211,7 @@ const patchRemainNodes = (schema, oldChildren, newChildren) => {
       ...newChildren
         .slice(left, left + insertNodeLen)
         .flat()
-        .map((node) => createDiffNode(schema, node, DiffType.Inserted))
+        .map(node => createDiffNode(schema, node, DiffType.Inserted)),
     );
   }
 
@@ -223,8 +223,8 @@ export const patchTextNodes = (schema, oldNode, newNode) => {
   const dmp = new diff_match_patch();
 
   // Concatenate the text from the text nodes
-  const oldText = oldNode.map((n) => getNodeText(n)).join("");
-  const newText = newNode.map((n) => getNodeText(n)).join("");
+  const oldText = oldNode.map(n => getNodeText(n)).join('');
+  const newText = newNode.map(n => getNodeText(n)).join('');
 
   // Tokenize the text into sentences
   const oldSentences = tokenizeSentences(oldText);
@@ -233,7 +233,7 @@ export const patchTextNodes = (schema, oldNode, newNode) => {
   // Map sentences to unique characters
   const { chars1, chars2, lineArray } = sentencesToChars(
     oldSentences,
-    newSentences
+    newSentences,
   );
 
   // Perform the diff
@@ -241,19 +241,17 @@ export const patchTextNodes = (schema, oldNode, newNode) => {
 
   // Convert back to sentences
   diffs = diffs.map(([type, text]) => {
-    const sentences = text
-      .split("")
-      .map((char) => lineArray[char.charCodeAt(0)]);
+    const sentences = text.split('').map(char => lineArray[char.charCodeAt(0)]);
     return [type, sentences];
   });
 
   // Map diffs to nodes
   const res = diffs.flatMap(([type, sentences]) => {
-    return sentences.map((sentence) => {
+    return sentences.map(sentence => {
       const node = createTextNode(
         schema,
         sentence,
-        type === DiffType.Unchanged ? [] : [createDiffMark(schema, type)]
+        type === DiffType.Unchanged ? [] : [createDiffMark(schema, type)],
       );
       return node;
     });
@@ -263,7 +261,7 @@ export const patchTextNodes = (schema, oldNode, newNode) => {
 };
 
 // Function to tokenize text into sentences
-const tokenizeSentences = (text) => {
+const tokenizeSentences = text => {
   return text.match(/[^.!?]+[.!?]*\s*/g) || [];
 };
 
@@ -274,7 +272,7 @@ const sentencesToChars = (oldSentences, newSentences) => {
   let lineStart = 0;
 
   const chars1 = oldSentences
-    .map((sentence) => {
+    .map(sentence => {
       const line = sentence;
       if (line in lineHash) {
         return String.fromCharCode(lineHash[line]);
@@ -284,10 +282,10 @@ const sentencesToChars = (oldSentences, newSentences) => {
       lineStart++;
       return String.fromCharCode(lineHash[line]);
     })
-    .join("");
+    .join('');
 
   const chars2 = newSentences
-    .map((sentence) => {
+    .map(sentence => {
       const line = sentence;
       if (line in lineHash) {
         return String.fromCharCode(lineHash[line]);
@@ -297,7 +295,7 @@ const sentencesToChars = (oldSentences, newSentences) => {
       lineStart++;
       return String.fromCharCode(lineHash[line]);
     })
-    .join("");
+    .join('');
 
   return { chars1, chars2, lineArray };
 };
@@ -307,12 +305,12 @@ export const computeChildEqualityFactor = (_node1, _node2) => {
 };
 
 export const assertNodeTypeEqual = (node1, node2) => {
-  if (getNodeProperty(node1, "type") !== getNodeProperty(node2, "type")) {
+  if (getNodeProperty(node1, 'type') !== getNodeProperty(node2, 'type')) {
     throw new Error(`node type not equal: ${node1.type} !== ${node2.type}`);
   }
 };
 
-export const ensureArray = (value) => {
+export const ensureArray = value => {
   return Array.isArray(value) ? value : [value];
 };
 
@@ -329,14 +327,14 @@ export const isNodeEqual = (node1, node2) => {
     );
   }
 
-  const type1 = getNodeProperty(node1, "type");
-  const type2 = getNodeProperty(node2, "type");
+  const type1 = getNodeProperty(node1, 'type');
+  const type2 = getNodeProperty(node2, 'type');
   if (type1 !== type2) {
     return false;
   }
   if (isTextNode(node1)) {
-    const text1 = getNodeProperty(node1, "text");
-    const text2 = getNodeProperty(node2, "text");
+    const text1 = getNodeProperty(node1, 'text');
+    const text2 = getNodeProperty(node2, 'text');
     if (text1 !== text2) {
       return false;
     }
@@ -372,7 +370,7 @@ export const isNodeEqual = (node1, node2) => {
   return true;
 };
 
-export const normalizeNodeContent = (node) => {
+export const normalizeNodeContent = node => {
   const content = getNodeChildren(node) ?? [];
   const res = [];
   for (let i = 0; i < content.length; i++) {
@@ -396,7 +394,7 @@ export const normalizeNodeContent = (node) => {
 };
 
 export const getNodeProperty = (node, property) => {
-  if (property === "type") {
+  if (property === 'type') {
     return node.type?.name;
   }
   return node[property];
@@ -405,15 +403,15 @@ export const getNodeProperty = (node, property) => {
 export const getNodeAttribute = (node, attribute) =>
   node.attrs ? node.attrs[attribute] : undefined;
 
-export const getNodeAttributes = (node) => (node.attrs ? node.attrs : {});
+export const getNodeAttributes = node => (node.attrs ? node.attrs : {});
 
-export const getNodeMarks = (node) => node.marks ?? [];
+export const getNodeMarks = node => node.marks ?? [];
 
-export const getNodeChildren = (node) => node.content?.content ?? [];
+export const getNodeChildren = node => node.content?.content ?? [];
 
-export const getNodeText = (node) => node.text;
+export const getNodeText = node => node.text;
 
-export const isTextNode = (node) => node.type?.name === "text";
+export const isTextNode = node => node.type?.name === 'text';
 
 export const matchNodeType = (node1, node2) =>
   node1.type?.name === node2.type?.name ||
@@ -421,18 +419,18 @@ export const matchNodeType = (node1, node2) =>
 
 export const createNewNode = (oldNode, children) => {
   if (!oldNode.type) {
-    throw new Error("oldNode.type is undefined");
+    throw new Error('oldNode.type is undefined');
   }
   return new Node(
     oldNode.type,
     oldNode.attrs,
     Fragment.fromArray(children),
-    oldNode.marks
+    oldNode.marks,
   );
 };
 
 export const createDiffNode = (schema, node, type) => {
-  return mapDocumentNode(node, (currentNode) => {
+  return mapDocumentNode(node, currentNode => {
     if (isTextNode(currentNode)) {
       return createTextNode(schema, getNodeText(currentNode), [
         ...(currentNode.marks || []),
@@ -447,21 +445,21 @@ function mapDocumentNode(node, mapper) {
   const copy = node.copy(
     Fragment.from(
       node.content.content
-        .map((currentNode) => mapDocumentNode(currentNode, mapper))
-        .filter((n) => n)
-    )
+        .map(currentNode => mapDocumentNode(currentNode, mapper))
+        .filter(n => n),
+    ),
   );
   return mapper(copy) || copy;
 }
 
 export const createDiffMark = (schema, type) => {
   if (type === DiffType.Inserted) {
-    return schema.mark("diffMark", { type });
+    return schema.mark('diffMark', { type });
   }
   if (type === DiffType.Deleted) {
-    return schema.mark("diffMark", { type });
+    return schema.mark('diffMark', { type });
   }
-  throw new Error("type is not valid");
+  throw new Error('type is not valid');
 };
 
 export const createTextNode = (schema, content, marks = []) => {

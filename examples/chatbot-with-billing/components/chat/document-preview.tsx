@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import equal from "fast-deep-equal";
+import equal from 'fast-deep-equal';
 import {
   type MouseEvent,
   memo,
@@ -8,24 +8,24 @@ import {
   useEffect,
   useMemo,
   useRef,
-} from "react";
-import useSWR from "swr";
-import { useArtifact } from "@/hooks/use-artifact";
-import type { Document } from "@/lib/db/schema";
-import { cn, fetcher } from "@/lib/utils";
-import type { ArtifactKind, UIArtifact } from "./artifact";
-import { CodeEditor } from "./code-editor";
-import { InlineDocumentSkeleton } from "./document-skeleton";
+} from 'react';
+import useSWR from 'swr';
+import { useArtifact } from '@/hooks/use-artifact';
+import type { Document } from '@/lib/db/schema';
+import { cn, fetcher } from '@/lib/utils';
+import type { ArtifactKind, UIArtifact } from './artifact';
+import { CodeEditor } from './code-editor';
+import { InlineDocumentSkeleton } from './document-skeleton';
 import {
   CodeIcon,
   FileIcon,
   FullscreenIcon,
   ImageIcon,
   LoaderIcon,
-} from "./icons";
-import { ImageEditor } from "./image-editor";
-import { SpreadsheetEditor } from "./sheet-editor";
-import { Editor } from "./text-editor";
+} from './icons';
+import { ImageEditor } from './image-editor';
+import { SpreadsheetEditor } from './sheet-editor';
+import { Editor } from './text-editor';
 
 type DocumentToolOutput = {
   id: string;
@@ -51,9 +51,9 @@ export function DocumentPreview({
     Document[]
   >(
     result
-      ? `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/document?id=${result.id}`
+      ? `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/api/document?id=${result.id}`
       : null,
-    fetcher
+    fetcher,
   );
 
   const previewDocument = useMemo(() => documents?.[0], [documents]);
@@ -63,7 +63,7 @@ export function DocumentPreview({
     const boundingBox = hitboxRef.current?.getBoundingClientRect();
 
     if (artifact.documentId && boundingBox) {
-      setArtifact((currentArtifact) => ({
+      setArtifact(currentArtifact => ({
         ...currentArtifact,
         boundingBox: {
           left: boundingBox.x,
@@ -101,14 +101,14 @@ export function DocumentPreview({
 
   const document: Document | null = previewDocument
     ? previewDocument
-    : artifact.status === "streaming"
+    : artifact.status === 'streaming'
       ? {
           title: artifact.title,
           kind: artifact.kind,
           content: artifact.content,
           id: artifact.documentId,
           createdAt: new Date(),
-          userId: "noop",
+          userId: 'noop',
         }
       : null;
 
@@ -124,7 +124,7 @@ export function DocumentPreview({
         setArtifact={setArtifact}
       />
       <DocumentHeader
-        isStreaming={artifact.status === "streaming"}
+        isStreaming={artifact.status === 'streaming'}
         kind={document.kind}
         title={document.title}
       />
@@ -142,7 +142,7 @@ const LoadingSkeleton = ({ artifactKind }: { artifactKind: ArtifactKind }) => (
       </div>
       <div className="w-8" />
     </div>
-    {artifactKind === "image" ? (
+    {artifactKind === 'image' ? (
       <div className="overflow-hidden rounded-b-2xl border border-t-0 border-border/50 bg-muted">
         <div className="h-[257px] w-full animate-pulse bg-muted-foreground/10" />
       </div>
@@ -162,14 +162,14 @@ const PureHitboxLayer = ({
   hitboxRef: React.RefObject<HTMLDivElement>;
   result?: Partial<DocumentToolOutput>;
   setArtifact: (
-    updaterFn: UIArtifact | ((currentArtifact: UIArtifact) => UIArtifact)
+    updaterFn: UIArtifact | ((currentArtifact: UIArtifact) => UIArtifact),
   ) => void;
 }) => {
   const handleClick = useCallback(
     (event: MouseEvent<HTMLElement>) => {
       const boundingBox = event.currentTarget.getBoundingClientRect();
 
-      setArtifact((artifact) => ({
+      setArtifact(artifact => ({
         ...artifact,
         ...(result?.id && { documentId: result.id }),
         ...(result?.title && { title: result.title }),
@@ -183,7 +183,7 @@ const PureHitboxLayer = ({
         },
       }));
     },
-    [setArtifact, result]
+    [setArtifact, result],
   );
 
   return (
@@ -226,9 +226,9 @@ const PureDocumentHeader = ({
           <div className="animate-spin">
             <LoaderIcon size={14} />
           </div>
-        ) : kind === "image" ? (
+        ) : kind === 'image' ? (
           <ImageIcon size={14} />
-        ) : kind === "code" ? (
+        ) : kind === 'code' ? (
           <CodeIcon size={14} />
         ) : (
           <FileIcon size={14} />
@@ -255,15 +255,15 @@ const DocumentContent = ({ document }: { document: Document }) => {
   const { artifact } = useArtifact();
 
   const containerClassName = cn(
-    "h-[257px] overflow-hidden rounded-b-2xl border border-t-0 border-border/50 dark:bg-muted",
+    'h-[257px] overflow-hidden rounded-b-2xl border border-t-0 border-border/50 dark:bg-muted',
     {
-      "p-4 sm:px-10 sm:py-10": document.kind === "text",
-      "p-0": document.kind === "code",
-    }
+      'p-4 sm:px-10 sm:py-10': document.kind === 'text',
+      'p-0': document.kind === 'code',
+    },
   );
 
   const commonProps = {
-    content: document.content ?? "",
+    content: document.content ?? '',
     isCurrentVersion: true,
     currentVersionIndex: 0,
     status: artifact.status,
@@ -274,24 +274,24 @@ const DocumentContent = ({ document }: { document: Document }) => {
   const handleSaveContent = () => null;
 
   return (
-    <div className={cn(containerClassName, "relative")}>
-      {document.kind === "text" ? (
+    <div className={cn(containerClassName, 'relative')}>
+      {document.kind === 'text' ? (
         <Editor {...commonProps} onSaveContent={handleSaveContent} />
-      ) : document.kind === "code" ? (
+      ) : document.kind === 'code' ? (
         <div className="relative flex w-full flex-1">
           <div className="absolute inset-0">
             <CodeEditor {...commonProps} onSaveContent={handleSaveContent} />
           </div>
         </div>
-      ) : document.kind === "sheet" ? (
+      ) : document.kind === 'sheet' ? (
         <div className="relative flex size-full flex-1 p-4">
           <div className="absolute inset-0">
             <SpreadsheetEditor {...commonProps} />
           </div>
         </div>
-      ) : document.kind === "image" ? (
+      ) : document.kind === 'image' ? (
         <ImageEditor
-          content={document.content ?? ""}
+          content={document.content ?? ''}
           currentVersionIndex={0}
           isCurrentVersion={true}
           isInline={true}
@@ -300,7 +300,7 @@ const DocumentContent = ({ document }: { document: Document }) => {
         />
       ) : null}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-muted to-transparent dark:from-muted" />
-      {document.kind === "code" && (
+      {document.kind === 'code' && (
         <div className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-muted to-transparent dark:from-muted" />
       )}
     </div>

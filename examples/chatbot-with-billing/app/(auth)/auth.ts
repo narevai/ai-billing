@@ -1,19 +1,19 @@
-import { compare } from "bcrypt-ts";
-import NextAuth, { type DefaultSession } from "next-auth";
-import type { DefaultJWT } from "next-auth/jwt";
-import Credentials from "next-auth/providers/credentials";
-import { DUMMY_PASSWORD } from "@/lib/constants";
-import { createGuestUser, getUser } from "@/lib/db/queries";
-import { authConfig } from "./auth.config";
+import { compare } from 'bcrypt-ts';
+import NextAuth, { type DefaultSession } from 'next-auth';
+import type { DefaultJWT } from 'next-auth/jwt';
+import Credentials from 'next-auth/providers/credentials';
+import { DUMMY_PASSWORD } from '@/lib/constants';
+import { createGuestUser, getUser } from '@/lib/db/queries';
+import { authConfig } from './auth.config';
 
-export type UserType = "guest" | "regular";
+export type UserType = 'guest' | 'regular';
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
       id: string;
       type: UserType;
-    } & DefaultSession["user"];
+    } & DefaultSession['user'];
   }
 
   interface User {
@@ -23,7 +23,7 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
+declare module 'next-auth/jwt' {
   interface JWT extends DefaultJWT {
     id: string;
     type: UserType;
@@ -40,12 +40,12 @@ export const {
   providers: [
     Credentials({
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        const email = String(credentials.email ?? "");
-        const password = String(credentials.password ?? "");
+        const email = String(credentials.email ?? '');
+        const password = String(credentials.password ?? '');
         const users = await getUser(email);
 
         if (users.length === 0) {
@@ -66,15 +66,15 @@ export const {
           return null;
         }
 
-        return { ...user, type: "regular" };
+        return { ...user, type: 'regular' };
       },
     }),
     Credentials({
-      id: "guest",
+      id: 'guest',
       credentials: {},
       async authorize() {
         const [guestUser] = await createGuestUser();
-        return { ...guestUser, type: "guest" };
+        return { ...guestUser, type: 'guest' };
       },
     }),
   ],

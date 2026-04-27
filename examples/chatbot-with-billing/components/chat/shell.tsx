@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,21 +10,21 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { useActiveChat } from "@/hooks/use-active-chat";
+} from '@/components/ui/alert-dialog';
+import { useActiveChat } from '@/hooks/use-active-chat';
 import {
   initialArtifactData,
   useArtifact,
   useArtifactSelector,
-} from "@/hooks/use-artifact";
-import type { Attachment, ChatMessage } from "@/lib/types";
-import { cn } from "@/lib/utils";
-import { Artifact } from "./artifact";
-import { ChatHeader } from "./chat-header";
-import { DataStreamHandler } from "./data-stream-handler";
-import { submitEditedMessage } from "./message-editor";
-import { Messages } from "./messages";
-import { MultimodalInput } from "./multimodal-input";
+} from '@/hooks/use-artifact';
+import type { Attachment, ChatMessage } from '@/lib/types';
+import { cn } from '@/lib/utils';
+import { Artifact } from './artifact';
+import { ChatHeader } from './chat-header';
+import { DataStreamHandler } from './data-stream-handler';
+import { submitEditedMessage } from './message-editor';
+import { Messages } from './messages';
+import { MultimodalInput } from './multimodal-input';
 
 export function ChatShell() {
   const {
@@ -49,10 +49,10 @@ export function ChatShell() {
   } = useActiveChat();
 
   const [editingMessage, setEditingMessage] = useState<ChatMessage | null>(
-    null
+    null,
   );
   const [attachments, setAttachments] = useState<Attachment[]>([]);
-  const isArtifactVisible = useArtifactSelector((state) => state.isVisible);
+  const isArtifactVisible = useArtifactSelector(state => state.isVisible);
   const { setArtifact } = useArtifact();
 
   const stopRef = useRef(stop);
@@ -74,8 +74,8 @@ export function ChatShell() {
       <div className="flex h-dvh w-full flex-row overflow-hidden">
         <div
           className={cn(
-            "flex min-w-0 flex-col bg-sidebar transition-[width] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
-            isArtifactVisible ? "w-[40%]" : "w-full"
+            'flex min-w-0 flex-col bg-sidebar transition-[width] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
+            isArtifactVisible ? 'w-[40%]' : 'w-full',
           )}
         >
           <ChatHeader
@@ -92,12 +92,12 @@ export function ChatShell() {
               isLoading={isLoading}
               isReadonly={isReadonly}
               messages={messages}
-              onEditMessage={(msg) => {
+              onEditMessage={msg => {
                 const text = msg.parts
-                  ?.filter((p) => p.type === "text")
-                  .map((p) => p.text)
-                  .join("");
-                setInput(text ?? "");
+                  ?.filter(p => p.type === 'text')
+                  .map(p => p.text)
+                  .join('');
+                setInput(text ?? '');
                 setEditingMessage(msg);
               }}
               regenerate={regenerate}
@@ -118,7 +118,7 @@ export function ChatShell() {
                   messages={messages}
                   onCancelEdit={() => {
                     setEditingMessage(null);
-                    setInput("");
+                    setInput('');
                   }}
                   onModelChange={setCurrentModelId}
                   selectedModelId={currentModelId}
@@ -134,7 +134,7 @@ export function ChatShell() {
                             setMessages,
                             regenerate,
                           });
-                          setInput("");
+                          setInput('');
                         }
                       : sendMessage
                   }
@@ -179,8 +179,8 @@ export function ChatShell() {
           <AlertDialogHeader>
             <AlertDialogTitle>Activate AI Gateway</AlertDialogTitle>
             <AlertDialogDescription>
-              This application requires{" "}
-              {process.env.NODE_ENV === "production" ? "the owner" : "you"} to
+              This application requires{' '}
+              {process.env.NODE_ENV === 'production' ? 'the owner' : 'you'} to
               activate Vercel AI Gateway.
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -189,10 +189,10 @@ export function ChatShell() {
             <AlertDialogAction
               onClick={() => {
                 window.open(
-                  "https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai%3Fmodal%3Dadd-credit-card",
-                  "_blank"
+                  'https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai%3Fmodal%3Dadd-credit-card',
+                  '_blank',
                 );
-                window.location.href = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/`;
+                window.location.href = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/`;
               }}
             >
               Activate

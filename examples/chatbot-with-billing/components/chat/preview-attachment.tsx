@@ -1,7 +1,7 @@
-import Image from "next/image";
-import type { Attachment } from "@/lib/types";
-import { Spinner } from "../ui/spinner";
-import { CrossSmallIcon } from "./icons";
+import Image from 'next/image';
+import type { Attachment } from '@/lib/types';
+import { Spinner } from '../ui/spinner';
+import { CrossSmallIcon } from './icons';
 
 export const PreviewAttachment = ({
   attachment,
@@ -19,9 +19,9 @@ export const PreviewAttachment = ({
       className="group relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-border/40 bg-muted"
       data-testid="input-attachment-preview"
     >
-      {contentType?.startsWith("image") ? (
+      {contentType?.startsWith('image') ? (
         <Image
-          alt={name ?? "attachment"}
+          alt={name ?? 'attachment'}
           className="size-full object-cover"
           height={96}
           src={url}

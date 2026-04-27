@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from 'framer-motion';
 
-import type { UISuggestion } from "@/lib/editor/suggestions";
-import { Button } from "../ui/button";
-import { CrossIcon, SparklesIcon } from "./icons";
+import type { UISuggestion } from '@/lib/editor/suggestions';
+import { Button } from '../ui/button';
+import { CrossIcon, SparklesIcon } from './icons';
 
 export const SuggestionDialog = ({
   suggestion,
@@ -22,8 +22,8 @@ export const SuggestionDialog = ({
           aria-hidden="true"
           className="absolute inset-0 bg-black/20 backdrop-blur-[2px]"
           onClick={onClose}
-          onKeyDown={(e) => {
-            if (e.key === "Escape") {
+          onKeyDown={e => {
+            if (e.key === 'Escape') {
               onClose();
             }
           }}

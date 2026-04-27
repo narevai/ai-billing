@@ -1,4 +1,4 @@
-import type { Page } from "@playwright/test";
+import type { Page } from '@playwright/test';
 
 const MODEL_BUTTON_REGEX = /Kimi|Codestral|Mistral|DeepSeek|GPT|Grok/i;
 
@@ -10,16 +10,16 @@ export class ChatPage {
   }
 
   async goto() {
-    await this.page.goto("/");
+    await this.page.goto('/');
   }
 
   async createNewChat() {
-    await this.page.goto("/");
+    await this.page.goto('/');
     await this.page.waitForSelector("[data-testid='multimodal-input']");
   }
 
   getInput() {
-    return this.page.getByTestId("multimodal-input");
+    return this.page.getByTestId('multimodal-input');
   }
 
   async typeMessage(message: string) {
@@ -28,7 +28,7 @@ export class ChatPage {
   }
 
   async sendMessage() {
-    await this.page.getByTestId("send-button").click();
+    await this.page.getByTestId('send-button').click();
   }
 
   async sendUserMessage(message: string) {
@@ -37,23 +37,23 @@ export class ChatPage {
   }
 
   getSendButton() {
-    return this.page.getByTestId("send-button");
+    return this.page.getByTestId('send-button');
   }
 
   getStopButton() {
-    return this.page.getByTestId("stop-button");
+    return this.page.getByTestId('stop-button');
   }
 
   async clickSuggestedAction(index = 0) {
     const suggestions = this.page.locator(
-      "[data-testid='suggested-actions'] button"
+      "[data-testid='suggested-actions'] button",
     );
     await suggestions.nth(index).click();
   }
 
   async openModelSelector() {
     const modelButton = this.page
-      .locator("button")
+      .locator('button')
       .filter({ hasText: MODEL_BUTTON_REGEX })
       .first();
     await modelButton.click();
@@ -66,6 +66,6 @@ export class ChatPage {
 
   async searchModels(query: string) {
     await this.openModelSelector();
-    await this.page.getByPlaceholder("Search models...").fill(query);
+    await this.page.getByPlaceholder('Search models...').fill(query);
   }
 }
