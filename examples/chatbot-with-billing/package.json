@@ -15,7 +15,8 @@
     "db:pull": "drizzle-kit pull",
     "db:check": "drizzle-kit check",
     "db:up": "drizzle-kit up",
-    "test": "export PLAYWRIGHT=True && pnpm exec playwright test"
+    "test": "PLAYWRIGHT_BROWSERS_PATH=0 PLAYWRIGHT=True pnpm exec playwright test",
+    "test:setup": "PLAYWRIGHT_BROWSERS_PATH=0 playwright install --with-deps chromium"
   },
   "dependencies": {
     "@ai-sdk/provider": "^3.0.3",
