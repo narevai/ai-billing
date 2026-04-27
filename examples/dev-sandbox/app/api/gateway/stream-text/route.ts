@@ -32,7 +32,7 @@ export async function POST() {
     },
   ];
 
-  const model = 'gpt-5';
+  const model = 'deepseek/deepseek-v4-pro';
 
   const wrappedModel = wrapLanguageModel({
     model: gateway(model),
