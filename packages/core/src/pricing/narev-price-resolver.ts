@@ -5,29 +5,38 @@ import type {
   PriceResolverContext,
 } from '../types/index.js';
 
-type PricingRow = Record<string, number | string>;
-type PricingEntry = { model_id: string; prices: PricingRow[] };
-type PricingResponse = PricingEntry[];
+type PricingData = {
+  price_prompt: number;
+  price_completion: number;
+  pricing_discount: number;
+  pricing_request: number;
+  price_web_search: number;
+  price_input_cache_read: number;
+  price_input_cache_write: number;
+  price_internal_reasoning: number;
+};
 
-function rowToModelPricing(row: PricingRow): ModelPricing {
+type PricingEntry = {
+  model_id: string;
+  provider: string;
+  subprovider: string | null;
+  pricing: PricingData | null;
+};
+
+type PricingResponse = {
+  data: PricingEntry[];
+  meta: unknown;
+};
+
+function pricingDataToModelPricing(p: PricingData): ModelPricing {
   return {
-    promptTokens: row['price_prompt'] as number,
-    completionTokens: row['price_completion'] as number,
-    ...(row['price_request'] != null && {
-      request: row['price_request'] as number,
-    }),
-    ...(row['price_input_cache_read'] != null && {
-      inputCacheReadTokens: row['price_input_cache_read'] as number,
-    }),
-    ...(row['price_input_cache_write'] != null && {
-      inputCacheWriteTokens: row['price_input_cache_write'] as number,
-    }),
-    ...(row['price_internal_reasoning'] != null && {
-      internalReasoningTokens: row['price_internal_reasoning'] as number,
-    }),
-    ...(row['pricing_discount'] != null && {
-      discount: row['pricing_discount'] as number,
-    }),
+    promptTokens: p.price_prompt,
+    completionTokens: p.price_completion,
+    request: p.pricing_request || undefined,
+    inputCacheReadTokens: p.price_input_cache_read || undefined,
+    inputCacheWriteTokens: p.price_input_cache_write || undefined,
+    internalReasoningTokens: p.price_internal_reasoning || undefined,
+    discount: p.pricing_discount || undefined,
   };
 }
 
@@ -67,22 +76,21 @@ export function createNarevPriceResolver(
         ? { Authorization: `Bearer ${apiKey}` }
         : {};
 
-      let data: PricingResponse | null;
+      let response: PricingResponse | null;
       try {
         const res = await fetch(url, { headers });
         if (!res.ok) return undefined;
-        data = (await res.json()) as PricingResponse | null;
+        response = (await res.json()) as PricingResponse | null;
       } catch {
         return undefined;
       }
 
-      if (!data) return undefined;
+      if (!response) return undefined;
 
-      const entry = data.find(e => e.model_id === modelId);
-      const row = entry?.prices?.[0];
-      if (!row) return undefined;
+      const entry = response.data.find(e => e.model_id === modelId);
+      if (!entry?.pricing) return undefined;
 
-      return rowToModelPricing(row);
+      return pricingDataToModelPricing(entry.pricing);
     },
   );
 }
