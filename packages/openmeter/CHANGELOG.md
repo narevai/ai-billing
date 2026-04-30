@@ -1,5 +1,13 @@
 # @ai-billing/openmeter
 
+## 0.1.1
+
+### Patch Changes
+
+- ec638f9: realign package versions
+- Updated dependencies [c15d515]
+  - @ai-billing/core@0.1.1
+
 ## 1.0.0
 
 ### Minor Changes
