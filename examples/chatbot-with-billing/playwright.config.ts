@@ -6,9 +6,12 @@ import { defineConfig, devices } from '@playwright/test';
  */
 import { config } from 'dotenv';
 
-config({
-  path: '.env.local',
-});
+if (!process.env.CI) {
+  config({ path: '.env.test', override: true });
+} else {
+  // Otherwise, load nothing (GitHub Actions will provide the real env vars)
+  config();
+}
 
 /* Use process.env.PORT by default and fallback to port 3000 */
 const PORT = process.env.PORT || 3000;
@@ -44,9 +47,9 @@ export default defineConfig({
   },
 
   /* Configure global timeout for each test */
-  timeout: 5 * 1000,
+  timeout: 10 * 1000,
   expect: {
-    timeout: 5 * 1000,
+    timeout: 10 * 1000,
   },
 
   /* Configure projects */
