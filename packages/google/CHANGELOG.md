@@ -1,5 +1,12 @@
 # @ai-billing/google
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies [c15d515]
+  - @ai-billing/core@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes

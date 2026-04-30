@@ -1,5 +1,11 @@
 # @ai-billing/core
 
+## 0.1.1
+
+### Patch Changes
+
+- c15d515: fix(core): use new narev api response format in price resolver
+
 ## 0.1.0
 
 ### Minor Changes
