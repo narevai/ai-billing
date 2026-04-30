@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "ai-billing-docs": {
+      "type": "remote",
+      "url": "https://www.narev.ai/docs/mcp",
+      "enabled": true
+    }
+  }
+}

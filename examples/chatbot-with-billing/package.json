@@ -19,6 +19,9 @@
     "test:setup": "PLAYWRIGHT_BROWSERS_PATH=0 playwright install --with-deps chromium"
   },
   "dependencies": {
+    "@ai-billing/core": "^0.1.1",
+    "@ai-billing/gateway": "^0.1.1",
+    "@ai-billing/polar": "^0.1.2",
     "@ai-sdk/provider": "^3.0.3",
     "@ai-sdk/react": "3.0.118",
     "@codemirror/lang-python": "^6.1.6",

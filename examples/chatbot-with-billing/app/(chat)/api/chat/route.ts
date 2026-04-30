@@ -213,6 +213,12 @@ export async function POST(request: Request) {
             ...(modelConfig?.reasoningEffort && {
               openai: { reasoningEffort: modelConfig.reasoningEffort },
             }),
+            'ai-billing-tags': {
+              userId: session.user.id,
+              userType,
+              chatId: id,
+              modelId: chatModel,
+            },
           },
           tools: {
             getWeather,

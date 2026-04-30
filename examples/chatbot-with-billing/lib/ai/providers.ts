@@ -1,5 +1,6 @@
 import { customProvider, gateway } from 'ai';
 import { isTestEnvironment } from '../constants';
+import { getBillingWrappedModel } from './billing';
 import { titleModel } from './models';
 
 export const myProvider = isTestEnvironment
@@ -19,7 +20,7 @@ export function getLanguageModel(modelId: string) {
     return myProvider.languageModel(modelId);
   }
 
-  return gateway.languageModel(modelId);
+  return getBillingWrappedModel(gateway.languageModel(modelId));
 }
 
 export function getTitleModel() {
