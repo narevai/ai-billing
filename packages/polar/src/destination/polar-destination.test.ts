@@ -236,37 +236,22 @@ describe('Polar Destination', () => {
     await destination(rawMalformedEvent);
 
     const ingestSpy = vi.mocked(new Polar().events.ingest);
-    const callArgs = ingestSpy.mock.calls[0]![0];
-    const metadata = callArgs.events[0]!.metadata;
-
-    // Verify it mapped the base fields safely
-    expect(metadata).toEqual({
-      generation_id: 'gen-raw',
-      model_id: 'raw-model',
-      provider: 'raw-provider',
-    });
-
-    const keys = Object.keys(metadata ?? {});
-    expect(keys.some(k => k.startsWith('input_tokens'))).toBe(false);
-    expect(keys.some(k => k.startsWith('output_tokens'))).toBe(false);
-    expect(keys.some(k => k.startsWith('total_tokens'))).toBe(false);
+    expect(ingestSpy).not.toHaveBeenCalled();
     expect(consoleSpy).toHaveBeenCalledTimes(1);
     consoleSpy.mockRestore();
   });
 
-  it('should return metadata immediately if event.tags is undefined', async () => {
+  it('should skip event and warn if event.tags is undefined', async () => {
     const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const destination = createPolarDestination({
       accessToken: 'test',
       eventName: 'test',
     });
 
-    // Explicitly set tags to undefined (bypassing the helper default)
-    let malformedEvent = {
+    const malformedEvent = {
       generationId: 'gen-123',
       modelId: 'gpt-4',
       provider: 'openai',
-      //tags: {}, // no tags
       usage: { inputTokens: 100, outputTokens: 50 },
       cost: { amount: 0.000004653, currency: 'USD', unit: 'base' },
     } as BillingEvent;
@@ -274,20 +259,7 @@ describe('Polar Destination', () => {
     await destination(malformedEvent);
 
     const ingestSpy = vi.mocked(new Polar().events.ingest);
-    const metadata = ingestSpy.mock!.calls![0]![0]!.events[0]!.metadata;
-
-    // Should still have base metadata but no ai-billing-tag keys
-    expect(metadata).toHaveProperty('generation_id');
-    expect(metadata).toHaveProperty('model_id');
-    expect(metadata).toHaveProperty('provider');
-    expect(metadata).toHaveProperty('input_tokens');
-    expect(metadata).toHaveProperty('output_tokens');
-
-    const tagKeys = Object.keys(metadata ?? {}).filter(k =>
-      k.startsWith('tag_'),
-    );
-
-    expect(tagKeys.length).toBe(0);
+    expect(ingestSpy).not.toHaveBeenCalled();
     expect(consoleSpy).toHaveBeenCalledTimes(1);
     consoleSpy.mockRestore();
   });
