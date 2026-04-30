@@ -132,6 +132,33 @@ describe('Polar Destination', () => {
     });
   });
 
+  it('should ingest an event with externalCustomerId when only external id is present', async () => {
+    const mockEvent = createMockEvent({
+      tags: { userId: 'user_ext_42' },
+    });
+
+    const destination = createPolarDestination({
+      accessToken: 'test-token',
+      eventName: 'llm-usage',
+      externalCustomerIdKey: 'userId',
+    });
+
+    await destination(mockEvent);
+
+    const ingestSpy = new Polar().events.ingest;
+
+    expect(ingestSpy).toHaveBeenCalledWith({
+      events: [
+        expect.objectContaining({
+          externalCustomerId: 'user_ext_42',
+        }),
+      ],
+    });
+    expect(ingestSpy).toHaveBeenCalledWith({
+      events: [expect.not.objectContaining({ customerId: expect.anything() })],
+    });
+  });
+
   it('should resolve event name using a function', async () => {
     const mockEvent = createMockEvent({ modelId: 'claude-3' });
     const destination = createPolarDestination({
