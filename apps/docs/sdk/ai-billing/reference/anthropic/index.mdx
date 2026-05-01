@@ -1,6 +1,6 @@
 ---
-title: 'Introduction'
-description: 'Anthropic middleware for tracking AI costs.'
+title: 'Getting started'
+description: 'First steps with Anthropic middleware for tracking AI costs.'
 ---
 
 ## Installation
@@ -31,42 +31,73 @@ It captures Anthropic-specific metrics, such as `inputCacheReadTokens` and `inpu
 
 To use the middleware, wrap your Anthropic model using `wrapLanguageModel` from the `ai` package and pass the `createAnthropicMiddleware`.
 
-```typescript
-import { createAnthropic } from '@ai-sdk/anthropic';
-import { generateText, wrapLanguageModel } from 'ai';
-import { createAnthropicMiddleware } from '@ai-billing/anthropic';
-import { consoleDestination, createObjectPriceResolver } from '@ai-billing/core';
+<Steps>
+  <Step title="Initialize the Anthropic provider">
+    First, set up the Anthropic provider using your API key.
 
-// 1. Initialize the Anthropic provider
-const anthropic = createAnthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+    ```typescript
+    import { createAnthropic } from '@ai-sdk/anthropic';
 
-// 2. Define pricing for the models you are using
-const priceResolver = createObjectPriceResolver({
-  'claude-sonnet-4-6': {
-    promptTokens: 0.000003,
-    completionTokens: 0.000015,
-    inputCacheReadTokens: 0.0000003,
-    inputCacheWriteTokens: 0.00000375,
-  },
-});
+    const anthropic = createAnthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
+    });
+    ```
+  </Step>
 
-// 3. Create the billing middleware
-const billingMiddleware = createAnthropicMiddleware({
-  destinations: [consoleDestination()],
-  priceResolver: priceResolver,
-});
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. For Anthropic, you can specify costs for both standard prompt/completion tokens and cached tokens (`inputCacheReadTokens` and `inputCacheWriteTokens`).
 
-// 4. Wrap the model
-const wrappedModel = wrapLanguageModel({
-  model: anthropic('claude-sonnet-4-6'),
-  middleware: billingMiddleware,
-});
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
 
-// 5. Use the wrapped model (e.g., with generateText or streamText)
-const result = await generateText({
-  model: wrappedModel,
-  prompt: 'What is the capital of Sweden?',
-});
-```
+    const priceResolver = createObjectPriceResolver({
+      'claude-sonnet-4-6': {
+        promptTokens: 0.000003,
+        completionTokens: 0.000015,
+        inputCacheReadTokens: 0.0000003,
+        inputCacheWriteTokens: 0.00000375,
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the Anthropic billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createAnthropicMiddleware } from '@ai-billing/anthropic';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createAnthropicMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your Anthropic model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: anthropic('claude-sonnet-4-6'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens, handle caching metrics, and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>
