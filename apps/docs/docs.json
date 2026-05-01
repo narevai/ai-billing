@@ -204,6 +204,7 @@
               {
                 "group": "@ai-billing/groq",
                 "pages": [
+                  "sdk/ai-billing/reference/groq/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
