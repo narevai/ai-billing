@@ -1,0 +1,104 @@
+---
+title: 'Getting started'
+description: 'First steps with Google middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/google @ai-billing/core @ai-sdk/google ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/google @ai-billing/core @ai-sdk/google ai
+```
+
+```bash yarn
+yarn add @ai-billing/google @ai-billing/core @ai-sdk/google ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/google` package provides middleware for tracking token usage and calculating costs when using Google models with the Vercel AI SDK. 
+
+It captures Google-specific metrics, such as `internalReasoningTokens`, `inputCacheReadTokens`, and `inputCacheWriteTokens`, ensuring that Prompt Caching and reasoning costs are accurately reflected.
+
+## Usage
+
+To use the middleware, wrap your Google model using `wrapLanguageModel` from the `ai` package and pass the `createGoogleMiddleware`.
+
+<Steps>
+  <Step title="Initialize the Google provider">
+    First, set up the Google provider using your API key.
+
+    ```typescript
+    import { createGoogleGenerativeAI } from '@ai-sdk/google';
+
+    const google = createGoogleGenerativeAI({
+      apiKey: process.env.GOOGLE_AI_STUDIO_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. For Google, you can specify costs for standard prompt/completion tokens, cached tokens (`inputCacheReadTokens` and `inputCacheWriteTokens`), and `internalReasoningTokens`.
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'models/gemini-3.1-flash-lite-preview': {
+        promptTokens: 0.00000025, // $0.25 per 1M tokens
+        completionTokens: 0.0000015, // $1.50 per 1M tokens
+        inputCacheReadTokens: 0.000000025, // $0.025 per 1M tokens
+        inputCacheWriteTokens: 0.00000008333333, // ~$0.083 per 1M tokens
+        internalReasoningTokens: 0.0000015, // $1.50 per 1M tokens
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the Google billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createGoogleMiddleware } from '@ai-billing/google';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createGoogleMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your Google model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: google('models/gemini-3.1-flash-lite-preview'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens, handle caching and reasoning metrics, and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>
