@@ -1,5 +1,13 @@
 # @ai-billing/gateway
 
+## 0.1.2
+
+### Patch Changes
+
+- b1a70f2: docs: update READMEs and getting started docs
+- Updated dependencies [b1a70f2]
+  - @ai-billing/core@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes
