@@ -1,5 +1,17 @@
 # docs
 
+## 0.1.2
+
+### Patch Changes
+
+- 4d3980a: fix(polar): fix buggy behavior of sending external_customer_id in polar destination
+
+## 0.1.1
+
+### Patch Changes
+
+- c15d515: fix(core): use new narev api response format in price resolver
+
 ## 0.1.0
 
 ### Minor Changes

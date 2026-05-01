@@ -1,5 +1,19 @@
 # @ai-billing/polar
 
+## 0.1.2
+
+### Patch Changes
+
+- 4d3980a: fix(polar): fix buggy behavior of sending external_customer_id in polar destination
+
+## 0.1.1
+
+### Patch Changes
+
+- ec638f9: realign package versions
+- Updated dependencies [c15d515]
+  - @ai-billing/core@0.1.1
+
 ## 1.0.0
 
 ### Minor Changes

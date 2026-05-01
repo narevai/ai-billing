@@ -61,12 +61,9 @@ export interface PolarDestinationOptions<
 /**
  * Creates a {@link Destination} that ingests billing events into Polar.
  *
- * **Identity:** Resolves an internal Polar `customerId` and an optional `externalId` from tags. When both are
- * missing, a warning is logged (`No identity found in tags. Skipping event.`), but the destination does not
- * return: it still calls Polar with `customerId: String(internalId)`, which becomes the literal string
- * `"undefined"` when the internal id is absent, and it only adds `externalId` when that tag value is truthy.
- * When the internal id is absent but `externalId` is present, no warning is logged, yet `customerId` is
- * still the string `"undefined"`.
+ * **Identity:** When `internalId` is present, sends `EventCreateCustomer` with `customerId`. When only
+ * `externalId` is present, sends `EventCreateExternalCustomer` with `externalCustomerId`. When both are
+ * missing, logs a warning and skips the event.
  *
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
  * @param options - Destination configuration; see {@link PolarDestinationOptions}.
@@ -100,6 +97,7 @@ export function createPolarDestination<TTags extends DefaultTags = DefaultTags>(
       console.warn(
         '[ai-billing] Polar: No identity found in tags. Skipping event.',
       );
+      return;
     }
 
     const eventName =
@@ -126,17 +124,12 @@ export function createPolarDestination<TTags extends DefaultTags = DefaultTags>(
       };
     }
 
+    const eventPayload = internalId
+      ? { name: eventName, customerId: String(internalId), metadata }
+      : { name: eventName, externalCustomerId: String(externalId), metadata };
+
     try {
-      await polar.events.ingest({
-        events: [
-          {
-            name: eventName,
-            customerId: String(internalId),
-            ...(externalId ? { externalId: String(externalId) } : {}),
-            metadata,
-          },
-        ],
-      });
+      await polar.events.ingest({ events: [eventPayload] });
     } catch (error) {
       console.error('[ai-billing] Failed to ingest event to Polar:', error);
     }

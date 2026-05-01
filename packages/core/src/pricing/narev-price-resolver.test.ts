@@ -11,6 +11,15 @@ function mockResponse(data: unknown, ok = true) {
   };
 }
 
+function pricingResponse(
+  entries: { model_id: string; pricing: Record<string, number> | null }[],
+) {
+  return {
+    data: entries.map(e => ({ provider: 'openai', subprovider: null, ...e })),
+    meta: {},
+  };
+}
+
 describe('createNarevPriceResolver', () => {
   beforeEach(() => {
     mockFetch.mockReset();
@@ -18,18 +27,23 @@ describe('createNarevPriceResolver', () => {
 
   it('should return ModelPricing for a matching model', async () => {
     mockFetch.mockResolvedValue(
-      mockResponse([
-        {
-          model_id: 'gpt-4o',
-          prices: [
-            {
-              provider_name: 'OpenAI',
+      mockResponse(
+        pricingResponse([
+          {
+            model_id: 'gpt-4o',
+            pricing: {
               price_prompt: 5e-6,
               price_completion: 15e-6,
+              pricing_discount: 0,
+              pricing_request: 0,
+              price_web_search: 0,
+              price_input_cache_read: 0,
+              price_input_cache_write: 0,
+              price_internal_reasoning: 0,
             },
-          ],
-        },
-      ]),
+          },
+        ]),
+      ),
     );
 
     const resolver = createNarevPriceResolver({ apiKey: '' });
@@ -43,12 +57,23 @@ describe('createNarevPriceResolver', () => {
 
   it('should pass providerId as provider query param', async () => {
     mockFetch.mockResolvedValue(
-      mockResponse([
-        {
-          model_id: 'gpt-4o',
-          prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }],
-        },
-      ]),
+      mockResponse(
+        pricingResponse([
+          {
+            model_id: 'gpt-4o',
+            pricing: {
+              price_prompt: 1e-6,
+              price_completion: 2e-6,
+              pricing_discount: 0,
+              pricing_request: 0,
+              price_web_search: 0,
+              price_input_cache_read: 0,
+              price_input_cache_write: 0,
+              price_internal_reasoning: 0,
+            },
+          },
+        ]),
+      ),
     );
 
     const resolver = createNarevPriceResolver({ apiKey: '' });
@@ -60,12 +85,23 @@ describe('createNarevPriceResolver', () => {
 
   it('should pass subProvider as subprovider query param', async () => {
     mockFetch.mockResolvedValue(
-      mockResponse([
-        {
-          model_id: 'gpt-4o',
-          prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }],
-        },
-      ]),
+      mockResponse(
+        pricingResponse([
+          {
+            model_id: 'gpt-4o',
+            pricing: {
+              price_prompt: 1e-6,
+              price_completion: 2e-6,
+              pricing_discount: 0,
+              pricing_request: 0,
+              price_web_search: 0,
+              price_input_cache_read: 0,
+              price_input_cache_write: 0,
+              price_internal_reasoning: 0,
+            },
+          },
+        ]),
+      ),
     );
 
     const resolver = createNarevPriceResolver({ apiKey: '' });
@@ -82,22 +118,23 @@ describe('createNarevPriceResolver', () => {
 
   it('should map optional fields when present', async () => {
     mockFetch.mockResolvedValue(
-      mockResponse([
-        {
-          model_id: 'claude-3-5-sonnet',
-          prices: [
-            {
+      mockResponse(
+        pricingResponse([
+          {
+            model_id: 'claude-3-5-sonnet',
+            pricing: {
               price_prompt: 3e-6,
               price_completion: 15e-6,
-              price_request: 0.001,
+              pricing_request: 0.001,
               price_input_cache_read: 0.3e-6,
               price_input_cache_write: 3.75e-6,
               price_internal_reasoning: 15e-6,
               pricing_discount: 0.5,
+              price_web_search: 0,
             },
-          ],
-        },
-      ]),
+          },
+        ]),
+      ),
     );
 
     const resolver = createNarevPriceResolver({ apiKey: 'test-key' });
@@ -116,12 +153,23 @@ describe('createNarevPriceResolver', () => {
 
   it('should send Authorization header when apiKey is provided', async () => {
     mockFetch.mockResolvedValue(
-      mockResponse([
-        {
-          model_id: 'gpt-4o',
-          prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }],
-        },
-      ]),
+      mockResponse(
+        pricingResponse([
+          {
+            model_id: 'gpt-4o',
+            pricing: {
+              price_prompt: 1e-6,
+              price_completion: 2e-6,
+              pricing_discount: 0,
+              pricing_request: 0,
+              price_web_search: 0,
+              price_input_cache_read: 0,
+              price_input_cache_write: 0,
+              price_internal_reasoning: 0,
+            },
+          },
+        ]),
+      ),
     );
 
     const resolver = createNarevPriceResolver({ apiKey: 'my-secret' });
@@ -136,12 +184,23 @@ describe('createNarevPriceResolver', () => {
 
   it('should not send Authorization header when apiKey is empty', async () => {
     mockFetch.mockResolvedValue(
-      mockResponse([
-        {
-          model_id: 'gpt-4o',
-          prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }],
-        },
-      ]),
+      mockResponse(
+        pricingResponse([
+          {
+            model_id: 'gpt-4o',
+            pricing: {
+              price_prompt: 1e-6,
+              price_completion: 2e-6,
+              pricing_discount: 0,
+              pricing_request: 0,
+              price_web_search: 0,
+              price_input_cache_read: 0,
+              price_input_cache_write: 0,
+              price_internal_reasoning: 0,
+            },
+          },
+        ]),
+      ),
     );
 
     const resolver = createNarevPriceResolver({ apiKey: '' });
@@ -164,10 +223,21 @@ describe('createNarevPriceResolver', () => {
   });
 
   it('should return undefined when model is not in response', async () => {
-    mockFetch.mockResolvedValue(mockResponse([]));
+    mockFetch.mockResolvedValue(mockResponse(pricingResponse([])));
 
     const resolver = createNarevPriceResolver({ apiKey: '' });
     const result = await resolver({ modelId: 'unknown-model' });
+
+    expect(result).toBeUndefined();
+  });
+
+  it('should return undefined when entry has null pricing', async () => {
+    mockFetch.mockResolvedValue(
+      mockResponse(pricingResponse([{ model_id: 'gpt-4o', pricing: null }])),
+    );
+
+    const resolver = createNarevPriceResolver({ apiKey: '' });
+    const result = await resolver({ modelId: 'gpt-4o' });
 
     expect(result).toBeUndefined();
   });
@@ -206,12 +276,23 @@ describe('createNarevPriceResolver', () => {
 
   it('should use custom apiUrl', async () => {
     mockFetch.mockResolvedValue(
-      mockResponse([
-        {
-          model_id: 'gpt-4o',
-          prices: [{ price_prompt: 1e-6, price_completion: 2e-6 }],
-        },
-      ]),
+      mockResponse(
+        pricingResponse([
+          {
+            model_id: 'gpt-4o',
+            pricing: {
+              price_prompt: 1e-6,
+              price_completion: 2e-6,
+              pricing_discount: 0,
+              pricing_request: 0,
+              price_web_search: 0,
+              price_input_cache_read: 0,
+              price_input_cache_write: 0,
+              price_internal_reasoning: 0,
+            },
+          },
+        ]),
+      ),
     );
 
     const resolver = createNarevPriceResolver({

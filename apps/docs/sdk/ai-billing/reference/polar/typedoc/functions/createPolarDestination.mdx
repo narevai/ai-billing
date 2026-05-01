@@ -8,16 +8,13 @@
 
 > **createPolarDestination**\<`TTags`\>(`options`): `Destination`\<`TTags`\>
 
-Defined in: [polar-destination.ts:75](https://github.com/narevai/ai-billing/blob/main/packages/polar/src/destination/polar-destination.ts#L75)
+Defined in: [polar-destination.ts:72](https://github.com/narevai/ai-billing/blob/main/packages/polar/src/destination/polar-destination.ts#L72)
 
 Creates a Destination that ingests billing events into Polar.
 
-**Identity:** Resolves an internal Polar `customerId` and an optional `externalId` from tags. When both are
-missing, a warning is logged (`No identity found in tags. Skipping event.`), but the destination does not
-return: it still calls Polar with `customerId: String(internalId)`, which becomes the literal string
-`"undefined"` when the internal id is absent, and it only adds `externalId` when that tag value is truthy.
-When the internal id is absent but `externalId` is present, no warning is logged, yet `customerId` is
-still the string `"undefined"`.
+**Identity:** When `internalId` is present, sends `EventCreateCustomer` with `customerId`. When only
+`externalId` is present, sends `EventCreateExternalCustomer` with `externalCustomerId`. When both are
+missing, logs a warning and skips the event.
 
 ## Type Parameters
 
