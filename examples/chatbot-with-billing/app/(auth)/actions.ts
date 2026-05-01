@@ -3,6 +3,7 @@
 import { z } from 'zod';
 
 import { createUser, getUser } from '@/lib/db/queries';
+import { createPolarCustomer } from '@/lib/polar-client';
 
 import { signIn } from './auth';
 
@@ -66,7 +67,10 @@ export const register = async (
     if (user) {
       return { status: 'user_exists' } as RegisterActionState;
     }
-    await createUser(validatedData.email, validatedData.password);
+    const newUser = await createUser(validatedData.email, validatedData.password);
+    if (newUser) {
+      await createPolarCustomer(validatedData.email, newUser.id);
+    }
     await signIn('credentials', {
       email: validatedData.email,
       password: validatedData.password,

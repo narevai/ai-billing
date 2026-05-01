@@ -151,6 +151,9 @@ importers:
       '@opentelemetry/api-logs':
         specifier: ^0.200.0
         version: 0.200.0
+      '@polar-sh/sdk':
+        specifier: ^0.46.7
+        version: 0.46.7
       '@radix-ui/react-use-controllable-state':
         specifier: ^1.2.2
         version: 1.2.2(@types/react@18.3.28)(react@19.0.1)
