@@ -1,0 +1,118 @@
+---
+title: 'Getting started'
+description: 'First steps with Groq middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/groq @ai-billing/core @ai-sdk/groq ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/groq @ai-billing/core @ai-sdk/groq ai
+```
+
+```bash yarn
+yarn add @ai-billing/groq @ai-billing/core @ai-sdk/groq ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/groq` package provides middleware for tracking token usage and calculating costs when using Groq models with the Vercel AI SDK. 
+
+## Usage
+
+To use the middleware, wrap your Groq model using `wrapLanguageModel` from the `ai` package and pass the `createGroqMiddleware`.
+
+<Steps>
+  <Step title="Initialize the Groq provider">
+    First, set up the Groq provider using your API key.
+
+    ```typescript
+    import { createGroq } from '@ai-sdk/groq';
+
+    const groq = createGroq({
+      apiKey: process.env.GROQ_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. You can use either the dynamic Narev price resolver or a manual object price resolver.
+
+    <Tabs>
+      <Tab title="Using Narev Pricing (Recommended)">
+        The Narev price resolver automatically fetches the latest pricing for Groq models.
+
+        ```typescript
+        import { createNarevPriceResolver } from '@ai-billing/core';
+
+        const priceResolver = createNarevPriceResolver({
+          apiKey: process.env.NAREV_API_KEY ?? '',
+        });
+        ```
+      </Tab>
+      <Tab title="Using Manual Pricing">
+        You can also manually specify costs for standard prompt and completion tokens.
+
+        ```typescript
+        import { createObjectPriceResolver } from '@ai-billing/core';
+
+        const priceResolver = createObjectPriceResolver({
+          'openai/gpt-oss-120b': {
+            promptTokens: 0.15 / 1_000_000,
+            completionTokens: 0.6 / 1_000_000,
+            inputCacheReadTokens: 0.075 / 1_000_000,
+            inputCacheWriteTokens: 0,
+          },
+        });
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the Groq billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createGroqMiddleware } from '@ai-billing/groq';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createGroqMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your Groq model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: groq('llama-3.3-70b-versatile'), // or 'openai/gpt-oss-120b'
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>

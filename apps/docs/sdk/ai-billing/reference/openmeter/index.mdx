@@ -1,0 +1,140 @@
+---
+title: 'Getting started'
+description: 'First steps with OpenMeter destination for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/openmeter @ai-billing/core
+```
+
+```bash pnpm
+pnpm add @ai-billing/openmeter @ai-billing/core
+```
+
+```bash yarn
+yarn add @ai-billing/openmeter @ai-billing/core
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/openmeter` package provides a destination for sending calculated AI costs and token usage to [OpenMeter](https://openmeter.io).
+
+Unlike other destinations, OpenMeter ingests usage as **CloudEvents**. The destination automatically formats the AI SDK usage into CloudEvents, using the event `type` to identify the meter and the `subject` to identify the customer. Cost data is sent in nano-dollars (or your base currency) in the data payload, which is merged with other billing metadata.
+
+## Usage
+
+To use the OpenMeter destination, initialize it with your API key, then pass it to any billing middleware.
+
+<Steps>
+  <Step title="Initialize the OpenMeter destination">
+    Set up the destination using your OpenMeter API key. You can optionally customize the `eventType` (defaults to `llm_usage`), `apiUrl`, and define a type for your billing tags for type safety.
+
+    ```typescript
+    import { createOpenMeterDestination } from '@ai-billing/openmeter';
+
+    type BillingTags = {
+      userId?: string;
+      org_name?: string;
+    };
+
+    const openMeterDestination = createOpenMeterDestination<BillingTags>({
+      apiKey: process.env.OPENMETER_API_KEY,
+      // Optional configurations:
+      // eventType: 'llm_usage', // default
+      // apiUrl: 'https://eu.api.konghq.com', // default
+      // customerIdKey: 'userId', // custom key for identifying the user
+    });
+    ```
+  </Step>
+
+  <Step title="Set up price resolution">
+    In order for the OpenMeter destination to send costs, the `cost` property on the generated events must be populated.
+    
+    If you are using a provider that returns pricing natively (like OpenRouter or Anthropic), the cost is automatically calculated and you can skip this step.
+
+    However, if you are using a provider that **doesn't** return pricing natively (such as Groq or local models), you must supply a price resolver like Narev or a local object resolver. Without this, the cost will be undefined and the destination cannot send the meter event to OpenMeter.
+
+    ```typescript
+    import { createNarevPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createNarevPriceResolver({
+      apiKey: process.env.NAREV_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the billing middleware for your preferred provider and include the `openMeterDestination` in the destinations array. 
+
+    <CodeGroup>
+    ```typescript OpenRouter
+    // Example using OpenRouter (pricing returned natively)
+    import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
+
+    const billingMiddleware = createOpenRouterV3Middleware<BillingTags>({
+      destinations: [openMeterDestination],
+    });
+    ```
+
+    ```typescript Groq + Narev
+    // Example using Groq with Narev for price resolution
+    import { createGroqMiddleware } from '@ai-billing/groq';
+
+    const billingMiddleware = createGroqMiddleware<BillingTags>({
+      destinations: [openMeterDestination],
+      priceResolver, // Pass the Narev price resolver here
+    });
+    ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+    import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+
+    const openrouter = createOpenRouter({
+      apiKey: process.env.OPENROUTER_API_KEY,
+    });
+
+    const wrappedModel = wrapLanguageModel({
+      model: openrouter('openai/gpt-4o'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Pass tags during generation">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. 
+    
+    ### Understanding Billing Tags
+
+    The `ai-billing-tags` object has specific requirements for OpenMeter:
+    
+    - **Customer Identity (Subject)**: By default, the destination looks for `userId` or `openMeterCustomerId` in your tags to populate the CloudEvents `subject`. If omitted, the event is skipped to avoid ingesting anonymous data. You can override this by providing `customerIdKey` in the destination options.
+    - **Data Payload**: Metadata (like `model_id`, `input_tokens`, and your custom tags such as `org_name`) are merged along with `cost_nanos` and `currency` into the `data` field of the CloudEvent.
+
+    ```typescript
+    import { streamText } from 'ai';
+
+    const result = streamText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+      providerOptions: {
+        'ai-billing-tags': {
+          userId: 'user_openmeter_test', // Used as the CloudEvents subject
+          org_name: 'Acme Corp', // Sent as additional metadata in data payload
+        } as BillingTags,
+      },
+    });
+    ```
+  </Step>
+</Steps>

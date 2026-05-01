@@ -7,4 +7,4 @@ npm install @ai-billing/core @ai-billing/openmeter
 ```
 
 **Documentation**
-For full usage instructions and examples, please refer to the [Github page](https://github.com/narevai/ai-billing#readme).
+For full usage instructions and examples, please refer to the [Documentation](https://www.narev.ai/docs/sdk/ai-billing).

@@ -21,6 +21,7 @@
               {
                 "group": "@ai-billing/anthropic",
                 "pages": [
+                  "sdk/ai-billing/reference/anthropic/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -45,6 +46,7 @@
               {
                 "group": "@ai-billing/chutes",
                 "pages": [
+                  "sdk/ai-billing/reference/chutes/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -130,6 +132,7 @@
               {
                 "group": "@ai-billing/deepseek",
                 "pages": [
+                  "sdk/ai-billing/reference/deepseek/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -154,6 +157,7 @@
               {
                 "group": "@ai-billing/gateway",
                 "pages": [
+                  "sdk/ai-billing/reference/gateway/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -178,6 +182,7 @@
               {
                 "group": "@ai-billing/google",
                 "pages": [
+                  "sdk/ai-billing/reference/google/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -202,6 +207,7 @@
               {
                 "group": "@ai-billing/groq",
                 "pages": [
+                  "sdk/ai-billing/reference/groq/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -226,6 +232,7 @@
               {
                 "group": "@ai-billing/lago",
                 "pages": [
+                  "sdk/ai-billing/reference/lago/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -250,6 +257,7 @@
               {
                 "group": "@ai-billing/minimax",
                 "pages": [
+                  "sdk/ai-billing/reference/minimax/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -274,6 +282,7 @@
               {
                 "group": "@ai-billing/openai",
                 "pages": [
+                  "sdk/ai-billing/reference/openai/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -298,6 +307,7 @@
               {
                 "group": "@ai-billing/openai-compatible",
                 "pages": [
+                  "sdk/ai-billing/reference/openai-compatible/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -322,6 +332,7 @@
               {
                 "group": "@ai-billing/openmeter",
                 "pages": [
+                  "sdk/ai-billing/reference/openmeter/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -346,6 +357,7 @@
               {
                 "group": "@ai-billing/openrouter",
                 "pages": [
+                  "sdk/ai-billing/reference/openrouter/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -370,6 +382,7 @@
               {
                 "group": "@ai-billing/polar",
                 "pages": [
+                  "sdk/ai-billing/reference/polar/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -394,6 +407,7 @@
               {
                 "group": "@ai-billing/stripe",
                 "pages": [
+                  "sdk/ai-billing/reference/stripe/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -418,6 +432,7 @@
               {
                 "group": "@ai-billing/xai",
                 "pages": [
+                  "sdk/ai-billing/reference/xai/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",

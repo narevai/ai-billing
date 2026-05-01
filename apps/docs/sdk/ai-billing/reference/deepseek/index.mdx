@@ -1,0 +1,102 @@
+---
+title: 'Getting started'
+description: 'First steps with DeepSeek middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/deepseek @ai-billing/core @ai-sdk/deepseek ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/deepseek @ai-billing/core @ai-sdk/deepseek ai
+```
+
+```bash yarn
+yarn add @ai-billing/deepseek @ai-billing/core @ai-sdk/deepseek ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/deepseek` package provides middleware for tracking token usage and calculating costs when using DeepSeek models with the Vercel AI SDK. 
+
+It captures DeepSeek-specific metrics, such as `inputCacheReadTokens`, ensuring that Prompt Caching costs are accurately reflected.
+
+## Usage
+
+To use the middleware, wrap your DeepSeek model using `wrapLanguageModel` from the `ai` package and pass the `createDeepSeekMiddleware`.
+
+<Steps>
+  <Step title="Initialize the DeepSeek provider">
+    First, set up the DeepSeek provider using your API key.
+
+    ```typescript
+    import { createDeepSeek } from '@ai-sdk/deepseek';
+
+    const deepSeek = createDeepSeek({
+      apiKey: process.env.DEEPSEEK_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. For DeepSeek, you can specify costs for both standard prompt/completion tokens and cached tokens (`inputCacheReadTokens`).
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'deepseek-v4-pro': {
+        promptTokens: 0.14 / 1_000_000,
+        completionTokens: 0.28 / 1_000_000,
+        inputCacheReadTokens: 0.028 / 1_000_000,
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the DeepSeek billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createDeepSeekMiddleware } from '@ai-billing/deepseek';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createDeepSeekMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your DeepSeek model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: deepSeek('deepseek-v4-pro'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens, handle caching metrics, and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>

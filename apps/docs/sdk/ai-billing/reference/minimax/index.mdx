@@ -1,0 +1,103 @@
+---
+title: 'Getting started'
+description: 'First steps with Minimax middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/minimax @ai-billing/core @ai-sdk/anthropic ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/minimax @ai-billing/core @ai-sdk/anthropic ai
+```
+
+```bash yarn
+yarn add @ai-billing/minimax @ai-billing/core @ai-sdk/anthropic ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/minimax` package provides middleware for tracking token usage and calculating costs when using Minimax models with the Vercel AI SDK.
+
+It captures Minimax-specific metrics, such as `internalReasoningTokens`, ensuring that reasoning costs are accurately reflected.
+
+## Usage
+
+To use the middleware, wrap your Minimax model (which is accessed via the Anthropic provider) using `wrapLanguageModel` from the `ai` package and pass the `createMinimaxMiddleware`.
+
+<Steps>
+  <Step title="Initialize the Minimax provider">
+    First, set up the provider using the Anthropic SDK with the Minimax base URL and your API key.
+
+    ```typescript
+    import { createAnthropic } from '@ai-sdk/anthropic';
+
+    const minimax = createAnthropic({
+      apiKey: process.env.MINIMAX_API_KEY,
+      baseURL: 'https://api.minimax.io/anthropic/v1',
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. For Minimax, you can specify costs for standard prompt/completion tokens and reasoning tokens (`internalReasoningTokens`).
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'minimax-m1': {
+        promptTokens: 0.0000004, // 0.4 per 1M tokens
+        completionTokens: 0.0000016, // 1.6 per 1M tokens
+        internalReasoningTokens: 0.0000016, // 1.6 per 1M tokens
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the Minimax billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createMinimaxMiddleware } from '@ai-billing/minimax';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createMinimaxMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your Minimax model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: minimax('minimax-m1'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens, handle reasoning metrics, and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>
