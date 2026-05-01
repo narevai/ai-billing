@@ -1,0 +1,153 @@
+---
+title: 'Getting started'
+description: 'First steps with OpenAI middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/openai @ai-billing/core @ai-sdk/openai ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/openai @ai-billing/core @ai-sdk/openai ai
+```
+
+```bash yarn
+yarn add @ai-billing/openai @ai-billing/core @ai-sdk/openai ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/openai` package provides middleware for tracking token usage and calculating costs when using OpenAI models with the Vercel AI SDK. 
+
+It captures OpenAI-specific metrics, such as `inputCacheReadTokens` (for Prompt Caching) and `webSearch` (for search-enabled models), ensuring that all costs are accurately reflected.
+
+## Usage
+
+To use the middleware, wrap your OpenAI model using `wrapLanguageModel` from the `ai` package and pass the `createOpenAIMiddleware`.
+
+<Steps>
+  <Step title="Initialize the OpenAI provider">
+    First, set up the OpenAI provider using your API key.
+
+    ```typescript
+    import { createOpenAI } from '@ai-sdk/openai';
+
+    const openai = createOpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. For OpenAI, you can specify costs for standard prompt/completion tokens, cached tokens (`inputCacheReadTokens`), and even `webSearch` usage.
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'gpt-5': {
+        promptTokens: 1.25 / 1_000_000,
+        completionTokens: 10.0 / 1_000_000,
+        inputCacheReadTokens: 0.125 / 1_000_000,
+      }
+    });
+    ```
+
+    **Using a Remote Pricing Provider (Narev):**
+    
+    Instead of hardcoding prices, you can use a remote pricing provider like Narev to automatically fetch up-to-date pricing.
+
+    ```typescript
+    import { createNarevPriceResolver } from '@ai-billing/core';
+
+    const narevPriceResolver = createNarevPriceResolver({
+      apiKey: process.env.NAREV_API_KEY ?? '',
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the OpenAI billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createOpenAIMiddleware } from '@ai-billing/openai';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createOpenAIMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver, // or narevPriceResolver
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your OpenAI model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: openai('gpt-5'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>
+
+## Advanced Usage
+
+### Web Search Models
+
+When using models with web search capabilities like `gpt-4o-search-preview`, you can track the search costs by adding `webSearch` to your custom pricing map.
+
+```typescript
+import { createObjectPriceResolver, consoleDestination } from '@ai-billing/core';
+import { createOpenAIMiddleware } from '@ai-billing/openai';
+import { wrapLanguageModel, generateText } from 'ai';
+import { createOpenAI } from '@ai-sdk/openai';
+
+const openai = createOpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+const customPricingMap = {
+  'gpt-4o-search-preview': {
+    promptTokens: 2.5 / 1_000_000,
+    completionTokens: 10.0 / 1_000_000,
+    webSearch: 0.03, // cost per search
+  },
+};
+
+const billingMiddleware = createOpenAIMiddleware({
+  destinations: [consoleDestination()],
+  priceResolver: createObjectPriceResolver(customPricingMap),
+});
+
+const wrappedModel = wrapLanguageModel({
+  // Use .chat() for search-enabled models
+  model: openai.chat('gpt-4o-search-preview'),
+  middleware: billingMiddleware,
+});
+
+const result = await generateText({
+  model: wrappedModel,
+  prompt: 'What are the latest AI news from this week?',
+});
+```
