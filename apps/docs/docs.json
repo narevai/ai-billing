@@ -21,6 +21,7 @@
               {
                 "group": "@ai-billing/anthropic",
                 "pages": [
+                  "sdk/ai-billing/reference/anthropic/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",

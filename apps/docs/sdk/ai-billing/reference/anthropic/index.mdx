@@ -1,0 +1,72 @@
+---
+title: 'Introduction'
+description: 'Anthropic middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/anthropic @ai-billing/core @ai-sdk/anthropic ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/anthropic @ai-billing/core @ai-sdk/anthropic ai
+```
+
+```bash yarn
+yarn add @ai-billing/anthropic @ai-billing/core @ai-sdk/anthropic ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/anthropic` package provides middleware for tracking token usage and calculating costs when using Anthropic models with the Vercel AI SDK. 
+
+It captures Anthropic-specific metrics, such as `inputCacheReadTokens` and `inputCacheWriteTokens`, ensuring that Prompt Caching costs are accurately reflected.
+
+## Usage
+
+To use the middleware, wrap your Anthropic model using `wrapLanguageModel` from the `ai` package and pass the `createAnthropicMiddleware`.
+
+```typescript
+import { createAnthropic } from '@ai-sdk/anthropic';
+import { generateText, wrapLanguageModel } from 'ai';
+import { createAnthropicMiddleware } from '@ai-billing/anthropic';
+import { consoleDestination, createObjectPriceResolver } from '@ai-billing/core';
+
+// 1. Initialize the Anthropic provider
+const anthropic = createAnthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+});
+
+// 2. Define pricing for the models you are using
+const priceResolver = createObjectPriceResolver({
+  'claude-sonnet-4-6': {
+    promptTokens: 0.000003,
+    completionTokens: 0.000015,
+    inputCacheReadTokens: 0.0000003,
+    inputCacheWriteTokens: 0.00000375,
+  },
+});
+
+// 3. Create the billing middleware
+const billingMiddleware = createAnthropicMiddleware({
+  destinations: [consoleDestination()],
+  priceResolver: priceResolver,
+});
+
+// 4. Wrap the model
+const wrappedModel = wrapLanguageModel({
+  model: anthropic('claude-sonnet-4-6'),
+  middleware: billingMiddleware,
+});
+
+// 5. Use the wrapped model (e.g., with generateText or streamText)
+const result = await generateText({
+  model: wrappedModel,
+  prompt: 'What is the capital of Sweden?',
+});
+```
