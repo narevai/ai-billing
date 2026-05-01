@@ -5,17 +5,19 @@ description: "Middleware for the Vercel AI SDK that sends usage events directly 
 
 # AI Billing
 
-Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) that captures LLM usage and sends normalized billing events directly to billing platforms.
+Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) that captures LLM usage, calculates exact costs, and sends normalized billing events directly to your billing platforms. 
+
+Whether you're using OpenAI, Anthropic, OpenRouter, or local models, `@ai-billing` ensures that every token—including prompt caching and reasoning tokens—is precisely measured and billed to the correct user.
 
 <CardGroup cols={2}>
-  <Card title="Provider-aware cost calculation" icon="calculator">
-    Understands the token pricing of each LLM provider so you don't have to.
+  <Card title="Provider-aware metrics" icon="microchip">
+    Understands provider-specific metrics like reasoning tokens, prompt caching, and web search costs so you don't miss a cent.
   </Card>
-  <Card title="Request-level tags" icon="tags">
-    Attach user, org, or any custom metadata to every billing event.
+  <Card title="Flexible cost calculation" icon="calculator">
+    Use native provider pricing (like OpenRouter), hardcoded price maps, or real-time cost resolution via Narev.
   </Card>
   <Card title="Multiple destinations" icon="arrows-split-up-and-left">
-    Forward events to Stripe, Polar, OpenMeter, Lago, or your own endpoint — all at once.
+    Format and forward usage seamlessly to Stripe, Polar, OpenMeter, Lago, or your own endpoint — all at once.
   </Card>
   <Card title="Drop-in middleware" icon="plug">
     Works with `wrapLanguageModel` — no changes to your existing `streamText` / `generateText` calls.
@@ -24,76 +26,108 @@ Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) that captures LLM
 
 ## Install
 
-```bash
-npm install @ai-billing/core @ai-billing/openrouter
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/core
 ```
 
-Replace `@ai-billing/openrouter` with the provider package that matches your setup (see [Supported Providers](#supported-providers) below).
+```bash pnpm
+pnpm add @ai-billing/core
+```
+
+```bash yarn
+yarn add @ai-billing/core
+```
+
+</CodeGroup>
+
+Then, install the package for your specific AI provider (e.g., `@ai-billing/openai`) and your billing destination (e.g., `@ai-billing/stripe`). See [Supported providers](#supported-providers) below.
 
 ## Quick start
 
-### 1. Wrap your model
+### 1. Initialize the destination
+
+Set up the destination where your billing events will be sent. The destination knows exactly how to format the data (e.g., converting to nano-dollars) and map your tags to the correct customer identity for that platform.
 
 ```typescript
-import { streamText, wrapLanguageModel } from 'ai';
-import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
+import { createStripeDestination } from '@ai-billing/stripe';
 
-const billingMiddleware = createOpenRouterV3Middleware({});
+const stripeDestination = createStripeDestination({
+  apiKey: process.env.STRIPE_SECRET_KEY,
+  meterName: 'llm_usage',
+});
+```
+
+### 2. Set up the middleware & price resolution
+
+Initialize the provider middleware. If your provider doesn't supply costs natively in the API response (like OpenAI or Anthropic), attach a `PriceResolver` to calculate the cost of the tokens. 
+
+```typescript
+import { createOpenAIMiddleware } from '@ai-billing/openai';
+import { createNarevPriceResolver } from '@ai-billing/core';
+
+// Automatically fetch up-to-date model pricing
+const priceResolver = createNarevPriceResolver({
+  apiKey: process.env.NAREV_API_KEY,
+});
+
+const billingMiddleware = createOpenAIMiddleware({
+  destinations: [stripeDestination],
+  priceResolver,
+});
+```
+
+### 3. Wrap your model
+
+Apply the middleware to your language model using the Vercel AI SDK's `wrapLanguageModel`.
+
+```typescript
+import { wrapLanguageModel } from 'ai';
+import { createOpenAI } from '@ai-sdk/openai';
+
+const openai = createOpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 const model = wrapLanguageModel({
-  model: createOpenRouter({
-    apiKey: process.env.OPENROUTER_API_KEY,
-  })('google/gemini-2.0-flash-001'),
+  model: openai('gpt-4o'),
   middleware: billingMiddleware,
 });
 ```
 
-### 2. Add a destination and tags
+### 4. Pass tags during generation
+
+Generate text exactly as you normally would. Use `providerOptions` to pass `ai-billing-tags` so the destination knows which customer to bill.
 
 ```typescript
-import { streamText, wrapLanguageModel } from 'ai';
-import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
-import { createPolarDestination } from '@ai-billing/polar';
-
-const billingMiddleware = createOpenRouterV3Middleware({
-  destinations: [
-    createPolarDestination({
-      accessToken: process.env.POLAR_ACCESS_TOKEN,
-      eventName: 'llm_usage',
-    }),
-  ],
-});
-
-const model = wrapLanguageModel({
-  model: createOpenRouter({
-    apiKey: process.env.OPENROUTER_API_KEY,
-  })('google/gemini-2.0-flash-001'),
-  middleware: billingMiddleware,
-});
+import { streamText } from 'ai';
 
 const { textStream } = await streamText({
   model,
   messages: [{ role: 'user', content: 'Quantify the value of metadata.' }],
   providerOptions: {
-    'ai-billing-tags': { userId: 'usr_123', org: 'Acme' },
+    'ai-billing-tags': { 
+      stripe_customer_id: 'cus_123', // Used by Stripe to identify the user
+      org_name: 'Acme Corp',         // Attached as metadata to the meter event
+    },
   },
 });
 ```
 
-Every completed request now emits a `BillingEvent` to Polar with cost, token counts, and your custom tags attached.
+Every completed request now automatically calculates the cost (including caches and reasoning) and emits a formatted event directly to Stripe.
 
 ## Architecture
 
-The library has two components that snap together:
+The library is built on three composable primitives:
 
 <Steps>
-  <Step title="Provider middleware">
-    Specialized middleware for each AI SDK provider that understands `providerMetadata` shapes, extracts token usage, and calculates cost via a `PriceResolver`.
+  <Step title="Provider middlewares">
+    Specialized middleware for each AI SDK provider (e.g., `@ai-billing/openai`, `@ai-billing/anthropic`). These understand provider-specific metadata shapes, extracting standard tokens alongside advanced metrics like `inputCacheReadTokens`, `internalReasoningTokens`, and `webSearch`.
+  </Step>
+  <Step title="Price resolvers">
+    Functions that turn token metrics into precise financial costs. Use the `NarevPriceResolver` for real-time rates, the `ObjectPriceResolver` for custom mappings, or skip this entirely if your provider (like OpenRouter) calculates costs natively.
   </Step>
   <Step title="Destinations">
-    Functions that receive a normalized `BillingEvent` and handle the API call to an external billing service. You can attach multiple destinations to a single middleware.
+    Functions that receive a normalized `BillingEvent` and handle the API call to an external billing service (e.g., `@ai-billing/stripe`, `@ai-billing/polar`). Destinations ensure that identity mapping, metadata constraints, and cost formatting (like `cost_nanos`) comply perfectly with each platform's rules.
   </Step>
 </Steps>
 
@@ -101,24 +135,39 @@ The library has two components that snap together:
 
 Text model support is the current priority.
 
-| Provider | Package |
-| :--- | :--- |
-| [OpenRouter](https://ai-sdk.dev/providers/community-providers/openrouter) | [`@ai-billing/openrouter`](https://www.npmjs.com/package/@ai-billing/openrouter) |
-| [OpenAI](https://ai-sdk.dev/providers/ai-sdk-providers/openai) | [`@ai-billing/openai`](https://www.npmjs.com/package/@ai-billing/openai) |
-| [Vercel AI Gateway](https://ai-sdk.dev/providers/ai-sdk-providers/ai-gateway) | [`@ai-billing/gateway`](https://www.npmjs.com/package/@ai-billing/gateway) |
-| [OpenAI Compatible](https://ai-sdk.dev/providers/openai-compatible-providers) | [`@ai-billing/openai-compatible`](https://www.npmjs.com/package/@ai-billing/openai-compatible) |
-| [Groq](https://ai-sdk.dev/providers/ai-sdk-providers/groq) | [`@ai-billing/groq`](https://www.npmjs.com/package/@ai-billing/groq) |
+| Provider | Package | Features |
+| :--- | :--- | :--- |
+| [OpenAI](https://ai-sdk.dev/providers/ai-sdk-providers/openai) | [`@ai-billing/openai`](https://www.npmjs.com/package/@ai-billing/openai) | Caching, Search |
+| [Anthropic](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic) | [`@ai-billing/anthropic`](https://www.npmjs.com/package/@ai-billing/anthropic) | Caching |
+| [Google](https://ai-sdk.dev/providers/ai-sdk-providers/google) | [`@ai-billing/google`](https://www.npmjs.com/package/@ai-billing/google) | Caching, Reasoning |
+| [OpenRouter](https://ai-sdk.dev/providers/community-providers/openrouter) | [`@ai-billing/openrouter`](https://www.npmjs.com/package/@ai-billing/openrouter) | Native Pricing |
+| [DeepSeek](https://ai-sdk.dev/providers/community-providers/deepseek) | [`@ai-billing/deepseek`](https://www.npmjs.com/package/@ai-billing/deepseek) | Caching |
+| [Minimax](https://ai-sdk.dev/providers/community-providers/minimax) | [`@ai-billing/minimax`](https://www.npmjs.com/package/@ai-billing/minimax) | Reasoning |
+| [xAI Grok](https://ai-sdk.dev/providers/ai-sdk-providers/xai) | [`@ai-billing/xai`](https://www.npmjs.com/package/@ai-billing/xai) | Caching |
+| [Groq](https://ai-sdk.dev/providers/ai-sdk-providers/groq) | [`@ai-billing/groq`](https://www.npmjs.com/package/@ai-billing/groq) | |
+| [OpenAI Compatible](https://ai-sdk.dev/providers/openai-compatible-providers) | [`@ai-billing/openai-compatible`](https://www.npmjs.com/package/@ai-billing/openai-compatible) | Caching, Reasoning |
+| [Vercel AI Gateway](https://ai-sdk.dev/providers/ai-sdk-providers/ai-gateway) | [`@ai-billing/gateway`](https://www.npmjs.com/package/@ai-billing/gateway) | |
+| [Chutes](https://chutes.ai) | [`@ai-billing/chutes`](https://www.npmjs.com/package/@ai-billing/chutes) | Caching |
 
-**Coming soon** — [Anthropic](https://github.com/narevai/ai-billing/issues/46), [Google Generative AI](https://github.com/narevai/ai-billing/issues/47), Requesty, and Cloudflare AI Gateway are in active development. To request a provider, [open an issue](https://github.com/narevai/ai-billing/issues).
+### Status and Roadmap
+
+> **Note:** We are prioritizing support for **TEXT models**.
+
+**Active Development**
+* [Requesty](https://ai-sdk.dev/providers/community-providers/requesty)
+* [Cloudflare AI Gateway](https://ai-sdk.dev/providers/community-providers/cloudflare-ai-gateway)
+
+The following providers are planned for future implementation. **To prioritize a specific provider, please [open a GitHub issue](https://github.com/narevai/ai-billing/issues).**
 
 ## Supported destinations
 
-| Destination | Package |
-| :--- | :--- |
-| Polar.sh | [`@ai-billing/polar`](https://www.npmjs.com/package/@ai-billing/polar) |
-| Stripe | [`@ai-billing/stripe`](https://www.npmjs.com/package/@ai-billing/stripe) |
-| OpenMeter (Kong) | [`@ai-billing/openmeter`](https://www.npmjs.com/package/@ai-billing/openmeter) |
-| Lago | [`@ai-billing/lago`](https://www.npmjs.com/package/@ai-billing/lago) |
+| Destination | Package | Format Requirements |
+| :--- | :--- | :--- |
+| Stripe | [`@ai-billing/stripe`](https://www.npmjs.com/package/@ai-billing/stripe) | Meter Events, Nano-dollars |
+| Polar.sh | [`@ai-billing/polar`](https://www.npmjs.com/package/@ai-billing/polar) | Polar Events, Nano-dollars |
+| OpenMeter | [`@ai-billing/openmeter`](https://www.npmjs.com/package/@ai-billing/openmeter) | CloudEvents |
+| Lago | [`@ai-billing/lago`](https://www.npmjs.com/package/@ai-billing/lago) | Lago Events, Nano-dollars |
+| Console | `@ai-billing/core` | Debug logging |
 
 ## Reference
 
