@@ -1,0 +1,138 @@
+---
+title: 'Getting started'
+description: 'First steps with Lago destination for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/lago @ai-billing/core
+```
+
+```bash pnpm
+pnpm add @ai-billing/lago @ai-billing/core
+```
+
+```bash yarn
+yarn add @ai-billing/lago @ai-billing/core
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/lago` package provides a destination for sending calculated AI costs and token usage directly to Lago.
+
+It leverages Lago's events API to track usage and automatically syncs it with your Lago customers based on the tags provided during generation. The destination ensures usage data conforms to Lago's requirements, specifically formatting the cost into nano-dollars (`cost_nanos`) and setting the `currency` alongside the billable metric code (defaults to `llm_usage`).
+
+## Usage
+
+To use the Lago destination, create it with your Lago API key, and then pass it to any billing middleware.
+
+<Steps>
+  <Step title="Initialize the Lago destination">
+    First, set up the Lago destination using your Lago API key and optionally the base API URL and meter code. You can optionally define a type for your billing tags to ensure type safety.
+
+    ```typescript
+    import { createLagoDestination } from '@ai-billing/lago';
+
+    type BillingTags = {
+      userId?: string;
+      project_id?: string;
+    };
+
+    const lagoDestination = createLagoDestination<BillingTags>({
+      apiKey: process.env.LAGO_API_KEY,
+      apiUrl: process.env.LAGO_API_URL, // Defaults to 'https://api.getlago.com'
+      meterCode: 'llm_usage', // The billable metric code in Lago (default)
+    });
+    ```
+  </Step>
+
+  <Step title="Set up price resolution">
+    In order for the Lago destination to send costs, the `cost` property on the generated events must be populated.
+    
+    If you are using a provider that returns pricing natively (like OpenRouter or Anthropic), the cost is automatically calculated and you can skip this step.
+
+    However, if you are using a provider that **doesn't** return pricing natively (such as Groq or local models), you must supply a price resolver like Narev or a local object resolver. Without this, the cost will be undefined and the destination cannot send the event to Lago (this will result in an error).
+
+    ```typescript
+    import { createNarevPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createNarevPriceResolver({
+      apiKey: process.env.NAREV_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the billing middleware for your preferred provider and include the `lagoDestination` in the destinations array. 
+
+    <CodeGroup>
+    ```typescript OpenRouter
+    // Example using OpenRouter (pricing returned natively)
+    import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
+
+    const billingMiddleware = createOpenRouterV3Middleware<BillingTags>({
+      destinations: [lagoDestination],
+    });
+    ```
+
+    ```typescript Groq + Narev
+    // Example using Groq with Narev for price resolution
+    import { createGroqMiddleware } from '@ai-billing/groq';
+
+    const billingMiddleware = createGroqMiddleware<BillingTags>({
+      destinations: [lagoDestination],
+      priceResolver, // Pass the Narev price resolver here
+    });
+    ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+    import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+
+    const openrouter = createOpenRouter({
+      apiKey: process.env.OPENROUTER_API_KEY,
+    });
+
+    const wrappedModel = wrapLanguageModel({
+      model: openrouter('google/gemini-2.0-flash-001'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Pass tags during generation">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. 
+    
+    ### Understanding Billing Tags
+
+    The `ai-billing-tags` object is critical when using the Lago destination:
+    
+    - **Identity (`external_customer_id`)**: The destination extracts identity from the tags to map the usage event to an `external_customer_id` in Lago. By default, it checks for `userId` or `externalCustomerId`. You can also configure a custom key using the `externalCustomerIdKey` option when creating the destination. **If no identity is found, the event is skipped** to avoid ingesting anonymous data.
+    - **Properties Payload**: By default, metadata such as token dimensions and any custom tags are built into the `properties` payload sent to Lago. `cost_nanos` and `currency` are automatically injected into the `properties` payload based on the resolved cost of the request. You can override the metadata mapping by providing a custom `mapMetadata` function.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+      providerOptions: {
+        'ai-billing-tags': {
+          userId: 'cus_lago_test_123', // Mapped to external_customer_id in Lago
+          project_id: 'proj_xyz', // Sent as an additional property
+        } as BillingTags,
+      },
+    });
+    ```
+  </Step>
+</Steps>
