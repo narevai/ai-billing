@@ -1,0 +1,96 @@
+---
+title: 'Getting started'
+description: 'First steps with Vercel AI Gateway middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/gateway @ai-billing/core ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/gateway @ai-billing/core ai
+```
+
+```bash yarn
+yarn add @ai-billing/gateway @ai-billing/core ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/gateway` package provides middleware for tracking token usage and capturing events when using the Vercel AI Gateway with the Vercel AI SDK. 
+
+It seamlessly integrates with the `createGateway` provider from the `ai` package, allowing you to monitor and route requests across different language models while capturing their metrics.
+
+## Usage
+
+To use the middleware, wrap your gateway model using `wrapLanguageModel` from the `ai` package and pass the `createGatewayMiddleware`.
+
+<Steps>
+  <Step title="Initialize the Gateway provider">
+    First, set up the Vercel AI Gateway provider using your Gateway ID and API key.
+
+    ```typescript
+    import { createGateway } from 'ai';
+
+    const gateway = createGateway({
+      apiKey: process.env.AI_GATEWAY_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the Gateway billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent. 
+
+    ```typescript
+    import { createGatewayMiddleware } from '@ai-billing/gateway';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createGatewayMiddleware({
+      destinations: [consoleDestination()],
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your chosen model routed through the gateway.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const model = 'gpt-5'; // or any other model supported by the gateway, like 'anthropic/claude-opus-4'
+    const wrappedModel = wrapLanguageModel({
+      model: gateway(model),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens and calculate usage across the gateway models.
+
+    ```typescript
+    import { streamText, convertToModelMessages, UIMessage } from 'ai';
+
+    const messages: UIMessage[] = [
+      {
+        id: 'test-message-123',
+        role: 'user',
+        parts: [{ type: 'text', text: 'What is the capital of Sweden?' }],
+      },
+    ];
+
+    const result = streamText({
+      model: wrappedModel,
+      messages: await convertToModelMessages(messages),
+    });
+
+    return result.toUIMessageStreamResponse();
+    ```
+  </Step>
+</Steps>
