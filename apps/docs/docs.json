@@ -232,6 +232,7 @@
               {
                 "group": "@ai-billing/lago",
                 "pages": [
+                  "sdk/ai-billing/reference/lago/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -381,6 +382,7 @@
               {
                 "group": "@ai-billing/polar",
                 "pages": [
+                  "sdk/ai-billing/reference/polar/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
