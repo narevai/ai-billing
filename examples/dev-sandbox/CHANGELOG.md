@@ -1,5 +1,27 @@
 # dev-sandbox
 
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies [b1a70f2]
+  - @ai-billing/openai-compatible@0.1.2
+  - @ai-billing/openrouter@0.1.2
+  - @ai-billing/anthropic@0.1.2
+  - @ai-billing/openmeter@0.1.2
+  - @ai-billing/deepseek@0.1.2
+  - @ai-billing/gateway@0.1.2
+  - @ai-billing/minimax@0.1.2
+  - @ai-billing/chutes@0.1.2
+  - @ai-billing/google@0.1.2
+  - @ai-billing/openai@0.1.2
+  - @ai-billing/stripe@0.1.2
+  - @ai-billing/polar@0.1.3
+  - @ai-billing/core@0.1.2
+  - @ai-billing/groq@0.1.2
+  - @ai-billing/lago@0.1.2
+  - @ai-billing/xai@0.1.2
+
 ## 0.1.2
 
 ### Patch Changes
