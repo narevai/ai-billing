@@ -132,6 +132,7 @@
               {
                 "group": "@ai-billing/deepseek",
                 "pages": [
+                  "sdk/ai-billing/reference/deepseek/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -156,6 +157,7 @@
               {
                 "group": "@ai-billing/gateway",
                 "pages": [
+                  "sdk/ai-billing/reference/gateway/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -180,6 +182,7 @@
               {
                 "group": "@ai-billing/google",
                 "pages": [
+                  "sdk/ai-billing/reference/google/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -253,6 +256,7 @@
               {
                 "group": "@ai-billing/minimax",
                 "pages": [
+                  "sdk/ai-billing/reference/minimax/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -277,6 +281,7 @@
               {
                 "group": "@ai-billing/openai",
                 "pages": [
+                  "sdk/ai-billing/reference/openai/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -301,6 +306,7 @@
               {
                 "group": "@ai-billing/openai-compatible",
                 "pages": [
+                  "sdk/ai-billing/reference/openai-compatible/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -349,6 +355,7 @@
               {
                 "group": "@ai-billing/openrouter",
                 "pages": [
+                  "sdk/ai-billing/reference/openrouter/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
@@ -421,6 +428,7 @@
               {
                 "group": "@ai-billing/xai",
                 "pages": [
+                  "sdk/ai-billing/reference/xai/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
