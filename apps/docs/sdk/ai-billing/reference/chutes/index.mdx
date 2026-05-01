@@ -1,0 +1,104 @@
+---
+title: 'Getting started'
+description: 'First steps with Chutes middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/chutes @ai-billing/core @ai-sdk/openai-compatible ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/chutes @ai-billing/core @ai-sdk/openai-compatible ai
+```
+
+```bash yarn
+yarn add @ai-billing/chutes @ai-billing/core @ai-sdk/openai-compatible ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/chutes` package provides middleware for tracking token usage and calculating costs when using Chutes models with the Vercel AI SDK.
+
+It captures Chutes-specific metrics, such as `inputCacheReadTokens`, ensuring that Prompt Caching costs are accurately reflected.
+
+## Usage
+
+To use the middleware, wrap your Chutes model using `wrapLanguageModel` from the `ai` package and pass the `createChutesMiddleware`.
+
+<Steps>
+  <Step title="Initialize the Chutes provider">
+    First, set up the Chutes provider using your API key.
+
+    ```typescript
+    import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+
+    const chutes = createOpenAICompatible({
+      name: 'chutes',
+      baseURL: 'https://llm.chutes.ai/v1',
+      apiKey: process.env.CHUTES_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. For Chutes, you can specify costs for both standard prompt/completion tokens and cached tokens (`inputCacheReadTokens`).
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'deepseek-ai/DeepSeek-V3-0324': {
+        promptTokens: 0.27 / 1_000_000,
+        completionTokens: 1.1 / 1_000_000,
+        inputCacheReadTokens: 0.07 / 1_000_000,
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the Chutes billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createChutesMiddleware } from '@ai-billing/chutes';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createChutesMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your Chutes model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: chutes('deepseek-ai/DeepSeek-V3-0324'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens, handle caching metrics, and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>

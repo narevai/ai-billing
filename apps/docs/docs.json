@@ -46,6 +46,7 @@
               {
                 "group": "@ai-billing/chutes",
                 "pages": [
+                  "sdk/ai-billing/reference/chutes/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
