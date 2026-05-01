@@ -331,6 +331,7 @@
               {
                 "group": "@ai-billing/openmeter",
                 "pages": [
+                  "sdk/ai-billing/reference/openmeter/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
