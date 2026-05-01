@@ -1,0 +1,138 @@
+---
+title: 'Getting started'
+description: 'First steps with Stripe destination for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/stripe @ai-billing/core
+```
+
+```bash pnpm
+pnpm add @ai-billing/stripe @ai-billing/core
+```
+
+```bash yarn
+yarn add @ai-billing/stripe @ai-billing/core
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/stripe` package provides a destination for sending calculated AI costs and token usage directly to Stripe Billing. 
+
+It leverages Stripe's meter events to track usage and automatically syncs it with your Stripe customers based on the tags provided during generation. The destination ensures usage data conforms to Stripe's requirements, specifically formatting the cost into nano-dollars (or your base currency) to allow precise fractional billing.
+
+## Usage
+
+To use the Stripe destination, create it with your Stripe API key and meter name, then pass it to any billing middleware.
+
+<Steps>
+  <Step title="Initialize the Stripe destination">
+    First, set up the Stripe destination using your Stripe secret key and the name of the meter you want to report usage to. You can optionally define a type for your billing tags to ensure type safety.
+
+    ```typescript
+    import { createStripeDestination } from '@ai-billing/stripe';
+
+    type BillingTags = {
+      stripe_customer_id?: string;
+      org_name?: string;
+    };
+
+    const stripeDestination = createStripeDestination<BillingTags>({
+      apiKey: process.env.STRIPE_SECRET_KEY,
+      meterName: 'llm_usage',
+    });
+    ```
+  </Step>
+
+  <Step title="Set up price resolution">
+    In order for the Stripe destination to send costs, the `cost` property on the generated events must be populated.
+    
+    If you are using a provider that returns pricing natively (like OpenRouter or Anthropic), the cost is automatically calculated and you can skip this step.
+
+    However, if you are using a provider that **doesn't** return pricing natively (such as Groq or local models), you must supply a price resolver like Narev or a local object resolver. Without this, the cost will be undefined and the destination cannot send the meter event to Stripe.
+
+    ```typescript
+    import { createNarevPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createNarevPriceResolver({
+      apiKey: process.env.NAREV_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the billing middleware for your preferred provider and include the `stripeDestination` in the destinations array. 
+
+    <CodeGroup>
+    ```typescript OpenRouter
+    // Example using OpenRouter (pricing returned natively)
+    import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
+
+    const billingMiddleware = createOpenRouterV3Middleware<BillingTags>({
+      destinations: [stripeDestination],
+    });
+    ```
+
+    ```typescript Groq + Narev
+    // Example using Groq with Narev for price resolution
+    import { createGroqMiddleware } from '@ai-billing/groq';
+
+    const billingMiddleware = createGroqMiddleware<BillingTags>({
+      destinations: [stripeDestination],
+      priceResolver, // Pass the Narev price resolver here
+    });
+    ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+    import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+
+    const openrouter = createOpenRouter({
+      apiKey: process.env.OPENROUTER_API_KEY,
+    });
+
+    const wrappedModel = wrapLanguageModel({
+      model: openrouter('google/gemini-2.0-flash-001'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Pass tags during generation">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. 
+    
+    ### Understanding Billing Tags
+
+    The `ai-billing-tags` object is critical when using the Stripe destination:
+    
+    - **`stripe_customer_id`**: This tag is **required** to map the usage event to a specific customer in Stripe. If omitted, the destination will log a warning and fallback to sending `"undefined"`, which means the usage won't map correctly to a billable user in your Stripe account.
+    - **Custom Metadata**: Any other tags (like `org_name` or `project_id`) will be appended as metadata to the Stripe meter payload.
+    - **Stripe Constraints**: Stripe has a hard limit of 10 keys in the payload. The destination prioritizes `value` (cost) and `stripe_customer_id`, followed by core AI metrics (like `model_id`, `provider`, `input_tokens`), and then includes your custom tags until the 10-key limit is reached.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+      providerOptions: {
+        'ai-billing-tags': {
+          stripe_customer_id: 'cus_UIMLD4AuBpC8Ux', // Triggers Stripe customer usage
+          org_name: 'Acme Corp', // Sent as additional metadata
+        } as BillingTags,
+      },
+    });
+    ```
+  </Step>
+</Steps>

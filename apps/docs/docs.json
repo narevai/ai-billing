@@ -404,6 +404,7 @@
               {
                 "group": "@ai-billing/stripe",
                 "pages": [
+                  "sdk/ai-billing/reference/stripe/index",
                   {
                     "group": "Reference",
                     "icon": "book-open",
