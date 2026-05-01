@@ -1,0 +1,174 @@
+---
+title: 'Getting started'
+description: 'First steps with Polar destination for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/polar @ai-billing/core @polar-sh/sdk
+```
+
+```bash pnpm
+pnpm add @ai-billing/polar @ai-billing/core @polar-sh/sdk
+```
+
+```bash yarn
+yarn add @ai-billing/polar @ai-billing/core @polar-sh/sdk
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/polar` package provides a destination for sending calculated AI costs and token usage directly to Polar.
+
+It leverages Polar's Events API to track usage and automatically syncs it with your Polar customers based on the tags provided during generation. The destination ensures usage data conforms to Polar's requirements, including token dimensions, tag values, and precise fractional cost formatting (`cost_nanos` and `cost_currency`).
+
+## Usage
+
+To use the Polar destination, create it with your Polar access token and event name, then pass it to any billing middleware.
+
+<Steps>
+  <Step title="Initialize the Polar destination">
+    First, set up the Polar destination using your Polar access token and the name of the event you want to report usage to. You can optionally define a type for your billing tags to ensure type safety.
+
+    ```typescript
+    import { createPolarDestination } from '@ai-billing/polar';
+
+    type BillingTags = {
+      customer_id?: string;
+      org_name?: string;
+    };
+
+    const polarDestination = createPolarDestination<BillingTags>({
+      accessToken: process.env.POLAR_ACCESS_TOKEN,
+      eventName: 'llm_usage', // The event name from your Polar dashboard
+      server: 'sandbox', // Use 'sandbox' for testing, 'production' for live
+    });
+    ```
+  </Step>
+
+  <Step title="Set up price resolution">
+    In order for the Polar destination to send costs, the `cost` property on the generated events must be populated.
+    
+    If you are using a provider that returns pricing natively (like OpenRouter or Anthropic), the cost is automatically calculated and you can skip this step.
+
+    However, if you are using a provider that **doesn't** return pricing natively (such as Groq or local models), you must supply a price resolver like Narev or a local object resolver. Without this, the cost will be undefined for those providers.
+
+    ```typescript
+    import { createNarevPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createNarevPriceResolver({
+      apiKey: process.env.NAREV_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the billing middleware for your preferred provider and include the `polarDestination` in the destinations array. 
+
+    <CodeGroup>
+    ```typescript OpenRouter
+    // Example using OpenRouter (pricing returned natively)
+    import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
+
+    const billingMiddleware = createOpenRouterV3Middleware<BillingTags>({
+      destinations: [polarDestination],
+    });
+    ```
+
+    ```typescript Groq + Narev
+    // Example using Groq with Narev for price resolution
+    import { createGroqMiddleware } from '@ai-billing/groq';
+
+    const billingMiddleware = createGroqMiddleware<BillingTags>({
+      destinations: [polarDestination],
+      priceResolver, // Pass the Narev price resolver here
+    });
+    ```
+    </CodeGroup>
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+    import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+
+    const openrouter = createOpenRouter({
+      apiKey: process.env.OPENROUTER_API_KEY,
+    });
+
+    const wrappedModel = wrapLanguageModel({
+      model: openrouter('google/gemini-2.0-flash-001'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Pass tags during generation">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. 
+    
+    ### Understanding Billing Tags and Identity
+
+    The `ai-billing-tags` object is critical when using the Polar destination. Polar requires an identity to map the event to a customer:
+    
+    - **Internal vs External ID**: The destination looks for specific tag keys to determine the customer. By default, it checks for `customerId`, `polarCustomerId`, or `customer_id` for an internal Polar ID. For an external ID, it checks for `userId`, `externalId`, or `user_id`. You can override these keys in the destination options using `customerIdKey` and `externalCustomerIdKey`.
+    - **Missing Identity**: If neither an internal nor an external ID is found in the tags, the destination will log a warning and skip sending the event to Polar.
+    - **Metadata**: Any other tags (like `org_name`) will be included in the Polar event metadata alongside token usage dimensions and cost (`cost_nanos` and `cost_currency`).
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+      providerOptions: {
+        'ai-billing-tags': {
+          customer_id: '4a874ea3-53ec-432d-9d55-c55bf957e18f', // Triggers internalCustomerId in Polar
+          org_name: 'Acme Corp', // Sent as additional metadata
+        } as BillingTags,
+      },
+    });
+    ```
+  </Step>
+</Steps>
+
+## Advanced Configuration
+
+### Dynamic Event Names
+
+You can use a function to derive the event name from the billing event. This is useful when you want to ingest different Polar events per model or provider while keeping one destination configuration.
+
+```typescript
+const polarDestination = createPolarDestination<BillingTags>({
+  accessToken: process.env.POLAR_ACCESS_TOKEN,
+  eventName: (event) => `llm_usage_${event.provider}_${event.modelId}`,
+});
+```
+
+### Custom Metadata Mapping
+
+By default, the destination builds metadata from the event dimensions, tags, and cost. If you need to override the metadata payload sent to Polar, you can provide a `mapMetadata` function.
+
+```typescript
+import { createPolarDestination } from '@ai-billing/polar';
+import { costToNumber } from '@ai-billing/core';
+
+const polarDestination = createPolarDestination<BillingTags>({
+  accessToken: process.env.POLAR_ACCESS_TOKEN,
+  eventName: 'llm_usage',
+  mapMetadata: (event) => {
+    return {
+      custom_cost_nanos: event.cost ? costToNumber(event.cost, 'nanos') : 0,
+      custom_cost_currency: event.cost?.currency ?? 'usd',
+      tokens: event.usage.inputTokens + event.usage.outputTokens,
+      org: event.tags?.org_name,
+    };
+  },
+});
+```
