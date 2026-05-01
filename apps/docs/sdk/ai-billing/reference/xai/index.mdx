@@ -1,0 +1,103 @@
+---
+title: 'Getting started'
+description: 'First steps with xAI middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/xai @ai-billing/core @ai-sdk/xai ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/xai @ai-billing/core @ai-sdk/xai ai
+```
+
+```bash yarn
+yarn add @ai-billing/xai @ai-billing/core @ai-sdk/xai ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/xai` package provides middleware for tracking token usage and calculating costs when using xAI models with the Vercel AI SDK. 
+
+It captures xAI-specific metrics, such as `inputCacheReadTokens` and `inputCacheWriteTokens`, ensuring that Prompt Caching costs are accurately reflected.
+
+## Usage
+
+To use the middleware, wrap your xAI model using `wrapLanguageModel` from the `ai` package and pass the `createXaiMiddleware`.
+
+<Steps>
+  <Step title="Initialize the xAI provider">
+    First, set up the xAI provider using your API key.
+
+    ```typescript
+    import { createXai } from '@ai-sdk/xai';
+
+    const xai = createXai({
+      apiKey: process.env.XAI_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. For xAI, you can specify costs for both standard prompt/completion tokens and cached tokens (`inputCacheReadTokens` and `inputCacheWriteTokens`).
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'grok-3-mini': {
+        promptTokens: 0.000003,
+        completionTokens: 0.000015,
+        inputCacheReadTokens: 0.0000003,
+        inputCacheWriteTokens: 0.00000375,
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the xAI billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createXaiMiddleware } from '@ai-billing/xai';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createXaiMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your xAI model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: xai('grok-3-mini'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens, handle caching metrics, and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>
