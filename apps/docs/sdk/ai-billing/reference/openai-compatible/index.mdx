@@ -1,0 +1,106 @@
+---
+title: 'Getting started'
+description: 'First steps with OpenAI Compatible middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/openai-compatible @ai-billing/core @ai-sdk/openai-compatible ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/openai-compatible @ai-billing/core @ai-sdk/openai-compatible ai
+```
+
+```bash yarn
+yarn add @ai-billing/openai-compatible @ai-billing/core @ai-sdk/openai-compatible ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/openai-compatible` package provides middleware for tracking token usage and calculating costs when using any OpenAI-compatible provider (like xAI, Together AI, or Groq) with the Vercel AI SDK.
+
+It captures OpenAI-compatible metrics, such as `internalReasoningTokens` and `inputCacheReadTokens`, ensuring that costs are accurately reflected across different providers.
+
+## Usage
+
+To use the middleware, wrap your OpenAI-compatible model using `wrapLanguageModel` from the `ai` package and pass the `createOpenAICompatibleMiddleware`.
+
+<Steps>
+  <Step title="Initialize the OpenAI Compatible provider">
+    First, set up the provider using `createOpenAICompatible`. You must specify a `name` which will be used as the `providerId` in the middleware.
+
+    ```typescript
+    import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+
+    const xai = createOpenAICompatible({
+      name: 'xai', // must match the providerId used in the middleware
+      baseURL: 'https://api.x.ai/v1',
+      apiKey: process.env.XAI_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. You can specify costs for standard prompt/completion tokens, as well as provider-specific metrics like `internalReasoningTokens` or `inputCacheReadTokens`.
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'grok-4-1-fast-reasoning': {
+        promptTokens: 0.0000002,
+        completionTokens: 0.0000005,
+        internalReasoningTokens: 0,
+        inputCacheReadTokens: 0.00000015,
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the OpenAI Compatible billing middleware. You need to provide a destination (such as `consoleDestination`), your `priceResolver`, and the `providerId` that matches the `name` you used when creating the provider.
+
+    ```typescript
+    import { createOpenAICompatibleMiddleware } from '@ai-billing/openai-compatible';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createOpenAICompatibleMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+      providerId: 'xai', // Must match the provider name used in createOpenAICompatible
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your OpenAI-compatible model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: xai('grok-4-1-fast-reasoning'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens, handle provider-specific metrics, and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>
