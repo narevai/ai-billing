@@ -1,15 +1,15 @@
-name: E2E (examples/chatbot-with-billing)
+name: E2E (examples/chatbot-with-billing-polars)
 
 on:
   push:
     paths:
-      - 'examples/chatbot-with-billing/**'
+      - 'examples/chatbot-with-billing-polars/**'
   pull_request:
     paths:
-      - 'examples/chatbot-with-billing/**'
+      - 'examples/chatbot-with-billing-polars/**'
 
 jobs:
-  e2e-chatbot-with-billing:
+  e2e-chatbot-with-billing-polars:
     runs-on: ubuntu-latest
     env:
       AUTH_SECRET: ${{ secrets.OSS_AUTH_SECRET }}
