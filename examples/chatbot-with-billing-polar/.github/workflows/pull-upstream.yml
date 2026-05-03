@@ -45,10 +45,10 @@ jobs:
 
           # Create or reset the dedicated sync branch
           git checkout -B sync/upstream-template
-          
+
           git add .
           git commit -m "chore: sync upstream template"
-          
+
           # Force push to keep the branch name consistent and singular
           git push origin sync/upstream-template --force
 
