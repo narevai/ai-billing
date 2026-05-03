@@ -27,7 +27,7 @@ export async function POST() {
       },
     ];
 
-    const model = 'anthropic/claude-opus-4';
+    const model = 'deepseek/deepseek-v4-pro';
 
     const wrappedModel = wrapLanguageModel({
       model: gateway(model),

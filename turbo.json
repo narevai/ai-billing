@@ -33,12 +33,23 @@
       "cache": false,
       "persistent": true
     },
+    "test:setup": {
+      "cache": true
+    },
     "test": {
       "outputs": [
         "coverage/**"
       ],
       "dependsOn": [
-        "^build"
+        "^build",
+        "test:setup"
+      ],
+      "cache": true
+    },
+    "test:e2e": {
+      "dependsOn": [
+        "^build",
+        "test:setup"
       ],
       "cache": true
     },

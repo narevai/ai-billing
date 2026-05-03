@@ -6,5 +6,6 @@
     "eslint-plugin-jsdoc",
     "eslint-plugin-tsdoc",
     "typedoc-plugin-markdown"
-  ]
+  ],
+  "ignore": ["examples/chatbot-with-billing-polar/**"]
 }
