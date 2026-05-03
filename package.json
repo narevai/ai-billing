@@ -33,7 +33,9 @@
   },
   "pnpm": {
     "overrides": {
-      "postcss": ">=8.5.10"
+      "postcss": ">=8.5.10",
+      "undici": ">=6.24.0",
+      "uuid": ">=14.0.0"
     }
   }
 }
