@@ -10,6 +10,7 @@ on:
 
 jobs:
   e2e-chatbot-with-billing-polars:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     env:
       AUTH_SECRET: ${{ secrets.OSS_AUTH_SECRET }}
@@ -22,6 +23,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
@@ -35,15 +38,31 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Build dependencies
         run: pnpm --filter="chatbot^..." build
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
+
       - name: Install Playwright Browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm --filter chatbot run test:setup
         working-directory: examples/chatbot-with-billing-polars
 
       - name: Run E2E tests
         run: pnpm --filter chatbot run test:e2e
         working-directory: examples/chatbot-with-billing-polars
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always() && !cancelled()
+        with:
+          name: playwright-report
+          path: examples/chatbot-with-billing-polars/playwright-report/
+          retention-days: 7
