@@ -1,6 +1,6 @@
 'use client';
 
-import type { ComponentProps, HTMLAttributes, ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Collapsible, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -198,7 +198,7 @@ export const ReasoningTrigger = memo(
   },
 );
 
-export type ReasoningContentProps = HTMLAttributes<HTMLDivElement> & {
+export type ReasoningContentProps = ComponentProps<typeof Streamdown> & {
   children: string;
 };
 
