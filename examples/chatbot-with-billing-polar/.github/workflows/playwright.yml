@@ -10,43 +10,27 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     env:
-      BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
-      BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
-      POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
-      BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
-      REDIS_URL: ${{ secrets.REDIS_URL }}
+      AUTH_SECRET: ${{ secrets.OSS_AUTH_SECRET }}
+      AI_GATEWAY_API_KEY: ${{ secrets.OSS_AI_GATEWAY_API_KEY }}
+      BLOB_READ_WRITE_TOKEN: ${{ secrets.OSS_BLOB_READ_WRITE_TOKEN }}
+      POSTGRES_URL: ${{ secrets.OSS_POSTGRES_URL }}
+      REDIS_URL: ${{ secrets.OSS_REDIS_URL }}
+      POLAR_ACCESS_TOKEN: ${{ secrets.OSS_POLAR_ACCESS_TOKEN }}
+      POLAR_SERVER: 'sandbox'
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v3
         with:
-          version: latest
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          version: 10.32.1
 
       - uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: 20
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -61,10 +45,10 @@ jobs:
 
       - name: Install Playwright Browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm run test:setup
 
       - name: Run Playwright tests
-        run: pnpm test
+        run: pnpm run test:e2e
 
       - uses: actions/upload-artifact@v4
         if: always() && !cancelled()
