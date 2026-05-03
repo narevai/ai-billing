@@ -141,6 +141,7 @@ importers:
         version: 6.2.1
       '@codemirror/state':
         specifier: ^6.5.0
+        version: 6.6.0
       '@codemirror/theme-one-dark':
         specifier: ^6.1.2
         version: 6.1.3
