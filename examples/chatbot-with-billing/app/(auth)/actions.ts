@@ -67,7 +67,10 @@ export const register = async (
     if (user) {
       return { status: 'user_exists' } as RegisterActionState;
     }
-    const newUser = await createUser(validatedData.email, validatedData.password);
+    const newUser = await createUser(
+      validatedData.email,
+      validatedData.password,
+    );
     if (newUser) {
       await createPolarCustomer(validatedData.email, newUser.id);
     }

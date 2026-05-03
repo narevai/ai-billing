@@ -41,7 +41,9 @@ function getBillingMiddleware() {
   return _billingMiddleware;
 }
 
-export function getBillingWrappedModel(model: LanguageModelV3): LanguageModelV3 {
+export function getBillingWrappedModel(
+  model: LanguageModelV3,
+): LanguageModelV3 {
   const middleware = getBillingMiddleware();
   if (!middleware) return model;
   return wrapLanguageModel({ model, middleware });
