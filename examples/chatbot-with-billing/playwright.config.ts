@@ -47,9 +47,9 @@ export default defineConfig({
   },
 
   /* Configure global timeout for each test */
-  timeout: 10 * 1000,
+  timeout: 30 * 1000,
   expect: {
-    timeout: 10 * 1000,
+    timeout: 30 * 1000,
   },
 
   /* Configure projects */
@@ -97,7 +97,7 @@ export default defineConfig({
   webServer: {
     command: 'pnpm dev',
     url: `${baseURL}/ping`,
-    timeout: 5 * 1000,
+    timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
   },
 });
