@@ -379,6 +379,12 @@ importers:
       drizzle-kit:
         specifier: ^0.25.0
         version: 0.25.0
+      oxfmt:
+        specifier: 'catalog:'
+        version: 0.42.0
+      oxlint:
+        specifier: 'catalog:'
+        version: 1.57.0
       postcss:
         specifier: '>=8.5.10'
         version: 8.5.13
