@@ -15,13 +15,11 @@
       "specifier": "eslint-plugin-tsdoc"
     }
   ],
-  "rules": {
-    "typescript/no-explicit-any": "error"
-  },
   "overrides": [
     {
       "files": ["packages/**/*.ts"],
       "rules": {
+        "typescript/no-explicit-any": "error",
         "tsdoc/syntax": "error",
         "jsdoc/require-param": "warn",
         "jsdoc/require-param-description": "warn",
@@ -55,6 +53,14 @@
       "files": ["packages/testing/**/*.ts"],
       "rules": {
         "jsdoc-js/require-jsdoc": "off"
+      }
+    },
+    {
+      "files": ["examples/**/*.ts", "examples/**/*.tsx"],
+      "rules": {
+        "eslint/no-shadow": "off",
+        "eslint/no-loss-of-precision": "off",
+        "eslint/no-unused-vars": "off"
       }
     }
   ],
