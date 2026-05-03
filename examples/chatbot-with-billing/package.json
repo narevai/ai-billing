@@ -16,7 +16,8 @@
     "db:check": "drizzle-kit check",
     "db:up": "drizzle-kit up",
     "test": "PLAYWRIGHT_BROWSERS_PATH=0 PLAYWRIGHT=True pnpm exec playwright test",
-    "test:setup": "PLAYWRIGHT_BROWSERS_PATH=0 playwright install --with-deps chromium"
+    "test:setup": "PLAYWRIGHT_BROWSERS_PATH=0 playwright install --with-deps chromium",
+    "test:report": "pnpm exec playwright show-report"
   },
   "dependencies": {
     "@ai-billing/core": "^0.1.1",

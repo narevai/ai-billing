@@ -7,7 +7,7 @@ import { defineConfig, devices } from '@playwright/test';
 import { config } from 'dotenv';
 
 if (!process.env.CI) {
-  config({ path: '.env.test', override: true });
+  config({ path: '.env.local', override: true });
 } else {
   // Otherwise, load nothing (GitHub Actions will provide the real env vars)
   config();

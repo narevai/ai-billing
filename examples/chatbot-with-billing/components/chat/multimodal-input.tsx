@@ -532,6 +532,7 @@ function PureMultimodalInput({
             <StopButton setMessages={setMessages} stop={stop} />
           ) : (
             <PromptInputSubmit
+              id="send-button"
               className={cn(
                 'h-7 w-7 rounded-xl transition-all duration-200',
                 input.trim()

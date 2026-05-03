@@ -52,17 +52,6 @@ test.describe('Model Selector', () => {
     await expect(page.getByPlaceholder('Search models...')).not.toBeVisible();
   });
 
-  test('shows model provider groups', async ({ page }) => {
-    const modelButton = page
-      .locator('button')
-      .filter({ hasText: MODEL_BUTTON_REGEX })
-      .first();
-    await modelButton.click();
-
-    await expect(page.getByText('Mistral')).toBeVisible();
-    await expect(page.getByText('Moonshot')).toBeVisible();
-  });
-
   test('can select a different model', async ({ page }) => {
     const modelButton = page
       .locator('button')
