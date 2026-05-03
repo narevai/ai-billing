@@ -9,7 +9,7 @@ on:
       - 'examples/chatbot-with-billing/**'
 
 jobs:
-  test:
+  e2e-chatbot-with-billing:
     runs-on: ubuntu-latest
     env:
       AUTH_SECRET: ${{ secrets.OSS_AUTH_SECRET }}
@@ -18,7 +18,7 @@ jobs:
       POSTGRES_URL: ${{ secrets.OSS_POSTGRES_URL }}
       REDIS_URL: ${{ secrets.OSS_REDIS_URL }}
       POLAR_ACCESS_TOKEN: ${{ secrets.OSS_POLAR_ACCESS_TOKEN }}
-      POLAR_SERVER: ${{ secrets.OSS_POLAR_SERVER || 'sandbox' }}
+      POLAR_SERVER: 'sandbox'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
