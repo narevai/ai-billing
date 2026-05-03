@@ -13,6 +13,7 @@
     "knip": "turbo run //#knip:check",
     "knip:check": "knip",
     "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
     "test:coverage": "turbo run test --filter=\"./packages/*\" -- --coverage"
   },
   "devDependencies": {
