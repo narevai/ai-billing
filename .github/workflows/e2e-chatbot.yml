@@ -1,15 +1,15 @@
-name: E2E (examples/chatbot-with-billing-polars)
+name: E2E (examples/chatbot-with-billing-polar)
 
 on:
   push:
     paths:
-      - 'examples/chatbot-with-billing-polars/**'
+      - 'examples/chatbot-with-billing-polar/**'
   pull_request:
     paths:
-      - 'examples/chatbot-with-billing-polars/**'
+      - 'examples/chatbot-with-billing-polar/**'
 
 jobs:
-  e2e-chatbot-with-billing-polars:
+  e2e-chatbot-with-billing-polar:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     env:
@@ -53,16 +53,16 @@ jobs:
       - name: Install Playwright Browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm --filter chatbot run test:setup
-        working-directory: examples/chatbot-with-billing-polars
+        working-directory: examples/chatbot-with-billing-polar
 
       - name: Run E2E tests
         run: pnpm --filter chatbot run test:e2e
-        working-directory: examples/chatbot-with-billing-polars
+        working-directory: examples/chatbot-with-billing-polar
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
         if: always() && !cancelled()
         with:
           name: playwright-report
-          path: examples/chatbot-with-billing-polars/playwright-report/
+          path: examples/chatbot-with-billing-polar/playwright-report/
           retention-days: 7

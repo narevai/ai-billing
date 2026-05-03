@@ -121,7 +121,7 @@ importers:
 
   apps/docs: {}
 
-  examples/chatbot-with-billing-polars:
+  examples/chatbot-with-billing-polar:
     dependencies:
       '@ai-billing/core':
         specifier: workspace:*

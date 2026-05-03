@@ -1,5 +1,5 @@
 ---
-"chatbot-with-billing-polars": patch
+"chatbot-with-billing-polar": patch
 ---
 
-docs(polars): add ai-billing chatbot with polars backend
+docs(polar): add ai-billing chatbot with polar backend
