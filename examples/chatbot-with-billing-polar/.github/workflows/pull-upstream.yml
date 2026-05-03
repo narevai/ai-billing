@@ -8,9 +8,14 @@ on:
 jobs:
   pull-and-update:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Necessary to switch branches properly
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -30,11 +35,28 @@ jobs:
         run: |
           git diff --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
 
-      - name: Commit and push changes
+      - name: Push to Sync Branch and Open PR
         if: steps.git-check.outputs.changes == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+          # Create or reset the dedicated sync branch
+          git checkout -B sync/upstream-template
+          
           git add .
-          git commit -m "chore: sync upstream template from narevai/ai-billing"
-          git push
+          git commit -m "chore: sync upstream template"
+          
+          # Force push to keep the branch name consistent and singular
+          git push origin sync/upstream-template --force
+
+          # Check if a PR already exists; if not, create one
+          if [[ -z $(gh pr list --head sync/upstream-template) ]]; then
+            gh pr create \
+              --title "chore: sync upstream template" \
+              --body "Automated sync from upstream narevai/ai-billing. This PR will be updated automatically on the next run." \
+              --base main \
+              --head sync/upstream-template
+          fi
