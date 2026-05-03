@@ -46,6 +46,13 @@
       ],
       "cache": true
     },
+    "test:e2e": {
+      "dependsOn": [
+        "^build",
+        "test:setup"
+      ],
+      "cache": true
+    },
     "//#knip:check": {
       "cache": true,
       "inputs": [
