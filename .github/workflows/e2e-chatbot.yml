@@ -42,8 +42,8 @@ jobs:
 
       - name: Install Playwright Browsers
         run: pnpm --filter chatbot run test:setup
-        working-directory: examples/chatbot-with-billing
+        working-directory: examples/chatbot-with-billing-polars
 
       - name: Run E2E tests
         run: pnpm --filter chatbot run test:e2e
-        working-directory: examples/chatbot-with-billing
+        working-directory: examples/chatbot-with-billing-polars
