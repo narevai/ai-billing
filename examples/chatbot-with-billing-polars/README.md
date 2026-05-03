@@ -1,14 +1,14 @@
-<a href="https://chatbot.ai-sdk.dev/demo">
-  <img alt="Chatbot" src="app/(chat)/opengraph-image.png">
-  <h1 align="center">Chatbot</h1>
+<a href="https://narev.ai/guides">
+  <img alt="Chatbot with Billing" src="app/(chat)/opengraph-image.png">
+  <h1 align="center">Chatbot with AI Billing in Polars</h1>
 </a>
 
 <p align="center">
-    Chatbot (formerly AI Chatbot) is a free, open-source template built with Next.js and the AI SDK that helps you quickly build powerful chatbot applications.
+    This is an open-source template built with Next.js, the AI SDK, and the <strong>ai-billing</strong> package. It helps you quickly build powerful chatbot applications with built-in monetization and billing capabilities.
 </p>
 
 <p align="center">
-  <a href="https://chatbot.ai-sdk.dev/docs"><strong>Read Docs</strong></a> ·
+  <a href="https://narev.ai/docs"><strong>Read Docs</strong></a> ·
   <a href="#features"><strong>Features</strong></a> ·
   <a href="#model-providers"><strong>Model Providers</strong></a> ·
   <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·
@@ -18,6 +18,9 @@
 
 ## Features
 
+- **[ai-billing](https://narev.ai/docs/sdk/ai-billing)**
+  - Seamless monetization and billing integration for your AI applications
+  - Powered by [narev.ai](https://narev.ai)
 - [Next.js](https://nextjs.org) App Router
   - Advanced routing for seamless navigation and performance
   - React Server Components (RSCs) and Server Actions for server-side rendering and increased performance
@@ -50,7 +53,7 @@ With the [AI SDK](https://ai-sdk.dev/docs/introduction), you can also switch to 
 
 You can deploy your own version of Chatbot with billing to Vercel with one click:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fai-billing%2Ftree%2Fexamples%2Fchatbot-with-billing&env=AUTH_SECRET,AI_GATEWAY_API_KEY,BLOB_READ_WRITE_TOKEN,POSTGRES_URL,REDIS_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fai-billing%2Ftree%2Fexamples%2Fchatbot-with-billing-polars&env=AUTH_SECRET,AI_GATEWAY_API_KEY,BLOB_READ_WRITE_TOKEN,POSTGRES_URL,REDIS_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D)
 
 ## Running locally
 
