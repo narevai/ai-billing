@@ -1,7 +1,7 @@
 import { wrapLanguageModel } from 'ai';
 import type { LanguageModelV3 } from '@ai-sdk/provider';
 import { createGatewayV3Middleware } from '@ai-billing/gateway';
-import { createPolarDestination } from '@ai-billing/polar';
+import { createStripeDestination } from '@ai-billing/stripe';
 import { isTestEnvironment } from '@/lib/constants';
 
 let _billingMiddleware: ReturnType<typeof createGatewayV3Middleware> | null =
@@ -14,22 +14,16 @@ function getBillingMiddleware() {
 
   if (isTestEnvironment) return null;
 
-  const polarAccessToken = process.env.POLAR_ACCESS_TOKEN;
-  const polarServer = process.env.POLAR_SERVER as
-    | 'sandbox'
-    | 'production'
-    | undefined;
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 
-  const destinations: ReturnType<typeof createPolarDestination>[] = [];
+  const destinations: ReturnType<typeof createStripeDestination>[] = [];
 
-  if (polarAccessToken) {
-    const polarDestination = createPolarDestination({
-      accessToken: polarAccessToken,
-      server: polarServer ?? 'sandbox',
-      eventName: 'llm_usage',
-      externalCustomerIdKey: 'userId',
+  if (stripeSecretKey) {
+    const stripeDestination = createStripeDestination({
+      apiKey: stripeSecretKey,
+      meterName: 'llm_usage',
     });
-    destinations.push(polarDestination);
+    destinations.push(stripeDestination);
   }
 
   if (destinations.length === 0) return null;

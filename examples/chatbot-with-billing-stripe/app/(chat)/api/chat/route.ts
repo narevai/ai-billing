@@ -202,6 +202,9 @@ export async function POST(request: Request) {
               userType,
               chatId: id,
               modelId: chatModel,
+              ...(session.user.stripeCustomerId && {
+                stripe_customer_id: session.user.stripeCustomerId,
+              }),
             },
           },
           tools: {

@@ -47,6 +47,37 @@ export async function getUser(email: string): Promise<User[]> {
   }
 }
 
+export async function getUserById(id: string): Promise<User | null> {
+  try {
+    const [result] = await db.select().from(user).where(eq(user.id, id));
+    return result ?? null;
+  } catch (_error) {
+    throw new ChatbotError(
+      'bad_request:database',
+      'Failed to get user by id',
+    );
+  }
+}
+
+export async function updateUserStripeCustomerId(
+  userId: string,
+  stripeCustomerId: string,
+) {
+  try {
+    const [updated] = await db
+      .update(user)
+      .set({ stripeCustomerId })
+      .where(eq(user.id, userId))
+      .returning();
+    return updated;
+  } catch (_error) {
+    throw new ChatbotError(
+      'bad_request:database',
+      'Failed to update user stripe customer id',
+    );
+  }
+}
+
 export async function createUser(email: string, password: string) {
   const hashedPassword = generateHashedPassword(password);
 

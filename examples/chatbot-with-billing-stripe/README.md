@@ -1,6 +1,6 @@
 <a href="https://narev.ai/guides">
   <img alt="Chatbot with Billing" src="app/(chat)/opengraph-image.png">
-  <h1 align="center">Chatbot with AI Billing in Polars</h1>
+  <h1 align="center">Chatbot with AI Billing in Stripe</h1>
 </a>
 
 <p align="center">
@@ -52,7 +52,7 @@ With the [AI SDK](https://ai-sdk.dev/docs/introduction), you can also switch to 
 
 You can deploy your own version of Chatbot with billing to Vercel with one click:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fai-billing%2Ftree%2Fexamples%2Fchatbot-with-billing-polar&env=AUTH_SECRET,AI_GATEWAY_API_KEY,POSTGRES_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fai-billing%2Ftree%2Fexamples%2Fchatbot-with-billing-stripe&env=AUTH_SECRET,AI_GATEWAY_API_KEY,POSTGRES_URL,STRIPE_SECRET_KEY)
 
 ## Running locally
 
