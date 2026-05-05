@@ -36,10 +36,6 @@ const nextConfig: NextConfig = {
       {
         hostname: 'avatar.vercel.sh',
       },
-      {
-        protocol: 'https',
-        hostname: '*.public.blob.vercel-storage.com',
-      },
     ],
   },
   experimental: {

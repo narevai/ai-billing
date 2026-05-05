@@ -12,9 +12,7 @@ jobs:
     env:
       AUTH_SECRET: ${{ secrets.OSS_AUTH_SECRET }}
       AI_GATEWAY_API_KEY: ${{ secrets.OSS_AI_GATEWAY_API_KEY }}
-      BLOB_READ_WRITE_TOKEN: ${{ secrets.OSS_BLOB_READ_WRITE_TOKEN }}
       POSTGRES_URL: ${{ secrets.OSS_POSTGRES_URL }}
-      REDIS_URL: ${{ secrets.OSS_REDIS_URL }}
       POLAR_ACCESS_TOKEN: ${{ secrets.OSS_POLAR_ACCESS_TOKEN }}
       POLAR_SERVER: 'sandbox'
 
