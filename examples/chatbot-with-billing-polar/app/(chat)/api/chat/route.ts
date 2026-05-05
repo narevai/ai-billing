@@ -1,16 +1,14 @@
-import { geolocation, ipAddress } from '@vercel/functions';
+import { geolocation } from '@vercel/functions';
 import {
   convertToModelMessages,
   createUIMessageStream,
   createUIMessageStreamResponse,
-  generateId,
   stepCountIs,
   streamText,
 } from 'ai';
 import { checkBotId } from 'botid/server';
-import { after } from 'next/server';
-import { createResumableStreamContext } from 'resumable-stream';
-import { auth, type UserType } from '@/app/(auth)/auth';
+import { type UserType } from '@/app/(auth)/auth';
+import { auth } from '@/app/(auth)/auth';
 import { entitlementsByUserType } from '@/lib/ai/entitlements';
 import {
   allowedModelIds,
@@ -27,7 +25,6 @@ import { requestSuggestions } from '@/lib/ai/tools/request-suggestions';
 import { updateDocument } from '@/lib/ai/tools/update-document';
 import { isProductionEnvironment } from '@/lib/constants';
 import {
-  createStreamId,
   deleteChatById,
   getChatById,
   getMessageCountByUserId,
@@ -39,23 +36,12 @@ import {
 } from '@/lib/db/queries';
 import type { DBMessage } from '@/lib/db/schema';
 import { ChatbotError } from '@/lib/errors';
-import { checkIpRateLimit } from '@/lib/ratelimit';
 import type { ChatMessage } from '@/lib/types';
 import { convertToUIMessages, generateUUID } from '@/lib/utils';
 import { generateTitleFromUserMessage } from '../../actions';
 import { type PostRequestBody, postRequestBodySchema } from './schema';
 
 export const maxDuration = 60;
-
-function getStreamContext() {
-  try {
-    return createResumableStreamContext({ waitUntil: after });
-  } catch (_) {
-    return null;
-  }
-}
-
-export { getStreamContext };
 
 export async function POST(request: Request) {
   let requestBody: PostRequestBody;
@@ -83,8 +69,6 @@ export async function POST(request: Request) {
     const chatModel = allowedModelIds.has(selectedChatModel)
       ? selectedChatModel
       : DEFAULT_CHAT_MODEL;
-
-    await checkIpRateLimit(ipAddress(request));
 
     const userType: UserType = session.user.type;
 
@@ -308,24 +292,6 @@ export async function POST(request: Request) {
 
     return createUIMessageStreamResponse({
       stream,
-      async consumeSseStream({ stream: sseStream }) {
-        if (!process.env.REDIS_URL) {
-          return;
-        }
-        try {
-          const streamContext = getStreamContext();
-          if (streamContext) {
-            const streamId = generateId();
-            await createStreamId({ streamId, chatId: id });
-            await streamContext.createNewResumableStream(
-              streamId,
-              () => sseStream,
-            );
-          }
-        } catch (_) {
-          /* non-critical */
-        }
-      },
     });
   } catch (error) {
     const vercelId = request.headers.get('x-vercel-id');
