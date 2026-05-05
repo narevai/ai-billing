@@ -52,10 +52,7 @@ export async function getUserById(id: string): Promise<User | null> {
     const [result] = await db.select().from(user).where(eq(user.id, id));
     return result ?? null;
   } catch (_error) {
-    throw new ChatbotError(
-      'bad_request:database',
-      'Failed to get user by id',
-    );
+    throw new ChatbotError('bad_request:database', 'Failed to get user by id');
   }
 }
 
