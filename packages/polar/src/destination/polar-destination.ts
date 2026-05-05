@@ -51,7 +51,7 @@ export interface PolarDestinationOptions<
    * When omitted, metadata is built from {@link buildMeterMetadata} and includes:
    * - token/usage dimensions
    * - `tag_*` values from event tags
-   * - `cost_nanos` / `cost_currency` when `event.cost` is present
+   * - `credits_consumed` / `cost_currency` when `event.cost` is present
    */
   mapMetadata?: (
     event: BillingEvent<TTags>,
@@ -117,7 +117,7 @@ export function createPolarDestination<TTags extends DefaultTags = DefaultTags>(
         >),
         ...(event.cost
           ? {
-              cost_nanos: costToNumber(event.cost, 'nanos'),
+              credits_consumed: costToNumber(event.cost, 'base'),
               cost_currency: event.cost.currency,
             }
           : {}),

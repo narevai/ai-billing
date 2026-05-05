@@ -76,7 +76,7 @@ describe('Polar Destination', () => {
             cache_write_tokens: mockEvent.usage?.cacheWriteTokens,
             reasoning_tokens: mockEvent.usage?.reasoningTokens,
             tag_customerId: mockEvent.tags?.customerId,
-            cost_nanos: costToNumber(mockEvent.cost!, 'nanos'),
+            credits_consumed: costToNumber(mockEvent.cost!, 'base'),
             cost_currency: mockEvent.cost?.currency,
           }),
         }),
@@ -365,11 +365,12 @@ describe('Polar Destination', () => {
     expect(payload).toHaveProperty('customerId', 'cus_12345');
     expect(payload).not.toHaveProperty('customer_id');
     expect(payload).not.toHaveProperty('cost_nanos');
+    expect(payload).not.toHaveProperty('credits_consumed');
     expect(payload).not.toHaveProperty('cost_currency');
-    expect(payload!.metadata).toHaveProperty('cost_nanos');
+    expect(payload!.metadata).toHaveProperty('credits_consumed');
     expect(payload!.metadata).toHaveProperty('cost_currency');
-    expect(payload!.metadata!.cost_nanos).toEqual(
-      costToNumber(mockEvent.cost!, 'nanos'),
+    expect(payload!.metadata!.credits_consumed).toEqual(
+      costToNumber(mockEvent.cost!, 'base'),
     );
     expect(payload!.metadata!.cost_currency).toEqual(mockEvent.cost!.currency);
   });
