@@ -7,5 +7,5 @@
     "eslint-plugin-tsdoc",
     "typedoc-plugin-markdown"
   ],
-  "ignore": ["examples/chatbot-with-billing-polar/**"]
+  "ignore": ["examples/chatbot-with-billing-polar/**", "examples/chatbot-with-billing-stripe/**"]
 }
