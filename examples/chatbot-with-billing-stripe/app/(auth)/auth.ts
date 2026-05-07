@@ -13,7 +13,6 @@ declare module 'next-auth' {
     user: {
       id: string;
       type: UserType;
-      stripeCustomerId?: string | null;
     } & DefaultSession['user'];
   }
 
@@ -21,7 +20,6 @@ declare module 'next-auth' {
     id?: string;
     email?: string | null;
     type: UserType;
-    stripeCustomerId?: string | null;
   }
 }
 
@@ -29,7 +27,6 @@ declare module 'next-auth/jwt' {
   interface JWT extends DefaultJWT {
     id: string;
     type: UserType;
-    stripeCustomerId?: string | null;
   }
 }
 
@@ -86,7 +83,6 @@ export const {
       if (user) {
         token.id = user.id as string;
         token.type = user.type;
-        token.stripeCustomerId = user.stripeCustomerId;
       }
 
       return token;
@@ -95,7 +91,6 @@ export const {
       if (session.user) {
         session.user.id = token.id;
         session.user.type = token.type;
-        session.user.stripeCustomerId = token.stripeCustomerId;
       }
 
       return session;

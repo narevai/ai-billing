@@ -33,3 +33,31 @@ export async function createStripeCustomer(
     return null;
   }
 }
+
+const stripeCustomerCache = new Map<string, string | null>();
+
+export async function findStripeCustomerIdByUserId(
+  userId: string,
+): Promise<string | null> {
+  const cached = stripeCustomerCache.get(userId);
+  if (cached !== undefined) return cached;
+
+  const stripe = getStripeClient();
+  if (!stripe) return null;
+
+  try {
+    const { data } = await stripe.customers.search({
+      query: `metadata['userId']:'${userId}'`,
+      limit: 1,
+    });
+    const id = data[0]?.id ?? null;
+    stripeCustomerCache.set(userId, id);
+    return id;
+  } catch (error) {
+    console.error(
+      '[ai-billing] Failed to find Stripe customer by userId:',
+      error,
+    );
+    return null;
+  }
+}

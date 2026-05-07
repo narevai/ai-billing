@@ -18,7 +18,6 @@ export const user = pgTable('User', {
   name: text('name'),
   emailVerified: boolean('emailVerified').notNull().default(false),
   image: text('image'),
-  stripeCustomerId: text('stripeCustomerId'),
   isAnonymous: boolean('isAnonymous').notNull().default(false),
   createdAt: timestamp('createdAt').notNull().defaultNow(),
   updatedAt: timestamp('updatedAt').notNull().defaultNow(),

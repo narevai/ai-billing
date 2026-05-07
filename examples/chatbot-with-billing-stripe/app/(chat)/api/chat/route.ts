@@ -24,6 +24,7 @@ import { getWeather } from '@/lib/ai/tools/get-weather';
 import { requestSuggestions } from '@/lib/ai/tools/request-suggestions';
 import { updateDocument } from '@/lib/ai/tools/update-document';
 import { isProductionEnvironment } from '@/lib/constants';
+import { findStripeCustomerIdByUserId } from '@/lib/stripe-client';
 import {
   deleteChatById,
   getChatById,
@@ -172,6 +173,11 @@ export async function POST(request: Request) {
 
     const modelMessages = await convertToModelMessages(uiMessages);
 
+    let stripeCustomerId: string | null = null;
+    if (userType === 'regular') {
+      stripeCustomerId = await findStripeCustomerIdByUserId(session.user.id);
+    }
+
     const stream = createUIMessageStream({
       originalMessages: isToolApprovalFlow ? uiMessages : undefined,
       execute: async ({ writer: dataStream }) => {
@@ -202,8 +208,8 @@ export async function POST(request: Request) {
               userType,
               chatId: id,
               modelId: chatModel,
-              ...(session.user.stripeCustomerId && {
-                stripe_customer_id: session.user.stripeCustomerId,
+              ...(stripeCustomerId && {
+                stripe_customer_id: stripeCustomerId,
               }),
             },
           },

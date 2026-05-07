@@ -56,25 +56,6 @@ export async function getUserById(id: string): Promise<User | null> {
   }
 }
 
-export async function updateUserStripeCustomerId(
-  userId: string,
-  stripeCustomerId: string,
-) {
-  try {
-    const [updated] = await db
-      .update(user)
-      .set({ stripeCustomerId })
-      .where(eq(user.id, userId))
-      .returning();
-    return updated;
-  } catch (_error) {
-    throw new ChatbotError(
-      'bad_request:database',
-      'Failed to update user stripe customer id',
-    );
-  }
-}
-
 export async function createUser(email: string, password: string) {
   const hashedPassword = generateHashedPassword(password);
 

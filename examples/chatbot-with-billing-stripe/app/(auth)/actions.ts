@@ -2,11 +2,7 @@
 
 import { z } from 'zod';
 
-import {
-  createUser,
-  getUser,
-  updateUserStripeCustomerId,
-} from '@/lib/db/queries';
+import { createUser, getUser } from '@/lib/db/queries';
 import { createStripeCustomer } from '@/lib/stripe-client';
 
 import { signIn } from './auth';
@@ -71,18 +67,12 @@ export const register = async (
     if (user) {
       return { status: 'user_exists' } as RegisterActionState;
     }
-    let newUser = await createUser(validatedData.email, validatedData.password);
+    const newUser = await createUser(
+      validatedData.email,
+      validatedData.password,
+    );
     if (newUser) {
-      const stripeCustomerId = await createStripeCustomer(
-        validatedData.email,
-        newUser.id,
-      );
-      if (stripeCustomerId) {
-        newUser = await updateUserStripeCustomerId(
-          newUser.id,
-          stripeCustomerId,
-        );
-      }
+      await createStripeCustomer(validatedData.email, newUser.id);
     }
     await signIn('credentials', {
       email: validatedData.email,
