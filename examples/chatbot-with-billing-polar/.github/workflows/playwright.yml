@@ -14,7 +14,7 @@ jobs:
       AI_GATEWAY_API_KEY: ${{ secrets.OSS_AI_GATEWAY_API_KEY }}
       POSTGRES_URL: ${{ secrets.OSS_POSTGRES_URL }}
       POLAR_ACCESS_TOKEN: ${{ secrets.OSS_POLAR_ACCESS_TOKEN }}
-      POLAR_SERVER: 'sandbox'
+      POLAR_SERVER: "sandbox"
 
     steps:
       - uses: actions/checkout@v4
@@ -29,10 +29,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build application
         run: pnpm run build
