@@ -50,7 +50,7 @@ jobs:
 
       - name: Install Playwright Browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm --filter chatbot run test:setup
+        run: pnpm --filter chatbot run test:e2e:setup
         working-directory: examples/chatbot-with-billing-polar
 
       - name: Run E2E tests
