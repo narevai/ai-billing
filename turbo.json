@@ -49,7 +49,7 @@
     "test:e2e": {
       "dependsOn": [
         "^build",
-        "test:setup"
+        "test:e2e:setup"
       ],
       "cache": true
     },
