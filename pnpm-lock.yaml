@@ -1654,6 +1654,34 @@ importers:
 
   packages/typescript-config: {}
 
+  packages/ui:
+    dependencies:
+      '@polar-sh/sdk':
+        specifier: ^0.46.7
+        version: 0.46.7
+      react:
+        specifier: ^18 || ^19
+        version: 19.2.4
+      stripe:
+        specifier: ^21.0.0
+        version: 21.0.1(@types/node@22.19.15)
+    devDependencies:
+      '@ai-billing/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.2.2
+      oxlint:
+        specifier: 'catalog:'
+        version: 1.57.0
+      tsup:
+        specifier: 'catalog:'
+        version: 8.5.1(jiti@2.6.1)(postcss@8.5.13)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+
   packages/xai:
     dependencies:
       '@ai-billing/core':
