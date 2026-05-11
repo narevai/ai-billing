@@ -5,8 +5,7 @@ import { createPolarDestination } from '@ai-billing/polar';
 import { createNarevPriceResolver } from '@ai-billing/core';
 import { isTestEnvironment } from '@/lib/constants';
 
-let _billingMiddleware: ReturnType<typeof createOpenAIMiddleware> | null =
-  null;
+let _billingMiddleware: ReturnType<typeof createOpenAIMiddleware> | null = null;
 let _initAttempted = false;
 
 function getBillingMiddleware() {
@@ -32,8 +31,6 @@ function getBillingMiddleware() {
     });
     destinations.push(polarDestination);
   }
-
-  if (destinations.length === 0) return null;
 
   const narevApiKey = process.env.NAREV_API_KEY ?? '';
 

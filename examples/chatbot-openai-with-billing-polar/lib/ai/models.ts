@@ -1,8 +1,8 @@
-export const DEFAULT_CHAT_MODEL = 'gpt-4.1-mini';
+export const DEFAULT_CHAT_MODEL = 'gpt-5.4-nano';
 
 export const titleModel = {
-  id: 'gpt-4.1-mini',
-  name: 'GPT 4.1 Mini',
+  id: 'gpt-5-nano',
+  name: 'GPT 5 Nano',
   provider: 'openai',
   description: 'Fast model for title generation',
 };
@@ -23,46 +23,58 @@ export type ChatModel = {
 
 export const chatModels: ChatModel[] = [
   {
-    id: 'gpt-5',
-    name: 'GPT 5',
+    id: 'gpt-5.4-nano',
+    name: 'GPT 5.4 Nano',
     provider: 'openai',
-    description: 'Latest flagship model with tool use and vision',
+    description: 'Fastest and cheapest model with tool use',
   },
   {
-    id: 'gpt-4o',
-    name: 'GPT 4o',
+    id: 'gpt-5.4-mini',
+    name: 'GPT 5.4 Mini',
     provider: 'openai',
-    description: 'Versatile multimodal model with tool use',
+    description: 'Balanced speed and capability',
   },
   {
-    id: 'gpt-4.1-mini',
-    name: 'GPT 4.1 Mini',
+    id: 'gpt-5.1',
+    name: 'GPT 5.1',
     provider: 'openai',
-    description: 'Fast and efficient model with tool use',
+    description: 'Powerful general-purpose model',
   },
   {
-    id: 'o3-mini',
-    name: 'o3 Mini',
+    id: 'gpt-5-mini',
+    name: 'GPT 5 Mini',
     provider: 'openai',
-    description: 'Compact reasoning model',
-    reasoningEffort: 'low',
+    description: 'Fast and efficient',
   },
   {
-    id: 'o4-mini',
-    name: 'o4 Mini',
+    id: 'gpt-5-nano',
+    name: 'GPT 5 Nano',
     provider: 'openai',
-    description: 'Latest compact reasoning model',
-    reasoningEffort: 'low',
+    description: 'Ultra-fast lightweight model',
+  },
+  {
+    id: 'gpt-4o-mini',
+    name: 'GPT 4o Mini',
+    provider: 'openai',
+    description: 'Efficient multimodal model',
+  },
+  {
+    id: 'gpt-3.5-turbo',
+    name: 'GPT 3.5 Turbo',
+    provider: 'openai',
+    description: 'Legacy fast model',
   },
 ];
 
 export function getCapabilities(): Record<string, ModelCapabilities> {
   return {
-    'gpt-5': { tools: true, vision: true, reasoning: false },
-    'gpt-4o': { tools: true, vision: true, reasoning: false },
-    'gpt-4.1-mini': { tools: true, vision: true, reasoning: false },
-    'o3-mini': { tools: true, vision: false, reasoning: true },
-    'o4-mini': { tools: true, vision: true, reasoning: true },
+    'gpt-5.4-nano': { tools: true, vision: true, reasoning: false },
+    'gpt-5.4-mini': { tools: true, vision: true, reasoning: false },
+    'gpt-5.1': { tools: true, vision: true, reasoning: false },
+    'gpt-5-mini': { tools: true, vision: true, reasoning: false },
+    'gpt-5-nano': { tools: true, vision: true, reasoning: false },
+    'gpt-4o-mini': { tools: true, vision: true, reasoning: false },
+    'gpt-3.5-turbo': { tools: true, vision: false, reasoning: false },
   };
 }
 

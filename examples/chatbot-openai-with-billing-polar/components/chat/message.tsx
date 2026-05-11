@@ -12,6 +12,7 @@ import {
   ToolInput,
   ToolOutput,
 } from '../ai-elements/tool';
+import { useBillingCosts } from './billing-cost-provider';
 import { useDataStream } from './data-stream-provider';
 import { DocumentToolResult } from './document';
 import { DocumentPreview } from './document-preview';
@@ -49,9 +50,11 @@ const PurePreviewMessage = ({
   );
 
   useDataStream();
+  const { costs } = useBillingCosts();
 
   const isUser = message.role === 'user';
   const isAssistant = message.role === 'assistant';
+  const cost = costs[message.id];
 
   const hasAnyContent = message.parts?.some(
     part =>
@@ -325,7 +328,14 @@ const PurePreviewMessage = ({
     <>
       {attachments}
       {parts}
-      {actions}
+      <div className="flex items-center">
+        {isAssistant && cost && (
+          <span className="mr-1 font-mono text-[11px] tabular-nums text-green-500">
+            ${(cost.amount / 1_000_000_000).toFixed(6)}
+          </span>
+        )}
+        {actions}
+      </div>
     </>
   );
 
