@@ -40,6 +40,7 @@ export type CustomUIDataTypes = {
   clear: null;
   finish: null;
   'chat-title': string;
+  'billing-cost': { amount: number; currency: string; unit?: string };
 };
 
 export type ChatMessage = UIMessage<

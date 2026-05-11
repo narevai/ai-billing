@@ -36,7 +36,7 @@ function PureChatHeader({
 
       <Link
         className="flex size-8 items-center justify-center rounded-lg md:hidden"
-        href="https://vercel.com/templates/next.js/chatbot"
+        href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fchatbot-with-billing-stripe&env=AUTH_SECRET,AI_GATEWAY_API_KEY,POSTGRES_URL,STRIPE_SECRET_KEY"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -55,7 +55,7 @@ function PureChatHeader({
         className="hidden rounded-lg bg-foreground px-4 text-background hover:bg-foreground/90 md:ml-auto md:flex"
       >
         <Link
-          href="https://vercel.com/templates/next.js/chatbot"
+          href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fchatbot-with-billing-stripe&env=AUTH_SECRET,AI_GATEWAY_API_KEY,POSTGRES_URL,STRIPE_SECRET_KEY"
           rel="noopener noreferrer"
           target="_blank"
         >
