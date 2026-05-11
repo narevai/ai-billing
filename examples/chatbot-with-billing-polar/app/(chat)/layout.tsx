@@ -3,6 +3,7 @@ import Script from 'next/script';
 import { Suspense } from 'react';
 import { Toaster } from 'sonner';
 import { AppSidebar } from '@/components/chat/app-sidebar';
+import { BillingCostProvider } from '@/components/chat/billing-cost-provider';
 import { DataStreamProvider } from '@/components/chat/data-stream-provider';
 import { ChatShell } from '@/components/chat/shell';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
@@ -43,7 +44,9 @@ async function SidebarShell({ children }: { children: React.ReactNode }) {
         />
         <Suspense fallback={<div className="flex h-dvh" />}>
           <ActiveChatProvider>
-            <ChatShell />
+            <BillingCostProvider>
+              <ChatShell />
+            </BillingCostProvider>
           </ActiveChatProvider>
         </Suspense>
         {children}
