@@ -9,6 +9,7 @@
   ],
   "ignore": [
     "examples/chatbot-with-billing-polar/**",
-    "examples/chatbot-with-billing-stripe/**"
+    "examples/chatbot-with-billing-stripe/**",
+    "examples/chatbot-openai-with-billing-polar/**"
   ]
 }
