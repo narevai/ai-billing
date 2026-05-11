@@ -4,13 +4,17 @@ import { useEffect } from 'react';
 import { useSWRConfig } from 'swr';
 import { unstable_serialize } from 'swr/infinite';
 import { initialArtifactData, useArtifact } from '@/hooks/use-artifact';
+import { useActiveChat } from '@/hooks/use-active-chat';
 import { artifactDefinitions } from './artifact';
+import { useBillingCosts } from './billing-cost-provider';
 import { useDataStream } from './data-stream-provider';
 import { getChatHistoryPaginationKey } from './sidebar-history';
 
 export function DataStreamHandler() {
   const { dataStream, setDataStream } = useDataStream();
   const { mutate } = useSWRConfig();
+  const { setCost } = useBillingCosts();
+  const { messages } = useActiveChat();
 
   const { artifact, setArtifact, setMetadata } = useArtifact();
 
@@ -25,6 +29,21 @@ export function DataStreamHandler() {
     for (const delta of newDeltas) {
       if (delta.type === 'data-chat-title') {
         mutate(unstable_serialize(getChatHistoryPaginationKey));
+        continue;
+      }
+      if (delta.type === 'data-billing-cost') {
+        if (delta.data?.amount != null) {
+          const lastAssistant = [...messages]
+            .reverse()
+            .find(m => m.role === 'assistant');
+          if (lastAssistant?.id) {
+            setCost(lastAssistant.id, {
+              amount: delta.data.amount,
+              currency: delta.data.currency,
+              unit: delta.data.unit,
+            });
+          }
+        }
         continue;
       }
       const artifactDefinition = artifactDefinitions.find(

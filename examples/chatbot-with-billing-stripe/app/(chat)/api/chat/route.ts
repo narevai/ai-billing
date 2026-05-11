@@ -238,9 +238,26 @@ export async function POST(request: Request) {
           },
         });
 
-        dataStream.merge(
+        await dataStream.merge(
           result.toUIMessageStream({ sendReasoning: isReasoningModel }),
         );
+
+        const providerMetadata = await result.providerMetadata;
+        const billing = (
+          providerMetadata as Record<string, unknown> | undefined
+        )?.['ai-billing'] as
+          | { cost?: { amount: number; currency: string; unit: string } }
+          | undefined;
+        if (billing?.cost) {
+          dataStream.write({
+            type: 'data-billing-cost',
+            data: {
+              amount: billing.cost.amount,
+              currency: billing.cost.currency,
+              unit: billing.cost.unit,
+            },
+          });
+        }
 
         if (titlePromise) {
           const title = await titlePromise;
