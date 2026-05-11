@@ -331,7 +331,10 @@ const PurePreviewMessage = ({
       <div className="flex items-center">
         {isAssistant && cost && (
           <span className="mr-1 font-mono text-[11px] tabular-nums text-green-500">
-            ${(cost.amount / (cost.unit === 'nanos' ? 1_000_000_000 : 1)).toFixed(6)}
+            $
+            {(
+              cost.amount / (cost.unit === 'nanos' ? 1_000_000_000 : 1)
+            ).toFixed(6)}
           </span>
         )}
         {actions}
