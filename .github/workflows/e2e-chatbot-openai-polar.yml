@@ -3,10 +3,10 @@ name: E2E (examples/chatbot-openai-with-billing-polar)
 on:
   push:
     paths:
-      - "examples/chatbot-openai-with-billing-polar/**"
+      - 'examples/chatbot-openai-with-billing-polar/**'
   pull_request:
     paths:
-      - "examples/chatbot-openai-with-billing-polar/**"
+      - 'examples/chatbot-openai-with-billing-polar/**'
 
 jobs:
   e2e-chatbot-openai-with-billing-polar:
@@ -17,7 +17,7 @@ jobs:
       OPENAI_API_KEY: ${{ secrets.OSS_OPENAI_API_KEY }}
       POSTGRES_URL: ${{ secrets.OSS_POSTGRES_URL }}
       POLAR_ACCESS_TOKEN: ${{ secrets.OSS_POLAR_ACCESS_TOKEN }}
-      POLAR_SERVER: "sandbox"
+      POLAR_SERVER: 'sandbox'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -33,7 +33,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
