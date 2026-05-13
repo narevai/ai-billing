@@ -1,0 +1,25 @@
+[**@ai-billing/nextjs**](../../index)
+
+***
+
+[@ai-billing/nextjs](/sdk/ai-billing/reference/nextjs/typedoc/index) / [server](/sdk/ai-billing/reference/nextjs/typedoc/server/index) / fetchStripeUsage
+
+# Function: fetchStripeUsage()
+
+> **fetchStripeUsage**(`stripeCustomerId`): `Promise`\<[`StripeUsageData`](/sdk/ai-billing/reference/nextjs/typedoc/server/interfaces/StripeUsageData)\>
+
+Defined in: [packages/nextjs/src/stripe/fetchStripeUsage.ts:11](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/stripe/fetchStripeUsage.ts#L11)
+
+Fetches usage data from Stripe for a given customer, converting nano-units to dollars.
+
+## Parameters
+
+### stripeCustomerId
+
+`string`
+
+the Stripe customer ID
+
+## Returns
+
+`Promise`\<[`StripeUsageData`](/sdk/ai-billing/reference/nextjs/typedoc/server/interfaces/StripeUsageData)\>
