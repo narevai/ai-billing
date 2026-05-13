@@ -46,6 +46,26 @@ describe('fetchTopUpConfig', () => {
     expect(result.taxBehavior).toBeUndefined();
   });
 
+  it('handles missing topup and environment in config', async () => {
+    vi.mocked(fetchPolarConfig).mockResolvedValueOnce({
+      meterId: 'mtr_1',
+      environment: undefined as unknown as 'sandbox',
+      topup: undefined as unknown as [],
+    });
+
+    vi.mocked(Polar).mockImplementation(
+      function (this: Record<string, unknown>) {
+        this.organizations = {
+          list: vi.fn().mockResolvedValueOnce({ result: { items: [] } }),
+        };
+      },
+    );
+
+    const result = await fetchTopUpConfig();
+    expect(result.packages).toEqual([]);
+    expect(result.taxBehavior).toBeUndefined();
+  });
+
   it('includes tax behavior from org', async () => {
     vi.mocked(fetchPolarConfig).mockResolvedValueOnce({
       meterId: 'mtr_1',
