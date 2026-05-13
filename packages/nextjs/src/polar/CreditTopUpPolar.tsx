@@ -16,11 +16,11 @@ export interface CreditTopUpPolarProps {
 function LightningIcon({ selected }: { selected: boolean }) {
   return (
     <div style={{
-      width: 48, height: 48, borderRadius: 14, display: 'flex', alignItems: 'center',
+      width: 36, height: 36, borderRadius: 10, display: 'flex', alignItems: 'center',
       justifyContent: 'center', flexShrink: 0, transition: 'background 0.15s',
       background: selected ? 'var(--foreground)' : 'var(--muted)',
     }}>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
         <path d="M13 2L4.5 13.5H11L10 22L20.5 10.5H14L13 2Z"
           fill={selected ? 'var(--background)' : 'var(--muted-foreground)'}
           stroke={selected ? 'var(--background)' : 'var(--muted-foreground)'}
@@ -84,9 +84,9 @@ export function CreditTopUpPolar({
 
   return (
     <div className={cn} style={{ ...cardBase, display: 'flex', flexDirection: 'column', ...style }}>
-      {title && <p style={{ ...mutedText, marginBottom: 16 }}>{title}</p>}
+      {title && <p style={{ ...mutedText, marginBottom: 12 }}>{title}</p>}
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         {packages.map((pkg, i) => {
           const isSelected = i === selectedIdx;
           return (
@@ -94,7 +94,7 @@ export function CreditTopUpPolar({
               onClick={() => setSelectedIdx(i)}
               onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setSelectedIdx(i)}
               style={{
-                display: 'flex', alignItems: 'center', gap: 16, padding: '16px 20px',
+                display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px',
                 borderRadius: 'var(--radius, 0.75rem)',
                 background: isSelected ? 'var(--muted)' : 'transparent',
                 border: isSelected ? '1px solid var(--border)' : '1px solid transparent',
@@ -104,31 +104,22 @@ export function CreditTopUpPolar({
             >
               <LightningIcon selected={isSelected} />
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ margin: 0, fontSize: 15, fontWeight: 600, color: 'var(--card-foreground)', lineHeight: 1.3 }}>
+                <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--card-foreground)', lineHeight: 1.3 }}>
                   Top-up {formatCents(pkg.priceCents)}
                 </p>
               </div>
-              <div style={{ flexShrink: 0 }}>
-                <span style={{ fontSize: 24, fontWeight: 700, color: 'var(--card-foreground)', letterSpacing: '-0.5px' }}>
-                  {formatCents(pkg.priceCents)}
-                </span>
-              </div>
+              <span style={{ flexShrink: 0, fontSize: 16, fontWeight: 700, color: 'var(--card-foreground)' }}>
+                {formatCents(pkg.priceCents)}
+              </span>
             </div>
           );
         })}
       </div>
 
-      {selected && (
-        <div style={{ marginTop: 16, padding: '12px 0', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', fontSize: 13, color: 'var(--muted-foreground)' }}>
-          <span>Selected</span>
-          <span style={{ fontWeight: 500, color: 'var(--card-foreground)' }}>Top-up {formatCents(selected.priceCents)}</span>
-        </div>
-      )}
-
-      <div style={{ marginTop: 24 }}>
+      <div style={{ marginTop: 20 }}>
         <button type="button" disabled={isPending || !selected} onClick={handlePurchase}
           style={{
-            fontFamily: 'inherit', width: '100%', height: 40,
+            fontFamily: 'inherit', width: '100%', height: 38,
             borderRadius: 'var(--radius, 0.5rem)', background: 'var(--primary)', color: 'var(--primary-foreground)',
             border: 0, fontSize: 14, fontWeight: 500, cursor: isPending || !selected ? 'not-allowed' : 'pointer',
             opacity: isPending ? 0.6 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -141,7 +132,7 @@ export function CreditTopUpPolar({
       </div>
 
       {taxBehavior && (
-        <p style={{ marginTop: 16, fontSize: 11, color: 'var(--muted-foreground)', textAlign: 'center' }}>
+        <p style={{ marginTop: 14, fontSize: 11, color: 'var(--muted-foreground)', textAlign: 'center' }}>
           {taxMessages[taxBehavior]}
         </p>
       )}
