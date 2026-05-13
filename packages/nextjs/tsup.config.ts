@@ -7,7 +7,7 @@ const common: Options = {
   clean: true,
   dts: true,
   sourcemap: true,
-  external: ['react', 'react-dom', 'next', '@polar-sh/sdk', 'stripe'],
+  external: ['react', '@polar-sh/sdk', 'stripe'],
   esbuildOptions(options) {
     options.jsx = 'automatic';
   },
