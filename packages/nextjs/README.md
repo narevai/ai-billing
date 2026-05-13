@@ -6,24 +6,52 @@ Next.js UI components for displaying billing usage and managing top-ups.
 npm install @ai-billing/nextjs
 ```
 
-## Components
+## Polar
 
-Import client components from the main entry:
+Display usage for Polar meters and let users purchase credit bundles.
 
 ```tsx
-import { CreditUsagePolar, CreditUsageStripe, CreditTopUpPolar } from '@ai-billing/nextjs';
+import { CreditUsagePolar, CreditTopUpPolar } from '@ai-billing/nextjs';
 
 <CreditUsagePolar userId="user_123" budget={50} />
-<CreditUsageStripe stripeCustomerId="cus_123" budget={100} />
 <CreditTopUpPolar userId="user_123" />
 ```
 
 ### budget vs top-up
 
-- **`budget`** — use when billing is usage-based (e.g. monthly invoice per consumption). Represents a spending cap. The bar shows how much of the cap has been consumed.
-- **No `budget`** — use together with `CreditTopUpPolar` when users pre-purchase credits. Omit `budget` and the cap is automatically set to the account's `creditedUnits` from Polar.
+- **`budget`** — use when billing is usage-based (e.g. monthly invoice per consumption). Represents a spending cap.
+- **No `budget`** — use together with `CreditTopUpPolar` when users pre-purchase credits. Omit `budget` and the cap is automatically set to the account's `creditedUnits`.
 
-Server actions for advanced use cases:
+### Environment Variables
+
+| Variable | Required |
+|----------|----------|
+| `NAREV_API_KEY` | Config fetch |
+| `POLAR_ACCESS_TOKEN` | Meter usage + top-up |
+| `POLAR_SERVER` | `sandbox` or `production` |
+
+## Stripe
+
+Display usage for Stripe billing meters.
+
+```tsx
+import { CreditUsageStripe } from '@ai-billing/nextjs';
+
+<CreditUsageStripe stripeCustomerId="cus_123" budget={100} unit="$" />
+```
+
+Stripe meters report values in nano-units. The component converts them to dollars and displays them with `$` formatting by default. Use the `unit` prop to override.
+
+### Environment Variables
+
+| Variable | Required |
+|----------|----------|
+| `NAREV_API_KEY` | Config fetch |
+| `STRIPE_SECRET_KEY` | Meter usage |
+
+## Server Actions
+
+Server actions are available for advanced use cases:
 
 ```tsx
 import { fetchPolarUsage, fetchStripeUsage, createCheckout } from '@ai-billing/nextjs/server';
