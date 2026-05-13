@@ -26,7 +26,24 @@ describe('fetchStripeConfig', () => {
   });
 
   it('returns null on non-ok response', async () => {
+    process.env.NAREV_API_KEY = 'sk_test';
     mockFetch.mockResolvedValueOnce({ ok: false });
+
+    const result = await fetchStripeConfig();
+    expect(result).toBeNull();
+  });
+
+  it('returns null when NAREV_API_KEY is not set', async () => {
+    delete process.env.NAREV_API_KEY;
+
+    const result = await fetchStripeConfig();
+    expect(result).toBeNull();
+  });
+
+  it('returns null when fetch throws', async () => {
+    process.env.NAREV_API_KEY = 'sk_test';
+    mockFetch.mockRejectedValueOnce(new Error('network error'));
+
     const result = await fetchStripeConfig();
     expect(result).toBeNull();
   });

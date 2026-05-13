@@ -19,11 +19,9 @@ describe('createCheckout', () => {
     vi.mocked(Polar).mockImplementation(
       function (this: Record<string, unknown>) {
         this.checkouts = {
-          create: vi
-            .fn()
-            .mockResolvedValueOnce({
-              url: 'https://checkout.polar.sh/pay/abc',
-            }),
+          create: vi.fn().mockResolvedValueOnce({
+            url: 'https://checkout.polar.sh/pay/abc',
+          }),
         };
       },
     );

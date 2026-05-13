@@ -68,6 +68,9 @@ describe('fetchTopUpConfig', () => {
   });
 
   it('skips tax when org list throws', async () => {
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
     vi.mocked(fetchPolarConfig).mockResolvedValueOnce({
       meterId: 'mtr_1',
       environment: 'sandbox',
@@ -85,5 +88,19 @@ describe('fetchTopUpConfig', () => {
     const result = await fetchTopUpConfig();
     expect(result.packages).toHaveLength(1);
     expect(result.taxBehavior).toBeUndefined();
+    consoleError.mockRestore();
+  });
+
+  it('returns empty when fetchPolarConfig throws', async () => {
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+    vi.mocked(fetchPolarConfig).mockRejectedValueOnce(
+      new Error('config fetch failed'),
+    );
+
+    const result = await fetchTopUpConfig();
+    expect(result).toEqual({ packages: [] });
+    consoleError.mockRestore();
   });
 });

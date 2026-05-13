@@ -39,8 +39,17 @@ describe('fetchPolarConfig', () => {
     expect(result).toBeNull();
   });
 
+  it('returns null when NAREV_API_KEY is not set', async () => {
+    delete process.env.NAREV_API_KEY;
+
+    const result = await fetchPolarConfig();
+    expect(result).toBeNull();
+  });
+
   it('returns null when fetch throws', async () => {
+    process.env.NAREV_API_KEY = 'test-key';
     mockFetch.mockRejectedValueOnce(new Error('network error'));
+
     const result = await fetchPolarConfig();
     expect(result).toBeNull();
   });

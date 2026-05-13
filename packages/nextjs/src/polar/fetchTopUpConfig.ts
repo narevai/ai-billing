@@ -31,11 +31,11 @@ export async function fetchTopUpConfig(): Promise<TopUpConfig> {
       if (tb === 'inclusive' || tb === 'exclusive' || tb === 'location') {
         config.taxBehavior = tb as typeof config.taxBehavior;
       }
-    } catch {
-      /* no tax */
+    } catch (error) {
+      console.error('fetchTopUpConfig: failed to fetch tax behavior', error);
     }
-  } catch {
-    /* no config */
+  } catch (error) {
+    console.error('fetchTopUpConfig: config fetch failed', error);
   }
 
   return config;
