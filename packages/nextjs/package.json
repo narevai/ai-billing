@@ -1,0 +1,77 @@
+{
+  "name": "@ai-billing/nextjs",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/narevai/ai-billing.git",
+    "directory": "packages/nextjs"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./server": {
+      "import": {
+        "types": "./dist/server.d.ts",
+        "default": "./dist/server.js"
+      },
+      "require": {
+        "types": "./dist/server.d.cts",
+        "default": "./dist/server.cjs"
+      }
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "check-types": "tsc --noEmit",
+    "lint": "oxlint",
+    "dev": "tsup --watch",
+    "prepack": "node -e \"require('fs').copyFileSync('../../LICENSE', 'LICENSE')\"",
+    "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@ai-billing/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:",
+    "oxlint": "catalog:"
+  },
+  "peerDependencies": {
+    "@polar-sh/sdk": "^0.46.7",
+    "next": ">=14",
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19",
+    "stripe": "^21.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@polar-sh/sdk": {
+      "optional": true
+    },
+    "stripe": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
