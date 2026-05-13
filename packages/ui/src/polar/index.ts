@@ -1,2 +1,2 @@
-export { PolarUsageCard } from './PolarUsageCard.js';
-export type { PolarUsageCardProps } from './PolarUsageCard.js';
+export { CreditUsagePolar } from './CreditUsagePolar.js';
+export type { CreditUsagePolarProps } from './CreditUsagePolar.js';

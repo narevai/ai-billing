@@ -23,4 +23,9 @@ export default defineConfig([
     entry: ['src/index.ts'],
     outDir: 'dist',
   },
+  {
+    ...commonConfig,
+    entry: { 'top-up': 'src/polar/top-up.ts' },
+    outDir: 'dist',
+  },
 ]);

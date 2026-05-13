@@ -20,6 +20,16 @@
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
+    },
+    "./top-up": {
+      "import": {
+        "types": "./dist/top-up.d.ts",
+        "default": "./dist/top-up.js"
+      },
+      "require": {
+        "types": "./dist/top-up.d.cts",
+        "default": "./dist/top-up.cjs"
+      }
     }
   },
   "publishConfig": {
