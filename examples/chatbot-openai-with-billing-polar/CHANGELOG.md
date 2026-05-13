@@ -1,5 +1,14 @@
 # chatbot-with-billing-polar
 
+## 0.0.2
+
+### Patch Changes
+
+- fc3ad0c: feat(examples): add chatbot-openai-with-billing-polar
+- 6ee669f: chore: update next to 16.2.5
+- 6711ca0: feat(examples): add generation cost and deploy to vercel button
+- 46fde94: chore(examples): update next and mermaid deps
+
 ## 0.0.1
 
 ### Patch Changes

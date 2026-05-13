@@ -1,5 +1,12 @@
 # dev-sandbox
 
+## 0.1.5
+
+### Patch Changes
+
+- 6ee669f: chore: update next to 16.2.5
+- 46fde94: chore(examples): update next and mermaid deps
+
 ## 0.1.4
 
 ### Patch Changes
