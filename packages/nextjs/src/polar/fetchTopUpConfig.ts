@@ -9,6 +9,7 @@ interface TopUpConfig {
   taxBehavior?: 'inclusive' | 'exclusive' | 'location';
 }
 
+/** Fetches available top-up packages and optional tax behavior from Polar */
 export async function fetchTopUpConfig(): Promise<TopUpConfig> {
   const config: TopUpConfig = { packages: [] };
 
@@ -30,8 +31,12 @@ export async function fetchTopUpConfig(): Promise<TopUpConfig> {
       if (tb === 'inclusive' || tb === 'exclusive' || tb === 'location') {
         config.taxBehavior = tb as typeof config.taxBehavior;
       }
-    } catch { /* no tax */ }
-  } catch { /* no config */ }
+    } catch {
+      /* no tax */
+    }
+  } catch {
+    /* no config */
+  }
 
   return config;
 }

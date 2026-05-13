@@ -1,7 +1,7 @@
 import { defineConfig, type Options } from 'tsup';
 
 const common: Options = {
-  entry: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts'],
+  entry: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts', '!src/**/*.test.ts'],
   format: ['cjs', 'esm'],
   bundle: false,
   clean: true,

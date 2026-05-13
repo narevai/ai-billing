@@ -2,6 +2,7 @@
 
 import type { StripeConfig } from './types.js';
 
+/** Fetches Stripe billing configuration from the Narev API */
 export async function fetchStripeConfig(): Promise<StripeConfig | null> {
   try {
     const key = process.env.NAREV_API_KEY;
@@ -14,7 +15,9 @@ export async function fetchStripeConfig(): Promise<StripeConfig | null> {
       headers: { Authorization: `Bearer ${key}` },
     });
     if (!res.ok) {
-      console.error(`fetchStripeConfig: Narev returned ${res.status} ${res.statusText}`);
+      console.error(
+        `fetchStripeConfig: Narev returned ${res.status} ${res.statusText}`,
+      );
       return null;
     }
     const json = await res.json();

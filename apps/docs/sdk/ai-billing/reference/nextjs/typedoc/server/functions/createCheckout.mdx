@@ -1,0 +1,37 @@
+[**@ai-billing/nextjs**](../../index)
+
+***
+
+[@ai-billing/nextjs](/sdk/ai-billing/reference/nextjs/typedoc/index) / [server](/sdk/ai-billing/reference/nextjs/typedoc/server/index) / createCheckout
+
+# Function: createCheckout()
+
+> **createCheckout**(`productId`, `userId`, `origin`): `Promise`\<`string`\>
+
+Defined in: [packages/nextjs/src/polar/createCheckout.ts:11](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/createCheckout.ts#L11)
+
+Creates a Polar checkout session and returns the URL.
+
+## Parameters
+
+### productId
+
+`string`
+
+the Polar product ID
+
+### userId
+
+`string`
+
+the external customer ID
+
+### origin
+
+`string`
+
+the application origin for the success URL
+
+## Returns
+
+`Promise`\<`string`\>
