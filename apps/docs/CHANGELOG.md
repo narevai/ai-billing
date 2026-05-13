@@ -1,5 +1,11 @@
 # docs
 
+## 0.1.5
+
+### Patch Changes
+
+- a13c881: feat(nextjs): first release
+
 ## 0.1.4
 
 ### Patch Changes
