@@ -1,13 +1,14 @@
 'use client';
 
 import {
+  GaugeIcon,
   MessageSquareIcon,
   PanelLeftIcon,
   PenSquareIcon,
   TrashIcon,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import type { User } from 'next-auth';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -32,6 +33,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { cn } from '@/lib/utils';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,6 +47,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 export function AppSidebar({ user }: { user: User | undefined }) {
+  const pathname = usePathname();
   const router = useRouter();
   const { setOpenMobile, toggleSidebar } = useSidebar();
   const { mutate } = useSWRConfig();
@@ -105,17 +108,40 @@ export function AppSidebar({ user }: { user: User | undefined }) {
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem>
-                  <SidebarMenuButton
-                    className="h-8 rounded-lg border border-sidebar-border text-[13px] text-sidebar-foreground/70 transition-colors duration-150 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                  <button
+                    className={cn(
+                      'flex w-full items-center gap-2 rounded-lg px-2.5 h-8 text-[13px] transition-colors duration-150 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground',
+                      pathname === '/'
+                        ? 'font-medium text-sidebar-accent-foreground bg-sidebar-accent'
+                        : 'text-sidebar-foreground',
+                    )}
                     onClick={() => {
                       setOpenMobile(false);
                       router.push('/');
                     }}
-                    tooltip="New Chat"
+                    type="button"
+                  >
+                    <GaugeIcon className="size-4" />
+                    <span className="font-medium">Usage</span>
+                  </button>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <button
+                    className={cn(
+                      'flex w-full items-center gap-2 rounded-lg px-2.5 h-8 text-[13px] transition-colors duration-150 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground',
+                      pathname.startsWith('/chat')
+                        ? 'font-medium text-sidebar-accent-foreground bg-sidebar-accent'
+                        : 'text-sidebar-foreground',
+                    )}
+                    onClick={() => {
+                      setOpenMobile(false);
+                      router.push('/chat');
+                    }}
+                    type="button"
                   >
                     <PenSquareIcon className="size-4" />
                     <span className="font-medium">New chat</span>
-                  </SidebarMenuButton>
+                  </button>
                 </SidebarMenuItem>
                 {user && (
                   <SidebarMenuItem>

@@ -1,3 +1,5 @@
-export default function Page() {
-  return null;
+import { ChatShell } from '@/components/chat/shell';
+
+export default function ChatPage() {
+  return <ChatShell />;
 }
