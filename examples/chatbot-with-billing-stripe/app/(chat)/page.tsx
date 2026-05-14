@@ -9,10 +9,5 @@ export default async function UsagePage() {
     ? await findStripeCustomerIdByUserId(userId)
     : null;
 
-  return (
-    <UsageContent
-      userId={userId}
-      stripeCustomerId={stripeCustomerId}
-    />
-  );
+  return <UsageContent userId={userId} stripeCustomerId={stripeCustomerId} />;
 }

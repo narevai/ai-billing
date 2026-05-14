@@ -18,10 +18,7 @@ export function UsageContent({
         </p>
       </div>
       {stripeCustomerId ? (
-        <CreditUsageStripe 
-        stripeCustomerId={stripeCustomerId} 
-        budget={10}
-        />
+        <CreditUsageStripe stripeCustomerId={stripeCustomerId} budget={10} />
       ) : (
         <div className="rounded-xl border border-border bg-card p-8 text-center">
           <p className="text-sm text-muted-foreground">
