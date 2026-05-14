@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@ai-billing/core": "workspace:*",
+    "@ai-billing/nextjs": "workspace:*",
     "@ai-billing/openai": "workspace:*",
     "@ai-billing/polar": "workspace:*",
     "@ai-sdk/openai": "^3.0.0",
