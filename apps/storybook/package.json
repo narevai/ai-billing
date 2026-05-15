@@ -1,0 +1,25 @@
+{
+  "name": "storybook",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev -p 6006 --no-open",
+    "build": "storybook build"
+  },
+  "dependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@storybook/addon-docs": "^10.4.0",
+    "@storybook/addon-themes": "^10.4.0",
+    "@storybook/react": "^10.4.0",
+    "@storybook/react-vite": "^10.4.0",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "storybook": "^10.4.0",
+    "typescript": "catalog:",
+    "vite": "^8.0.0"
+  }
+}

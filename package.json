@@ -12,6 +12,7 @@
     "check-types": "turbo run check-types",
     "knip": "turbo run //#knip:check",
     "knip:check": "knip",
+    "storybook": "turbo run dev --filter=storybook",
     "test": "turbo run test",
     "test:e2e": "turbo run test:e2e",
     "test:coverage": "turbo run test --filter=\"./packages/*\" -- --coverage"
