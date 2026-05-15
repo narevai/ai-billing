@@ -127,9 +127,6 @@ importers:
       '@ai-billing/nextjs':
         specifier: workspace:*
         version: link:../../packages/nextjs
-      '@ai-billing/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       react:
         specifier: 'catalog:'
         version: 19.2.4
