@@ -17,16 +17,8 @@ const withMock: Decorator = (Story, ctx) => {
 const preview: Preview = {
   parameters: {
     options: {
-      storySort: (a: { title: string }, b: { title: string }) => {
-        const o = [
-          'Polar/CreditUsagePolar',
-          'Polar/CreditTopUpPolar',
-          'Stripe/CreditUsageStripe',
-        ];
-        const ai = o.findIndex(x => a.title.startsWith(x));
-        const bi = o.findIndex(x => b.title.startsWith(x));
-        if (ai !== bi) return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
-        return a.title.localeCompare(b.title);
+      storySort: {
+        order: ['Polar/CreditUsagePolar', 'Polar/CreditTopUpPolar', 'Stripe', '*'],
       },
     },
   },

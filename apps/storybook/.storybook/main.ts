@@ -4,6 +4,13 @@ import { fileURLToPath } from 'node:url';
 
 const mocks = join(fileURLToPath(import.meta.url), '..', '..', 'mocks');
 
+function mockAlias(name: string) {
+  return [
+    { find: `./${name}.js`, replacement: join(mocks, `${name}.ts`) },
+    { find: `./${name}.ts`, replacement: join(mocks, `${name}.ts`) },
+  ];
+}
+
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(ts|tsx)'],
   addons: ['@storybook/addon-docs', '@storybook/addon-themes'],
@@ -14,30 +21,12 @@ const config: StorybookConfig = {
       resolve: {
         ...cfg.resolve,
         alias: [
-          {
-            find: /\.\/fetchStripeUsage(\.[jt]s)?$/,
-            replacement: join(mocks, 'fetchStripeUsage.ts'),
-          },
-          {
-            find: /\.\/fetchStripeConfig(\.[jt]s)?$/,
-            replacement: join(mocks, 'fetchStripeConfig.ts'),
-          },
-          {
-            find: /\.\/fetchPolarUsage(\.[jt]s)?$/,
-            replacement: join(mocks, 'fetchPolarUsage.ts'),
-          },
-          {
-            find: /\.\/fetchPolarConfig(\.[jt]s)?$/,
-            replacement: join(mocks, 'fetchPolarConfig.ts'),
-          },
-          {
-            find: /\.\/fetchTopUpConfig(\.[jt]s)?$/,
-            replacement: join(mocks, 'fetchTopUpConfig.ts'),
-          },
-          {
-            find: /\.\/createCheckout(\.[jt]s)?$/,
-            replacement: join(mocks, 'createCheckout.ts'),
-          },
+          ...mockAlias('fetchStripeUsage'),
+          ...mockAlias('fetchStripeConfig'),
+          ...mockAlias('fetchPolarUsage'),
+          ...mockAlias('fetchPolarConfig'),
+          ...mockAlias('fetchTopUpConfig'),
+          ...mockAlias('createCheckout'),
         ],
       },
     };
