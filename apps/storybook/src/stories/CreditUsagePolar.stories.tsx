@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { CreditUsagePolar } from '@ai-billing/nextjs';
 
@@ -66,5 +67,100 @@ export const CustomLabel: Story = {
         found: true,
       },
     },
+  },
+};
+
+// ─── Playground ───────────────────────────────────────────────────────────────
+
+type PlaygroundArgs = React.ComponentProps<typeof CreditUsagePolar> & {
+  consumedUnits: number;
+  creditedUnits: number;
+  loading: boolean;
+  cardBg: string;
+  cardFg: string;
+  cardBorder: string;
+  trackColor: string;
+  mutedFg: string;
+  radius: string;
+};
+
+export const Playground: StoryObj<PlaygroundArgs> = {
+  name: '⚙ Playground',
+  args: {
+    userId: 'usr_test',
+    budget: 100,
+    label: 'AI Credits',
+    consumedUnits: 42,
+    creditedUnits: 100,
+    loading: false,
+    cardBg: '',
+    cardFg: '',
+    cardBorder: '',
+    trackColor: '',
+    mutedFg: '',
+    radius: '0.75rem',
+  },
+  argTypes: {
+    consumedUnits: {
+      control: { type: 'range', min: 0, max: 200, step: 1 },
+      description: 'Consumed credits',
+    },
+    creditedUnits: {
+      control: { type: 'range', min: 1, max: 200, step: 1 },
+      description: 'Total credits',
+    },
+    budget: {
+      control: { type: 'range', min: 0, max: 500, step: 10 },
+      description: 'Budget cap (0 = use credited units)',
+    },
+    label: { control: 'text', description: 'Label' },
+    loading: { control: 'boolean', description: 'Show loading skeleton' },
+    cardBg: { control: 'color', description: 'Card background' },
+    cardFg: { control: 'color', description: 'Card text color' },
+    cardBorder: { control: 'color', description: 'Card border' },
+    trackColor: { control: 'color', description: 'Bar track color' },
+    mutedFg: { control: 'color', description: 'Muted text color' },
+    radius: {
+      control: { type: 'select' },
+      options: ['0', '0.25rem', '0.5rem', '0.75rem', '1rem', '1.5rem', '2rem'],
+      description: 'Border radius',
+    },
+  },
+  render: ({
+    consumedUnits,
+    creditedUnits,
+    loading,
+    cardBg,
+    cardFg,
+    cardBorder,
+    trackColor,
+    mutedFg,
+    radius,
+    ...args
+  }) => {
+    globalThis.__SB__ = loading
+      ? { polarUsageDelay: -1 }
+      : {
+          polarUsage: {
+            consumedUnits,
+            creditedUnits,
+            meterName: 'Credits',
+            found: true,
+          },
+        };
+    const vars: Record<string, string> = { '--radius': radius };
+    if (cardBg) vars['--card'] = cardBg;
+    if (cardFg) vars['--card-foreground'] = cardFg;
+    if (cardBorder) vars['--border'] = cardBorder;
+    if (trackColor) vars['--muted'] = trackColor;
+    if (mutedFg) vars['--muted-foreground'] = mutedFg;
+    return (
+      <div style={vars as React.CSSProperties}>
+        <CreditUsagePolar
+          key={`${consumedUnits}-${creditedUnits}-${loading}`}
+          {...args}
+        />
+      </div>
+    );
   },
 };

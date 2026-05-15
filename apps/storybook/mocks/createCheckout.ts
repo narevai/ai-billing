@@ -3,7 +3,9 @@ export async function createCheckout(
   _userId: string,
   _origin: string,
 ) {
-  return (
-    globalThis.__SB__?.checkoutUrl ?? 'https://checkout.example.com/success'
-  );
+  const url = globalThis.__SB__?.checkoutUrl;
+  // If no URL configured: 2s "Processing…" then back to normal, no navigation
+  if (!url)
+    return new Promise<string>(resolve => setTimeout(() => resolve('#'), 2000));
+  return url;
 }
