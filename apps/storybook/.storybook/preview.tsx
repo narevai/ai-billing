@@ -17,9 +17,7 @@ const withMock: Decorator = (Story, ctx) => {
 const preview: Preview = {
   parameters: {
     options: {
-      storySort: {
-        order: ['Polar/CreditUsagePolar', 'Polar/CreditTopUpPolar', 'Stripe', '*'],
-      },
+      storySort: { method: 'alphabetical', order: ['Polar', 'Stripe'] },
     },
   },
   decorators: [
