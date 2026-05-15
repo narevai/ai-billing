@@ -1,5 +1,11 @@
 # docs
 
+## 0.1.6
+
+### Patch Changes
+
+- ddbcaba: feat(ui): extract UI components to internal package
+
 ## 0.1.5
 
 ### Patch Changes
