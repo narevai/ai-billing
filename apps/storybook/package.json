@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "storybook dev -p 6006 --no-open",
-    "build": "storybook build"
+    "build": "storybook build --output-dir dist"
   },
   "dependencies": {
     "@ai-billing/nextjs": "workspace:*",
