@@ -127,6 +127,9 @@ importers:
       '@ai-billing/nextjs':
         specifier: workspace:*
         version: link:../../packages/nextjs
+      '@ai-billing/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       react:
         specifier: 'catalog:'
         version: 19.2.4
@@ -1454,6 +1457,9 @@ importers:
 
   packages/nextjs:
     dependencies:
+      '@ai-billing/ui':
+        specifier: workspace:*
+        version: link:../ui
       '@polar-sh/sdk':
         specifier: ^0.46.7
         version: 0.46.7
@@ -1740,6 +1746,37 @@ importers:
         version: 5.9.2
 
   packages/typescript-config: {}
+
+  packages/ui:
+    dependencies:
+      react:
+        specifier: ^18 || ^19
+        version: 19.2.4
+    devDependencies:
+      '@ai-billing/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.19.15
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.2.2
+      oxlint:
+        specifier: 'catalog:'
+        version: 1.57.0
+      tsup:
+        specifier: 'catalog:'
+        version: 8.5.1(jiti@2.6.1)(postcss@8.5.13)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3)
+      typedoc:
+        specifier: 'catalog:'
+        version: 0.28.19(typescript@5.9.2)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.1(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.1)(@types/node@22.19.15)(vite@8.0.2(@emnapi/core@1.9.2)(@emnapi/runtime@1.10.0)(@types/node@22.19.15)(esbuild@0.27.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))
 
   packages/xai:
     dependencies:

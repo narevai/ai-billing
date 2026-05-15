@@ -1,13 +1,9 @@
-export interface CreditPackage {
-  id: string;
-  credits: number;
-  priceCents: number;
-}
+export type { CreditPackage } from '@ai-billing/ui';
 
 export interface NarevPolarConfig {
   meterId: string;
   environment: 'sandbox' | 'production';
-  topup: CreditPackage[];
+  topup: import('@ai-billing/ui').CreditPackage[];
 }
 
 export interface PolarUsageData {

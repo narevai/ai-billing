@@ -1,12 +1,12 @@
 {
-  "name": "@ai-billing/nextjs",
+  "name": "@ai-billing/ui",
   "version": "0.0.1",
   "license": "Apache-2.0",
   "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/narevai/ai-billing.git",
-    "directory": "packages/nextjs"
+    "directory": "packages/ui"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -19,16 +19,6 @@
       "require": {
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
-      }
-    },
-    "./server": {
-      "import": {
-        "types": "./dist/server.d.ts",
-        "default": "./dist/server.js"
-      },
-      "require": {
-        "types": "./dist/server.d.cts",
-        "default": "./dist/server.cjs"
       }
     }
   },
@@ -51,9 +41,7 @@
     "prepack": "node -e \"require('fs').copyFileSync('../../LICENSE', 'LICENSE')\"",
     "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
   },
-  "dependencies": {
-    "@ai-billing/ui": "workspace:*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@ai-billing/typescript-config": "workspace:*",
     "@types/node": "catalog:",
@@ -65,17 +53,7 @@
     "vitest": "catalog:"
   },
   "peerDependencies": {
-    "@polar-sh/sdk": "^0.46.7",
-    "react": "^18 || ^19",
-    "stripe": "^21.0.0"
-  },
-  "peerDependenciesMeta": {
-    "@polar-sh/sdk": {
-      "optional": true
-    },
-    "stripe": {
-      "optional": true
-    }
+    "react": "^18 || ^19"
   },
   "engines": {
     "node": ">=20.0.0"
