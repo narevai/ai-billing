@@ -124,6 +124,9 @@ importers:
 
   apps/storybook:
     dependencies:
+      '@ai-billing/nextjs':
+        specifier: workspace:*
+        version: link:../../packages/nextjs
       react:
         specifier: 'catalog:'
         version: 19.2.4
