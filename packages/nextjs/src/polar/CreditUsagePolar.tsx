@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { UsageBar, cardBase, mutedText } from '@ai-billing/ui';
+import { UsageBar, EmptyCard } from '@ai-billing/ui';
 import { fetchPolarUsage } from './fetchPolarUsage.js';
 import type { PolarUsageData } from './types.js';
 
@@ -37,14 +37,28 @@ export const CreditUsagePolar = React.forwardRef<
   }, [userId]);
 
   if (loading) {
-    return <UsageBar label="" value={0} loading className={className} style={style} ref={ref} {...props} />;
+    return (
+      <UsageBar
+        label=""
+        value={0}
+        loading
+        className={className}
+        style={style}
+        ref={ref}
+        {...props}
+      />
+    );
   }
 
   if (!data?.found) {
     return (
-      <div ref={ref} className={className} style={{ ...cardBase, ...style }} {...props}>
-        <p style={mutedText}>No usage data available.</p>
-      </div>
+      <EmptyCard
+        message="No usage data available."
+        className={className}
+        style={style}
+        ref={ref}
+        {...props}
+      />
     );
   }
 

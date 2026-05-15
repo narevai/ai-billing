@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useTransition } from 'react';
-import { CreditPackagePicker, cardBase, mutedText } from '@ai-billing/ui';
+import { CreditPackagePicker, EmptyCard } from '@ai-billing/ui';
 import type { CreditPackage } from '@ai-billing/ui';
 import { createCheckout as checkoutAction } from './createCheckout.js';
 import { fetchTopUpConfig } from './fetchTopUpConfig.js';
@@ -25,32 +25,16 @@ export const CreditTopUpPolar = React.forwardRef<
     },
     ref,
   ) => {
-    if (!userId) {
-      return (
-        <div
-          ref={ref}
-          className={className}
-          style={{ ...cardBase, ...style }}
-          {...props}
-        >
-          <p style={mutedText}>No top-up packages available.</p>
-        </div>
-      );
-    }
-
     const [packages, setPackages] = useState<CreditPackage[]>([]);
     const [taxBehavior, setTaxBehavior] = useState<
       'inclusive' | 'exclusive' | 'location'
     >();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(!userId ? false : true);
     const [isPending, startTransition] = useTransition();
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-      if (!userId) {
-        setLoading(false);
-        return;
-      }
+      if (!userId) return;
       let cancelled = false;
       setLoading(true);
       (async () => {
@@ -68,7 +52,7 @@ export const CreditTopUpPolar = React.forwardRef<
       return () => {
         cancelled = true;
       };
-    }, []);
+    }, [userId]);
 
     function handlePurchase(packageId: string) {
       setError(null);
@@ -84,6 +68,18 @@ export const CreditTopUpPolar = React.forwardRef<
           setError(String(e));
         }
       });
+    }
+
+    if (!userId) {
+      return (
+        <EmptyCard
+          message="No top-up packages available."
+          className={className}
+          style={style}
+          ref={ref}
+          {...props}
+        />
+      );
     }
 
     return (
