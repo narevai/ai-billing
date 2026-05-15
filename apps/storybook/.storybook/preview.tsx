@@ -17,7 +17,7 @@ const withMock: Decorator = (Story, ctx) => {
 const preview: Preview = {
   parameters: {
     options: {
-      storySort: (a, b) => {
+      storySort: (a: { title: string }, b: { title: string }) => {
         const o = [
           'Polar/CreditUsagePolar',
           'Polar/CreditTopUpPolar',

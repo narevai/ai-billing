@@ -8,5 +8,5 @@
     "esModuleInterop": true,
     "skipLibCheck": true
   },
-  "include": [".storybook/**/*", "src/**/*"]
+  "include": [".storybook/**/*", "src/**/*", "mocks/**/*"]
 }
