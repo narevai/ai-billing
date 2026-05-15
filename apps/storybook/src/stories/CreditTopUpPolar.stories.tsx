@@ -57,7 +57,6 @@ export const TaxLocationBased: Story = {
 
 // ─── Playground ───────────────────────────────────────────────────────────────
 
-
 type PlaygroundArgs = React.ComponentProps<typeof CreditTopUpPolar> & {
   hasPackages: boolean;
   taxBehavior: 'none' | 'inclusive' | 'exclusive' | 'location';
