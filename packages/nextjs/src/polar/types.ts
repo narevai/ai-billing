@@ -1,8 +1,6 @@
-export interface CreditPackage {
-  id: string;
-  credits: number;
-  priceCents: number;
-}
+import type { CreditPackage } from '@ai-billing/ui';
+
+export type { CreditPackage };
 
 export interface NarevPolarConfig {
   meterId: string;
