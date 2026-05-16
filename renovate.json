@@ -39,7 +39,13 @@
       "description": "Widen peer dependency ranges rather than replacing them so users aren't forced to upgrade",
       "matchDepTypes": ["peerDependencies"],
       "rangeStrategy": "widen"
-    }
+    },
+    {
+      "description": "Group GitHub Actions (Weekly)",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions",
+      "schedule": ["every weekend"]
+    },
   ],
   "vulnerabilityAlerts": {
     "enabled": true,
