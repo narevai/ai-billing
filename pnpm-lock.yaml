@@ -1458,7 +1458,7 @@ importers:
         specifier: workspace:*
         version: link:../ui
       '@polar-sh/sdk':
-        specifier: ^0.46.7
+        specifier: ^0.46.7 || ^0.47.0
         version: 0.46.7
       react:
         specifier: ^18 || ^19
@@ -1655,7 +1655,7 @@ importers:
         specifier: workspace:0.1.2
         version: link:../core
       '@polar-sh/sdk':
-        specifier: ^0.46.7
+        specifier: ^0.46.7 || ^0.47.0
         version: 0.46.7
     devDependencies:
       '@ai-billing/testing':
