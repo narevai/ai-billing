@@ -22,23 +22,28 @@
       "groupName": "Billing SDKs"
     },
     {
+      "description": "Widen peer dependency ranges rather than replacing them so users aren't forced to upgrade",
+      "matchDepTypes": ["peerDependencies"],
+      "rangeStrategy": "widen"
+    },
+    {
       "description": "Group Next.js & React Ecosystem",
       "matchPackageNames": ["next"],
       "matchPackagePatterns": ["^react", "^@types/react"],
       "groupName": "React & Next.js"
     },
     {
-      "description": "Group Tooling & DevDependencies (Weekly)",
-      "matchDepTypes": ["devDependencies"],
-      "matchPackageNames": ["turbo", "typescript", "vitest", "knip", "tsup", "oxfmt", "oxlint", "@changesets/cli"],
-      "matchPackagePatterns": ["^@vitest/", "^eslint-"],
+      "description": "Group Tooling & Environment (Weekly)",
+      "matchPackageNames": ["pnpm", "turbo", "typescript", "vitest", "knip", "tsup", "oxfmt", "oxlint", "@changesets/cli"],
+      "matchPackagePatterns": ["^@vitest/", "^eslint-", "^@types/"],
       "groupName": "Dev Tooling",
       "schedule": ["every weekend"]
     },
     {
-      "description": "Widen peer dependency ranges rather than replacing them so users aren't forced to upgrade",
-      "matchDepTypes": ["peerDependencies"],
-      "rangeStrategy": "widen"
+      "description": "Group Devcontainers and Docker (Weekly)",
+      "matchManagers": ["devcontainer", "dockerfile"],
+      "groupName": "Docker & Devcontainers",
+      "schedule": ["every weekend"]
     },
     {
       "description": "Group GitHub Actions (Weekly)",
