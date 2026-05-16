@@ -23,6 +23,7 @@
     "**/*.mjs",
     "**/tsconfig*.json",
     "**/turbo.json",
+    "renovate.json",
   ],
   "overrides": [
     {
