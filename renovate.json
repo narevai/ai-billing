@@ -1,6 +1,53 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    ":preserveSemverRanges",
+    "group:monorepos",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "labels": ["dependencies"],
+  "commitMessageAction": "Update",
+  "packageRules": [
+    {
+      "description": "Group Vercel AI SDK and Provider updates",
+      "matchPackageNames": ["ai"],
+      "matchPackagePatterns": ["^@ai-sdk/", "^@openrouter/ai-sdk-provider", "-ai$"],
+      "groupName": "AI SDK Ecosystem",
+      "schedule": ["every weekend"] 
+    },
+    {
+      "description": "Group Billing SDKs",
+      "matchPackageNames": ["stripe", "@polar-sh/sdk", "lago-javascript-client"],
+      "groupName": "Billing SDKs"
+    },
+    {
+      "description": "Group Next.js & React Ecosystem",
+      "matchPackageNames": ["next"],
+      "matchPackagePatterns": ["^react", "^@types/react"],
+      "groupName": "React & Next.js"
+    },
+    {
+      "description": "Group Tooling & DevDependencies (Weekly)",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["turbo", "typescript", "vitest", "knip", "tsup", "oxfmt", "oxlint", "@changesets/cli"],
+      "matchPackagePatterns": ["^@vitest/", "^eslint-"],
+      "groupName": "Dev Tooling",
+      "schedule": ["every weekend"]
+    },
+    {
+      "description": "Widen peer dependency ranges rather than replacing them so users aren't forced to upgrade",
+      "matchDepTypes": ["peerDependencies"],
+      "rangeStrategy": "widen"
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "groupName": "Security Updates",
+    "schedule": ["at any time"]
+  },
+  "ignorePaths": [
+    "**/node_modules/**",
+    "examples/**/playwright-report/**"
   ]
 }
