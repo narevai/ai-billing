@@ -20,17 +20,17 @@ jobs:
       POLAR_SERVER: 'sandbox'
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 1
 
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
-          version: 10.32.1
+          version: 10.33.4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 20
           cache: 'pnpm'
@@ -42,7 +42,7 @@ jobs:
         run: pnpm --filter="chatbot^..." build
 
       - name: Cache Playwright browsers
-        uses: actions/cache@v3
+        uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
@@ -58,7 +58,7 @@ jobs:
         working-directory: examples/chatbot-openai-with-billing-polar
 
       - name: Upload Playwright report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always() && !cancelled()
         with:
           name: playwright-report
