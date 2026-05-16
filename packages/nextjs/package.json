@@ -65,7 +65,7 @@
     "vitest": "catalog:"
   },
   "peerDependencies": {
-    "@polar-sh/sdk": "^0.46.7",
+    "@polar-sh/sdk": "^0.46.7 || ^0.47.0",
     "react": "^18 || ^19",
     "stripe": "^21.0.0"
   },
