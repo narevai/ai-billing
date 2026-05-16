@@ -48,6 +48,6 @@
   },
   "ignorePaths": [
     "**/node_modules/**",
-    "examples/**/playwright-report/**"
+    "examples/**"
   ]
 }
