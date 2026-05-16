@@ -14,23 +14,26 @@
       "matchPackageNames": ["ai"],
       "matchPackagePatterns": ["^@ai-sdk/", "^@openrouter/ai-sdk-provider", "-ai$"],
       "groupName": "AI SDK Ecosystem",
-      "schedule": ["every weekend"] 
+      "schedule": ["every weekend"],
+      "labels": ["dependencies", "needs-changeset"]
     },
     {
       "description": "Group Billing SDKs",
       "matchPackageNames": ["stripe", "@polar-sh/sdk", "lago-javascript-client"],
-      "groupName": "Billing SDKs"
-    },
-    {
-      "description": "Widen peer dependency ranges rather than replacing them so users aren't forced to upgrade",
-      "matchDepTypes": ["peerDependencies"],
-      "rangeStrategy": "widen"
+      "groupName": "Billing SDKs",
+      "labels": ["dependencies", "needs-changeset"]
     },
     {
       "description": "Group Next.js & React Ecosystem",
       "matchPackageNames": ["next"],
       "matchPackagePatterns": ["^react", "^@types/react"],
-      "groupName": "React & Next.js"
+      "groupName": "React & Next.js",
+      "labels": ["dependencies", "needs-changeset"]
+    },
+    {
+      "description": "Widen peer dependency ranges rather than replacing them so users aren't forced to upgrade",
+      "matchDepTypes": ["peerDependencies"],
+      "rangeStrategy": "widen"
     },
     {
       "description": "Group Tooling & Environment (Weekly)",
