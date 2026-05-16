@@ -45,7 +45,7 @@
       "matchManagers": ["github-actions"],
       "groupName": "GitHub Actions",
       "schedule": ["every weekend"]
-    },
+    }
   ],
   "vulnerabilityAlerts": {
     "enabled": true,
