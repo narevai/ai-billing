@@ -1,5 +1,11 @@
 # ai-billing-storybook
 
+## 0.0.2
+
+### Patch Changes
+
+- a5fc63c: feat(storybook): add playgrounds
+
 ## 0.0.1
 
 ### Patch Changes
