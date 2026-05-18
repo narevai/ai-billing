@@ -1,0 +1,81 @@
+[**@ai-billing/narev**](../index)
+
+***
+
+[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/index) / BalanceData
+
+# Interface: BalanceData
+
+Defined in: packages/narev/src/types.ts:2
+
+End-user balance and consumption data.
+
+## Properties
+
+### unitsBalance
+
+> **unitsBalance**: `number` \| `null`
+
+Defined in: packages/narev/src/types.ts:4
+
+Current credit balance (null if not available).
+
+***
+
+### unitsConsumed
+
+> **unitsConsumed**: `number`
+
+Defined in: packages/narev/src/types.ts:6
+
+Units consumed in the current billing period.
+
+***
+
+### unitsCredited
+
+> **unitsCredited**: `number` \| `null`
+
+Defined in: packages/narev/src/types.ts:8
+
+Total units credited (null for Stripe).
+
+***
+
+### unit
+
+> **unit**: `"base"` \| `"nanos"`
+
+Defined in: packages/narev/src/types.ts:10
+
+Unit of measurement — "base" for Polar, "nanos" for Stripe.
+
+***
+
+### currency
+
+> **currency**: `string`
+
+Defined in: packages/narev/src/types.ts:12
+
+Currency code (e.g. "USD").
+
+***
+
+### meterName
+
+> **meterName**: `string`
+
+Defined in: packages/narev/src/types.ts:14
+
+Display name of the meter.
+
+***
+
+### found
+
+> **found**: `boolean`
+
+Defined in: packages/narev/src/types.ts:16
+
+Whether the end-user has a meter entry.
