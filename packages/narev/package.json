@@ -44,14 +44,12 @@
   "dependencies": {},
   "devDependencies": {
     "@ai-billing/typescript-config": "workspace:*",
-    "@ai-billing/testing": "workspace:*",
     "tsup": "catalog:",
     "typedoc": "catalog:",
     "typedoc-plugin-markdown": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
-    "@edge-runtime/vm": "catalog:",
-    "zod": "catalog:"
+    "@edge-runtime/vm": "catalog:"
   },
   "engines": {
     "node": ">=20.0.0"
