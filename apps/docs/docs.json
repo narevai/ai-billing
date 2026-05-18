@@ -280,6 +280,44 @@
                 ]
               },
               {
+                "group": "@ai-billing/narev",
+                "pages": [
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/narev/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/narev/typedoc/functions/createNarevClient"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/BalanceData",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/BalanceResponse",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/CheckoutResponse",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/CreateCheckoutRequest",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/CreditConfigData",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/CreditConfigResponse",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/CreditPackage",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/NarevClient",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/NarevClientOptions"
+                        ]
+                      },
+                      {
+                        "group": "Classes",
+                        "pages": [
+                          "sdk/ai-billing/reference/narev/typedoc/classes/NarevApiError"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/nextjs",
                 "pages": [
                   {

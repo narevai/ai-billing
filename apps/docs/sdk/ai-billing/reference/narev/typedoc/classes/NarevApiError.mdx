@@ -1,0 +1,117 @@
+[**@ai-billing/narev**](../index)
+
+***
+
+[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/index) / NarevApiError
+
+# Class: NarevApiError
+
+Defined in: packages/narev/src/narev-client.ts:11
+
+Error thrown when the Narev API returns a non-2xx response.
+
+## Extends
+
+- `Error`
+
+## Constructors
+
+### Constructor
+
+> **new NarevApiError**(`message`, `status`, `body?`): `NarevApiError`
+
+Defined in: packages/narev/src/narev-client.ts:12
+
+#### Parameters
+
+##### message
+
+`string`
+
+##### status
+
+`number`
+
+HTTP status code returned by the API.
+
+##### body?
+
+`unknown`
+
+Raw response body, if parsing succeeded.
+
+#### Returns
+
+`NarevApiError`
+
+#### Overrides
+
+`Error.constructor`
+
+## Properties
+
+### status
+
+> **status**: `number`
+
+Defined in: packages/narev/src/narev-client.ts:15
+
+HTTP status code returned by the API.
+
+***
+
+### body?
+
+> `optional` **body?**: `unknown`
+
+Defined in: packages/narev/src/narev-client.ts:17
+
+Raw response body, if parsing succeeded.
+
+***
+
+### cause?
+
+> `optional` **cause?**: `unknown`
+
+Defined in: node\_modules/.pnpm/typescript@5.9.2/node\_modules/typescript/lib/lib.es2022.error.d.ts:26
+
+#### Inherited from
+
+`Error.cause`
+
+***
+
+### name
+
+> **name**: `string`
+
+Defined in: node\_modules/.pnpm/typescript@5.9.2/node\_modules/typescript/lib/lib.es5.d.ts:1076
+
+#### Inherited from
+
+`Error.name`
+
+***
+
+### message
+
+> **message**: `string`
+
+Defined in: node\_modules/.pnpm/typescript@5.9.2/node\_modules/typescript/lib/lib.es5.d.ts:1077
+
+#### Inherited from
+
+`Error.message`
+
+***
+
+### stack?
+
+> `optional` **stack?**: `string`
+
+Defined in: node\_modules/.pnpm/typescript@5.9.2/node\_modules/typescript/lib/lib.es5.d.ts:1078
+
+#### Inherited from
+
+`Error.stack`

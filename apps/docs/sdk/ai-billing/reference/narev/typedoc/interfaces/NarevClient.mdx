@@ -1,0 +1,71 @@
+[**@ai-billing/narev**](../index)
+
+***
+
+[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/index) / NarevClient
+
+# Interface: NarevClient
+
+Defined in: packages/narev/src/narev-client.ts:37
+
+Typed client for the Narev billing API.
+
+Covers balance checks and top-up/credit operations.
+
+## Methods
+
+### getBalance()
+
+> **getBalance**(`userId`): `Promise`\<[`BalanceResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/BalanceResponse)\>
+
+Defined in: packages/narev/src/narev-client.ts:42
+
+Fetches the end-user's balance and consumption for the current billing period.
+
+#### Parameters
+
+##### userId
+
+`string`
+
+your end-user's ID
+
+#### Returns
+
+`Promise`\<[`BalanceResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/BalanceResponse)\>
+
+***
+
+### getCreditConfig()
+
+> **getCreditConfig**(): `Promise`\<[`CreditConfigResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/CreditConfigResponse)\>
+
+Defined in: packages/narev/src/narev-client.ts:45
+
+Fetches available credit packages for top-up.
+
+#### Returns
+
+`Promise`\<[`CreditConfigResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/CreditConfigResponse)\>
+
+***
+
+### createCheckout()
+
+> **createCheckout**(`request`): `Promise`\<[`CheckoutResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/CheckoutResponse)\>
+
+Defined in: packages/narev/src/narev-client.ts:51
+
+Creates a checkout session for an end-user to purchase credits.
+
+#### Parameters
+
+##### request
+
+[`CreateCheckoutRequest`](/sdk/ai-billing/reference/narev/typedoc/interfaces/CreateCheckoutRequest)
+
+checkout details (product, user, success URL)
+
+#### Returns
+
+`Promise`\<[`CheckoutResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/CheckoutResponse)\>
