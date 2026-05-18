@@ -1,11 +1,11 @@
 'use server';
 
-import { Polar } from '@polar-sh/sdk';
+import { getNarevClient } from '../narev-client.js';
 
 /**
- * Creates a Polar checkout session and returns the URL.
- * @param productId - the Polar product ID
- * @param userId - the external customer ID
+ * Creates a checkout session via Narev and returns the URL.
+ * @param productId - the credit package product ID
+ * @param userId - the end-user ID
  * @param origin - the application origin for the success URL
  */
 export async function createCheckout(
@@ -13,18 +13,14 @@ export async function createCheckout(
   userId: string,
   origin: string,
 ) {
-  const polar = new Polar({
-    accessToken: process.env.POLAR_ACCESS_TOKEN,
-    server: (process.env.POLAR_SERVER as 'sandbox' | 'production') ?? 'sandbox',
-  });
-
   try {
-    const checkout = await polar.checkouts.create({
-      products: [productId],
-      externalCustomerId: userId,
+    const client = getNarevClient();
+    const response = await client.createCheckout({
+      productId,
+      userId,
       successUrl: `${origin}/usage`,
     });
-    return checkout.url;
+    return response.data.url;
   } catch (error) {
     console.error('Create checkout failed:', error);
     throw new Error('Failed to create checkout', { cause: error });

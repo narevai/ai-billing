@@ -1,71 +1,40 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-vi.mock('@polar-sh/sdk', () => ({
-  Polar: vi.fn(),
+vi.mock('@ai-billing/narev', () => ({
+  createNarevClient: vi.fn(),
 }));
 
-import { Polar } from '@polar-sh/sdk';
+import { createNarevClient } from '@ai-billing/narev';
 import { createCheckout } from './createCheckout.js';
 
 beforeEach(() => {
   vi.clearAllMocks();
+  process.env.NAREV_API_KEY = 'test-key';
 });
 
 describe('createCheckout', () => {
   it('returns checkout URL on success', async () => {
-    process.env.POLAR_ACCESS_TOKEN = 'pat_test';
-    process.env.POLAR_SERVER = 'sandbox';
-
-    vi.mocked(Polar).mockImplementation(
-      function (this: Record<string, unknown>) {
-        this.checkouts = {
-          create: vi.fn().mockResolvedValueOnce({
-            url: 'https://checkout.polar.sh/pay/abc',
-          }),
-        };
-      },
-    );
+    vi.mocked(createNarevClient).mockReturnValueOnce({
+      createCheckout: vi.fn().mockResolvedValueOnce({
+        data: { url: 'https://polar.sh/checkout/sess_abc' },
+      }),
+    } as unknown as ReturnType<typeof createNarevClient>);
 
     const url = await createCheckout('pkg_1', 'user_1', 'https://myapp.com');
-    expect(url).toBe('https://checkout.polar.sh/pay/abc');
+    expect(url).toBe('https://polar.sh/checkout/sess_abc');
   });
 
   it('throws when checkout fails', async () => {
     const consoleError = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {});
-    process.env.POLAR_ACCESS_TOKEN = 'pat_test';
-    process.env.POLAR_SERVER = 'sandbox';
-
-    vi.mocked(Polar).mockImplementation(
-      function (this: Record<string, unknown>) {
-        this.checkouts = {
-          create: vi.fn().mockRejectedValueOnce(new Error('Stripe error')),
-        };
-      },
-    );
+    vi.mocked(createNarevClient).mockReturnValueOnce({
+      createCheckout: vi.fn().mockRejectedValueOnce(new Error('API error')),
+    } as unknown as ReturnType<typeof createNarevClient>);
 
     await expect(
       createCheckout('pkg_1', 'user_1', 'https://myapp.com'),
     ).rejects.toThrow('Failed to create checkout');
     consoleError.mockRestore();
-  });
-
-  it('defaults to sandbox when POLAR_SERVER is not set', async () => {
-    process.env.POLAR_ACCESS_TOKEN = 'pat_test';
-    delete process.env.POLAR_SERVER;
-
-    vi.mocked(Polar).mockImplementation(
-      function (this: Record<string, unknown>) {
-        this.checkouts = {
-          create: vi.fn().mockResolvedValueOnce({
-            url: 'https://checkout.polar.sh/pay/abc',
-          }),
-        };
-      },
-    );
-
-    const url = await createCheckout('pkg_1', 'user_1', 'https://myapp.com');
-    expect(url).toBe('https://checkout.polar.sh/pay/abc');
   });
 });

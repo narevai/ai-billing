@@ -1,74 +1,32 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-vi.mock('./fetchPolarConfig.js', () => ({
-  fetchPolarConfig: vi.fn(),
+vi.mock('@ai-billing/narev', () => ({
+  createNarevClient: vi.fn(),
 }));
 
-vi.mock('@polar-sh/sdk', () => ({
-  Polar: vi.fn(),
-}));
-
-import { fetchPolarConfig } from './fetchPolarConfig.js';
-import { Polar } from '@polar-sh/sdk';
+import { createNarevClient } from '@ai-billing/narev';
 import { fetchPolarUsage } from './fetchPolarUsage.js';
 
 beforeEach(() => {
   vi.clearAllMocks();
+  process.env.NAREV_API_KEY = 'test-key';
 });
 
 describe('fetchPolarUsage', () => {
-  it('returns empty when config is null', async () => {
-    vi.mocked(fetchPolarConfig).mockResolvedValueOnce(null);
-
-    const result = await fetchPolarUsage('user_1');
-    expect(result).toEqual({
-      consumedUnits: 0,
-      creditedUnits: 0,
-      meterName: 'Usage',
-      found: false,
-    });
-  });
-
-  it('returns empty when meterId is missing', async () => {
-    vi.mocked(fetchPolarConfig).mockResolvedValueOnce({
-      meterId: '',
-      environment: 'sandbox',
-      topup: [],
-    });
-
-    const result = await fetchPolarUsage('user_1');
-    expect(result).toEqual({
-      consumedUnits: 0,
-      creditedUnits: 0,
-      meterName: 'Usage',
-      found: false,
-    });
-  });
-
-  it('returns usage data when meter exists', async () => {
-    vi.mocked(fetchPolarConfig).mockResolvedValueOnce({
-      meterId: 'mtr_1',
-      environment: 'sandbox',
-      topup: [],
-    });
-
-    vi.mocked(Polar).mockImplementation(
-      function (this: Record<string, unknown>) {
-        this.customerMeters = {
-          list: vi.fn().mockResolvedValueOnce({
-            result: {
-              items: [
-                {
-                  consumedUnits: 42,
-                  creditedUnits: 100,
-                  meter: { name: 'Tokens' },
-                },
-              ],
-            },
-          }),
-        };
-      },
-    );
+  it('returns usage data from Narev balance', async () => {
+    vi.mocked(createNarevClient).mockReturnValueOnce({
+      getBalance: vi.fn().mockResolvedValueOnce({
+        data: {
+          unitsBalance: 50,
+          unitsConsumed: 42,
+          unitsCredited: 100,
+          unit: 'base',
+          currency: 'USD',
+          meterName: 'Tokens',
+          found: true,
+        },
+      }),
+    } as unknown as ReturnType<typeof createNarevClient>);
 
     const result = await fetchPolarUsage('user_1');
     expect(result).toEqual({
@@ -79,20 +37,44 @@ describe('fetchPolarUsage', () => {
     });
   });
 
-  it('returns empty when meter has no items', async () => {
-    vi.mocked(fetchPolarConfig).mockResolvedValueOnce({
-      meterId: 'mtr_1',
-      environment: 'sandbox',
-      topup: [],
-    });
+  it('maps null creditedUnits to 0', async () => {
+    vi.mocked(createNarevClient).mockReturnValueOnce({
+      getBalance: vi.fn().mockResolvedValueOnce({
+        data: {
+          unitsBalance: null,
+          unitsConsumed: 10,
+          unitsCredited: null,
+          unit: 'base',
+          currency: 'USD',
+          meterName: 'Usage',
+          found: true,
+        },
+      }),
+    } as unknown as ReturnType<typeof createNarevClient>);
 
-    vi.mocked(Polar).mockImplementation(
-      function (this: Record<string, unknown>) {
-        this.customerMeters = {
-          list: vi.fn().mockResolvedValueOnce({ result: { items: [] } }),
-        };
-      },
-    );
+    const result = await fetchPolarUsage('user_1');
+    expect(result).toEqual({
+      consumedUnits: 10,
+      creditedUnits: 0,
+      meterName: 'Usage',
+      found: true,
+    });
+  });
+
+  it('returns empty when not found', async () => {
+    vi.mocked(createNarevClient).mockReturnValueOnce({
+      getBalance: vi.fn().mockResolvedValueOnce({
+        data: {
+          unitsBalance: null,
+          unitsConsumed: 0,
+          unitsCredited: null,
+          unit: 'base',
+          currency: 'USD',
+          meterName: 'Usage',
+          found: false,
+        },
+      }),
+    } as unknown as ReturnType<typeof createNarevClient>);
 
     const result = await fetchPolarUsage('user_1');
     expect(result).toEqual({
@@ -103,23 +85,13 @@ describe('fetchPolarUsage', () => {
     });
   });
 
-  it('returns empty when Polar API throws', async () => {
+  it('returns empty when Narev API throws', async () => {
     const consoleError = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {});
-    vi.mocked(fetchPolarConfig).mockResolvedValueOnce({
-      meterId: 'mtr_1',
-      environment: 'sandbox',
-      topup: [],
-    });
-
-    vi.mocked(Polar).mockImplementation(
-      function (this: Record<string, unknown>) {
-        this.customerMeters = {
-          list: vi.fn().mockRejectedValueOnce(new Error('API error')),
-        };
-      },
-    );
+    vi.mocked(createNarevClient).mockReturnValueOnce({
+      getBalance: vi.fn().mockRejectedValueOnce(new Error('API error')),
+    } as unknown as ReturnType<typeof createNarevClient>);
 
     const result = await fetchPolarUsage('user_1');
     expect(result).toEqual({
