@@ -1,5 +1,11 @@
 # @ai-billing/gateway
 
+## 0.1.3
+
+### Patch Changes
+
+- 804b53f: fix(gateway): fix gateway generation id
+
 ## 0.1.2
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # chatbot-with-billing-stripe
 
+## 0.0.5
+
+### Patch Changes
+
+- 81775fc: fix(nextjs): allow userId or stripeCustomerId for balance fetching
+- 804b53f: fix(gateway): fix gateway generation id
+- Updated dependencies [81775fc]
+- Updated dependencies [804b53f]
+  - @ai-billing/nextjs@0.0.4
+  - @ai-billing/gateway@0.1.3
+
 ## 0.0.4
 
 ### Patch Changes

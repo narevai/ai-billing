@@ -1,5 +1,13 @@
 # ai-billing-storybook
 
+## 0.0.4
+
+### Patch Changes
+
+- 81775fc: fix(nextjs): allow userId or stripeCustomerId for balance fetching
+- Updated dependencies [81775fc]
+  - @ai-billing/nextjs@0.0.4
+
 ## 0.0.3
 
 ### Patch Changes
