@@ -33,7 +33,8 @@ const meta = {
     unit: {
       control: { type: 'select' },
       options: ['$', '€', '£', '¥', 'credits', 'tokens', 'GB', 'requests'],
-      description: 'Symbol displayed next to the value — currency or custom unit.',
+      description:
+        'Symbol displayed next to the value — currency or custom unit.',
       table: { defaultValue: { summary: '"$"' } },
     },
   },
