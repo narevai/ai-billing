@@ -1,4 +1,6 @@
-export async function fetchStripeUsage(_customerId: string) {
+export async function fetchStripeUsage(
+  _lookup: { stripeCustomerId: string } | { userId: string },
+) {
   const m = globalThis.__SB__;
   if (m?.stripeUsageDelay === -1) return new Promise(() => {});
   if (m?.stripeUsageDelay)

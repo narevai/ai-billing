@@ -6,7 +6,7 @@
 
 # Interface: NarevClient
 
-Defined in: [packages/narev/src/narev-client.ts:37](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L37)
+Defined in: [packages/narev/src/narev-client.ts:38](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L38)
 
 Typed client for the Narev billing API.
 
@@ -16,19 +16,18 @@ Covers balance checks and top-up/credit operations.
 
 ### getBalance()
 
-> **getBalance**(`userId`): `Promise`\<[`BalanceResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/BalanceResponse)\>
+> **getBalance**(`lookup`): `Promise`\<[`BalanceResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/BalanceResponse)\>
 
-Defined in: [packages/narev/src/narev-client.ts:42](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L42)
+Defined in: [packages/narev/src/narev-client.ts:43](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L43)
 
 Fetches the end-user's balance and consumption for the current billing period.
+Pass either `{ userId }` or `{ stripeCustomerId }`.
 
 #### Parameters
 
-##### userId
+##### lookup
 
-`string`
-
-your end-user's ID
+[`BalanceLookup`](/sdk/ai-billing/reference/narev/typedoc/type-aliases/BalanceLookup)
 
 #### Returns
 
@@ -40,7 +39,7 @@ your end-user's ID
 
 > **getCreditConfig**(): `Promise`\<[`CreditConfigResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/CreditConfigResponse)\>
 
-Defined in: [packages/narev/src/narev-client.ts:45](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L45)
+Defined in: [packages/narev/src/narev-client.ts:46](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L46)
 
 Fetches available credit packages for top-up.
 
@@ -54,7 +53,7 @@ Fetches available credit packages for top-up.
 
 > **createCheckout**(`request`): `Promise`\<[`CheckoutResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/CheckoutResponse)\>
 
-Defined in: [packages/narev/src/narev-client.ts:51](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L51)
+Defined in: [packages/narev/src/narev-client.ts:52](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L52)
 
 Creates a checkout session for an end-user to purchase credits.
 

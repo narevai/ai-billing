@@ -41,7 +41,7 @@ describe('NarevClient', () => {
       mockFetch.mockResolvedValueOnce(mockResponse(balance));
 
       const client = createNarevClient({ apiKey: 'test-key' });
-      const result = await client.getBalance('user_123');
+      const result = await client.getBalance({ userId: 'user_123' });
 
       expect(mockFetch).toHaveBeenCalledWith(
         'https://api.narev.ai/v1/balance?userId=user_123',
@@ -62,9 +62,38 @@ describe('NarevClient', () => {
 
       const client = createNarevClient({ apiKey: 'test-key' });
 
-      await expect(client.getBalance('unknown')).rejects.toThrow(NarevApiError);
-      await expect(client.getBalance('unknown')).rejects.toThrow(
+      await expect(client.getBalance({ userId: 'unknown' })).rejects.toThrow(
+        NarevApiError,
+      );
+      await expect(client.getBalance({ userId: 'unknown' })).rejects.toThrow(
         'User not found',
+      );
+    });
+
+    it('should fetch balance by stripeCustomerId', async () => {
+      const balance: BalanceResponse = {
+        data: {
+          unitsBalance: null,
+          unitsConsumed: 5,
+          unitsCredited: null,
+          unit: 'nanos',
+          currency: 'USD',
+          meterName: 'Usage',
+          found: true,
+        },
+      };
+      mockFetch.mockResolvedValueOnce(mockResponse(balance));
+
+      const client = createNarevClient({ apiKey: 'test-key' });
+      await client.getBalance({ stripeCustomerId: 'cus_abc' });
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        'https://api.narev.ai/v1/balance?stripeCustomerId=cus_abc',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Authorization: 'Bearer test-key',
+          }),
+        }),
       );
     });
   });
@@ -152,7 +181,7 @@ describe('NarevClient', () => {
         apiKey: 'test-key',
         baseUrl: 'https://staging.narev.ai/v1',
       });
-      await client.getBalance('user_1');
+      await client.getBalance({ userId: 'user_1' });
 
       const url = mockFetch.mock.calls[0]![0] as string;
       expect(url).toContain('https://staging.narev.ai');
@@ -168,7 +197,7 @@ describe('NarevClient', () => {
       const client = createNarevClient({ apiKey: 'invalid-key' });
 
       try {
-        await client.getBalance('user_1');
+        await client.getBalance({ userId: 'user_1' });
         expect.fail('Expected error to be thrown');
       } catch (error) {
         expect(error).toBeInstanceOf(NarevApiError);
@@ -187,7 +216,9 @@ describe('NarevClient', () => {
 
       const client = createNarevClient({ apiKey: 'test-key' });
 
-      await expect(client.getBalance('user_1')).rejects.toThrow(NarevApiError);
+      await expect(client.getBalance({ userId: 'user_1' })).rejects.toThrow(
+        NarevApiError,
+      );
     });
   });
 });

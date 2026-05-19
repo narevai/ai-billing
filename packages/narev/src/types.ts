@@ -44,6 +44,9 @@ export interface CreditConfigResponse {
   data: CreditConfigData;
 }
 
+/** Identifies an end-user by either their app-level ID or Stripe customer ID. */
+export type BalanceLookup = { userId: string } | { stripeCustomerId: string };
+
 /** Request body for creating a checkout session. */
 export interface CreateCheckoutRequest {
   /** Credit package product ID. */
