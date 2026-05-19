@@ -1,5 +1,14 @@
 # @ai-billing/nextjs
 
+## 0.0.3
+
+### Patch Changes
+
+- 34ef850: feat(nextjs): drop stripe and polar dependencies
+- 8de3cd8: Widen peer dependency range for @polar-sh/sdk to include ^0.47.0
+- Updated dependencies [f85c273]
+  - @ai-billing/narev@0.0.1
+
 ## 0.0.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @ai-billing/stripe
 
+## 0.1.3
+
+### Patch Changes
+
+- 1f34a26: Widen peer dependency range for stripe to include ^22.0.0
+
 ## 0.1.2
 
 ### Patch Changes

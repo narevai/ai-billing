@@ -1,5 +1,14 @@
 # dev-sandbox
 
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [1f34a26]
+- Updated dependencies [8de3cd8]
+  - @ai-billing/stripe@0.1.3
+  - @ai-billing/polar@0.1.5
+
 ## 0.1.5
 
 ### Patch Changes
