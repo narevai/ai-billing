@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-vi.mock('@ai-billing/narev', () => ({
-  createNarevClient: vi.fn(),
+vi.mock('../narev-client.js', () => ({
+  getNarevClient: vi.fn(),
 }));
 
-import { createNarevClient } from '@ai-billing/narev';
+import { getNarevClient } from '../narev-client.js';
 import { fetchTopUpConfig } from './fetchTopUpConfig.js';
 
 beforeEach(() => {
@@ -14,7 +14,7 @@ beforeEach(() => {
 
 describe('fetchTopUpConfig', () => {
   it('returns packages and tax behavior from Narev', async () => {
-    vi.mocked(createNarevClient).mockReturnValueOnce({
+    vi.mocked(getNarevClient).mockReturnValueOnce({
       getCreditConfig: vi.fn().mockResolvedValueOnce({
         data: {
           packages: [
@@ -24,7 +24,7 @@ describe('fetchTopUpConfig', () => {
           taxBehavior: 'inclusive',
         },
       }),
-    } as unknown as ReturnType<typeof createNarevClient>);
+    } as ReturnType<typeof getNarevClient>);
 
     const result = await fetchTopUpConfig();
     expect(result.packages).toEqual([
@@ -35,11 +35,11 @@ describe('fetchTopUpConfig', () => {
   });
 
   it('returns empty packages when no packages available', async () => {
-    vi.mocked(createNarevClient).mockReturnValueOnce({
+    vi.mocked(getNarevClient).mockReturnValueOnce({
       getCreditConfig: vi.fn().mockResolvedValueOnce({
         data: { packages: [] },
       }),
-    } as unknown as ReturnType<typeof createNarevClient>);
+    } as ReturnType<typeof getNarevClient>);
 
     const result = await fetchTopUpConfig();
     expect(result.packages).toEqual([]);
@@ -50,9 +50,9 @@ describe('fetchTopUpConfig', () => {
     const consoleError = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {});
-    vi.mocked(createNarevClient).mockReturnValueOnce({
+    vi.mocked(getNarevClient).mockReturnValueOnce({
       getCreditConfig: vi.fn().mockRejectedValueOnce(new Error('API down')),
-    } as unknown as ReturnType<typeof createNarevClient>);
+    } as ReturnType<typeof getNarevClient>);
 
     const result = await fetchTopUpConfig();
     expect(result).toEqual({ packages: [] });

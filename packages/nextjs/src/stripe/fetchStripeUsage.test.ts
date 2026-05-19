@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-vi.mock('@ai-billing/narev', () => ({
-  createNarevClient: vi.fn(),
+vi.mock('../narev-client.js', () => ({
+  getNarevClient: vi.fn(),
 }));
 
-import { createNarevClient } from '@ai-billing/narev';
+import { getNarevClient } from '../narev-client.js';
 import { fetchStripeUsage } from './fetchStripeUsage.js';
 
 beforeEach(() => {
@@ -14,7 +14,7 @@ beforeEach(() => {
 
 describe('fetchStripeUsage', () => {
   it('returns aggregated value from Narev balance', async () => {
-    vi.mocked(createNarevClient).mockReturnValueOnce({
+    vi.mocked(getNarevClient).mockReturnValueOnce({
       getBalance: vi.fn().mockResolvedValueOnce({
         data: {
           unitsBalance: 50,
@@ -26,14 +26,14 @@ describe('fetchStripeUsage', () => {
           found: true,
         },
       }),
-    } as unknown as ReturnType<typeof createNarevClient>);
+    } as ReturnType<typeof getNarevClient>);
 
     const result = await fetchStripeUsage('cus_1');
     expect(result).toEqual({ aggregatedValue: 2.5, found: true });
   });
 
   it('returns empty when not found', async () => {
-    vi.mocked(createNarevClient).mockReturnValueOnce({
+    vi.mocked(getNarevClient).mockReturnValueOnce({
       getBalance: vi.fn().mockResolvedValueOnce({
         data: {
           unitsBalance: null,
@@ -45,7 +45,7 @@ describe('fetchStripeUsage', () => {
           found: false,
         },
       }),
-    } as unknown as ReturnType<typeof createNarevClient>);
+    } as ReturnType<typeof getNarevClient>);
 
     const result = await fetchStripeUsage('cus_1');
     expect(result).toEqual({ aggregatedValue: 0, found: false });
@@ -55,9 +55,9 @@ describe('fetchStripeUsage', () => {
     const consoleError = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {});
-    vi.mocked(createNarevClient).mockReturnValueOnce({
+    vi.mocked(getNarevClient).mockReturnValueOnce({
       getBalance: vi.fn().mockRejectedValueOnce(new Error('API down')),
-    } as unknown as ReturnType<typeof createNarevClient>);
+    } as ReturnType<typeof getNarevClient>);
 
     const result = await fetchStripeUsage('cus_1');
     expect(result).toEqual({ aggregatedValue: 0, found: false });

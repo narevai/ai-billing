@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-vi.mock('@ai-billing/narev', () => ({
-  createNarevClient: vi.fn(),
+vi.mock('../narev-client.js', () => ({
+  getNarevClient: vi.fn(),
 }));
 
-import { createNarevClient } from '@ai-billing/narev';
+import { getNarevClient } from '../narev-client.js';
 import { fetchPolarUsage } from './fetchPolarUsage.js';
 
 beforeEach(() => {
@@ -14,7 +14,7 @@ beforeEach(() => {
 
 describe('fetchPolarUsage', () => {
   it('returns usage data from Narev balance', async () => {
-    vi.mocked(createNarevClient).mockReturnValueOnce({
+    vi.mocked(getNarevClient).mockReturnValueOnce({
       getBalance: vi.fn().mockResolvedValueOnce({
         data: {
           unitsBalance: 50,
@@ -26,7 +26,7 @@ describe('fetchPolarUsage', () => {
           found: true,
         },
       }),
-    } as unknown as ReturnType<typeof createNarevClient>);
+    } as ReturnType<typeof getNarevClient>);
 
     const result = await fetchPolarUsage('user_1');
     expect(result).toEqual({
@@ -38,7 +38,7 @@ describe('fetchPolarUsage', () => {
   });
 
   it('maps null creditedUnits to 0', async () => {
-    vi.mocked(createNarevClient).mockReturnValueOnce({
+    vi.mocked(getNarevClient).mockReturnValueOnce({
       getBalance: vi.fn().mockResolvedValueOnce({
         data: {
           unitsBalance: null,
@@ -50,7 +50,7 @@ describe('fetchPolarUsage', () => {
           found: true,
         },
       }),
-    } as unknown as ReturnType<typeof createNarevClient>);
+    } as ReturnType<typeof getNarevClient>);
 
     const result = await fetchPolarUsage('user_1');
     expect(result).toEqual({
@@ -62,7 +62,7 @@ describe('fetchPolarUsage', () => {
   });
 
   it('returns empty when not found', async () => {
-    vi.mocked(createNarevClient).mockReturnValueOnce({
+    vi.mocked(getNarevClient).mockReturnValueOnce({
       getBalance: vi.fn().mockResolvedValueOnce({
         data: {
           unitsBalance: null,
@@ -74,7 +74,7 @@ describe('fetchPolarUsage', () => {
           found: false,
         },
       }),
-    } as unknown as ReturnType<typeof createNarevClient>);
+    } as ReturnType<typeof getNarevClient>);
 
     const result = await fetchPolarUsage('user_1');
     expect(result).toEqual({
@@ -89,9 +89,9 @@ describe('fetchPolarUsage', () => {
     const consoleError = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {});
-    vi.mocked(createNarevClient).mockReturnValueOnce({
+    vi.mocked(getNarevClient).mockReturnValueOnce({
       getBalance: vi.fn().mockRejectedValueOnce(new Error('API error')),
-    } as unknown as ReturnType<typeof createNarevClient>);
+    } as ReturnType<typeof getNarevClient>);
 
     const result = await fetchPolarUsage('user_1');
     expect(result).toEqual({
