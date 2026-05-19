@@ -6,19 +6,19 @@ import { getNarevClient } from '../narev-client.js';
  * Creates a checkout session via Narev and returns the URL.
  * @param productId - the credit package product ID
  * @param userId - the end-user ID
- * @param origin - the application origin for the success URL
+ * @param successUrl - URL to redirect after successful purchase
  */
 export async function createCheckout(
   productId: string,
   userId: string,
-  origin: string,
+  successUrl: string,
 ) {
   try {
     const client = getNarevClient();
     const response = await client.createCheckout({
       productId,
       userId,
-      successUrl: `${origin}/usage`,
+      successUrl,
     });
     return response.data.url;
   } catch (error) {
