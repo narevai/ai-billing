@@ -6,11 +6,11 @@
 
 # Function: createCheckout()
 
-> **createCheckout**(`productId`, `userId`, `origin`): `Promise`\<`string`\>
+> **createCheckout**(`productId`, `userId`, `successUrl`): `Promise`\<`string`\>
 
 Defined in: [packages/nextjs/src/polar/createCheckout.ts:11](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/createCheckout.ts#L11)
 
-Creates a Polar checkout session and returns the URL.
+Creates a checkout session via Narev and returns the URL.
 
 ## Parameters
 
@@ -18,19 +18,19 @@ Creates a Polar checkout session and returns the URL.
 
 `string`
 
-the Polar product ID
+the credit package product ID
 
 ### userId
 
 `string`
 
-the external customer ID
+the end-user ID
 
-### origin
+### successUrl
 
 `string`
 
-the application origin for the success URL
+URL to redirect after successful purchase
 
 ## Returns
 
