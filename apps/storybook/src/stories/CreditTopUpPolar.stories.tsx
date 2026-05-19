@@ -15,10 +15,35 @@ const meta = {
   component: CreditTopUpPolar,
   tags: ['autodocs'],
   args: { userId: 'usr_test' },
+  argTypes: {
+    userId: {
+      control: 'text',
+      description: 'End-user ID passed to the Polar checkout session.',
+    },
+    title: {
+      control: 'text',
+      description: 'Heading shown above the package list.',
+      table: {
+        defaultValue: {
+          summary: '"Choose a credit bundle to top up your workspace balance."',
+        },
+      },
+    },
+    successUrl: {
+      control: 'text',
+      description:
+        'URL the user is redirected to after a successful purchase. Defaults to the current page origin.',
+      table: { defaultValue: { summary: 'window.location.origin + "/"' } },
+    },
+  },
 } satisfies Meta<typeof CreditTopUpPolar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  parameters: { mock: { topUpConfig: { packages: pkgs } } },
+};
 
 export const Loading: Story = {
   parameters: { mock: { topUpConfigDelay: -1 } },
