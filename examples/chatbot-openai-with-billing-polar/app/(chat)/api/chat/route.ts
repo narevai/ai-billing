@@ -195,8 +195,7 @@ export async function POST(request: Request) {
               openai: { reasoningEffort: modelConfig.reasoningEffort },
             }),
             'ai-billing-tags': {
-              userId:
-                userType === 'guest' ? 'anonymous_user' : session.user.id,
+              userId: userType === 'guest' ? 'anonymous_user' : session.user.id,
               userType,
               chatId: id,
               modelId: chatModel,
