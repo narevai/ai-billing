@@ -111,7 +111,7 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
       }).not.toThrow();
 
       const expectedEvent = StrictBillingEventSchema.parse({
-        generationId: baseResult.response?.id,
+        generationId: realMetadata.gateway!.generationId,
         modelId: mockModel.modelId,
         provider: mockModel.provider || 'gateway',
         usage: {
@@ -182,7 +182,7 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
       }).not.toThrow();
 
       const expectedEvent = StrictBillingEventSchema.parse({
-        generationId: baseResult.response?.id,
+        generationId: realMetadata.gateway!.generationId,
         modelId: mockModel.modelId,
         provider: mockModel.provider,
         usage: {

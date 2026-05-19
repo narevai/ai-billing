@@ -123,8 +123,8 @@ export function createGatewayV3Middleware<TTags extends DefaultTags>(
 
       return {
         generationId:
-          responseId ??
           gatewayMetadata?.gateway?.generationId ??
+          responseId ??
           crypto.randomUUID(),
         modelId: model.modelId,
         provider: model.provider || 'gateway',

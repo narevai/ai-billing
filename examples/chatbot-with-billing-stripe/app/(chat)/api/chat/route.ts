@@ -173,10 +173,9 @@ export async function POST(request: Request) {
 
     const modelMessages = await convertToModelMessages(uiMessages);
 
-    let stripeCustomerId: string | null = null;
-    if (userType === 'regular') {
-      stripeCustomerId = await findStripeCustomerIdByUserId(session.user.id);
-    }
+    const billingUserId =
+      userType === 'guest' ? 'anonymous_user' : session.user.id;
+    const stripeCustomerId = await findStripeCustomerIdByUserId(billingUserId);
 
     const stream = createUIMessageStream({
       originalMessages: isToolApprovalFlow ? uiMessages : undefined,
@@ -204,7 +203,7 @@ export async function POST(request: Request) {
               openai: { reasoningEffort: modelConfig.reasoningEffort },
             }),
             'ai-billing-tags': {
-              userId: userType === 'guest' ? 'anonymous_user' : session.user.id,
+              userId: billingUserId,
               userType,
               chatId: id,
               modelId: chatModel,
