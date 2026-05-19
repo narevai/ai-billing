@@ -33,7 +33,6 @@ import {
   SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { cn } from '@/lib/utils';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -108,40 +107,32 @@ export function AppSidebar({ user }: { user: User | undefined }) {
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem>
-                  <button
-                    className={cn(
-                      'flex w-full items-center gap-2 rounded-lg px-2.5 h-8 text-[13px] transition-colors duration-150 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground',
-                      pathname === '/'
-                        ? 'font-medium text-sidebar-accent-foreground bg-sidebar-accent'
-                        : 'text-sidebar-foreground',
-                    )}
+                  <SidebarMenuButton
+                    isActive={pathname === '/'}
+                    tooltip="Usage"
+                    className="rounded-lg text-[13px] transition-colors duration-150"
                     onClick={() => {
                       setOpenMobile(false);
                       router.push('/');
                     }}
-                    type="button"
                   >
                     <GaugeIcon className="size-4" />
                     <span className="font-medium">Usage</span>
-                  </button>
+                  </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <button
-                    className={cn(
-                      'flex w-full items-center gap-2 rounded-lg px-2.5 h-8 text-[13px] transition-colors duration-150 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground',
-                      pathname.startsWith('/chat')
-                        ? 'font-medium text-sidebar-accent-foreground bg-sidebar-accent'
-                        : 'text-sidebar-foreground',
-                    )}
+                  <SidebarMenuButton
+                    isActive={pathname.startsWith('/chat')}
+                    tooltip="New chat"
+                    className="rounded-lg text-[13px] transition-colors duration-150"
                     onClick={() => {
                       setOpenMobile(false);
                       router.push('/chat');
                     }}
-                    type="button"
                   >
                     <PenSquareIcon className="size-4" />
                     <span className="font-medium">New chat</span>
-                  </button>
+                  </SidebarMenuButton>
                 </SidebarMenuItem>
                 {user && (
                   <SidebarMenuItem>
