@@ -5,9 +5,16 @@ import { findStripeCustomerIdByUserId } from '@/lib/stripe-client';
 export default async function UsagePage() {
   const session = await auth();
   const userId = session?.user?.id;
+  const isAnonymous = session?.user?.type === 'guest';
   const stripeCustomerId = userId
     ? await findStripeCustomerIdByUserId(userId)
     : null;
 
-  return <UsageContent userId={userId} stripeCustomerId={stripeCustomerId} />;
+  return (
+    <UsageContent
+      userId={userId}
+      isAnonymous={isAnonymous}
+      stripeCustomerId={stripeCustomerId}
+    />
+  );
 }
