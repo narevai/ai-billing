@@ -1713,7 +1713,7 @@ importers:
         specifier: workspace:*
         version: link:../core
       stripe:
-        specifier: ^21.0.0
+        specifier: ^21.0.0 || ^22.0.0
         version: 21.0.1(@types/node@22.19.15)
     devDependencies:
       '@ai-billing/testing':

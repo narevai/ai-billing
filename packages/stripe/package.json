@@ -55,7 +55,7 @@
   },
   "peerDependencies": {
     "@ai-billing/core": "workspace:*",
-    "stripe": "^21.0.0"
+    "stripe": "^21.0.0 || ^22.0.0"
   },
   "engines": {
     "node": ">=20.0.0"
