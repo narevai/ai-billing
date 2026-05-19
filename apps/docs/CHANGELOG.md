@@ -1,5 +1,11 @@
 # docs
 
+## 0.1.8
+
+### Patch Changes
+
+- 81775fc: fix(nextjs): allow userId or stripeCustomerId for balance fetching
+
 ## 0.1.7
 
 ### Patch Changes
