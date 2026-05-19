@@ -22,7 +22,6 @@ const config: StorybookConfig = {
         ...cfg.resolve,
         alias: [
           ...mockAlias('fetchStripeUsage'),
-          ...mockAlias('fetchStripeConfig'),
           ...mockAlias('fetchPolarUsage'),
           ...mockAlias('fetchPolarConfig'),
           ...mockAlias('fetchTopUpConfig'),

@@ -1,4 +1,5 @@
 import type {
+  BalanceLookup,
   BalanceResponse,
   CheckoutResponse,
   CreateCheckoutRequest,
@@ -37,9 +38,9 @@ export interface NarevClientOptions {
 export interface NarevClient {
   /**
    * Fetches the end-user's balance and consumption for the current billing period.
-   * @param userId - your end-user's ID
+   * Pass either `{ userId }` or `{ stripeCustomerId }`.
    */
-  getBalance(userId: string): Promise<BalanceResponse>;
+  getBalance(lookup: BalanceLookup): Promise<BalanceResponse>;
 
   /** Fetches available credit packages for top-up. */
   getCreditConfig(): Promise<CreditConfigResponse>;
@@ -60,10 +61,13 @@ class NarevClientImpl implements NarevClient {
     this.baseUrl = options.baseUrl ?? DEFAULT_BASE_URL;
   }
 
-  async getBalance(userId: string): Promise<BalanceResponse> {
+  async getBalance(lookup: BalanceLookup): Promise<BalanceResponse> {
     const url = new URL('/v1/balance', this.baseUrl);
-    url.searchParams.set('userId', userId);
-
+    if ('stripeCustomerId' in lookup) {
+      url.searchParams.set('stripeCustomerId', lookup.stripeCustomerId);
+    } else {
+      url.searchParams.set('userId', lookup.userId);
+    }
     return this.request<BalanceResponse>(url);
   }
 

@@ -13,13 +13,13 @@ beforeEach(() => {
 });
 
 describe('fetchStripeUsage', () => {
-  it('returns aggregated value from Narev balance', async () => {
+  it('converts nanos to dollars when unit is nanos', async () => {
     vi.mocked(getNarevClient).mockReturnValueOnce({
       getBalance: vi.fn().mockResolvedValueOnce({
         data: {
-          unitsBalance: 50,
-          unitsConsumed: 2.5,
-          unitsCredited: 100,
+          unitsBalance: null,
+          unitsConsumed: 1_417_500,
+          unitsCredited: null,
           unit: 'nanos',
           currency: 'USD',
           meterName: 'Usage',
@@ -28,8 +28,27 @@ describe('fetchStripeUsage', () => {
       }),
     } as ReturnType<typeof getNarevClient>);
 
-    const result = await fetchStripeUsage('cus_1');
-    expect(result).toEqual({ aggregatedValue: 2.5, found: true });
+    const result = await fetchStripeUsage({ stripeCustomerId: 'cus_1' });
+    expect(result).toEqual({ aggregatedValue: 0.0014175, found: true });
+  });
+
+  it('does not convert when unit is base', async () => {
+    vi.mocked(getNarevClient).mockReturnValueOnce({
+      getBalance: vi.fn().mockResolvedValueOnce({
+        data: {
+          unitsBalance: 50,
+          unitsConsumed: 25,
+          unitsCredited: 100,
+          unit: 'base',
+          currency: 'USD',
+          meterName: 'Usage',
+          found: true,
+        },
+      }),
+    } as ReturnType<typeof getNarevClient>);
+
+    const result = await fetchStripeUsage({ userId: 'user_1' });
+    expect(result).toEqual({ aggregatedValue: 25, found: true });
   });
 
   it('returns empty when not found', async () => {
@@ -47,7 +66,7 @@ describe('fetchStripeUsage', () => {
       }),
     } as ReturnType<typeof getNarevClient>);
 
-    const result = await fetchStripeUsage('cus_1');
+    const result = await fetchStripeUsage({ stripeCustomerId: 'cus_1' });
     expect(result).toEqual({ aggregatedValue: 0, found: false });
   });
 
@@ -59,7 +78,7 @@ describe('fetchStripeUsage', () => {
       getBalance: vi.fn().mockRejectedValueOnce(new Error('API down')),
     } as ReturnType<typeof getNarevClient>);
 
-    const result = await fetchStripeUsage('cus_1');
+    const result = await fetchStripeUsage({ stripeCustomerId: 'cus_1' });
     expect(result).toEqual({ aggregatedValue: 0, found: false });
     consoleError.mockRestore();
   });

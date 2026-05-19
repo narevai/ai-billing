@@ -17,7 +17,7 @@ export async function fetchPolarUsage(userId: string): Promise<PolarUsageData> {
 
   try {
     const client = getNarevClient();
-    const response = await client.getBalance(userId);
+    const response = await client.getBalance({ userId });
     const data = response.data;
 
     return {

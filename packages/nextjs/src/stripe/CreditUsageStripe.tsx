@@ -5,12 +5,16 @@ import { UsageBar, EmptyCard } from '@ai-billing/ui';
 import { fetchStripeUsage } from './fetchStripeUsage.js';
 import type { StripeUsageData } from './types.js';
 
-export interface CreditUsageStripeProps extends React.HTMLAttributes<HTMLDivElement> {
-  stripeCustomerId: string;
-  budget?: number;
-  label?: string;
-  unit?: string;
-}
+type LookupProps =
+  | { stripeCustomerId: string; userId?: never }
+  | { userId: string; stripeCustomerId?: never };
+
+export type CreditUsageStripeProps = React.HTMLAttributes<HTMLDivElement> &
+  LookupProps & {
+    budget?: number;
+    label?: string;
+    unit?: string;
+  };
 
 function monthLabel(d: Date): string {
   return d.toLocaleDateString('en-US', {
@@ -20,23 +24,32 @@ function monthLabel(d: Date): string {
   });
 }
 
-export const CreditUsageStripe = React.forwardRef<
-  HTMLDivElement,
-  CreditUsageStripeProps
->(
+export const CreditUsageStripe = React.forwardRef(
   (
-    { stripeCustomerId, budget, label, unit = '$', className, style, ...props },
-    ref,
+    {
+      stripeCustomerId,
+      userId,
+      budget,
+      label,
+      unit = '$',
+      className,
+      style,
+      ...props
+    }: CreditUsageStripeProps,
+    ref: React.ForwardedRef<HTMLDivElement>,
   ) => {
     const [data, setData] = useState<StripeUsageData | null>(null);
     const [loading, setLoading] = useState(true);
+
+    const lookup =
+      stripeCustomerId != null ? { stripeCustomerId } : { userId: userId! };
 
     useEffect(() => {
       let cancelled = false;
       setLoading(true);
       (async () => {
         try {
-          const result = await fetchStripeUsage(stripeCustomerId);
+          const result = await fetchStripeUsage(lookup);
           if (!cancelled) setData(result);
         } catch {
           if (!cancelled) setData(null);
@@ -47,7 +60,7 @@ export const CreditUsageStripe = React.forwardRef<
       return () => {
         cancelled = true;
       };
-    }, [stripeCustomerId]);
+    }, [stripeCustomerId, userId]);
 
     if (loading) {
       return (

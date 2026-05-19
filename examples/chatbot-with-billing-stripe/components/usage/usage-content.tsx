@@ -7,19 +7,8 @@ import { useSidebar } from '@/components/ui/sidebar';
 import { VercelIcon } from '@/components/chat/icons';
 import { CreditUsageStripe } from '@ai-billing/nextjs';
 
-export function UsageContent({
-  userId,
-  stripeCustomerId,
-  isAnonymous,
-}: {
-  userId?: string;
-  stripeCustomerId?: string | null;
-  isAnonymous?: boolean;
-}) {
+export function UsageContent({ userId }: { userId?: string }) {
   const { state, toggleSidebar, isMobile } = useSidebar();
-  const effectiveStripeCustomerId = isAnonymous
-    ? 'anonymous_user'
-    : stripeCustomerId;
 
   return (
     <>
@@ -65,17 +54,12 @@ export function UsageContent({
             Track your usage.
           </p>
         </div>
-        {effectiveStripeCustomerId ? (
-          <CreditUsageStripe
-            stripeCustomerId={effectiveStripeCustomerId}
-            budget={10}
-          />
+        {userId ? (
+          <CreditUsageStripe userId={userId} budget={10} />
         ) : (
           <div className="rounded-xl border border-border bg-card p-8 text-center">
             <p className="text-sm text-muted-foreground">
-              {userId
-                ? 'No usage data available. Set up your Stripe billing to get started.'
-                : 'Sign in to view your usage and billing information.'}
+              Sign in to view your usage and billing information.
             </p>
           </div>
         )}
