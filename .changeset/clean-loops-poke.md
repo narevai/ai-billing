@@ -2,4 +2,4 @@
 "@ai-billing/stripe": patch
 ---
 
-chore(stripe): update dependency stripe to v22
+Widen peer dependency range for stripe to include ^22.0.0
