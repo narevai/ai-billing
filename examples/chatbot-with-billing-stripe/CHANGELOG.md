@@ -1,5 +1,16 @@
 # chatbot-with-billing-stripe
 
+## 0.0.4
+
+### Patch Changes
+
+- b410651: fix(examples): fix sidebar buttons
+- Updated dependencies [1f34a26]
+- Updated dependencies [34ef850]
+- Updated dependencies [8de3cd8]
+  - @ai-billing/stripe@0.1.3
+  - @ai-billing/nextjs@0.0.3
+
 ## 0.0.3
 
 ### Patch Changes

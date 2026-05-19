@@ -1,5 +1,12 @@
 # docs
 
+## 0.1.7
+
+### Patch Changes
+
+- 34ef850: feat(nextjs): drop stripe and polar dependencies
+- f85c273: feat(narev): first release of narev sdk
+
 ## 0.1.6
 
 ### Patch Changes

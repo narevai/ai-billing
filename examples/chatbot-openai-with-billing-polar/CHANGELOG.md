@@ -1,5 +1,15 @@
 # chatbot-with-billing-polar
 
+## 0.0.4
+
+### Patch Changes
+
+- b410651: fix(examples): fix sidebar buttons
+- Updated dependencies [34ef850]
+- Updated dependencies [8de3cd8]
+  - @ai-billing/nextjs@0.0.3
+  - @ai-billing/polar@0.1.5
+
 ## 0.0.3
 
 ### Patch Changes
