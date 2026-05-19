@@ -7,10 +7,39 @@ const meta = {
   component: CreditUsageStripe,
   tags: ['autodocs'],
   args: { stripeCustomerId: 'cus_test' },
+  argTypes: {
+    stripeCustomerId: {
+      description:
+        'Stripe customer ID used to look up metered billing usage. Mutually exclusive with `userId`.',
+    },
+    userId: {
+      description:
+        'Internal user ID — resolved server-side to a Stripe customer. Mutually exclusive with `stripeCustomerId`.',
+    },
+    budget: {
+      description:
+        'Monthly spending cap in the chosen unit. Renders a progress bar that turns red when the cap is exceeded. Omit to show usage without a cap.',
+      table: { defaultValue: { summary: 'undefined' } },
+    },
+    label: {
+      description:
+        'Card heading. Defaults to the current month and year when omitted.',
+      table: { defaultValue: { summary: '"May 2026 usage"' } },
+    },
+    unit: {
+      description: 'Symbol displayed next to the value — currency or custom unit.',
+      table: { defaultValue: { summary: '"$"' } },
+    },
+  },
 } satisfies Meta<typeof CreditUsageStripe>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: { budget: 100 },
+  parameters: { mock: { stripeUsage: { aggregatedValue: 42, found: true } } },
+};
 
 export const Loading: Story = {
   parameters: { mock: { stripeUsageDelay: -1 } },
