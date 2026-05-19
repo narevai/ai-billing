@@ -17,9 +17,11 @@ const meta = {
   args: { userId: 'usr_test' },
   argTypes: {
     userId: {
+      control: 'text',
       description: 'End-user ID passed to the Polar checkout session.',
     },
     title: {
+      control: 'text',
       description: 'Heading shown above the package list.',
       table: {
         defaultValue: {
@@ -28,6 +30,7 @@ const meta = {
       },
     },
     successUrl: {
+      control: 'text',
       description:
         'URL the user is redirected to after a successful purchase. Defaults to the current page origin.',
       table: { defaultValue: { summary: 'window.location.origin + "/"' } },

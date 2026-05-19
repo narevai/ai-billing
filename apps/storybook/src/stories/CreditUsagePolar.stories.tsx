@@ -9,14 +9,17 @@ const meta = {
   args: { userId: 'usr_test' },
   argTypes: {
     userId: {
+      control: 'text',
       description: 'Polar user ID used to fetch metered usage.',
     },
     budget: {
+      control: { type: 'number', min: 0, max: 500, step: 10 },
       description:
         'Spending cap that overrides the credited-unit balance from Polar. Omit to use the credited units as the cap.',
       table: { defaultValue: { summary: 'undefined' } },
     },
     label: {
+      control: 'text',
       description:
         'Custom card heading. Defaults to the meter name returned by Polar.',
       table: { defaultValue: { summary: 'meter name from Polar' } },
