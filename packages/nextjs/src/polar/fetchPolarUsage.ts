@@ -1,12 +1,11 @@
 'use server';
 
-import { Polar } from '@polar-sh/sdk';
-import { fetchPolarConfig } from './fetchPolarConfig.js';
+import { getNarevClient } from '../narev-client.js';
 import type { PolarUsageData } from './types.js';
 
 /**
- * Fetches usage data from Polar for a given customer meter.
- * @param userId - the external customer ID in Polar
+ * Fetches usage data for a given user via the Narev API.
+ * @param userId - the end-user ID
  */
 export async function fetchPolarUsage(userId: string): Promise<PolarUsageData> {
   const empty = {
@@ -16,29 +15,17 @@ export async function fetchPolarUsage(userId: string): Promise<PolarUsageData> {
     found: false,
   };
 
-  const config = await fetchPolarConfig();
-  if (!config || !config.meterId) return empty;
-
-  const polar = new Polar({
-    accessToken: process.env.POLAR_ACCESS_TOKEN,
-    server: config.environment,
-  });
-
   try {
-    const page = await polar.customerMeters.list({
-      externalCustomerId: userId,
-      meterId: config.meterId,
-      limit: 1,
-    });
-    const item = page.result.items[0];
-    if (item) {
-      return {
-        consumedUnits: item.consumedUnits,
-        creditedUnits: item.creditedUnits,
-        meterName: item.meter.name,
-        found: true,
-      };
-    }
+    const client = getNarevClient();
+    const response = await client.getBalance(userId);
+    const data = response.data;
+
+    return {
+      consumedUnits: data.unitsConsumed,
+      creditedUnits: data.unitsCredited ?? 0,
+      meterName: data.meterName,
+      found: data.found,
+    };
   } catch (error) {
     console.error('fetchPolarUsage:', error);
   }

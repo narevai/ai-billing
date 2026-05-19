@@ -6,9 +6,14 @@ import type { CreditPackage } from '@ai-billing/ui';
 import { createCheckout as checkoutAction } from './createCheckout.js';
 import { fetchTopUpConfig } from './fetchTopUpConfig.js';
 
+/** Props for the credit top-up component. */
 export interface CreditTopUpPolarProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** End-user ID for the top-up session. */
   userId: string;
+  /** Optional title text for the picker. */
   title?: string;
+  /** URL to redirect after successful purchase (defaults to current origin). */
+  successUrl?: string;
 }
 
 export const CreditTopUpPolar = React.forwardRef<
@@ -19,6 +24,7 @@ export const CreditTopUpPolar = React.forwardRef<
     {
       userId,
       title = 'Choose a credit bundle to top up your workspace balance.',
+      successUrl,
       className,
       style,
       ...props
@@ -29,7 +35,7 @@ export const CreditTopUpPolar = React.forwardRef<
     const [taxBehavior, setTaxBehavior] = useState<
       'inclusive' | 'exclusive' | 'location'
     >();
-    const [loading, setLoading] = useState(!userId ? false : true);
+    const [loading, setLoading] = useState(!!userId);
     const [isPending, startTransition] = useTransition();
     const [error, setError] = useState<string | null>(null);
 
@@ -61,7 +67,7 @@ export const CreditTopUpPolar = React.forwardRef<
           const url = await checkoutAction(
             packageId,
             userId,
-            window.location.origin,
+            successUrl ?? `${window.location.origin}/`,
           );
           window.location.href = url;
         } catch (e) {

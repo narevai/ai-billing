@@ -8,9 +8,9 @@
 
 > **fetchStripeUsage**(`stripeCustomerId`): `Promise`\<[`StripeUsageData`](/sdk/ai-billing/reference/nextjs/typedoc/server/interfaces/StripeUsageData)\>
 
-Defined in: [packages/nextjs/src/stripe/fetchStripeUsage.ts:11](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/stripe/fetchStripeUsage.ts#L11)
+Defined in: [packages/nextjs/src/stripe/fetchStripeUsage.ts:10](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/stripe/fetchStripeUsage.ts#L10)
 
-Fetches usage data from Stripe for a given customer, converting nano-units to dollars.
+Fetches usage data for a given customer via the Narev API.
 
 ## Parameters
 
@@ -18,7 +18,7 @@ Fetches usage data from Stripe for a given customer, converting nano-units to do
 
 `string`
 
-the Stripe customer ID
+the Stripe customer ID (used as userId for Narev)
 
 ## Returns
 

@@ -5,9 +5,7 @@
     "tsup",
     "eslint-plugin-jsdoc",
     "eslint-plugin-tsdoc",
-    "typedoc-plugin-markdown",
-    "@polar-sh/sdk",
-    "stripe"
+    "typedoc-plugin-markdown"
   ],
   "ignore": [
     "examples/chatbot-with-billing-polar/**",

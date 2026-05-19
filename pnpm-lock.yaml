@@ -1478,18 +1478,15 @@ importers:
 
   packages/nextjs:
     dependencies:
+      '@ai-billing/narev':
+        specifier: workspace:*
+        version: link:../narev
       '@ai-billing/ui':
         specifier: workspace:*
         version: link:../ui
-      '@polar-sh/sdk':
-        specifier: ^0.46.7 || ^0.47.0
-        version: 0.46.7
       react:
         specifier: ^18 || ^19
         version: 19.2.4
-      stripe:
-        specifier: ^21.0.0
-        version: 21.0.1(@types/node@22.19.15)
     devDependencies:
       '@ai-billing/typescript-config':
         specifier: workspace:*
