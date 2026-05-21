@@ -87,7 +87,9 @@ export async function streamChat(
           thinkingText += part.text;
           stream.update({ text: thinkingText });
         } else if (part.type === 'finish-step') {
-          const billing = (part.providerMetadata as Record<string, unknown>)?.['ai-billing'] as { cost?: Cost } | undefined;
+          const billing = (part.providerMetadata as Record<string, unknown>)?.[
+            'ai-billing'
+          ] as { cost?: Cost } | undefined;
           if (billing?.cost) {
             stream.update({
               text: fullText,
