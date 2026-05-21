@@ -21,6 +21,7 @@ const config: StorybookConfig = {
       resolve: {
         ...cfg.resolve,
         alias: [
+          { find: '@ai-sdk/rsc', replacement: join(mocks, 'ai-sdk-rsc.ts') },
           ...mockAlias('fetchStripeUsage'),
           ...mockAlias('fetchPolarUsage'),
           ...mockAlias('fetchPolarConfig'),
