@@ -57,7 +57,9 @@ export interface NarevClient {
    * Returns all available models grouped by provider.
    * @param options - optional filter by provider slugs
    */
-  getProviderModels(options?: GetProviderModelsOptions): Promise<ProviderModelsResponse>;
+  getProviderModels(
+    options?: GetProviderModelsOptions,
+  ): Promise<ProviderModelsResponse>;
 }
 
 class NarevClientImpl implements NarevClient {
