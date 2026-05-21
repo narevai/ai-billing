@@ -1,0 +1,27 @@
+{
+  "name": "chatbot-minimal",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start",
+    "check-types": "tsc --noEmit",
+    "lint": "oxlint"
+  },
+  "dependencies": {
+    "@ai-billing/nextjs": "workspace:*",
+    "@ai-billing/openai": "workspace:*",
+    "@ai-sdk/openai": "^3.0.0",
+    "@ai-sdk/deepseek": "2.0.35",
+    "next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "typescript": "catalog:"
+  }
+}

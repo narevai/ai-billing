@@ -9,3 +9,5 @@ export type {
   PolarUsageData,
 } from './polar/types.js';
 export type { StripeUsageData } from './stripe/types.js';
+export { createChatGateway } from './chat/gateway.js';
+export type { ChatGatewayOptions, ChatGateway } from './chat/gateway.js';

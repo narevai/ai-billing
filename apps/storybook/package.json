@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@ai-billing/nextjs": "workspace:*",
+    "@ai-billing/ui": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
