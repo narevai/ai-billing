@@ -4,7 +4,13 @@ export { CreditPackagePicker } from './billing/CreditPackagePicker.js';
 export type { CreditPackagePickerProps } from './billing/CreditPackagePicker.js';
 export type { CreditPackage } from './types.js';
 export { EmptyCard, EmptyMessage } from './empty.js';
-export { LightningIcon, SparkleIcon, ArrowUpIcon, StopIcon, ModelIcon } from './icons.js';
+export {
+  LightningIcon,
+  SparkleIcon,
+  ArrowUpIcon,
+  StopIcon,
+  ModelIcon,
+} from './icons.js';
 export { ChatMessage } from './chat/ChatMessage.js';
 export type { ChatMessageProps } from './chat/ChatMessage.js';
 export { ChatMessages } from './chat/ChatMessages.js';

@@ -30,7 +30,15 @@ export function ChatEmptyState({
   return (
     <div style={emptyCenterWrap}>
       {(title || subtitle) && (
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div
+          style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           {title && <h2 style={emptyHeroTitle}>{title}</h2>}
           {subtitle && <p style={emptyHeroSubtitle}>{subtitle}</p>}
         </div>

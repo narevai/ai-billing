@@ -22,8 +22,9 @@ const InsideCodeBlock = React.createContext(false);
 
 function CodeBlock({ children }: React.PropsWithChildren) {
   const arr = React.Children.toArray(children);
-  const codeEl = arr.find((c): c is React.ReactElement<{ className?: string }> =>
-    React.isValidElement(c),
+  const codeEl = arr.find(
+    (c): c is React.ReactElement<{ className?: string }> =>
+      React.isValidElement(c),
   );
   const className = codeEl?.props.className ?? '';
   const lang = className.match(/(?:lang|language)-(\S+)/)?.[1] ?? null;
@@ -38,10 +39,19 @@ function CodeBlock({ children }: React.PropsWithChildren) {
   );
 }
 
-function Code({ children, className, style: _style, ...props }: React.HTMLAttributes<HTMLElement>) {
+function Code({
+  children,
+  className,
+  style: _style,
+  ...props
+}: React.HTMLAttributes<HTMLElement>) {
   const insideBlock = React.useContext(InsideCodeBlock);
   return (
-    <code className={className} style={insideBlock ? undefined : mdInlineCode} {...props}>
+    <code
+      className={className}
+      style={insideBlock ? undefined : mdInlineCode}
+      {...props}
+    >
       {children}
     </code>
   );
@@ -49,8 +59,8 @@ function Code({ children, className, style: _style, ...props }: React.HTMLAttrib
 
 const markdownOptions = {
   overrides: {
-    p:    { props: { style: mdParagraph } },
-    pre:  { component: CodeBlock },
+    p: { props: { style: mdParagraph } },
+    pre: { component: CodeBlock },
     code: { component: Code },
   },
   forceBlock: true,
@@ -62,14 +72,24 @@ export const ChatMessage = React.forwardRef<HTMLDivElement, ChatMessageProps>(
 
     if (role === 'user') {
       return (
-        <div ref={ref} className={cls} style={{ ...userMessageRow, ...style }} {...props}>
+        <div
+          ref={ref}
+          className={cls}
+          style={{ ...userMessageRow, ...style }}
+          {...props}
+        >
           <div style={userBubble}>{content}</div>
         </div>
       );
     }
 
     return (
-      <div ref={ref} className={cls} style={{ ...assistantMessageRow, ...style }} {...props}>
+      <div
+        ref={ref}
+        className={cls}
+        style={{ ...assistantMessageRow, ...style }}
+        {...props}
+      >
         <div style={assistantIcon}>
           <SparkleIcon />
         </div>

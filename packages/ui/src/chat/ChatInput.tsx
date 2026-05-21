@@ -9,7 +9,10 @@ import {
   stopCircle,
 } from './chat-styles.js';
 
-export interface ChatInputProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onSubmit'> {
+export interface ChatInputProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onSubmit'
+> {
   onSubmit: (value: string) => void;
   isLoading?: boolean;
   onStop?: () => void;
@@ -21,7 +24,18 @@ export interface ChatInputProps extends Omit<React.HTMLAttributes<HTMLDivElement
 
 export const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
   (
-    { onSubmit, isLoading, onStop, placeholder = 'Type a message...', disabled, modelLabel, onModelClick, className, style, ...props },
+    {
+      onSubmit,
+      isLoading,
+      onStop,
+      placeholder = 'Type a message...',
+      disabled,
+      modelLabel,
+      onModelClick,
+      className,
+      style,
+      ...props
+    },
     ref,
   ) => {
     const [value, setValue] = useState('');
@@ -68,7 +82,11 @@ export const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
         />
         <div style={inputCardBottom}>
           {modelLabel ? (
-            <button type="button" onClick={onModelClick} style={modelChipButton}>
+            <button
+              type="button"
+              onClick={onModelClick}
+              style={modelChipButton}
+            >
               <ModelIcon />
               {modelLabel}
             </button>

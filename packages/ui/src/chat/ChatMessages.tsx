@@ -40,12 +40,16 @@ function LoadingIndicator() {
   );
 }
 
-export const ChatMessages = React.forwardRef<
-  HTMLDivElement,
-  ChatMessagesProps
->(
+export const ChatMessages = React.forwardRef<HTMLDivElement, ChatMessagesProps>(
   (
-    { children, isLoading, emptyMessage = 'No messages yet.', className, style, ...props },
+    {
+      children,
+      isLoading,
+      emptyMessage = 'No messages yet.',
+      className,
+      style,
+      ...props
+    },
     ref,
   ) => {
     const bottomRef = useRef<HTMLDivElement>(null);

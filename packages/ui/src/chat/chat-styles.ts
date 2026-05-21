@@ -299,7 +299,8 @@ export const mdCodeBlock: React.CSSProperties = {
   borderRadius: '8px',
   padding: '12px 14px',
   fontSize: '13px',
-  fontFamily: 'ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace',
+  fontFamily:
+    'ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace',
   overflowX: 'auto',
   margin: '6px 0 10px',
   whiteSpace: 'pre',
@@ -311,7 +312,8 @@ export const mdCodeLang: React.CSSProperties = {
   fontSize: '11px',
   color: 'var(--muted-foreground)',
   marginBottom: '6px',
-  fontFamily: 'ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace',
+  fontFamily:
+    'ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace',
 };
 
 export const mdInlineCode: React.CSSProperties = {
@@ -319,14 +321,16 @@ export const mdInlineCode: React.CSSProperties = {
   borderRadius: '4px',
   padding: '1px 5px',
   fontSize: '0.875em',
-  fontFamily: 'ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace',
+  fontFamily:
+    'ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace',
 };
 
 // ── Cost / error labels ───────────────────────────────────────────────────────
 
 export const costLabel: React.CSSProperties = {
   fontSize: '11px',
-  fontFamily: 'ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace',
+  fontFamily:
+    'ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace',
   color: 'var(--muted-foreground)',
   padding: '0 0 2px 28px',
   opacity: 0.8,
