@@ -4,6 +4,8 @@ import type {
   CheckoutResponse,
   CreateCheckoutRequest,
   CreditConfigResponse,
+  GetProviderModelsOptions,
+  ProviderModelsResponse,
 } from './types.js';
 
 const DEFAULT_BASE_URL = 'https://api.narev.ai';
@@ -50,6 +52,12 @@ export interface NarevClient {
    * @param request - checkout details (product, user, success URL)
    */
   createCheckout(request: CreateCheckoutRequest): Promise<CheckoutResponse>;
+
+  /**
+   * Returns all available models grouped by provider.
+   * @param options - optional filter by provider slugs
+   */
+  getProviderModels(options?: GetProviderModelsOptions): Promise<ProviderModelsResponse>;
 }
 
 class NarevClientImpl implements NarevClient {
@@ -86,6 +94,16 @@ class NarevClientImpl implements NarevClient {
       method: 'POST',
       body: JSON.stringify(request),
     });
+  }
+
+  async getProviderModels(
+    options?: GetProviderModelsOptions,
+  ): Promise<ProviderModelsResponse> {
+    const url = new URL('/v1/provider-models', this.baseUrl);
+    if (options?.providers) {
+      url.searchParams.set('providers', options.providers);
+    }
+    return this.request<ProviderModelsResponse>(url);
   }
 
   private async request<T>(

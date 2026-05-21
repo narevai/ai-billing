@@ -9,4 +9,7 @@ export type {
   CreditConfigData,
   CreditConfigResponse,
   CreditPackage,
+  ProviderModelsData,
+  ProviderModelsResponse,
+  GetProviderModelsOptions,
 } from './types.js';
