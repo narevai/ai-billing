@@ -303,14 +303,17 @@
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/CreditConfigData",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/CreditConfigResponse",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/CreditPackage",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/GetProviderModelsOptions",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/NarevClient",
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/NarevClientOptions"
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/NarevClientOptions",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ProviderModelsResponse"
                         ]
                       },
                       {
                         "group": "Types",
                         "pages": [
-                          "sdk/ai-billing/reference/narev/typedoc/type-aliases/BalanceLookup"
+                          "sdk/ai-billing/reference/narev/typedoc/type-aliases/BalanceLookup",
+                          "sdk/ai-billing/reference/narev/typedoc/type-aliases/ProviderModelsData"
                         ]
                       },
                       {
