@@ -1,5 +1,12 @@
 # docs
 
+## 0.1.9
+
+### Patch Changes
+
+- f88927c: feat(narev): add getProviderModels function
+- 186a7fc: feat(nextjs): create embed Chat component
+
 ## 0.1.8
 
 ### Patch Changes

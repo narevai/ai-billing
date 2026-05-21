@@ -1,5 +1,11 @@
 # @ai-billing/narev
 
+## 0.0.3
+
+### Patch Changes
+
+- f88927c: feat(narev): add getProviderModels function
+
 ## 0.0.2
 
 ### Patch Changes
