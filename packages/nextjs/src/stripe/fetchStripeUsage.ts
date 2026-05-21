@@ -4,7 +4,10 @@ import type { BalanceLookup } from '@ai-billing/narev';
 import { getNarevClient } from '../narev-client.js';
 import type { StripeUsageData } from './types.js';
 
-/** Fetches usage data for a given customer via the Narev API. */
+/**
+ * Fetches usage data for a given customer via the Narev API.
+ * @param lookup - User identifier — either `{ userId }` or `{ stripeCustomerId }`.
+ */
 export async function fetchStripeUsage(
   lookup: BalanceLookup,
 ): Promise<StripeUsageData> {

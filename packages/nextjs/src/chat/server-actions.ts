@@ -37,6 +37,7 @@ async function getGateway(options: ChatGatewayOptions = {}) {
   return _gatewayPromise;
 }
 
+/** Returns available models for the configured providers. */
 export async function getModels(
   options: ChatGatewayOptions = {},
 ): Promise<ModelOption[]> {
@@ -44,6 +45,7 @@ export async function getModels(
   return gateway.getModels();
 }
 
+/** Streams a chat response for the given messages and model. */
 export async function streamChat(
   messages: UIMessage[],
   modelId: string,
@@ -85,7 +87,7 @@ export async function streamChat(
           thinkingText += part.text;
           stream.update({ text: thinkingText });
         } else if (part.type === 'finish-step') {
-          const billing = (part.providerMetadata as any)?.['ai-billing'];
+          const billing = (part.providerMetadata as Record<string, unknown>)?.['ai-billing'] as { cost?: { amount: unknown; currency: string } } | undefined;
           if (billing?.cost) {
             stream.update({
               text: fullText,
@@ -117,6 +119,7 @@ export async function streamChat(
   return { value: stream.value };
 }
 
+/** Aborts an in-progress stream by its ID. */
 export async function stopChat(streamId: string) {
   const controller = _abortControllers.get(streamId);
   if (controller) {

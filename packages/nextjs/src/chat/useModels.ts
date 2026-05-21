@@ -15,6 +15,7 @@ export interface UseModelsResult {
  * the built-in DEFAULT_MODELS list filtered to configured providers).
  *
  * Pass `staticModels` to skip fetching and use a fixed list instead.
+ * @param staticModels - Optional fixed list of models; skips the server fetch when provided.
  */
 export function useModels(staticModels?: ModelOption[]): UseModelsResult {
   const [models, setModels] = useState<ModelOption[]>(staticModels ?? []);

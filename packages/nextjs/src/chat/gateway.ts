@@ -409,6 +409,7 @@ function getProviderConfigs(
   ];
 }
 
+/** Creates and initialises the chat gateway with all configured providers. */
 export async function createChatGateway(
   options: ChatGatewayOptions = {},
 ): Promise<{
@@ -471,55 +472,25 @@ export async function createChatGateway(
 
   // Try to fetch the full model list from Narev, filtered to configured providers only.
   let allModels: ModelOption[] = providers.flatMap(p => p.models);
-  console.log(
-    '[ai-billing] narevApiKey set:',
-    !!narevApiKey,
-    '| configured providers:',
-    providers.map(p => p.providerId),
-  );
   if (narevApiKey && providers.length > 0) {
     try {
       const narevClient = getNarevClient();
       const configuredProviderIds = providers.map(p => p.providerId).join(',');
-      console.log(
-        '[ai-billing] fetching models from Narev for providers:',
-        configuredProviderIds,
-      );
       const { data } = await narevClient.getProviderModels({
         providers: configuredProviderIds,
       });
-      console.log(
-        '[ai-billing] Narev returned providers:',
-        Object.keys(data),
-        '| total models:',
-        Object.values(data).flat().length,
-      );
       allModels = Object.entries(data).flatMap(([providerId, modelIds]) => {
         const providerEntry = providers.find(p => p.providerId === providerId);
-        if (!providerEntry) {
-          console.log(
-            '[ai-billing] Narev returned provider not in gateway, skipping:',
-            providerId,
-          );
-          return [];
-        }
-        const options = buildModelOptions(providerId, modelIds);
-        for (const m of options) {
+        if (!providerEntry) return [];
+        const modelOptions = buildModelOptions(providerId, modelIds);
+        for (const m of modelOptions) {
           modelMap.set(m.id, providerEntry);
         }
-        return options;
+        return modelOptions;
       });
-      console.log('[ai-billing] using Narev models, count:', allModels.length);
-    } catch (err) {
-      console.warn(
-        '[ai-billing] Narev getProviderModels failed, falling back to DEFAULT_MODELS:',
-        err,
-      );
+    } catch {
+      // fall back to DEFAULT_MODELS list
     }
-  } else {
-    console.log(
-      '[ai-billing] skipping Narev fetch, using DEFAULT_MODELS fallback',
-    );
   }
 
   return {
