@@ -1,5 +1,16 @@
 # ai-billing-storybook
 
+## 0.0.5
+
+### Patch Changes
+
+- b6466ce: refine(storybook): change defaults, add descriptions
+- 186a7fc: feat(nextjs): create embed Chat component
+- Updated dependencies [f5dec73]
+- Updated dependencies [186a7fc]
+  - @ai-billing/ui@0.0.2
+  - @ai-billing/nextjs@0.0.5
+
 ## 0.0.4
 
 ### Patch Changes

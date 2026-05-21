@@ -1,5 +1,15 @@
 # @ai-billing/nextjs
 
+## 0.0.5
+
+### Patch Changes
+
+- 186a7fc: feat(nextjs): create embed Chat component
+- Updated dependencies [f5dec73]
+- Updated dependencies [f88927c]
+  - @ai-billing/ui@0.0.2
+  - @ai-billing/narev@0.0.3
+
 ## 0.0.4
 
 ### Patch Changes

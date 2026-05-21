@@ -1,6 +1,6 @@
 {
   "name": "chatbot-openai-with-billing-polar",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo --port 3000",

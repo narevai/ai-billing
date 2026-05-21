@@ -1,0 +1,9 @@
+# chatbot-minimal
+
+## 0.0.2
+
+### Patch Changes
+
+- 186a7fc: feat(nextjs): create embed Chat component
+- Updated dependencies [186a7fc]
+  - @ai-billing/nextjs@0.0.5
