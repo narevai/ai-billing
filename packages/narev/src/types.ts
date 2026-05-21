@@ -64,3 +64,17 @@ export interface CheckoutResponse {
     url: string;
   };
 }
+
+/** Models available per provider. Keys are provider slugs (e.g. "openai"), values are model ID arrays. */
+export type ProviderModelsData = Record<string, string[]>;
+
+/** Response wrapper for provider models. */
+export interface ProviderModelsResponse {
+  data: ProviderModelsData;
+}
+
+/** Options for filtering models by provider. */
+export interface GetProviderModelsOptions {
+  /** Comma-separated list of providers to include (e.g. "openai,anthropic"). Omit to return all. */
+  providers?: string;
+}
