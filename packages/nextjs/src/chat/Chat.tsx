@@ -196,7 +196,7 @@ export function Chat({
 
   const selectedModelName =
     availableModels.find(m => m.id === selectedModel)?.name ??
-    (selectedModel ? selectedModel.split('/').pop() : undefined);
+    (selectedModel ? selectedModel.split(':').pop() : undefined);
 
   const visibleMessages = messages.filter(
     m => m.role === 'user' || m.role === 'assistant',

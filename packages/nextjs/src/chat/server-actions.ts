@@ -3,7 +3,7 @@
 import { createStreamableValue } from '@ai-sdk/rsc';
 import { streamText, convertToModelMessages } from 'ai';
 import type { UIMessage } from 'ai';
-import { costToNumber } from '@ai-billing/core';
+import { costToNumber, type Cost } from '@ai-billing/core';
 import { createChatGateway } from './gateway.js';
 import type { ChatGatewayOptions } from './gateway.js';
 import type { ModelOption } from '@ai-billing/ui';
@@ -87,7 +87,7 @@ export async function streamChat(
           thinkingText += part.text;
           stream.update({ text: thinkingText });
         } else if (part.type === 'finish-step') {
-          const billing = (part.providerMetadata as Record<string, unknown>)?.['ai-billing'] as { cost?: { amount: unknown; currency: string } } | undefined;
+          const billing = (part.providerMetadata as Record<string, unknown>)?.['ai-billing'] as { cost?: Cost } | undefined;
           if (billing?.cost) {
             stream.update({
               text: fullText,

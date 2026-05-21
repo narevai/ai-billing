@@ -499,7 +499,7 @@ export async function createChatGateway(
     getModel: (modelId: string) => {
       const entry = modelMap.get(modelId);
       if (!entry) throw new Error(`Model not found: ${modelId}`);
-      const modelName = modelId.split('/').slice(1).join('/');
+      const modelName = modelId.split(':').slice(1).join(':');
       return entry.getModel(modelName);
     },
   };

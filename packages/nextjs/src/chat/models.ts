@@ -45,7 +45,7 @@ export const DEFAULT_MODELS: Record<string, string[]> = {
 
 /**
  * Converts a provider ID and model ID list into {@link ModelOption} objects
- * with composite IDs like `{provider}/{model}`.
+ * with composite IDs like `{provider}:{model}`.
  *
  * @param providerId - The provider identifier (e.g. "openai")
  * @param models - The list of model IDs for that provider
@@ -55,7 +55,7 @@ export function buildModelOptions(
   models: string[],
 ): ModelOption[] {
   return models.map(modelId => ({
-    id: `${providerId}/${modelId}`,
+    id: `${providerId}:${modelId}`,
     name: modelId,
     provider: providerId,
   }));
