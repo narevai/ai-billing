@@ -1,4 +1,5 @@
 import React from 'react';
+import { barColor, fmt } from '../utils.js';
 import {
   cardBase,
   heading,
@@ -7,7 +8,6 @@ import {
   barTrack,
   barLabels,
 } from './styles.js';
-import { barColor, fmt } from './utils.js';
 
 export interface UsageBarProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string;

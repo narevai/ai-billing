@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { cardBase, mutedText } from './styles.js';
-import { formatCents, taxMessages } from './utils.js';
-import type { CreditPackage } from './types.js';
-import { LightningIcon } from './icons.js';
-import { EmptyMessage } from './empty.js';
+import { formatCents, taxMessages } from '../utils.js';
+import type { CreditPackage } from '../types.js';
+import { LightningIcon } from '../icons.js';
+import { EmptyMessage } from '../empty.js';
 
 const loadingPackages: CreditPackage[] = [
   { id: '_1', credits: 0, priceCents: 0 },

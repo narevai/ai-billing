@@ -41,7 +41,9 @@
     "prepack": "node -e \"require('fs').copyFileSync('../../LICENSE', 'LICENSE')\"",
     "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
   },
-  "dependencies": {},
+  "dependencies": {
+    "markdown-to-jsx": "^9.8.1"
+  },
   "devDependencies": {
     "@ai-billing/typescript-config": "workspace:*",
     "@types/node": "catalog:",

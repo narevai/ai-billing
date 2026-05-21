@@ -1,5 +1,5 @@
 import React from 'react';
-import { cardBase, mutedText } from './styles.js';
+import { cardBase, mutedText } from './billing/styles.js';
 
 function EmptyMessage({ message }: { message: string }) {
   return <p style={mutedText}>{message}</p>;
