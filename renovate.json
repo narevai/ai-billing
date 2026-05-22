@@ -17,8 +17,7 @@
     },
     {
       "description": "Group Vercel AI SDK and Provider updates",
-      "matchPackageNames": ["ai"],
-      "matchPackagePatterns": ["^@ai-sdk/", "^@openrouter/ai-sdk-provider", "-ai$"],
+      "matchPackageNames": ["ai", "/^@ai-sdk//", "/^@openrouter/ai-sdk-provider/", "/-ai$/"],
       "groupName": "AI SDK Ecosystem",
       "schedule": ["every weekend"],
       "labels": ["dependencies", "needs-changeset"]
@@ -31,8 +30,7 @@
     },
     {
       "description": "Group Next.js & React Ecosystem",
-      "matchPackageNames": ["next"],
-      "matchPackagePatterns": ["^react", "^@types/react"],
+      "matchPackageNames": ["next", "/^react/", "/^@types/react/"],
       "groupName": "React & Next.js",
       "labels": ["dependencies", "needs-changeset"]
     },
@@ -43,8 +41,7 @@
     },
     {
       "description": "Group Tooling & Environment (Weekly)",
-      "matchPackageNames": ["turbo", "typescript", "vitest", "knip", "tsup", "oxfmt", "oxlint", "@changesets/cli"],
-      "matchPackagePatterns": ["^@vitest/", "^eslint-", "^@types/"],
+      "matchPackageNames": ["turbo", "typescript", "vitest", "knip", "tsup", "oxfmt", "oxlint", "@changesets/cli", "/^@vitest//", "/^eslint-/", "/^@types//"],
       "groupName": "Dev Tooling",
       "schedule": ["every weekend"]
     },
