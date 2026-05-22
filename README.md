@@ -22,6 +22,16 @@ Explore our live applications to see `ai-billing` in action, or deploy your own 
 ### UI Components
 **Storybook:** [Explore the `@ai-billing/nextjs` components](https://ai-billing-storybook.vercel.app/)
 
+#### `<CreditTopUpPolar>`
+<p align="center">
+  <img src="/assets/topup-component.png" alt="Topup Component from @ai-billing/nextjs">
+</p>
+
+#### `<CreditUsagePolar>`
+<p align="center">
+  <img src="/assets/usage-component.png" alt="Usage Component from @ai-billing/nextjs">
+</p>
+
 ### Full-stack examples
 | Name | Demo Link | Repo | Deploy |
 | :--- | :--- | :--- | :--- |
