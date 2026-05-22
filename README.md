@@ -15,29 +15,28 @@
   <img src="/assets/header-1.png" alt="AI Billing Header 1">
 </p>
 
-## Live Demos & Examples
-
-Explore our live applications to see `ai-billing` in action, or deploy your own in one click.
-
-### UI Components
+## UI Components
 **Storybook:** [Explore the `@ai-billing/nextjs` components](https://ai-billing-storybook.vercel.app/)
 
-#### `<CreditTopUpPolar>`
+### `<CreditTopUpPolar>`
 <p align="center">
   <img src="/assets/topup-component.png" alt="Topup Component from @ai-billing/nextjs">
 </p>
 
-#### `<CreditUsagePolar>`
+### `<CreditUsagePolar>`
 <p align="center">
   <img src="/assets/usage-component.png" alt="Usage Component from @ai-billing/nextjs">
 </p>
 
-### Full-stack examples
+## Full-stack examples
 | Name | Demo Link | Repo | Deploy |
 | :--- | :--- | :--- | :--- |
 | **Chatbot (OpenRouter + Polar)** | [View Demo](https://chatbot-with-billing-polar-three.vercel.app/) | [GitHub](https://github.com/narevai/chatbot-with-billing-polar) | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fai-billing%2Ftree%2Fmain%2Fexamples%2Fchatbot-with-billing-polar) |
 | **Chatbot (OpenAI + Polar)** | [View Demo](https://chatbot-openai-with-billing-polar.vercel.app/) | [GitHub](https://github.com/narevai/chatbot-openai-with-billing-polar) | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fchatbot-openai-with-billing-polar&env=AUTH_SECRET,OPENAI_API_KEY,POSTGRES_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER,NAREV_API_KEY&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D) |
 | **Chatbot (Stripe)** | [View Demo](https://chatbot-with-billing-stripe.vercel.app/) | [GitHub](https://github.com/narevai/chatbot-with-billing-stripe) | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fchatbot-with-billing-polar&env=AUTH_SECRET,AI_GATEWAY_API_KEY,POSTGRES_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D) |
+
+
+## Billing Architecture
 
 <p align="center">
   <img src="/assets/header-2.png" alt="AI Billing Header 2">
