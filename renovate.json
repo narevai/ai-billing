@@ -37,7 +37,7 @@
     },
     {
       "description": "Group Tooling & Environment (Weekly)",
-      "matchPackageNames": ["pnpm", "turbo", "typescript", "vitest", "knip", "tsup", "oxfmt", "oxlint", "@changesets/cli"],
+      "matchPackageNames": ["turbo", "typescript", "vitest", "knip", "tsup", "oxfmt", "oxlint", "@changesets/cli"],
       "matchPackagePatterns": ["^@vitest/", "^eslint-", "^@types/"],
       "groupName": "Dev Tooling",
       "schedule": ["every weekend"]
