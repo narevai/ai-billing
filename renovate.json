@@ -10,8 +10,9 @@
   "commitMessageAction": "Update",
   "packageRules": [
     {
-      "description": "Disable node and pnpm updates across all managers (including github-actions uses-with)",
-      "matchPackageNames": ["node", "pnpm", "actions/node-versions", "pnpm/action-setup"],
+      "description": "Disable major updates for core toolchain",
+      "matchPackageNames": ["node", "pnpm", "actions/node-versions", "pnpm/action-setup", "typescript", "@types/node"],
+      "matchUpdateTypes": ["major"],
       "enabled": false
     },
     {
