@@ -16,11 +16,20 @@ export interface ChatEmptyStateProps {
   onPromptClick?: (prompt: string) => void;
 }
 
+const DEFAULT_TITLE = 'What can I help with?';
+const DEFAULT_SUBTITLE = 'Ask a question, write code, or explore ideas.';
+const DEFAULT_PROMPTS = [
+  'What are the advantages of using Next.js?',
+  "Write code to demonstrate Dijkstra's algorithm",
+  'Help me write an essay about Silicon Valley',
+  'What is the weather in San Francisco?',
+];
+
 export function ChatEmptyState({
-  title,
-  subtitle,
+  title = DEFAULT_TITLE,
+  subtitle = DEFAULT_SUBTITLE,
   emptyMessage,
-  prompts,
+  prompts = DEFAULT_PROMPTS,
   onPromptClick,
 }: ChatEmptyStateProps) {
   if (!title && !subtitle && !prompts?.length) {

@@ -1,0 +1,39 @@
+name: Pull Upstream Template
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  pull-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Run pull script
+        run: node scripts/pull-upstream.js
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: 'chore: sync upstream template from narevai/ai-billing'
+          branch: chore/sync-upstream
+          delete-branch: true
+          title: 'chore: sync upstream template from narevai/ai-billing'
+          body: 'Automated sync of upstream template changes from narevai/ai-billing.'
