@@ -11,6 +11,7 @@ export interface UseChatOptions {
   defaultModel?: string;
   initialMessages?: UIMessage[];
   tags?: Record<string, string>;
+  onSubmit?: (message: UIMessage) => void | Promise<void>;
   onFinish?: (messages: UIMessage[]) => void | Promise<void>;
 }
 
@@ -48,6 +49,7 @@ export function useChat({
   defaultModel,
   initialMessages,
   tags,
+  onSubmit,
   onFinish,
 }: UseChatOptions): UseChatReturn {
   const [selectedModel, setSelectedModel] = useState(defaultModel ?? '');
@@ -55,10 +57,12 @@ export function useChat({
   const tagsRef = useRef(tags);
   const [messages, setMessages] = useState<UIMessage[]>(initialMessages ?? []);
   const messagesRef = useRef(messages);
+  const onSubmitRef = useRef(onSubmit);
   const onFinishRef = useRef(onFinish);
 
   useEffect(() => { tagsRef.current = tags; }, [tags]);
   useEffect(() => { messagesRef.current = messages; }, [messages]);
+  useEffect(() => { onSubmitRef.current = onSubmit; }, [onSubmit]);
   useEffect(() => { onFinishRef.current = onFinish; }, [onFinish]);
 
   const onModelSelect = useCallback((model: ModelOption) => {
@@ -82,6 +86,8 @@ export function useChat({
       setMessages(prev => [...prev, userMsg, assistantMsg]);
       setStatus('streaming');
       activeStreamRef.current = streamId;
+
+      void onSubmitRef.current?.(userMsg);
 
       const mergedTags = { ...tagsRef.current, userId };
 
