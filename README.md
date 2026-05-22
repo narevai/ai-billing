@@ -11,6 +11,10 @@
     <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
 </a>
 
+<p align="center">
+  <img src="/assets/header-1.png" alt="AI Billing Header 1">
+</p>
+
 ## Live Demos & Examples
 
 Explore our live applications to see `ai-billing` in action, or deploy your own in one click.
@@ -60,11 +64,6 @@ Explore our live applications to see `ai-billing` in action, or deploy your own 
 
 ---
 
-## Architecture
-
-<p align="center">
-  <img src="/assets/header-1.png" alt="AI Billing Header 1">
-</p>
 
 ## Installation
 
