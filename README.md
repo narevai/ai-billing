@@ -1,6 +1,8 @@
 # ai-billing
 
-Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) sending events directly to billing platforms (Stripe, Polar, and Lago).
+- Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs)
+- Sends billing events directly to billing platforms (Stripe, Polar, and Lago)
+- Ships with components to make usage-based billing easy
 
 [![codecov](https://codecov.io/github/narevai/ai-billing/graph/badge.svg?token=KZG0YE4THI)](https://codecov.io/github/narevai/ai-billing)
 ![Node Current](https://img.shields.io/node/v/%40ai-billing%2Fcore)
