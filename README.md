@@ -1,6 +1,6 @@
 # ai-billing
 
-Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) seing events directly to billing platforms (Stripe, Polar, and Lago).
+Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) sending events directly to billing platforms (Stripe, Polar, and Lago).
 
 [![codecov](https://codecov.io/github/narevai/ai-billing/graph/badge.svg?token=KZG0YE4THI)](https://codecov.io/github/narevai/ai-billing)
 ![Node Current](https://img.shields.io/node/v/%40ai-billing%2Fcore)
@@ -26,6 +26,8 @@ Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) seing events dire
 | [**Anthropic**](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic) | [`@ai-billing/anthropic`](https://www.npmjs.com/package/@ai-billing/anthropic) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fanthropic) |
 | [**xAI Grok**](https://ai-sdk.dev/providers/ai-sdk-providers/xai) | [`@ai-billing/xai`](https://www.npmjs.com/package/@ai-billing/xai) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fxai) |
 | [**MiniMax**](https://ai-sdk.dev/providers/community-providers/minimax) | [`@ai-billing/minimax`](https://www.npmjs.com/package/@ai-billing/minimax) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fminimax) |
+| [**DeepSeek**](https://ai-sdk.dev/providers/ai-sdk-providers/deepseek) | [`@ai-billing/deepseek`](https://www.npmjs.com/package/@ai-billing/deepseek) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fdeepseek) |
+| [**Chutes**](https://ai-sdk.dev/providers/community-providers/chutes) | [`@ai-billing/chutes`](https://www.npmjs.com/package/@ai-billing/chutes) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fchutes) |
 
 ### Supported Destinations
 
@@ -35,6 +37,14 @@ Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) seing events dire
 | **Stripe** | [`@ai-billing/stripe`](https://www.npmjs.com/package/@ai-billing/stripe) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fstripe) |
 | **OpenMeter** (Kong) | [`@ai-billing/openmeter`](https://www.npmjs.com/package/@ai-billing/openmeter) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenmeter) |
 | **Lago** | [`@ai-billing/lago`](https://www.npmjs.com/package/@ai-billing/lago) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Flago) |
+
+### UI & SDKs
+
+| Package | Description | Size |
+| :--- | :--- | :--- |
+| [`@ai-billing/nextjs`](https://www.npmjs.com/package/@ai-billing/nextjs) | Next.js UI components for displaying billing usage and managing top-ups. | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fnextjs) |
+| [`@ai-billing/ui`](https://www.npmjs.com/package/@ai-billing/ui) | Internal headless UI components shared across `@ai-billing/*` packages. | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fui) |
+| [`@ai-billing/narev`](https://www.npmjs.com/package/@ai-billing/narev) | TypeScript SDK for the [Narev](https://narev.ai) billing API. | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fnarev) |
 
 ---
 
