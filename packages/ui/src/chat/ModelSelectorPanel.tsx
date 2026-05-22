@@ -6,14 +6,13 @@ import {
   modelGroupLabel,
   modelItemButton,
 } from './chat-styles.js';
-
 export interface ModelOption {
   id: string;
   name: string;
   provider: string;
 }
 
-export interface ModelSelectorProps extends Omit<
+export interface ModelSelectorPanelProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   'onSelect'
 > {
@@ -32,9 +31,9 @@ function groupByProvider(models: ModelOption[]): Map<string, ModelOption[]> {
   return map;
 }
 
-export const ModelSelector = React.forwardRef<
+export const ModelSelectorPanel = React.forwardRef<
   HTMLDivElement,
-  ModelSelectorProps
+  ModelSelectorPanelProps
 >(({ models, selectedModelId, onSelect, className, style, ...props }, ref) => {
   const [search, setSearch] = useState('');
   const cls = (className ?? '').trim();
@@ -101,4 +100,4 @@ export const ModelSelector = React.forwardRef<
     </div>
   );
 });
-ModelSelector.displayName = 'ModelSelector';
+ModelSelectorPanel.displayName = 'ModelSelectorPanel';

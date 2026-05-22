@@ -229,6 +229,20 @@ export const stopCircle: React.CSSProperties = {
   flexShrink: 0,
 };
 
+// ── Smart model selector wrapper ─────────────────────────────────────────────
+
+export const modelSelectorWrapper: React.CSSProperties = {
+  position: 'relative',
+  display: 'inline-block',
+};
+
+export const modelSelectorDropdown: React.CSSProperties = {
+  position: 'absolute',
+  bottom: '100%',
+  left: 0,
+  zIndex: 50,
+};
+
 // ── Model selector panel ──────────────────────────────────────────────────────
 
 export const modelSelectorPanel: React.CSSProperties = {

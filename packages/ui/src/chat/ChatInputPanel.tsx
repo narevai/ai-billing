@@ -1,15 +1,14 @@
 import React, { useCallback, useState } from 'react';
-import { ArrowUpIcon, StopIcon, ModelIcon } from '../icons.js';
+import { ArrowUpIcon, StopIcon } from '../icons.js';
 import {
   inputCard,
   inputCardTextarea,
   inputCardBottom,
-  modelChipButton,
   sendCircle,
   stopCircle,
 } from './chat-styles.js';
 
-export interface ChatInputProps extends Omit<
+export interface ChatInputPanelProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   'onSubmit'
 > {
@@ -18,11 +17,10 @@ export interface ChatInputProps extends Omit<
   onStop?: () => void;
   placeholder?: string;
   disabled?: boolean;
-  modelLabel?: string;
-  onModelClick?: () => void;
+  leftSlot?: React.ReactNode;
 }
 
-export const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
+export const ChatInputPanel = React.forwardRef<HTMLDivElement, ChatInputPanelProps>(
   (
     {
       onSubmit,
@@ -30,8 +28,7 @@ export const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
       onStop,
       placeholder = 'Type a message...',
       disabled,
-      modelLabel,
-      onModelClick,
+      leftSlot,
       className,
       style,
       ...props
@@ -81,18 +78,7 @@ export const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
           style={inputCardTextarea}
         />
         <div style={inputCardBottom}>
-          {modelLabel ? (
-            <button
-              type="button"
-              onClick={onModelClick}
-              style={modelChipButton}
-            >
-              <ModelIcon />
-              {modelLabel}
-            </button>
-          ) : (
-            <div />
-          )}
+          {leftSlot ?? <div />}
           {isLoading ? (
             <button
               type="button"
@@ -122,4 +108,4 @@ export const ChatInput = React.forwardRef<HTMLDivElement, ChatInputProps>(
     );
   },
 );
-ChatInput.displayName = 'ChatInput';
+ChatInputPanel.displayName = 'ChatInputPanel';

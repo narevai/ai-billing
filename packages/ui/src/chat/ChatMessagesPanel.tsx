@@ -13,7 +13,7 @@ function injectKeyframes() {
   document.head.appendChild(style);
 }
 
-export interface ChatMessagesProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ChatMessagesPanelProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   isLoading?: boolean;
   emptyMessage?: string;
@@ -40,7 +40,7 @@ function LoadingIndicator() {
   );
 }
 
-export const ChatMessages = React.forwardRef<HTMLDivElement, ChatMessagesProps>(
+export const ChatMessagesPanel = React.forwardRef<HTMLDivElement, ChatMessagesPanelProps>(
   (
     {
       children,
@@ -81,4 +81,4 @@ export const ChatMessages = React.forwardRef<HTMLDivElement, ChatMessagesProps>(
     );
   },
 );
-ChatMessages.displayName = 'ChatMessages';
+ChatMessagesPanel.displayName = 'ChatMessagesPanel';
