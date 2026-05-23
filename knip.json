@@ -11,6 +11,7 @@
     "examples/chatbot-with-billing-polar/**",
     "examples/chatbot-with-billing-stripe/**",
     "examples/chatbot-openai-with-billing-polar/**",
+    "examples/chatbot-gateway-with-billing-polar/**",
     "apps/storybook/**"
   ],
   "workspaces": {
