@@ -1,5 +1,7 @@
 import type { Geo } from '@vercel/functions';
 
+export type ArtifactKind = 'code' | 'text' | 'sheet' | 'image';
+
 const artifactsPrompt = `
 
 **When to use \`createDocument\`:**

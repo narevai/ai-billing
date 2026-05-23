@@ -4,7 +4,7 @@ import { formatISO } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 import type { DBMessage, Document } from '@/lib/db/schema';
 import { ChatbotError, type ErrorCode } from './errors';
-import type { ChatMessage, ChatTools, CustomUIDataTypes } from './types';
+import type { ChatMessage, ChatTools } from './types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -73,7 +73,7 @@ export function convertToUIMessages(messages: DBMessage[]): ChatMessage[] {
   return messages.map(message => ({
     id: message.id,
     role: message.role as 'user' | 'assistant' | 'system',
-    parts: message.parts as UIMessagePart<CustomUIDataTypes, ChatTools>[],
+    parts: message.parts as UIMessagePart<Record<string, never>, ChatTools>[],
     metadata: {
       createdAt: formatISO(message.createdAt),
     },
