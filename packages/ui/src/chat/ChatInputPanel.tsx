@@ -20,7 +20,10 @@ export interface ChatInputPanelProps extends Omit<
   leftSlot?: React.ReactNode;
 }
 
-export const ChatInputPanel = React.forwardRef<HTMLDivElement, ChatInputPanelProps>(
+export const ChatInputPanel = React.forwardRef<
+  HTMLDivElement,
+  ChatInputPanelProps
+>(
   (
     {
       onSubmit,

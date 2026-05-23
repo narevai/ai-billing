@@ -95,7 +95,11 @@ export async function streamChat(
           thinkingText += part.text;
           stream.update({ text: thinkingText });
         } else if (part.type === 'tool-call') {
-          const toolPart = part as unknown as { toolCallId: string; toolName: string; input: unknown };
+          const toolPart = part as unknown as {
+            toolCallId: string;
+            toolName: string;
+            input: unknown;
+          };
           stream.update({
             text: fullText,
             toolCall: {
@@ -105,7 +109,11 @@ export async function streamChat(
             },
           });
         } else if (part.type === 'tool-result') {
-          const resultPart = part as unknown as { toolCallId: string; toolName: string; output: unknown };
+          const resultPart = part as unknown as {
+            toolCallId: string;
+            toolName: string;
+            output: unknown;
+          };
           stream.update({
             text: fullText,
             toolResult: {

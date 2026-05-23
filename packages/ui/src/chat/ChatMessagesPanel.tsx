@@ -40,7 +40,10 @@ function LoadingIndicator() {
   );
 }
 
-export const ChatMessagesPanel = React.forwardRef<HTMLDivElement, ChatMessagesPanelProps>(
+export const ChatMessagesPanel = React.forwardRef<
+  HTMLDivElement,
+  ChatMessagesPanelProps
+>(
   (
     {
       children,

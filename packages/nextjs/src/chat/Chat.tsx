@@ -31,8 +31,16 @@ export function Chat({
   subtitle,
   examplePrompts,
 }: ChatProps) {
-  const { messages, isLoading, submit, stop, selectedModel, onModelSelect, costs, errors } =
-    useChat({ userId, defaultModel, initialMessages, tags });
+  const {
+    messages,
+    isLoading,
+    submit,
+    stop,
+    selectedModel,
+    onModelSelect,
+    costs,
+    errors,
+  } = useChat({ userId, defaultModel, initialMessages, tags });
 
   return (
     <div style={chatContainer}>

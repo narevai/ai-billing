@@ -18,9 +18,18 @@ export type { ChatMessagesPanelProps } from './chat/ChatMessagesPanel.js';
 export { ChatInputPanel } from './chat/ChatInputPanel.js';
 export type { ChatInputPanelProps } from './chat/ChatInputPanel.js';
 export { ModelSelectorPanel } from './chat/ModelSelectorPanel.js';
-export type { ModelSelectorPanelProps, ModelOption } from './chat/ModelSelectorPanel.js';
+export type {
+  ModelSelectorPanelProps,
+  ModelOption,
+} from './chat/ModelSelectorPanel.js';
 export { ModelSelectorTrigger } from './chat/ModelSelectorTrigger.js';
 export type { ModelSelectorTriggerProps } from './chat/ModelSelectorTrigger.js';
 export { ChatEmptyState } from './chat/ChatEmptyState.js';
 export type { ChatEmptyStateProps } from './chat/ChatEmptyState.js';
-export { chatContainer, costLabel, errorLabel, modelSelectorWrapper, modelSelectorDropdown } from './chat/chat-styles.js';
+export {
+  chatContainer,
+  costLabel,
+  errorLabel,
+  modelSelectorWrapper,
+  modelSelectorDropdown,
+} from './chat/chat-styles.js';

@@ -57,7 +57,11 @@ About the origin of user's request:
 - country: ${requestHints.country}
 `;
 
-export const systemPrompt = ({ requestHints }: { requestHints: RequestHints }) => {
+export const systemPrompt = ({
+  requestHints,
+}: {
+  requestHints: RequestHints;
+}) => {
   return `${regularPrompt}\n\n${getRequestPromptFromHints(requestHints)}`;
 };
 

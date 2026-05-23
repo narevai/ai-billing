@@ -76,7 +76,9 @@ export function ChatMessages({
             {cost && m.role === 'assistant' && (
               <div style={costLabel}>
                 Generation cost:{' '}
-                <span style={{ color: '#4ade80' }}>${cost.amount.toFixed(6)}</span>
+                <span style={{ color: '#4ade80' }}>
+                  ${cost.amount.toFixed(6)}
+                </span>
               </div>
             )}
             {error && <div style={errorLabel}>{error}</div>}

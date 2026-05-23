@@ -29,46 +29,66 @@ export function ChatShell({
   const router = useRouter();
   const isNewChat = useRef(!initialMessages?.length);
 
-  const { messages, status, submit, stop, selectedModel, onModelSelect, costs, errors } =
-    useChat({
-      userId,
-      initialMessages,
-      tags: { chatId, userId },
-      onSubmit: async userMsg => {
-        if (!isNewChat.current) return;
-        isNewChat.current = false;
+  const {
+    messages,
+    status,
+    submit,
+    stop,
+    selectedModel,
+    onModelSelect,
+    costs,
+    errors,
+  } = useChat({
+    userId,
+    initialMessages,
+    tags: { chatId, userId },
+    onSubmit: async userMsg => {
+      if (!isNewChat.current) return;
+      isNewChat.current = false;
 
-        await saveChat({ id: chatId, userId, title: 'New chat', visibility: 'private' });
-        await saveMessages({
-          messages: [{ id: userMsg.id, chatId, role: userMsg.role, parts: userMsg.parts as never, attachments: [], createdAt: new Date() }],
-        });
+      await saveChat({
+        id: chatId,
+        userId,
+        title: 'New chat',
+        visibility: 'private',
+      });
+      await saveMessages({
+        messages: [
+          {
+            id: userMsg.id,
+            chatId,
+            role: userMsg.role,
+            parts: userMsg.parts as never,
+            attachments: [],
+            createdAt: new Date(),
+          },
+        ],
+      });
 
-        generateTitleFromUserMessage({ message: userMsg })
-          .then(title => updateChatTitleById({ chatId, title }))
-          .catch(() => {});
-      },
-      onFinish: async allMessages => {
-        const lastMsg = allMessages.findLast(m => m.role === 'assistant');
-        if (!lastMsg) return;
+      generateTitleFromUserMessage({ message: userMsg })
+        .then(title => updateChatTitleById({ chatId, title }))
+        .catch(() => {});
+    },
+    onFinish: async allMessages => {
+      const lastMsg = allMessages.findLast(m => m.role === 'assistant');
+      if (!lastMsg) return;
 
-        await saveMessages({
-          messages: [{
+      await saveMessages({
+        messages: [
+          {
             id: lastMsg.id,
             chatId,
             role: lastMsg.role,
             parts: lastMsg.parts as never,
             attachments: [],
             createdAt: new Date(),
-          }],
-        });
+          },
+        ],
+      });
 
-        if (isNewChat.current === false && !initialMessages?.length) {
-          router.push(`/chat/${chatId}`);
-        } else {
-          router.refresh();
-        }
-      },
-    });
+      router.refresh();
+    },
+  });
 
   return (
     <div className="flex h-dvh w-full flex-col">

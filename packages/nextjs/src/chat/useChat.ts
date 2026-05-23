@@ -73,10 +73,18 @@ export function useChat({
   const onFinishRef = useRef(onFinish);
   const onDataRef = useRef(onData);
 
-  useEffect(() => { tagsRef.current = tags; }, [tags]);
-  useEffect(() => { onSubmitRef.current = onSubmit; }, [onSubmit]);
-  useEffect(() => { onFinishRef.current = onFinish; }, [onFinish]);
-  useEffect(() => { onDataRef.current = onData; }, [onData]);
+  useEffect(() => {
+    tagsRef.current = tags;
+  }, [tags]);
+  useEffect(() => {
+    onSubmitRef.current = onSubmit;
+  }, [onSubmit]);
+  useEffect(() => {
+    onFinishRef.current = onFinish;
+  }, [onFinish]);
+  useEffect(() => {
+    onDataRef.current = onData;
+  }, [onData]);
 
   const onModelSelect = useCallback((model: ModelOption) => {
     selectedModelRef.current = model.id;
@@ -86,14 +94,22 @@ export function useChat({
   const [status, setStatus] = useState<ChatStatus>('idle');
   const [costs, setCosts] = useState<Map<string, MessageCost>>(new Map());
   const [errors, setErrors] = useState<Map<string, string>>(new Map());
-  const [pendingToolCalls, setPendingToolCalls] = useState<Map<string, PendingToolCall>>(new Map());
+  const [pendingToolCalls, setPendingToolCalls] = useState<
+    Map<string, PendingToolCall>
+  >(new Map());
   const pendingToolCallsRef = useRef(pendingToolCalls);
   const activeStreamRef = useRef<string | null>(null);
 
-  useEffect(() => { pendingToolCallsRef.current = pendingToolCalls; }, [pendingToolCalls]);
+  useEffect(() => {
+    pendingToolCallsRef.current = pendingToolCalls;
+  }, [pendingToolCalls]);
 
   const runStream = useCallback(
-    async (allMessages: UIMessage[], assistantMsg: UIMessage, streamId: string) => {
+    async (
+      allMessages: UIMessage[],
+      assistantMsg: UIMessage,
+      streamId: string,
+    ) => {
       const model = selectedModelRef.current;
       const mergedTags = { ...tagsRef.current, userId };
 
@@ -106,13 +122,20 @@ export function useChat({
         currentParts = parts;
         setMessages(prev =>
           prev.map(m =>
-            m.id === assistantMsg.id ? ({ ...m, parts } as unknown as UIMessage) : m,
+            m.id === assistantMsg.id
+              ? ({ ...m, parts } as unknown as UIMessage)
+              : m,
           ),
         );
       };
 
       try {
-        const { value } = await streamChat(allMessages, model, mergedTags, streamId);
+        const { value } = await streamChat(
+          allMessages,
+          model,
+          mergedTags,
+          streamId,
+        );
         let fullText = '';
         let firstText = true;
 
@@ -120,7 +143,11 @@ export function useChat({
           if (!chunk || activeStreamRef.current !== streamId) break;
 
           if (chunk.error) {
-            setErrors(prev => { const n = new Map(prev); n.set(assistantMsg.id, chunk.error!); return n; });
+            setErrors(prev => {
+              const n = new Map(prev);
+              n.set(assistantMsg.id, chunk.error!);
+              return n;
+            });
             break;
           }
 
@@ -130,10 +157,27 @@ export function useChat({
 
           if (chunk.toolCall) {
             const { toolCallId, toolName, input } = chunk.toolCall;
-            const pending: PendingToolCall = { toolCallId, toolName, input, assistantMsgId: assistantMsg.id };
+            const pending: PendingToolCall = {
+              toolCallId,
+              toolName,
+              input,
+              assistantMsgId: assistantMsg.id,
+            };
             localPending.set(toolCallId, pending);
-            setPendingToolCalls(prev => { const n = new Map(prev); n.set(toolCallId, pending); return n; });
-            updateAssistantParts([...currentParts, { type: `tool-${toolName}`, toolCallId, state: 'input', input } as unknown as UIMessage['parts'][number]]);
+            setPendingToolCalls(prev => {
+              const n = new Map(prev);
+              n.set(toolCallId, pending);
+              return n;
+            });
+            updateAssistantParts([
+              ...currentParts,
+              {
+                type: `tool-${toolName}`,
+                toolCallId,
+                state: 'input',
+                input,
+              } as unknown as UIMessage['parts'][number],
+            ]);
           }
 
           if (chunk.toolResult) {
@@ -141,12 +185,28 @@ export function useChat({
             const pending = localPending.get(toolCallId);
             if (pending) {
               localPending.delete(toolCallId);
-              setPendingToolCalls(prev => { const n = new Map(prev); n.delete(toolCallId); return n; });
+              setPendingToolCalls(prev => {
+                const n = new Map(prev);
+                n.delete(toolCallId);
+                return n;
+              });
               updateAssistantParts(
                 currentParts.map(p => {
-                  const tp = p as unknown as { type: string; toolCallId?: string };
-                  if (tp.type.startsWith('tool-') && tp.toolCallId === toolCallId) {
-                    return { type: `tool-${pending.toolName}`, toolCallId, state: 'output', input: pending.input, output: result } as unknown as UIMessage['parts'][number];
+                  const tp = p as unknown as {
+                    type: string;
+                    toolCallId?: string;
+                  };
+                  if (
+                    tp.type.startsWith('tool-') &&
+                    tp.toolCallId === toolCallId
+                  ) {
+                    return {
+                      type: `tool-${pending.toolName}`,
+                      toolCallId,
+                      state: 'output',
+                      input: pending.input,
+                      output: result,
+                    } as unknown as UIMessage['parts'][number];
                   }
                   return p;
                 }),
@@ -163,24 +223,44 @@ export function useChat({
             }
 
             if (chunk.cost) {
-              setCosts(prev => { const n = new Map(prev); n.set(assistantMsg.id, chunk.cost!); return n; });
+              setCosts(prev => {
+                const n = new Map(prev);
+                n.set(assistantMsg.id, chunk.cost!);
+                return n;
+              });
             }
 
             const nonTextParts = currentParts.filter(p => p.type !== 'text');
-            updateAssistantParts(fullText ? [...nonTextParts, { type: 'text', text: fullText } as unknown as UIMessage['parts'][number]] : nonTextParts);
+            updateAssistantParts(
+              fullText
+                ? [
+                    ...nonTextParts,
+                    {
+                      type: 'text',
+                      text: fullText,
+                    } as unknown as UIMessage['parts'][number],
+                  ]
+                : nonTextParts,
+            );
           }
         }
       } catch (err) {
         setErrors(prev => {
           const n = new Map(prev);
-          n.set(assistantMsg.id, err instanceof Error ? err.message : 'Stream failed');
+          n.set(
+            assistantMsg.id,
+            err instanceof Error ? err.message : 'Stream failed',
+          );
           return n;
         });
       } finally {
         if (activeStreamRef.current === streamId) {
           setStatus('idle');
           activeStreamRef.current = null;
-          const finalMsg = { ...assistantMsg, parts: currentParts } as unknown as UIMessage;
+          const finalMsg = {
+            ...assistantMsg,
+            parts: currentParts,
+          } as unknown as UIMessage;
           void onFinishRef.current?.([...allMessages, finalMsg]);
         }
       }
@@ -217,7 +297,11 @@ export function useChat({
       const pendingCall = pendingToolCalls.get(toolCallId);
       if (!pendingCall) return;
 
-      setPendingToolCalls(prev => { const n = new Map(prev); n.delete(toolCallId); return n; });
+      setPendingToolCalls(prev => {
+        const n = new Map(prev);
+        n.delete(toolCallId);
+        return n;
+      });
 
       setMessages(prev => {
         const updatedMessages = prev.map(m => {

@@ -1,4 +1,4 @@
-import { notFound, redirect } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import type { UIMessage } from 'ai';
 import { auth } from '@/app/(auth)/auth';
 import { ChatShell } from '@/components/chat/shell';
@@ -15,10 +15,9 @@ export default async function ChatPage({
   if (!session?.user) redirect('/login');
 
   const chat = await getChatById({ id });
-  if (!chat) notFound();
-  if (chat.userId !== session.user.id) redirect('/');
+  if (chat && chat.userId !== session.user.id) redirect('/');
 
-  const dbMessages = await getMessagesByChatId({ id });
+  const dbMessages = chat ? await getMessagesByChatId({ id }) : [];
   const messages = convertToUIMessages(dbMessages) as UIMessage[];
 
   return (

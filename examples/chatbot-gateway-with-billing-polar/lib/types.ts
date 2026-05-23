@@ -13,7 +13,11 @@ export type ChatTools = {
   getWeather: InferUITool<typeof getWeather>;
 };
 
-export type ChatMessage = UIMessage<MessageMetadata, Record<string, never>, ChatTools>;
+export type ChatMessage = UIMessage<
+  MessageMetadata,
+  Record<string, never>,
+  ChatTools
+>;
 
 export type Attachment = {
   name: string;
