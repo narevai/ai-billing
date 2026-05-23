@@ -2,51 +2,119 @@
 
 ***
 
-[@ai-billing/nextjs](/sdk/ai-billing/reference/nextjs/typedoc/index) / [index](/sdk/ai-billing/reference/nextjs/typedoc/index/index) / CreditTopUpPolarProps
+[@ai-billing/nextjs](/sdk/ai-billing/reference/nextjs/typedoc/index) / [index](/sdk/ai-billing/reference/nextjs/typedoc/index/index) / ChatInputProps
 
-# Interface: CreditTopUpPolarProps
+# Interface: ChatInputProps
 
-Defined in: [packages/nextjs/src/polar/CreditTopUpPolar.tsx:10](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/CreditTopUpPolar.tsx#L10)
-
-Props for the credit top-up component.
+Defined in: [packages/nextjs/src/chat/ChatInput.tsx:13](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatInput.tsx#L13)
 
 ## Extends
 
-- `HTMLAttributes`\<`HTMLDivElement`\>
+- `Omit`\<`React.HTMLAttributes`\<`HTMLDivElement`\>, `"onSubmit"`\>
 
 ## Properties
 
-### userId
+### onSubmit
 
-> **userId**: `string`
+> **onSubmit**: (`value`) => `void`
 
-Defined in: [packages/nextjs/src/polar/CreditTopUpPolar.tsx:12](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/CreditTopUpPolar.tsx#L12)
+Defined in: [packages/nextjs/src/chat/ChatInput.tsx:17](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatInput.tsx#L17)
 
-End-user ID for the top-up session.
+#### Parameters
 
-***
+##### value
 
-### title?
+`string`
 
-> `optional` **title?**: `string`
+#### Returns
 
-Defined in: [packages/nextjs/src/polar/CreditTopUpPolar.tsx:14](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/CreditTopUpPolar.tsx#L14)
-
-Optional title text for the picker.
-
-#### Overrides
-
-`React.HTMLAttributes.title`
+`void`
 
 ***
 
-### successUrl?
+### isLoading?
 
-> `optional` **successUrl?**: `string`
+> `optional` **isLoading?**: `boolean`
 
-Defined in: [packages/nextjs/src/polar/CreditTopUpPolar.tsx:16](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/CreditTopUpPolar.tsx#L16)
+Defined in: [packages/nextjs/src/chat/ChatInput.tsx:18](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatInput.tsx#L18)
 
-URL to redirect after successful purchase (defaults to current origin).
+***
+
+### onStop?
+
+> `optional` **onStop?**: () => `void`
+
+Defined in: [packages/nextjs/src/chat/ChatInput.tsx:19](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatInput.tsx#L19)
+
+#### Returns
+
+`void`
+
+***
+
+### placeholder?
+
+> `optional` **placeholder?**: `string`
+
+Defined in: [packages/nextjs/src/chat/ChatInput.tsx:20](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatInput.tsx#L20)
+
+***
+
+### disabled?
+
+> `optional` **disabled?**: `boolean`
+
+Defined in: [packages/nextjs/src/chat/ChatInput.tsx:21](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatInput.tsx#L21)
+
+***
+
+### providers?
+
+> `optional` **providers?**: `string`[]
+
+Defined in: [packages/nextjs/src/chat/ChatInput.tsx:22](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatInput.tsx#L22)
+
+***
+
+### staticModels?
+
+> `optional` **staticModels?**: `ModelOption`[]
+
+Defined in: [packages/nextjs/src/chat/ChatInput.tsx:23](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatInput.tsx#L23)
+
+***
+
+### defaultModel?
+
+> `optional` **defaultModel?**: `string`
+
+Defined in: [packages/nextjs/src/chat/ChatInput.tsx:24](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatInput.tsx#L24)
+
+***
+
+### selectedModel?
+
+> `optional` **selectedModel?**: `string`
+
+Defined in: [packages/nextjs/src/chat/ChatInput.tsx:25](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatInput.tsx#L25)
+
+***
+
+### onModelSelect
+
+> **onModelSelect**: (`model`) => `void`
+
+Defined in: [packages/nextjs/src/chat/ChatInput.tsx:26](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatInput.tsx#L26)
+
+#### Parameters
+
+##### model
+
+`ModelOption`
+
+#### Returns
+
+`void`
 
 ***
 
@@ -58,7 +126,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.children`
+`Omit.children`
 
 ***
 
@@ -74,7 +142,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.dangerouslySetInnerHTML`
+`Omit.dangerouslySetInnerHTML`
 
 ***
 
@@ -86,7 +154,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onCopy`
+`Omit.onCopy`
 
 ***
 
@@ -98,7 +166,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onCopyCapture`
+`Omit.onCopyCapture`
 
 ***
 
@@ -110,7 +178,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onCut`
+`Omit.onCut`
 
 ***
 
@@ -122,7 +190,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onCutCapture`
+`Omit.onCutCapture`
 
 ***
 
@@ -134,7 +202,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPaste`
+`Omit.onPaste`
 
 ***
 
@@ -146,7 +214,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPasteCapture`
+`Omit.onPasteCapture`
 
 ***
 
@@ -158,7 +226,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onCompositionEnd`
+`Omit.onCompositionEnd`
 
 ***
 
@@ -170,7 +238,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onCompositionEndCapture`
+`Omit.onCompositionEndCapture`
 
 ***
 
@@ -182,7 +250,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onCompositionStart`
+`Omit.onCompositionStart`
 
 ***
 
@@ -194,7 +262,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onCompositionStartCapture`
+`Omit.onCompositionStartCapture`
 
 ***
 
@@ -206,7 +274,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onCompositionUpdate`
+`Omit.onCompositionUpdate`
 
 ***
 
@@ -218,7 +286,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onCompositionUpdateCapture`
+`Omit.onCompositionUpdateCapture`
 
 ***
 
@@ -230,7 +298,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onFocus`
+`Omit.onFocus`
 
 ***
 
@@ -242,7 +310,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onFocusCapture`
+`Omit.onFocusCapture`
 
 ***
 
@@ -254,7 +322,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onBlur`
+`Omit.onBlur`
 
 ***
 
@@ -266,7 +334,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onBlurCapture`
+`Omit.onBlurCapture`
 
 ***
 
@@ -278,7 +346,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onChange`
+`Omit.onChange`
 
 ***
 
@@ -290,7 +358,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onChangeCapture`
+`Omit.onChangeCapture`
 
 ***
 
@@ -302,7 +370,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onBeforeInput`
+`Omit.onBeforeInput`
 
 ***
 
@@ -314,7 +382,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onBeforeInputCapture`
+`Omit.onBeforeInputCapture`
 
 ***
 
@@ -326,7 +394,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onInput`
+`Omit.onInput`
 
 ***
 
@@ -338,7 +406,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onInputCapture`
+`Omit.onInputCapture`
 
 ***
 
@@ -350,7 +418,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onReset`
+`Omit.onReset`
 
 ***
 
@@ -362,19 +430,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onResetCapture`
-
-***
-
-### onSubmit?
-
-> `optional` **onSubmit?**: `FormEventHandler`\<`HTMLDivElement`\>
-
-Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/index.d.ts:2244
-
-#### Inherited from
-
-`React.HTMLAttributes.onSubmit`
+`Omit.onResetCapture`
 
 ***
 
@@ -386,7 +442,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onSubmitCapture`
+`Omit.onSubmitCapture`
 
 ***
 
@@ -398,7 +454,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onInvalid`
+`Omit.onInvalid`
 
 ***
 
@@ -410,7 +466,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onInvalidCapture`
+`Omit.onInvalidCapture`
 
 ***
 
@@ -422,7 +478,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onLoad`
+`Omit.onLoad`
 
 ***
 
@@ -434,7 +490,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onLoadCapture`
+`Omit.onLoadCapture`
 
 ***
 
@@ -446,7 +502,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onError`
+`Omit.onError`
 
 ***
 
@@ -458,7 +514,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onErrorCapture`
+`Omit.onErrorCapture`
 
 ***
 
@@ -470,7 +526,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onKeyDown`
+`Omit.onKeyDown`
 
 ***
 
@@ -482,7 +538,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onKeyDownCapture`
+`Omit.onKeyDownCapture`
 
 ***
 
@@ -498,7 +554,7 @@ Use `onKeyUp` or `onKeyDown` instead
 
 #### Inherited from
 
-`React.HTMLAttributes.onKeyPress`
+`Omit.onKeyPress`
 
 ***
 
@@ -514,7 +570,7 @@ Use `onKeyUpCapture` or `onKeyDownCapture` instead
 
 #### Inherited from
 
-`React.HTMLAttributes.onKeyPressCapture`
+`Omit.onKeyPressCapture`
 
 ***
 
@@ -526,7 +582,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onKeyUp`
+`Omit.onKeyUp`
 
 ***
 
@@ -538,7 +594,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onKeyUpCapture`
+`Omit.onKeyUpCapture`
 
 ***
 
@@ -550,7 +606,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onAbort`
+`Omit.onAbort`
 
 ***
 
@@ -562,7 +618,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onAbortCapture`
+`Omit.onAbortCapture`
 
 ***
 
@@ -574,7 +630,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onCanPlay`
+`Omit.onCanPlay`
 
 ***
 
@@ -586,7 +642,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onCanPlayCapture`
+`Omit.onCanPlayCapture`
 
 ***
 
@@ -598,7 +654,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onCanPlayThrough`
+`Omit.onCanPlayThrough`
 
 ***
 
@@ -610,7 +666,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onCanPlayThroughCapture`
+`Omit.onCanPlayThroughCapture`
 
 ***
 
@@ -622,7 +678,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDurationChange`
+`Omit.onDurationChange`
 
 ***
 
@@ -634,7 +690,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDurationChangeCapture`
+`Omit.onDurationChangeCapture`
 
 ***
 
@@ -646,7 +702,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onEmptied`
+`Omit.onEmptied`
 
 ***
 
@@ -658,7 +714,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onEmptiedCapture`
+`Omit.onEmptiedCapture`
 
 ***
 
@@ -670,7 +726,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onEncrypted`
+`Omit.onEncrypted`
 
 ***
 
@@ -682,7 +738,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onEncryptedCapture`
+`Omit.onEncryptedCapture`
 
 ***
 
@@ -694,7 +750,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onEnded`
+`Omit.onEnded`
 
 ***
 
@@ -706,7 +762,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onEndedCapture`
+`Omit.onEndedCapture`
 
 ***
 
@@ -718,7 +774,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onLoadedData`
+`Omit.onLoadedData`
 
 ***
 
@@ -730,7 +786,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onLoadedDataCapture`
+`Omit.onLoadedDataCapture`
 
 ***
 
@@ -742,7 +798,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onLoadedMetadata`
+`Omit.onLoadedMetadata`
 
 ***
 
@@ -754,7 +810,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onLoadedMetadataCapture`
+`Omit.onLoadedMetadataCapture`
 
 ***
 
@@ -766,7 +822,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onLoadStart`
+`Omit.onLoadStart`
 
 ***
 
@@ -778,7 +834,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onLoadStartCapture`
+`Omit.onLoadStartCapture`
 
 ***
 
@@ -790,7 +846,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPause`
+`Omit.onPause`
 
 ***
 
@@ -802,7 +858,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPauseCapture`
+`Omit.onPauseCapture`
 
 ***
 
@@ -814,7 +870,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPlay`
+`Omit.onPlay`
 
 ***
 
@@ -826,7 +882,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPlayCapture`
+`Omit.onPlayCapture`
 
 ***
 
@@ -838,7 +894,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPlaying`
+`Omit.onPlaying`
 
 ***
 
@@ -850,7 +906,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPlayingCapture`
+`Omit.onPlayingCapture`
 
 ***
 
@@ -862,7 +918,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onProgress`
+`Omit.onProgress`
 
 ***
 
@@ -874,7 +930,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onProgressCapture`
+`Omit.onProgressCapture`
 
 ***
 
@@ -886,7 +942,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onRateChange`
+`Omit.onRateChange`
 
 ***
 
@@ -898,7 +954,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onRateChangeCapture`
+`Omit.onRateChangeCapture`
 
 ***
 
@@ -910,7 +966,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onSeeked`
+`Omit.onSeeked`
 
 ***
 
@@ -922,7 +978,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onSeekedCapture`
+`Omit.onSeekedCapture`
 
 ***
 
@@ -934,7 +990,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onSeeking`
+`Omit.onSeeking`
 
 ***
 
@@ -946,7 +1002,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onSeekingCapture`
+`Omit.onSeekingCapture`
 
 ***
 
@@ -958,7 +1014,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onStalled`
+`Omit.onStalled`
 
 ***
 
@@ -970,7 +1026,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onStalledCapture`
+`Omit.onStalledCapture`
 
 ***
 
@@ -982,7 +1038,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onSuspend`
+`Omit.onSuspend`
 
 ***
 
@@ -994,7 +1050,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onSuspendCapture`
+`Omit.onSuspendCapture`
 
 ***
 
@@ -1006,7 +1062,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTimeUpdate`
+`Omit.onTimeUpdate`
 
 ***
 
@@ -1018,7 +1074,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTimeUpdateCapture`
+`Omit.onTimeUpdateCapture`
 
 ***
 
@@ -1030,7 +1086,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onVolumeChange`
+`Omit.onVolumeChange`
 
 ***
 
@@ -1042,7 +1098,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onVolumeChangeCapture`
+`Omit.onVolumeChangeCapture`
 
 ***
 
@@ -1054,7 +1110,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onWaiting`
+`Omit.onWaiting`
 
 ***
 
@@ -1066,7 +1122,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onWaitingCapture`
+`Omit.onWaitingCapture`
 
 ***
 
@@ -1078,7 +1134,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onAuxClick`
+`Omit.onAuxClick`
 
 ***
 
@@ -1090,7 +1146,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onAuxClickCapture`
+`Omit.onAuxClickCapture`
 
 ***
 
@@ -1102,7 +1158,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onClick`
+`Omit.onClick`
 
 ***
 
@@ -1114,7 +1170,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onClickCapture`
+`Omit.onClickCapture`
 
 ***
 
@@ -1126,7 +1182,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onContextMenu`
+`Omit.onContextMenu`
 
 ***
 
@@ -1138,7 +1194,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onContextMenuCapture`
+`Omit.onContextMenuCapture`
 
 ***
 
@@ -1150,7 +1206,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDoubleClick`
+`Omit.onDoubleClick`
 
 ***
 
@@ -1162,7 +1218,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDoubleClickCapture`
+`Omit.onDoubleClickCapture`
 
 ***
 
@@ -1174,7 +1230,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDrag`
+`Omit.onDrag`
 
 ***
 
@@ -1186,7 +1242,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDragCapture`
+`Omit.onDragCapture`
 
 ***
 
@@ -1198,7 +1254,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDragEnd`
+`Omit.onDragEnd`
 
 ***
 
@@ -1210,7 +1266,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDragEndCapture`
+`Omit.onDragEndCapture`
 
 ***
 
@@ -1222,7 +1278,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDragEnter`
+`Omit.onDragEnter`
 
 ***
 
@@ -1234,7 +1290,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDragEnterCapture`
+`Omit.onDragEnterCapture`
 
 ***
 
@@ -1246,7 +1302,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDragExit`
+`Omit.onDragExit`
 
 ***
 
@@ -1258,7 +1314,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDragExitCapture`
+`Omit.onDragExitCapture`
 
 ***
 
@@ -1270,7 +1326,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDragLeave`
+`Omit.onDragLeave`
 
 ***
 
@@ -1282,7 +1338,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDragLeaveCapture`
+`Omit.onDragLeaveCapture`
 
 ***
 
@@ -1294,7 +1350,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDragOver`
+`Omit.onDragOver`
 
 ***
 
@@ -1306,7 +1362,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDragOverCapture`
+`Omit.onDragOverCapture`
 
 ***
 
@@ -1318,7 +1374,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDragStart`
+`Omit.onDragStart`
 
 ***
 
@@ -1330,7 +1386,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDragStartCapture`
+`Omit.onDragStartCapture`
 
 ***
 
@@ -1342,7 +1398,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDrop`
+`Omit.onDrop`
 
 ***
 
@@ -1354,7 +1410,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onDropCapture`
+`Omit.onDropCapture`
 
 ***
 
@@ -1366,7 +1422,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onMouseDown`
+`Omit.onMouseDown`
 
 ***
 
@@ -1378,7 +1434,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onMouseDownCapture`
+`Omit.onMouseDownCapture`
 
 ***
 
@@ -1390,7 +1446,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onMouseEnter`
+`Omit.onMouseEnter`
 
 ***
 
@@ -1402,7 +1458,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onMouseLeave`
+`Omit.onMouseLeave`
 
 ***
 
@@ -1414,7 +1470,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onMouseMove`
+`Omit.onMouseMove`
 
 ***
 
@@ -1426,7 +1482,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onMouseMoveCapture`
+`Omit.onMouseMoveCapture`
 
 ***
 
@@ -1438,7 +1494,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onMouseOut`
+`Omit.onMouseOut`
 
 ***
 
@@ -1450,7 +1506,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onMouseOutCapture`
+`Omit.onMouseOutCapture`
 
 ***
 
@@ -1462,7 +1518,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onMouseOver`
+`Omit.onMouseOver`
 
 ***
 
@@ -1474,7 +1530,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onMouseOverCapture`
+`Omit.onMouseOverCapture`
 
 ***
 
@@ -1486,7 +1542,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onMouseUp`
+`Omit.onMouseUp`
 
 ***
 
@@ -1498,7 +1554,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onMouseUpCapture`
+`Omit.onMouseUpCapture`
 
 ***
 
@@ -1510,7 +1566,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onSelect`
+`Omit.onSelect`
 
 ***
 
@@ -1522,7 +1578,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onSelectCapture`
+`Omit.onSelectCapture`
 
 ***
 
@@ -1534,7 +1590,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTouchCancel`
+`Omit.onTouchCancel`
 
 ***
 
@@ -1546,7 +1602,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTouchCancelCapture`
+`Omit.onTouchCancelCapture`
 
 ***
 
@@ -1558,7 +1614,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTouchEnd`
+`Omit.onTouchEnd`
 
 ***
 
@@ -1570,7 +1626,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTouchEndCapture`
+`Omit.onTouchEndCapture`
 
 ***
 
@@ -1582,7 +1638,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTouchMove`
+`Omit.onTouchMove`
 
 ***
 
@@ -1594,7 +1650,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTouchMoveCapture`
+`Omit.onTouchMoveCapture`
 
 ***
 
@@ -1606,7 +1662,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTouchStart`
+`Omit.onTouchStart`
 
 ***
 
@@ -1618,7 +1674,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTouchStartCapture`
+`Omit.onTouchStartCapture`
 
 ***
 
@@ -1630,7 +1686,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPointerDown`
+`Omit.onPointerDown`
 
 ***
 
@@ -1642,7 +1698,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPointerDownCapture`
+`Omit.onPointerDownCapture`
 
 ***
 
@@ -1654,7 +1710,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPointerMove`
+`Omit.onPointerMove`
 
 ***
 
@@ -1666,7 +1722,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPointerMoveCapture`
+`Omit.onPointerMoveCapture`
 
 ***
 
@@ -1678,7 +1734,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPointerUp`
+`Omit.onPointerUp`
 
 ***
 
@@ -1690,7 +1746,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPointerUpCapture`
+`Omit.onPointerUpCapture`
 
 ***
 
@@ -1702,7 +1758,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPointerCancel`
+`Omit.onPointerCancel`
 
 ***
 
@@ -1714,7 +1770,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPointerCancelCapture`
+`Omit.onPointerCancelCapture`
 
 ***
 
@@ -1726,7 +1782,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPointerEnter`
+`Omit.onPointerEnter`
 
 ***
 
@@ -1738,7 +1794,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPointerLeave`
+`Omit.onPointerLeave`
 
 ***
 
@@ -1750,7 +1806,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPointerOver`
+`Omit.onPointerOver`
 
 ***
 
@@ -1762,7 +1818,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPointerOverCapture`
+`Omit.onPointerOverCapture`
 
 ***
 
@@ -1774,7 +1830,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPointerOut`
+`Omit.onPointerOut`
 
 ***
 
@@ -1786,7 +1842,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onPointerOutCapture`
+`Omit.onPointerOutCapture`
 
 ***
 
@@ -1798,7 +1854,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onGotPointerCapture`
+`Omit.onGotPointerCapture`
 
 ***
 
@@ -1810,7 +1866,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onGotPointerCaptureCapture`
+`Omit.onGotPointerCaptureCapture`
 
 ***
 
@@ -1822,7 +1878,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onLostPointerCapture`
+`Omit.onLostPointerCapture`
 
 ***
 
@@ -1834,7 +1890,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onLostPointerCaptureCapture`
+`Omit.onLostPointerCaptureCapture`
 
 ***
 
@@ -1846,7 +1902,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onScroll`
+`Omit.onScroll`
 
 ***
 
@@ -1858,7 +1914,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onScrollCapture`
+`Omit.onScrollCapture`
 
 ***
 
@@ -1870,7 +1926,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onScrollEnd`
+`Omit.onScrollEnd`
 
 ***
 
@@ -1882,7 +1938,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onScrollEndCapture`
+`Omit.onScrollEndCapture`
 
 ***
 
@@ -1894,7 +1950,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onWheel`
+`Omit.onWheel`
 
 ***
 
@@ -1906,7 +1962,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onWheelCapture`
+`Omit.onWheelCapture`
 
 ***
 
@@ -1918,7 +1974,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onAnimationStart`
+`Omit.onAnimationStart`
 
 ***
 
@@ -1930,7 +1986,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onAnimationStartCapture`
+`Omit.onAnimationStartCapture`
 
 ***
 
@@ -1942,7 +1998,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onAnimationEnd`
+`Omit.onAnimationEnd`
 
 ***
 
@@ -1954,7 +2010,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onAnimationEndCapture`
+`Omit.onAnimationEndCapture`
 
 ***
 
@@ -1966,7 +2022,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onAnimationIteration`
+`Omit.onAnimationIteration`
 
 ***
 
@@ -1978,7 +2034,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onAnimationIterationCapture`
+`Omit.onAnimationIterationCapture`
 
 ***
 
@@ -1990,7 +2046,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onToggle`
+`Omit.onToggle`
 
 ***
 
@@ -2002,7 +2058,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onBeforeToggle`
+`Omit.onBeforeToggle`
 
 ***
 
@@ -2014,7 +2070,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTransitionCancel`
+`Omit.onTransitionCancel`
 
 ***
 
@@ -2026,7 +2082,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTransitionCancelCapture`
+`Omit.onTransitionCancelCapture`
 
 ***
 
@@ -2038,7 +2094,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTransitionEnd`
+`Omit.onTransitionEnd`
 
 ***
 
@@ -2050,7 +2106,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTransitionEndCapture`
+`Omit.onTransitionEndCapture`
 
 ***
 
@@ -2062,7 +2118,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTransitionRun`
+`Omit.onTransitionRun`
 
 ***
 
@@ -2074,7 +2130,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTransitionRunCapture`
+`Omit.onTransitionRunCapture`
 
 ***
 
@@ -2086,7 +2142,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTransitionStart`
+`Omit.onTransitionStart`
 
 ***
 
@@ -2098,7 +2154,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.onTransitionStartCapture`
+`Omit.onTransitionStartCapture`
 
 ***
 
@@ -2112,7 +2168,7 @@ Identifies the currently active element when DOM focus is on a composite widget,
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-activedescendant`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-activedescendant`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-activedescendant)
 
 ***
 
@@ -2126,7 +2182,7 @@ Indicates whether assistive technologies will present all, or only parts of, the
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-atomic`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-atomic`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-atomic)
 
 ***
 
@@ -2141,7 +2197,7 @@ presented if they are made.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-autocomplete`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-autocomplete`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-autocomplete)
 
 ***
 
@@ -2159,7 +2215,7 @@ aria-label.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-braillelabel`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-braillelabel`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-braillelabel)
 
 ***
 
@@ -2177,7 +2233,7 @@ aria-roledescription.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-brailleroledescription`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-brailleroledescription`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-brailleroledescription)
 
 ***
 
@@ -2189,7 +2245,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-busy`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-busy`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-busy)
 
 ***
 
@@ -2208,7 +2264,7 @@ Indicates the current "checked" state of checkboxes, radio buttons, and other wi
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-checked`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-checked`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-checked)
 
 ***
 
@@ -2226,7 +2282,7 @@ aria-colindex.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-colcount`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-colcount`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-colcount)
 
 ***
 
@@ -2245,7 +2301,7 @@ Defines an element's column index or position with respect to the total number o
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-colindex`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-colindex`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-colindex)
 
 ***
 
@@ -2263,7 +2319,7 @@ aria-rowindextext.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-colindextext`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-colindextext`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-colindextext)
 
 ***
 
@@ -2282,7 +2338,7 @@ Defines the number of columns spanned by a cell or gridcell within a table, grid
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-colspan`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-colspan`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-colspan)
 
 ***
 
@@ -2300,7 +2356,7 @@ aria-owns.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-controls`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-controls`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-controls)
 
 ***
 
@@ -2314,7 +2370,7 @@ Indicates the element that represents the current item within a container or set
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-current`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-current`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-current)
 
 ***
 
@@ -2332,7 +2388,7 @@ aria-labelledby
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-describedby`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-describedby`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-describedby)
 
 ***
 
@@ -2350,7 +2406,7 @@ related aria-describedby.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-description`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-description`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-description)
 
 ***
 
@@ -2368,7 +2424,7 @@ aria-describedby.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-details`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-details`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-details)
 
 ***
 
@@ -2387,7 +2443,7 @@ Indicates that the element is perceivable but disabled, so it is not editable or
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-disabled`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-disabled`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-disabled)
 
 ***
 
@@ -2405,7 +2461,7 @@ in ARIA 1.1
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-dropeffect`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-dropeffect`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-dropeffect)
 
 ***
 
@@ -2424,7 +2480,7 @@ Identifies the element that provides an error message for the object.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-errormessage`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-errormessage`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-errormessage)
 
 ***
 
@@ -2438,7 +2494,7 @@ Indicates whether the element, or another grouping element it controls, is curre
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-expanded`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-expanded`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-expanded)
 
 ***
 
@@ -2453,7 +2509,7 @@ allows assistive technology to override the general default of reading in docume
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-flowto`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-flowto`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-flowto)
 
 ***
 
@@ -2471,7 +2527,7 @@ in ARIA 1.1
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-grabbed`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-grabbed`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-grabbed)
 
 ***
 
@@ -2485,7 +2541,7 @@ Indicates the availability and type of interactive popup element, such as menu o
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-haspopup`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-haspopup`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-haspopup)
 
 ***
 
@@ -2503,7 +2559,7 @@ aria-disabled.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-hidden`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-hidden`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-hidden)
 
 ***
 
@@ -2521,7 +2577,7 @@ aria-errormessage.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-invalid`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-invalid`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-invalid)
 
 ***
 
@@ -2535,7 +2591,7 @@ Indicates keyboard shortcuts that an author has implemented to activate or give 
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-keyshortcuts`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-keyshortcuts`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-keyshortcuts)
 
 ***
 
@@ -2553,7 +2609,7 @@ aria-labelledby.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-label`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-label`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-label)
 
 ***
 
@@ -2571,7 +2627,7 @@ aria-describedby.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-labelledby`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-labelledby`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-labelledby)
 
 ***
 
@@ -2585,7 +2641,7 @@ Defines the hierarchical level of an element within a structure.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-level`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-level`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-level)
 
 ***
 
@@ -2599,7 +2655,7 @@ Indicates that an element will be updated, and describes the types of updates th
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-live`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-live`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-live)
 
 ***
 
@@ -2613,7 +2669,7 @@ Indicates whether an element is modal when displayed.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-modal`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-modal`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-modal)
 
 ***
 
@@ -2627,7 +2683,7 @@ Indicates whether a text box accepts multiple lines of input or only a single li
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-multiline`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-multiline`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-multiline)
 
 ***
 
@@ -2641,7 +2697,7 @@ Indicates that the user may select more than one item from the current selectabl
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-multiselectable`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-multiselectable`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-multiselectable)
 
 ***
 
@@ -2655,7 +2711,7 @@ Indicates whether the element's orientation is horizontal, vertical, or unknown/
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-orientation`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-orientation`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-orientation)
 
 ***
 
@@ -2674,7 +2730,7 @@ aria-controls.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-owns`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-owns`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-owns)
 
 ***
 
@@ -2689,7 +2745,7 @@ A hint could be a sample value or a brief description of the expected format.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-placeholder`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-placeholder`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-placeholder)
 
 ***
 
@@ -2707,7 +2763,7 @@ aria-setsize.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-posinset`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-posinset`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-posinset)
 
 ***
 
@@ -2726,7 +2782,7 @@ Indicates the current "pressed" state of toggle buttons.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-pressed`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-pressed`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-pressed)
 
 ***
 
@@ -2744,7 +2800,7 @@ aria-disabled.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-readonly`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-readonly`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-readonly)
 
 ***
 
@@ -2762,7 +2818,7 @@ aria-atomic.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-relevant`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-relevant`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-relevant)
 
 ***
 
@@ -2776,7 +2832,7 @@ Indicates that user input is required on the element before a form may be submit
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-required`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-required`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-required)
 
 ***
 
@@ -2790,7 +2846,7 @@ Defines a human-readable, author-localized description for the role of an elemen
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-roledescription`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-roledescription`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-roledescription)
 
 ***
 
@@ -2808,7 +2864,7 @@ aria-rowindex.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-rowcount`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-rowcount`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-rowcount)
 
 ***
 
@@ -2827,7 +2883,7 @@ Defines an element's row index or position with respect to the total number of r
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-rowindex`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-rowindex`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-rowindex)
 
 ***
 
@@ -2845,7 +2901,7 @@ aria-colindextext.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-rowindextext`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-rowindextext`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-rowindextext)
 
 ***
 
@@ -2864,7 +2920,7 @@ Defines the number of rows spanned by a cell or gridcell within a table, grid, o
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-rowspan`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-rowspan`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-rowspan)
 
 ***
 
@@ -2883,7 +2939,7 @@ Indicates the current "selected" state of various widgets.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-selected`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-selected`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-selected)
 
 ***
 
@@ -2901,7 +2957,7 @@ aria-posinset.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-setsize`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-setsize`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-setsize)
 
 ***
 
@@ -2915,7 +2971,7 @@ Indicates if items in a table or grid are sorted in ascending or descending orde
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-sort`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-sort`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-sort)
 
 ***
 
@@ -2929,7 +2985,7 @@ Defines the maximum allowed value for a range widget.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-valuemax`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-valuemax`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-valuemax)
 
 ***
 
@@ -2943,7 +2999,7 @@ Defines the minimum allowed value for a range widget.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-valuemin`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-valuemin`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-valuemin)
 
 ***
 
@@ -2961,7 +3017,7 @@ aria-valuetext.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-valuenow`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-valuenow`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-valuenow)
 
 ***
 
@@ -2975,7 +3031,7 @@ Defines the human readable text alternative of aria-valuenow for a range widget.
 
 #### Inherited from
 
-`React.HTMLAttributes.aria-valuetext`
+[`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`aria-valuetext`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#aria-valuetext)
 
 ***
 
@@ -3071,7 +3127,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.className`
+[`CreditUsagePolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditUsagePolarProps).[`className`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditUsagePolarProps#classname)
 
 ***
 
@@ -3215,7 +3271,7 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 
 #### Inherited from
 
-`React.HTMLAttributes.style`
+[`CreditUsagePolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditUsagePolarProps).[`style`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditUsagePolarProps#style)
 
 ***
 
@@ -3228,6 +3284,18 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/i
 #### Inherited from
 
 [`CreditUsagePolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditUsagePolarProps).[`tabIndex`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditUsagePolarProps#tabindex)
+
+***
+
+### title?
+
+> `optional` **title?**: `string`
+
+Defined in: node\_modules/.pnpm/@types+react@19.2.2/node\_modules/@types/react/index.d.ts:2749
+
+#### Inherited from
+
+[`CreditUsagePolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditUsagePolarProps).[`title`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditUsagePolarProps#title)
 
 ***
 

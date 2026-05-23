@@ -2,13 +2,11 @@
 
 ***
 
-[@ai-billing/nextjs](/sdk/ai-billing/reference/nextjs/typedoc/index) / [index](/sdk/ai-billing/reference/nextjs/typedoc/index/index) / CreditTopUpPolarProps
+[@ai-billing/nextjs](/sdk/ai-billing/reference/nextjs/typedoc/index) / [index](/sdk/ai-billing/reference/nextjs/typedoc/index/index) / ChatMessagesProps
 
-# Interface: CreditTopUpPolarProps
+# Interface: ChatMessagesProps
 
-Defined in: [packages/nextjs/src/polar/CreditTopUpPolar.tsx:10](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/CreditTopUpPolar.tsx#L10)
-
-Props for the credit top-up component.
+Defined in: [packages/nextjs/src/chat/ChatMessages.tsx:23](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatMessages.tsx#L23)
 
 ## Extends
 
@@ -16,13 +14,35 @@ Props for the credit top-up component.
 
 ## Properties
 
-### userId
+### messages
 
-> **userId**: `string`
+> **messages**: `UIMessage`\<`unknown`, `UIDataTypes`, `UITools`\>[]
 
-Defined in: [packages/nextjs/src/polar/CreditTopUpPolar.tsx:12](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/CreditTopUpPolar.tsx#L12)
+Defined in: [packages/nextjs/src/chat/ChatMessages.tsx:24](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatMessages.tsx#L24)
 
-End-user ID for the top-up session.
+***
+
+### isLoading?
+
+> `optional` **isLoading?**: `boolean`
+
+Defined in: [packages/nextjs/src/chat/ChatMessages.tsx:25](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatMessages.tsx#L25)
+
+***
+
+### costs?
+
+> `optional` **costs?**: `Map`\<`string`, [`MessageCost`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/MessageCost)\>
+
+Defined in: [packages/nextjs/src/chat/ChatMessages.tsx:26](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatMessages.tsx#L26)
+
+***
+
+### errors?
+
+> `optional` **errors?**: `Map`\<`string`, `string`\>
+
+Defined in: [packages/nextjs/src/chat/ChatMessages.tsx:27](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatMessages.tsx#L27)
 
 ***
 
@@ -30,9 +50,7 @@ End-user ID for the top-up session.
 
 > `optional` **title?**: `string`
 
-Defined in: [packages/nextjs/src/polar/CreditTopUpPolar.tsx:14](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/CreditTopUpPolar.tsx#L14)
-
-Optional title text for the picker.
+Defined in: [packages/nextjs/src/chat/ChatMessages.tsx:28](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatMessages.tsx#L28)
 
 #### Overrides
 
@@ -40,13 +58,45 @@ Optional title text for the picker.
 
 ***
 
-### successUrl?
+### subtitle?
 
-> `optional` **successUrl?**: `string`
+> `optional` **subtitle?**: `string`
 
-Defined in: [packages/nextjs/src/polar/CreditTopUpPolar.tsx:16](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/CreditTopUpPolar.tsx#L16)
+Defined in: [packages/nextjs/src/chat/ChatMessages.tsx:29](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatMessages.tsx#L29)
 
-URL to redirect after successful purchase (defaults to current origin).
+***
+
+### emptyMessage?
+
+> `optional` **emptyMessage?**: `string`
+
+Defined in: [packages/nextjs/src/chat/ChatMessages.tsx:30](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatMessages.tsx#L30)
+
+***
+
+### prompts?
+
+> `optional` **prompts?**: `string`[]
+
+Defined in: [packages/nextjs/src/chat/ChatMessages.tsx:31](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatMessages.tsx#L31)
+
+***
+
+### onPromptClick?
+
+> `optional` **onPromptClick?**: (`prompt`) => `void`
+
+Defined in: [packages/nextjs/src/chat/ChatMessages.tsx:32](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/ChatMessages.tsx#L32)
+
+#### Parameters
+
+##### prompt
+
+`string`
+
+#### Returns
+
+`void`
 
 ***
 

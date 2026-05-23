@@ -8,7 +8,7 @@
 
 > **fetchStripeUsage**(`lookup`): `Promise`\<[`StripeUsageData`](/sdk/ai-billing/reference/nextjs/typedoc/server/interfaces/StripeUsageData)\>
 
-Defined in: [packages/nextjs/src/stripe/fetchStripeUsage.ts:8](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/stripe/fetchStripeUsage.ts#L8)
+Defined in: [packages/nextjs/src/stripe/fetchStripeUsage.ts:11](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/stripe/fetchStripeUsage.ts#L11)
 
 Fetches usage data for a given customer via the Narev API.
 
@@ -17,6 +17,8 @@ Fetches usage data for a given customer via the Narev API.
 ### lookup
 
 `BalanceLookup`
+
+User identifier — either `{ userId }` or `{ stripeCustomerId }`.
 
 ## Returns
 
