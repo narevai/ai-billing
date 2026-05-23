@@ -1,6 +1,8 @@
 # ai-billing
 
-Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) seing events directly to billing platforms (Stripe, Polar, and Lago).
+- Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs)
+- Sends billing events directly to billing platforms (Stripe, Polar, and Lago)
+- Ships with components to make usage-based billing easy
 
 [![codecov](https://codecov.io/github/narevai/ai-billing/graph/badge.svg?token=KZG0YE4THI)](https://codecov.io/github/narevai/ai-billing)
 ![Node Current](https://img.shields.io/node/v/%40ai-billing%2Fcore)
@@ -11,6 +13,33 @@ Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) seing events dire
 
 <p align="center">
   <img src="/assets/header-1.png" alt="AI Billing Header 1">
+</p>
+
+## UI Components
+**Storybook:** [Explore the `@ai-billing/nextjs` components](https://ai-billing-storybook.vercel.app/)
+
+### `<CreditTopUpPolar>`
+<p align="center">
+  <img src="/assets/topup-component.png" alt="Topup Component from @ai-billing/nextjs">
+</p>
+
+### `<CreditUsagePolar>`
+<p align="center">
+  <img src="/assets/usage-component.png" alt="Usage Component from @ai-billing/nextjs">
+</p>
+
+## Full-stack examples
+| Name | Demo Link | Repo | Deploy |
+| :--- | :--- | :--- | :--- |
+| **Chatbot (OpenRouter + Polar)** | [View Demo](https://chatbot-with-billing-polar-three.vercel.app/) | [GitHub](https://github.com/narevai/chatbot-with-billing-polar) | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fai-billing%2Ftree%2Fmain%2Fexamples%2Fchatbot-with-billing-polar) |
+| **Chatbot (OpenAI + Polar)** | [View Demo](https://chatbot-openai-with-billing-polar.vercel.app/) | [GitHub](https://github.com/narevai/chatbot-openai-with-billing-polar) | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fchatbot-openai-with-billing-polar&env=AUTH_SECRET,OPENAI_API_KEY,POSTGRES_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER,NAREV_API_KEY&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D) |
+| **Chatbot (Stripe)** | [View Demo](https://chatbot-with-billing-stripe.vercel.app/) | [GitHub](https://github.com/narevai/chatbot-with-billing-stripe) | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fchatbot-with-billing-polar&env=AUTH_SECRET,AI_GATEWAY_API_KEY,POSTGRES_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D) |
+
+
+## Billing Architecture
+
+<p align="center">
+  <img src="/assets/header-2.png" alt="AI Billing Header 2">
 </p>
 
 ### Supported Providers
@@ -26,6 +55,8 @@ Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) seing events dire
 | [**Anthropic**](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic) | [`@ai-billing/anthropic`](https://www.npmjs.com/package/@ai-billing/anthropic) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fanthropic) |
 | [**xAI Grok**](https://ai-sdk.dev/providers/ai-sdk-providers/xai) | [`@ai-billing/xai`](https://www.npmjs.com/package/@ai-billing/xai) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fxai) |
 | [**MiniMax**](https://ai-sdk.dev/providers/community-providers/minimax) | [`@ai-billing/minimax`](https://www.npmjs.com/package/@ai-billing/minimax) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fminimax) |
+| [**DeepSeek**](https://ai-sdk.dev/providers/ai-sdk-providers/deepseek) | [`@ai-billing/deepseek`](https://www.npmjs.com/package/@ai-billing/deepseek) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fdeepseek) |
+| [**Chutes**](https://ai-sdk.dev/providers/community-providers/chutes) | [`@ai-billing/chutes`](https://www.npmjs.com/package/@ai-billing/chutes) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fchutes) |
 
 ### Supported Destinations
 
@@ -36,7 +67,16 @@ Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) seing events dire
 | **OpenMeter** (Kong) | [`@ai-billing/openmeter`](https://www.npmjs.com/package/@ai-billing/openmeter) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenmeter) |
 | **Lago** | [`@ai-billing/lago`](https://www.npmjs.com/package/@ai-billing/lago) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Flago) |
 
+### UI & SDKs
+
+| Package | Description | Size |
+| :--- | :--- | :--- |
+| [`@ai-billing/nextjs`](https://www.npmjs.com/package/@ai-billing/nextjs) | Next.js UI components for displaying billing usage and managing top-ups. | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fnextjs) |
+| [`@ai-billing/ui`](https://www.npmjs.com/package/@ai-billing/ui) | Internal headless UI components shared across `@ai-billing/*` packages. | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fui) |
+| [`@ai-billing/narev`](https://www.npmjs.com/package/@ai-billing/narev) | TypeScript SDK for the [Narev](https://narev.ai) billing API. | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fnarev) |
+
 ---
+
 
 ## Installation
 
@@ -62,10 +102,6 @@ const model = wrapLanguageModel({
 ```
 
 ---
-
-<p align="center">
-  <img src="/assets/header-2.png" alt="AI Billing Header 2">
-</p>
 
 ## Send usage to Polar.sh
 
