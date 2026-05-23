@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ModelSelector, type ModelOption } from '@ai-billing/ui';
+import {
+  ModelSelectorPanel as ModelSelector,
+  type ModelOption,
+} from '@ai-billing/ui';
 
 const sampleModels: ModelOption[] = [
   { id: 'openai:gpt-5', name: 'gpt-5', provider: 'openai' },
