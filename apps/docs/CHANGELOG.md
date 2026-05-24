@@ -1,5 +1,11 @@
 # docs
 
+## 0.1.10
+
+### Patch Changes
+
+- 3cd4ed7: feat(nextjs): create chat subcomponents
+
 ## 0.1.9
 
 ### Patch Changes

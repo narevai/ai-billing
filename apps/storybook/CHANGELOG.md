@@ -1,5 +1,14 @@
 # ai-billing-storybook
 
+## 0.0.6
+
+### Patch Changes
+
+- 3cd4ed7: feat(nextjs): create chat subcomponents
+- Updated dependencies [3cd4ed7]
+  - @ai-billing/nextjs@0.0.6
+  - @ai-billing/ui@0.0.3
+
 ## 0.0.5
 
 ### Patch Changes

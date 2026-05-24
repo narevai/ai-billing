@@ -1,5 +1,12 @@
 # chatbot-with-billing-polar
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [3cd4ed7]
+  - @ai-billing/nextjs@0.0.6
+
 ## 0.0.6
 
 ### Patch Changes
