@@ -1,5 +1,11 @@
 # @ai-billing/ui
 
+## 0.0.3
+
+### Patch Changes
+
+- 3cd4ed7: feat(nextjs): create chat subcomponents
+
 ## 0.0.2
 
 ### Patch Changes
