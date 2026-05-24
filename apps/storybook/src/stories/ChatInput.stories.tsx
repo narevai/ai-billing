@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ChatInput, ModelSelector, type ModelOption } from '@ai-billing/ui';
+import {
+  ChatInputPanel as ChatInput,
+  ModelSelectorPanel as ModelSelector,
+  type ModelOption,
+} from '@ai-billing/ui';
 
 const sampleModels: ModelOption[] = [
   { id: 'openai:gpt-4o', name: 'gpt-4o', provider: 'openai' },

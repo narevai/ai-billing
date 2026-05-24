@@ -13,12 +13,23 @@ export {
 } from './icons.js';
 export { ChatMessage } from './chat/ChatMessage.js';
 export type { ChatMessageProps } from './chat/ChatMessage.js';
-export { ChatMessages } from './chat/ChatMessages.js';
-export type { ChatMessagesProps } from './chat/ChatMessages.js';
-export { ChatInput } from './chat/ChatInput.js';
-export type { ChatInputProps } from './chat/ChatInput.js';
-export { ModelSelector } from './chat/ModelSelector.js';
-export type { ModelSelectorProps, ModelOption } from './chat/ModelSelector.js';
+export { ChatMessagesPanel } from './chat/ChatMessagesPanel.js';
+export type { ChatMessagesPanelProps } from './chat/ChatMessagesPanel.js';
+export { ChatInputPanel } from './chat/ChatInputPanel.js';
+export type { ChatInputPanelProps } from './chat/ChatInputPanel.js';
+export { ModelSelectorPanel } from './chat/ModelSelectorPanel.js';
+export type {
+  ModelSelectorPanelProps,
+  ModelOption,
+} from './chat/ModelSelectorPanel.js';
+export { ModelSelectorTrigger } from './chat/ModelSelectorTrigger.js';
+export type { ModelSelectorTriggerProps } from './chat/ModelSelectorTrigger.js';
 export { ChatEmptyState } from './chat/ChatEmptyState.js';
 export type { ChatEmptyStateProps } from './chat/ChatEmptyState.js';
-export { chatContainer, costLabel, errorLabel } from './chat/chat-styles.js';
+export {
+  chatContainer,
+  costLabel,
+  errorLabel,
+  modelSelectorWrapper,
+  modelSelectorDropdown,
+} from './chat/chat-styles.js';

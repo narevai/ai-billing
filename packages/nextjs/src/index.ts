@@ -7,3 +7,16 @@ export { CreditUsageStripe } from './stripe/CreditUsageStripe.js';
 export type { CreditUsageStripeProps } from './stripe/CreditUsageStripe.js';
 export { Chat } from './chat/Chat.js';
 export type { ChatProps } from './chat/Chat.js';
+export { useChat } from './chat/useChat.js';
+export type {
+  UseChatOptions,
+  UseChatReturn,
+  MessageCost,
+  ChatStatus,
+} from './chat/useChat.js';
+export { ModelSelector } from './chat/ModelSelector.js';
+export type { ModelSelectorProps } from './chat/ModelSelector.js';
+export { ChatInput } from './chat/ChatInput.js';
+export type { ChatInputProps } from './chat/ChatInput.js';
+export { ChatMessages } from './chat/ChatMessages.js';
+export type { ChatMessagesProps } from './chat/ChatMessages.js';

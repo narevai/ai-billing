@@ -1,11 +1,12 @@
 'use server';
 
 import { createStreamableValue } from '@ai-sdk/rsc';
-import { streamText, convertToModelMessages } from 'ai';
+import { streamText, convertToModelMessages, stepCountIs } from 'ai';
 import type { UIMessage } from 'ai';
 import { costToNumber, type Cost } from '@ai-billing/core';
 import { createChatGateway } from './gateway.js';
 import type { ChatGatewayOptions } from './gateway.js';
+import { getChatToolsConfig } from './chatTools.js';
 import type { ModelOption } from '@ai-billing/ui';
 
 let _gatewayPromise: ReturnType<typeof createChatGateway> | null = null;
@@ -61,9 +62,13 @@ export async function streamChat(
     _abortControllers.set(streamId, abortController);
   }
 
+  const toolsConfig = getChatToolsConfig();
+
   const result = streamText({
     model,
     messages: modelMessages,
+    tools: toolsConfig?.tools,
+    stopWhen: toolsConfig ? stepCountIs(toolsConfig.maxSteps ?? 5) : undefined,
     providerOptions: tags ? { 'ai-billing-tags': tags } : undefined,
     abortSignal: abortController.signal,
   });
@@ -72,6 +77,9 @@ export async function streamChat(
     text: string;
     cost?: { amount: number; currency: string };
     error?: string;
+    data?: unknown[];
+    toolCall?: { toolCallId: string; toolName: string; input: unknown };
+    toolResult?: { toolCallId: string; toolName: string; result: unknown };
   }>({ text: '' });
 
   (async () => {
@@ -86,6 +94,34 @@ export async function streamChat(
         } else if (part.type === 'reasoning-delta') {
           thinkingText += part.text;
           stream.update({ text: thinkingText });
+        } else if (part.type === 'tool-call') {
+          const toolPart = part as unknown as {
+            toolCallId: string;
+            toolName: string;
+            input: unknown;
+          };
+          stream.update({
+            text: fullText,
+            toolCall: {
+              toolCallId: toolPart.toolCallId,
+              toolName: toolPart.toolName,
+              input: toolPart.input,
+            },
+          });
+        } else if (part.type === 'tool-result') {
+          const resultPart = part as unknown as {
+            toolCallId: string;
+            toolName: string;
+            output: unknown;
+          };
+          stream.update({
+            text: fullText,
+            toolResult: {
+              toolCallId: resultPart.toolCallId,
+              toolName: resultPart.toolName,
+              result: resultPart.output,
+            },
+          });
         } else if (part.type === 'finish-step') {
           const billing = (part.providerMetadata as Record<string, unknown>)?.[
             'ai-billing'

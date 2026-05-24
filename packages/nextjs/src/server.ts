@@ -11,3 +11,5 @@ export type {
 export type { StripeUsageData } from './stripe/types.js';
 export { createChatGateway } from './chat/gateway.js';
 export type { ChatGatewayOptions, ChatGateway } from './chat/gateway.js';
+export { configureChatTools } from './chat/chatTools.js';
+export type { ChatToolsConfig } from './chat/chatTools.js';

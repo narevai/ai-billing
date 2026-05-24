@@ -1,0 +1,95 @@
+[**@ai-billing/nextjs**](../../index)
+
+***
+
+[@ai-billing/nextjs](/sdk/ai-billing/reference/nextjs/typedoc/index) / [index](/sdk/ai-billing/reference/nextjs/typedoc/index/index) / UseChatOptions
+
+# Interface: UseChatOptions
+
+Defined in: [packages/nextjs/src/chat/useChat.ts:11](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/useChat.ts#L11)
+
+## Properties
+
+### userId
+
+> **userId**: `string`
+
+Defined in: [packages/nextjs/src/chat/useChat.ts:12](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/useChat.ts#L12)
+
+***
+
+### defaultModel?
+
+> `optional` **defaultModel?**: `string`
+
+Defined in: [packages/nextjs/src/chat/useChat.ts:13](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/useChat.ts#L13)
+
+***
+
+### initialMessages?
+
+> `optional` **initialMessages?**: `UIMessage`\<`unknown`, `UIDataTypes`, `UITools`\>[]
+
+Defined in: [packages/nextjs/src/chat/useChat.ts:14](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/useChat.ts#L14)
+
+***
+
+### tags?
+
+> `optional` **tags?**: `Record`\<`string`, `string`\>
+
+Defined in: [packages/nextjs/src/chat/useChat.ts:15](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/useChat.ts#L15)
+
+***
+
+### onSubmit?
+
+> `optional` **onSubmit?**: (`message`) => `void` \| `Promise`\<`void`\>
+
+Defined in: [packages/nextjs/src/chat/useChat.ts:16](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/useChat.ts#L16)
+
+#### Parameters
+
+##### message
+
+`UIMessage`
+
+#### Returns
+
+`void` \| `Promise`\<`void`\>
+
+***
+
+### onFinish?
+
+> `optional` **onFinish?**: (`messages`) => `void` \| `Promise`\<`void`\>
+
+Defined in: [packages/nextjs/src/chat/useChat.ts:17](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/useChat.ts#L17)
+
+#### Parameters
+
+##### messages
+
+`UIMessage`\<`unknown`, `UIDataTypes`, `UITools`\>[]
+
+#### Returns
+
+`void` \| `Promise`\<`void`\>
+
+***
+
+### onData?
+
+> `optional` **onData?**: (`data`) => `void`
+
+Defined in: [packages/nextjs/src/chat/useChat.ts:18](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/useChat.ts#L18)
+
+#### Parameters
+
+##### data
+
+`unknown`
+
+#### Returns
+
+`void`

@@ -229,6 +229,20 @@ export const stopCircle: React.CSSProperties = {
   flexShrink: 0,
 };
 
+// ── Smart model selector wrapper ─────────────────────────────────────────────
+
+export const modelSelectorWrapper: React.CSSProperties = {
+  position: 'relative',
+  display: 'inline-block',
+};
+
+export const modelSelectorDropdown: React.CSSProperties = {
+  position: 'absolute',
+  bottom: '100%',
+  left: 0,
+  zIndex: 50,
+};
+
 // ── Model selector panel ──────────────────────────────────────────────────────
 
 export const modelSelectorPanel: React.CSSProperties = {
@@ -292,6 +306,80 @@ export const modelItemButton: React.CSSProperties = {
 export const mdParagraph: React.CSSProperties = {
   margin: '0 0 10px',
   lineHeight: 1.65,
+};
+
+export const mdH1: React.CSSProperties = {
+  fontSize: '1.5em',
+  fontWeight: 700,
+  margin: '16px 0 8px',
+  lineHeight: 1.3,
+};
+export const mdH2: React.CSSProperties = {
+  fontSize: '1.25em',
+  fontWeight: 700,
+  margin: '14px 0 6px',
+  lineHeight: 1.3,
+};
+export const mdH3: React.CSSProperties = {
+  fontSize: '1.1em',
+  fontWeight: 600,
+  margin: '12px 0 4px',
+  lineHeight: 1.3,
+};
+export const mdH4: React.CSSProperties = {
+  fontSize: '1em',
+  fontWeight: 600,
+  margin: '10px 0 4px',
+};
+
+export const mdUl: React.CSSProperties = {
+  margin: '0 0 10px',
+  paddingLeft: '20px',
+  listStyleType: 'disc',
+};
+export const mdOl: React.CSSProperties = {
+  margin: '0 0 10px',
+  paddingLeft: '20px',
+  listStyleType: 'decimal',
+};
+export const mdLi: React.CSSProperties = { margin: '2px 0', lineHeight: 1.65 };
+
+export const mdStrong: React.CSSProperties = { fontWeight: 700 };
+export const mdEm: React.CSSProperties = { fontStyle: 'italic' };
+
+export const mdA: React.CSSProperties = {
+  color: '#3b82f6',
+  textDecoration: 'underline',
+};
+
+export const mdBlockquote: React.CSSProperties = {
+  borderLeft: '3px solid var(--border)',
+  paddingLeft: '12px',
+  margin: '0 0 10px',
+  color: 'var(--muted-foreground)',
+};
+
+export const mdTable: React.CSSProperties = {
+  width: '100%',
+  borderCollapse: 'collapse',
+  margin: '0 0 10px',
+  fontSize: '13px',
+};
+export const mdTh: React.CSSProperties = {
+  padding: '6px 10px',
+  fontWeight: 600,
+  borderBottom: '1px solid var(--border)',
+  textAlign: 'left',
+};
+export const mdTd: React.CSSProperties = {
+  padding: '5px 10px',
+  borderBottom: '1px solid var(--border)',
+};
+
+export const mdHr: React.CSSProperties = {
+  border: 'none',
+  borderTop: '1px solid var(--border)',
+  margin: '12px 0',
 };
 
 export const mdCodeBlock: React.CSSProperties = {
