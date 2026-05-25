@@ -35,7 +35,6 @@
     "@opentelemetry/sdk-logs": "^0.216.0",
     "@opentelemetry/sdk-metrics": "^2.7.1",
     "@opentelemetry/sdk-trace-base": "^2.7.1",
-
     "@radix-ui/react-use-controllable-state": "^1.2.2",
     "@streamdown/cjk": "^1.0.2",
     "@streamdown/code": "^1.0.3",

@@ -325,9 +325,7 @@ const PurePreviewMessage = ({
     <>
       {attachments}
       {parts}
-      <div className="flex items-center">
-        {actions}
-      </div>
+      <div className="flex items-center">{actions}</div>
     </>
   );
 
