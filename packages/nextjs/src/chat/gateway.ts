@@ -434,7 +434,7 @@ export async function createChatGateway(
     : undefined;
 
   const providers: ProviderEntry[] = [];
-  const modelMap = new Map<string, ProviderEntry>();
+  const providerMap = new Map<string, ProviderEntry>();
 
   for (const config of configs) {
     const apiKey = resolveEnv(config.envVar, customEnv);
@@ -465,9 +465,7 @@ export async function createChatGateway(
     };
 
     providers.push(entry);
-    for (const m of entry.models) {
-      modelMap.set(m.id, entry);
-    }
+    providerMap.set(config.providerId, entry);
   }
 
   // Try to fetch the full model list from Narev, filtered to configured providers only.
@@ -480,13 +478,8 @@ export async function createChatGateway(
         providers: configuredProviderIds,
       });
       allModels = Object.entries(data).flatMap(([providerId, modelIds]) => {
-        const providerEntry = providers.find(p => p.providerId === providerId);
-        if (!providerEntry) return [];
-        const modelOptions = buildModelOptions(providerId, modelIds);
-        for (const m of modelOptions) {
-          modelMap.set(m.id, providerEntry);
-        }
-        return modelOptions;
+        if (!providerMap.has(providerId)) return [];
+        return buildModelOptions(providerId, modelIds);
       });
     } catch {
       // fall back to DEFAULT_MODELS list
@@ -497,9 +490,11 @@ export async function createChatGateway(
     getProviders: () => providers,
     getModels: () => allModels,
     getModel: (modelId: string) => {
-      const entry = modelMap.get(modelId);
-      if (!entry) throw new Error(`Model not found: ${modelId}`);
-      const modelName = modelId.split(':').slice(1).join(':');
+      const separatorIndex = modelId.indexOf(':');
+      const providerId = modelId.slice(0, separatorIndex);
+      const modelName = modelId.slice(separatorIndex + 1);
+      const entry = providerMap.get(providerId);
+      if (!entry) throw new Error(`Provider not configured: ${providerId}`);
       return entry.getModel(modelName);
     },
   };
