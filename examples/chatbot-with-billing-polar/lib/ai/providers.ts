@@ -1,6 +1,6 @@
-import { customProvider } from 'ai';
+import { customProvider, gateway } from 'ai';
 import { isTestEnvironment } from '../constants';
-import { getChatGateway } from './gateway';
+import { getBillingWrappedModel } from './billing';
 import { titleModel } from './models';
 
 export const myProvider = isTestEnvironment
@@ -15,22 +15,17 @@ export const myProvider = isTestEnvironment
     })()
   : null;
 
-export async function getLanguageModel(modelId: string) {
+export function getLanguageModel(modelId: string) {
   if (isTestEnvironment && myProvider) {
     return myProvider.languageModel(modelId);
   }
 
-  const gw = await getChatGateway();
-  if (!gw) throw new Error('Chat gateway not initialized');
-  return gw.getModel(`gateway:${modelId}`);
+  return getBillingWrappedModel(gateway.languageModel(modelId));
 }
 
-export async function getTitleModel() {
+export function getTitleModel() {
   if (isTestEnvironment && myProvider) {
     return myProvider.languageModel('title-model');
   }
-
-  const gw = await getChatGateway();
-  if (!gw) throw new Error('Chat gateway not initialized');
-  return gw.getModel(`gateway:${titleModel.id}`);
+  return gateway.languageModel(titleModel.id);
 }
