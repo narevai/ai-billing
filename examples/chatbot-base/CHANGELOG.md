@@ -1,5 +1,11 @@
 # chatbot-with-billing-polar
 
+## 0.0.2
+
+### Patch Changes
+
+- e08decb: feat(examples/chatbot-base): init
+
 ## 0.0.7
 
 ### Patch Changes

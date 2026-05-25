@@ -1,5 +1,14 @@
 # chatbot-with-billing-polar
 
+## 0.0.8
+
+### Patch Changes
+
+- 3cb27fb: feat(examples): make example with createChatGateway
+- dd822d2: fix(nextjs): verify provider instead of model
+- Updated dependencies [dd822d2]
+  - @ai-billing/nextjs@0.0.7
+
 ## 0.0.7
 
 ### Patch Changes

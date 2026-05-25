@@ -1,5 +1,12 @@
 # ai-billing-storybook
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [dd822d2]
+  - @ai-billing/nextjs@0.0.7
+
 ## 0.0.6
 
 ### Patch Changes

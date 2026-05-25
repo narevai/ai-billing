@@ -1,5 +1,13 @@
 # chatbot-with-billing-polar
 
+## 0.0.8
+
+### Patch Changes
+
+- 41b4c27: feat(examples): add chatbot-openai-base
+- Updated dependencies [dd822d2]
+  - @ai-billing/nextjs@0.0.7
+
 ## 0.0.7
 
 ### Patch Changes
