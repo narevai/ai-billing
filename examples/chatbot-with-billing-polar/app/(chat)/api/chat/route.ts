@@ -176,7 +176,7 @@ export async function POST(request: Request) {
       originalMessages: isToolApprovalFlow ? uiMessages : undefined,
       execute: async ({ writer: dataStream }) => {
         const result = streamText({
-          model: getLanguageModel(chatModel),
+          model: await getLanguageModel(chatModel),
           system: systemPrompt({ requestHints, supportsTools }),
           messages: modelMessages,
           stopWhen: stepCountIs(5),

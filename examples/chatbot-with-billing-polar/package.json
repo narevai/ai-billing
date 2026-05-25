@@ -22,10 +22,7 @@
     "test:report": "pnpm exec playwright show-report"
   },
   "dependencies": {
-    "@ai-billing/core": "workspace:*",
-    "@ai-billing/gateway": "workspace:*",
     "@ai-billing/nextjs": "workspace:*",
-    "@ai-billing/polar": "workspace:*",
     "@ai-sdk/provider": "catalog:",
     "@ai-sdk/react": "3.0.118",
     "@codemirror/lang-python": "^6.1.6",

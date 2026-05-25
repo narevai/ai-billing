@@ -9,7 +9,7 @@ export const sheetDocumentHandler = createDocumentHandler<'sheet'>({
     let draftContent = '';
 
     const { fullStream } = streamText({
-      model: getLanguageModel(modelId),
+      model: await getLanguageModel(modelId),
       system: `${sheetPrompt}\n\nOutput ONLY the raw CSV data. No explanations, no markdown fences.`,
       prompt: title,
     });
@@ -31,7 +31,7 @@ export const sheetDocumentHandler = createDocumentHandler<'sheet'>({
     let draftContent = '';
 
     const { fullStream } = streamText({
-      model: getLanguageModel(modelId),
+      model: await getLanguageModel(modelId),
       system: `${updateDocumentPrompt(document.content, 'sheet')}\n\nOutput ONLY the raw CSV data. No explanations, no markdown fences.`,
       prompt: description,
     });

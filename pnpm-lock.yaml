@@ -1023,18 +1023,9 @@ importers:
 
   examples/chatbot-with-billing-polar:
     dependencies:
-      '@ai-billing/core':
-        specifier: workspace:*
-        version: link:../../packages/core
-      '@ai-billing/gateway':
-        specifier: workspace:*
-        version: link:../../packages/gateway
       '@ai-billing/nextjs':
         specifier: workspace:*
         version: link:../../packages/nextjs
-      '@ai-billing/polar':
-        specifier: workspace:*
-        version: link:../../packages/polar
       '@ai-sdk/provider':
         specifier: 'catalog:'
         version: 3.0.8
