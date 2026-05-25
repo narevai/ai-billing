@@ -1,5 +1,11 @@
 # chatbot-with-billing-polar
 
+## 0.0.2
+
+### Patch Changes
+
+- 41b4c27: feat(examples): add chatbot-openai-base
+
 ## 0.0.7
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @ai-billing/nextjs
 
+## 0.0.7
+
+### Patch Changes
+
+- dd822d2: fix(nextjs): verify provider instead of model
+
 ## 0.0.6
 
 ### Patch Changes
