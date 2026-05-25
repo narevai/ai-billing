@@ -286,7 +286,7 @@ export async function POST(request: Request) {
         'AI Gateway requires a valid credit card on file to service requests',
       )
     ) {
-      return new ChatbotError('bad_request:activate_gateway').toResponse();
+      return new ChatbotError('bad_request:api').toResponse();
     }
 
     console.error('Unhandled error in chat API:', error, { vercelId });
