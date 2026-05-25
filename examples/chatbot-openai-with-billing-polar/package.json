@@ -26,7 +26,7 @@
     "@ai-billing/nextjs": "workspace:*",
     "@ai-billing/openai": "workspace:*",
     "@ai-billing/polar": "workspace:*",
-    "@ai-sdk/openai": "^3.0.0",
+    "@ai-sdk/openai": "catalog:",
     "@ai-sdk/provider": "catalog:",
     "@ai-sdk/react": "3.0.118",
     "@codemirror/lang-python": "^6.1.6",

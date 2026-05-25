@@ -83,7 +83,7 @@ export function getCapabilities(): Record<string, ModelCapabilities> {
     'gpt-4o': { tools: true, vision: true, reasoning: false },
     'gpt-4o-mini': { tools: true, vision: true, reasoning: false },
     'o4-mini': { tools: false, vision: false, reasoning: true },
-    'o3': { tools: false, vision: false, reasoning: true },
+    o3: { tools: false, vision: false, reasoning: true },
     'o3-mini': { tools: false, vision: false, reasoning: true },
   };
 }
@@ -94,7 +94,7 @@ export function getActiveModels(): ChatModel[] {
   return chatModels;
 }
 
-export const allowedModelIds = new Set(chatModels.map((m) => m.id));
+export const allowedModelIds = new Set(chatModels.map(m => m.id));
 
 export const modelsByProvider = chatModels.reduce(
   (acc, model) => {
