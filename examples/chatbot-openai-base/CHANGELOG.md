@@ -1,0 +1,61 @@
+# chatbot-with-billing-polar
+
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [3cd4ed7]
+  - @ai-billing/nextjs@0.0.6
+
+## 0.0.6
+
+### Patch Changes
+
+- Updated dependencies [186a7fc]
+  - @ai-billing/nextjs@0.0.5
+
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [81775fc]
+- Updated dependencies [804b53f]
+  - @ai-billing/nextjs@0.0.4
+  - @ai-billing/gateway@0.1.3
+
+## 0.0.4
+
+### Patch Changes
+
+- b410651: fix(examples): fix sidebar buttons
+- Updated dependencies [34ef850]
+- Updated dependencies [8de3cd8]
+  - @ai-billing/nextjs@0.0.3
+  - @ai-billing/polar@0.1.5
+
+## 0.0.3
+
+### Patch Changes
+
+- 56442fa: feat(examples): add usage and topup components to chatbot examples
+- Updated dependencies [ddbcaba]
+  - @ai-billing/nextjs@0.0.2
+
+## 0.0.2
+
+### Patch Changes
+
+- 6ee669f: chore: update next to 16.2.5
+- 6711ca0: feat(examples): add generation cost and deploy to vercel button
+- 46fde94: chore(examples): update next and mermaid deps
+- 8de76c1: fix(chatbot-with-billing-polar): Simplify chatbot example, remove overhelming deps
+
+## 0.0.1
+
+### Patch Changes
+
+- b4a72c8: docs(polar): add ai-billing chatbot with polar backend
+- 7680ac0: docs(polar): adding automated template repo sync
+- 4d8787f: docs(polar): add auto-update script for template
+- Updated dependencies [a45a3f0]
+  - @ai-billing/polar@0.1.4
