@@ -29,9 +29,7 @@ export async function generateTitleFromUserMessage({
     model: getTitleModel(),
     system: titlePrompt,
     prompt: getTextFromMessage(message),
-    providerOptions: {
-      gateway: { order: titleModel.gatewayOrder },
-    },
+    providerOptions: {},
   });
   return text
     .replace(/^[#*"\s]+/, '')
