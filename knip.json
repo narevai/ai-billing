@@ -12,7 +12,6 @@
     "examples/chatbot-openai-base/**",
     "examples/chatbot-with-billing-polar/**",
     "examples/chatbot-with-billing-stripe/**",
-    "examples/chatbot-with-billing-nextjs-polar/**",
     "examples/chatbot-openai-with-billing-polar/**",
     "examples/chatbot-gateway-with-billing-polar/**",
     "apps/storybook/**"
