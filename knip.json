@@ -9,10 +9,10 @@
   ],
   "ignore": [
     "examples/utils/**",
-    "examples/chatbot-with-billing-polar/**",
-    "examples/chatbot-with-billing-stripe/**",
-    "examples/chatbot-openai-with-billing-polar/**",
-    "examples/chatbot-gateway-with-billing-polar/**",
+    "examples/chatbot-gateway-with-billing-polar-advanced/**",
+    "examples/chatbot-gateway-with-billing-stripe-advanced/**",
+    "examples/chatbot-openai-with-billing-polar-advanced/**",
+    "examples/chatbot-with-billing/**",
     "apps/storybook/**"
   ],
   "workspaces": {

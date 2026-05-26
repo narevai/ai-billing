@@ -1,4 +1,4 @@
-# chatbot-with-billing-stripe
+# chatbot-gateway-with-billing-stripe-advanced
 
 ## 0.0.9
 

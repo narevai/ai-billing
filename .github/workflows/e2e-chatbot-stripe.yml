@@ -1,15 +1,15 @@
-name: E2E (examples/chatbot-with-billing-stripe)
+name: E2E (examples/chatbot-gateway-with-billing-stripe-advanced)
 
 on:
   push:
     paths:
-      - 'examples/chatbot-with-billing-stripe/**'
+      - 'examples/chatbot-gateway-with-billing-stripe-advanced/**'
   pull_request:
     paths:
-      - 'examples/chatbot-with-billing-stripe/**'
+      - 'examples/chatbot-gateway-with-billing-stripe-advanced/**'
 
 jobs:
-  e2e-chatbot-with-billing-stripe:
+  e2e-chatbot-gateway-with-billing-stripe-advanced:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     env:
@@ -50,16 +50,16 @@ jobs:
       - name: Install Playwright Browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm --filter chatbot run test:e2e:setup
-        working-directory: examples/chatbot-with-billing-stripe
+        working-directory: examples/chatbot-gateway-with-billing-stripe-advanced
 
       - name: Run E2E tests
         run: pnpm --filter chatbot run test:e2e
-        working-directory: examples/chatbot-with-billing-stripe
+        working-directory: examples/chatbot-gateway-with-billing-stripe-advanced
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: always() && !cancelled()
         with:
           name: playwright-report
-          path: examples/chatbot-with-billing-stripe/playwright-report/
+          path: examples/chatbot-gateway-with-billing-stripe-advanced/playwright-report/
           retention-days: 7

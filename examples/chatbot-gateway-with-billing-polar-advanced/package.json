@@ -1,6 +1,6 @@
 {
-  "name": "chatbot-with-billing-polar",
-  "version": "0.0.9",
+  "name": "chatbot-gateway-with-billing-polar-advanced",
+  "version": "0.0.8",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo --port 3000",
