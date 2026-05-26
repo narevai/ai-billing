@@ -8,11 +8,9 @@
     "typedoc-plugin-markdown"
   ],
   "ignore": [
-    "examples/chatbot-base/**",
-    "examples/chatbot-openai-base/**",
+    "examples/utils/**",
     "examples/chatbot-with-billing-polar/**",
     "examples/chatbot-with-billing-stripe/**",
-    "examples/chatbot-with-billing-nextjs-polar/**",
     "examples/chatbot-openai-with-billing-polar/**",
     "examples/chatbot-gateway-with-billing-polar/**",
     "apps/storybook/**"
