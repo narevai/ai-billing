@@ -1,5 +1,5 @@
 {
-  "name": "chatbot-gateway-with-billing-polar",
+  "name": "chatbot-gateway-with-billing-polar-advanced",
   "version": "0.0.8",
   "private": true,
   "scripts": {
@@ -22,13 +22,10 @@
     "test:report": "pnpm exec playwright show-report"
   },
   "dependencies": {
-    "@ai-billing/anthropic": "workspace:*",
     "@ai-billing/core": "workspace:*",
+    "@ai-billing/gateway": "workspace:*",
     "@ai-billing/nextjs": "workspace:*",
-    "@ai-billing/openai": "workspace:*",
     "@ai-billing/polar": "workspace:*",
-    "@ai-sdk/anthropic": "^3.0.0",
-    "@ai-sdk/openai": "^3.0.0",
     "@ai-sdk/provider": "catalog:",
     "@ai-sdk/react": "3.0.118",
     "@codemirror/lang-python": "^6.1.6",
@@ -96,7 +93,7 @@
     "tailwindcss-animate": "^1.0.7",
     "use-stick-to-bottom": "^1.1.1",
     "usehooks-ts": "^3.1.0",
-    "zod": "^4.0.0"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@playwright/test": "^1.50.1",

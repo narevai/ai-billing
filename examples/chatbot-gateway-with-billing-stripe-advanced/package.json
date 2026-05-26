@@ -1,5 +1,5 @@
 {
-  "name": "chatbot-with-billing-stripe",
+  "name": "chatbot-gateway-with-billing-stripe-advanced",
   "version": "0.0.8",
   "private": true,
   "scripts": {

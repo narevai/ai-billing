@@ -1,4 +1,4 @@
-# chatbot-with-billing-polar
+# chatbot-with-billing
 
 ## 0.0.8
 
