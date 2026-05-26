@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { cardBase, mutedText } from './styles.js';
+import React from 'react';
+import { cardBase } from './styles.js';
 import { formatCents, taxMessages } from '../utils.js';
 import type { CreditPackage } from '../types.js';
-import { LightningIcon } from '../icons.js';
 import { EmptyMessage } from '../empty.js';
 
 const loadingPackages: CreditPackage[] = [
@@ -23,24 +22,12 @@ export interface CreditPackagePickerProps extends React.HTMLAttributes<HTMLDivEl
   loading?: boolean;
 }
 
-function packageLabel(pkg: CreditPackage, disabled: boolean) {
-  if (disabled) return 'Top-up $—';
-  return `Top-up ${formatCents(pkg.priceCents)}`;
-}
-
-function packagePrice(pkg: CreditPackage, disabled: boolean) {
-  if (disabled) return '$—';
-  return formatCents(pkg.priceCents);
-}
-
-function PackageRow({
+function PackageTile({
   pkg,
-  selected,
   disabled,
   onSelect,
 }: {
   pkg: CreditPackage;
-  selected: boolean;
   disabled: boolean;
   onSelect: () => void;
 }) {
@@ -53,98 +40,31 @@ function PackageRow({
         if (!disabled && (e.key === 'Enter' || e.key === ' ')) onSelect();
       }}
       style={{
+        flex: '1 1 0',
+        minWidth: 0,
+        padding: '20px 8px',
         display: 'flex',
         alignItems: 'center',
-        gap: 12,
-        padding: '10px 14px',
+        justifyContent: 'center',
         borderRadius: 'var(--radius, 0.75rem)',
-        background: selected && !disabled ? 'var(--muted)' : 'transparent',
-        border:
-          selected && !disabled
-            ? '1px solid var(--border)'
-            : '1px solid transparent',
+        border: '1px solid var(--border)',
+        background: 'transparent',
         cursor: disabled ? undefined : 'pointer',
         transition: 'background 0.15s, border-color 0.15s',
         userSelect: 'none',
         outline: 'none',
-        opacity: disabled ? 0.5 : 1,
+        opacity: disabled ? 0.4 : 1,
       }}
     >
-      <LightningIcon selected={selected} />
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <p
-          style={{
-            margin: 0,
-            fontSize: 14,
-            fontWeight: 600,
-            color: 'var(--card-foreground)',
-            lineHeight: 1.3,
-          }}
-        >
-          {packageLabel(pkg, disabled)}
-        </p>
-      </div>
       <span
         style={{
-          flexShrink: 0,
-          fontSize: 16,
+          fontSize: 14,
           fontWeight: 700,
           color: 'var(--card-foreground)',
         }}
       >
-        {packagePrice(pkg, disabled)}
+        {disabled ? '$—' : formatCents(pkg.priceCents)}
       </span>
-    </div>
-  );
-}
-
-function PurchaseButton({
-  packages,
-  selectedIdx,
-  isPending,
-  onPurchase,
-  loading,
-}: {
-  packages: CreditPackage[];
-  selectedIdx: number;
-  isPending: boolean;
-  onPurchase: (id: string) => void;
-  loading?: boolean;
-}) {
-  const selected = packages[selectedIdx] ?? null;
-  const isDisabled = loading || isPending || !selected;
-  return (
-    <div style={{ marginTop: 20 }}>
-      <button
-        type="button"
-        disabled={isDisabled}
-        onClick={() => selected && onPurchase(selected.id)}
-        style={{
-          fontFamily: 'inherit',
-          width: '100%',
-          height: 38,
-          borderRadius: 'var(--radius, 0.5rem)',
-          background: 'var(--primary)',
-          color: 'var(--primary-foreground)',
-          border: 0,
-          fontSize: 14,
-          fontWeight: 500,
-          cursor: isDisabled ? 'not-allowed' : 'pointer',
-          opacity: loading || isPending ? 0.6 : 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transition: 'opacity 0.15s',
-        }}
-      >
-        {loading
-          ? 'Loading…'
-          : isPending
-            ? 'Processing…'
-            : selected
-              ? `Top-up ${formatCents(selected.priceCents)}`
-              : 'Select a package'}
-      </button>
     </div>
   );
 }
@@ -174,7 +94,7 @@ export const CreditPackagePicker = React.forwardRef<
 >(
   (
     {
-      title = 'Choose a credit bundle to top up your workspace balance.',
+      title,
       packages,
       taxBehavior,
       onPurchase,
@@ -188,75 +108,21 @@ export const CreditPackagePicker = React.forwardRef<
     ref,
   ) => {
     const cls = (className ?? '').trim();
-    const [selectedIdx, setSelectedIdx] = useState(0);
 
-    const renderContent = () => {
-      if (loading) {
-        return (
-          <>
-            {title && <p style={{ ...mutedText, marginBottom: 12 }}>{title}</p>}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {loadingPackages.map((pkg, i) => (
-                <PackageRow
-                  key={pkg.id}
-                  pkg={pkg}
-                  selected={i === 0}
-                  disabled
-                  onSelect={() => {}}
-                />
-              ))}
-            </div>
-            <PurchaseButton
-              packages={loadingPackages}
-              selectedIdx={0}
-              isPending={false}
-              onPurchase={() => {}}
-              loading
-            />
-          </>
-        );
-      }
+    const displayPackages = loading ? loadingPackages : packages;
 
-      if (packages.length === 0) {
-        return <EmptyMessage message="No top-up packages available." />;
-      }
-
+    if (!loading && packages.length === 0) {
       return (
-        <>
-          {title && <p style={{ ...mutedText, marginBottom: 12 }}>{title}</p>}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {packages.map((pkg, i) => (
-              <PackageRow
-                key={pkg.id}
-                pkg={pkg}
-                selected={i === selectedIdx}
-                disabled={false}
-                onSelect={() => setSelectedIdx(i)}
-              />
-            ))}
-          </div>
-          <PurchaseButton
-            packages={packages}
-            selectedIdx={selectedIdx}
-            isPending={!!isPending}
-            onPurchase={onPurchase}
-          />
-          {error && (
-            <p
-              style={{
-                marginTop: 8,
-                fontSize: 12,
-                color: '#ef4444',
-                textAlign: 'center',
-              }}
-            >
-              {error}
-            </p>
-          )}
-          {taxBehavior && <TaxNote behavior={taxBehavior} />}
-        </>
+        <div
+          ref={ref}
+          className={cls}
+          style={{ ...cardBase, ...style }}
+          {...props}
+        >
+          <EmptyMessage message="No top-up packages available." />
+        </div>
       );
-    };
+    }
 
     return (
       <div
@@ -270,7 +136,42 @@ export const CreditPackagePicker = React.forwardRef<
         }}
         {...props}
       >
-        {renderContent()}
+        <h3
+          style={{
+            margin: '0 0 20px',
+            fontSize: 21,
+            fontWeight: 700,
+            color: 'var(--card-foreground)',
+            lineHeight: 1.2,
+          }}
+        >
+          {title ?? 'Buy Credits'}
+        </h3>
+
+        <div style={{ display: 'flex', gap: 10 }}>
+          {displayPackages.map(pkg => (
+            <PackageTile
+              key={pkg.id}
+              pkg={pkg}
+              disabled={!!loading || !!isPending}
+              onSelect={() => onPurchase(pkg.id)}
+            />
+          ))}
+        </div>
+
+        {error && (
+          <p
+            style={{
+              marginTop: 8,
+              fontSize: 12,
+              color: '#ef4444',
+              textAlign: 'center',
+            }}
+          >
+            {error}
+          </p>
+        )}
+        {taxBehavior && <TaxNote behavior={taxBehavior} />}
       </div>
     );
   },

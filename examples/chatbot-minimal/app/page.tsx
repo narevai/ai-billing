@@ -32,7 +32,7 @@ export default function Home() {
         </div>
         <div
           style={{
-            width: '340px',
+            width: '380px',
             flexShrink: 0,
             padding: '16px',
             display: 'flex',

@@ -15,6 +15,13 @@ const meta = {
   component: CreditTopUpPolar,
   tags: ['autodocs'],
   args: { userId: 'usr_test' },
+  decorators: [
+    (Story: React.ComponentType) => (
+      <div style={{ maxWidth: 420, margin: '0 auto' }}>
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     userId: {
       control: 'text',
@@ -24,9 +31,7 @@ const meta = {
       control: 'text',
       description: 'Heading shown above the package list.',
       table: {
-        defaultValue: {
-          summary: '"Choose a credit bundle to top up your workspace balance."',
-        },
+        defaultValue: { summary: '"Buy Credits"' },
       },
     },
     successUrl: {
@@ -100,7 +105,7 @@ export const Playground: StoryObj<PlaygroundArgs> = {
   name: '⚙ Playground',
   args: {
     userId: 'usr_test',
-    title: 'Choose a credit bundle to top up your workspace balance.',
+    title: '',
     hasPackages: true,
     taxBehavior: 'none',
     loading: false,
