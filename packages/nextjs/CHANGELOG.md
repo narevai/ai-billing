@@ -1,5 +1,13 @@
 # @ai-billing/nextjs
 
+## 0.0.8
+
+### Patch Changes
+
+- d64b99c: fix(ui): simplify topup component
+- Updated dependencies [d64b99c]
+  - @ai-billing/ui@0.0.4
+
 ## 0.0.7
 
 ### Patch Changes
