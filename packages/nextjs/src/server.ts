@@ -9,7 +9,7 @@ export type {
   PolarUsageData,
 } from './polar/types.js';
 export type { StripeUsageData } from './stripe/types.js';
-export { createChatGateway } from './chat/gateway.js';
-export type { ChatGatewayOptions, ChatGateway } from './chat/gateway.js';
+export { createChatRouter } from './chat/router.js';
+export type { ChatRouterOptions, ChatRouter } from './chat/router.js';
 export { configureChatTools } from './chat/chatTools.js';
 export type { ChatToolsConfig } from './chat/chatTools.js';
