@@ -1,5 +1,11 @@
 # @ai-billing/ui
 
+## 0.0.4
+
+### Patch Changes
+
+- d64b99c: fix(ui): simplify topup component
+
 ## 0.0.3
 
 ### Patch Changes
