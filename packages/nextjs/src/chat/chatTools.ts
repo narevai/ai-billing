@@ -13,6 +13,8 @@ let _config: ChatToolsConfig | undefined;
  *
  * Generic to avoid TypeScript's deep-union instantiation limit on ToolSet
  * while still accepting any record of tool objects at the call site.
+ *
+ * @param config - Tools configuration with optional step limit.
  */
 export function configureChatTools<T extends Record<string, object>>(config: {
   tools: T;

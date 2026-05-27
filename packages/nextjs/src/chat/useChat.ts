@@ -56,7 +56,11 @@ function createMessage(role: 'user' | 'assistant', text: string): UIMessage {
   } as unknown as UIMessage;
 }
 
-/** React hook that manages chat state, streaming, model selection, and tool calls. */
+/**
+ * React hook that manages chat state, streaming, model selection, and tool calls.
+ *
+ * @param options - Hook configuration; see {@link UseChatOptions}.
+ */
 export function useChat({
   userId,
   defaultModel,

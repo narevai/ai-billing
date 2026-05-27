@@ -9,6 +9,12 @@ export interface ModelsPricingResult {
   meta: ListModelsMeta;
 }
 
+/**
+ * Fetches paginated model pricing data from the Narev API.
+ *
+ * @param options - Optional filters and pagination parameters.
+ * @returns List of models with pricing and pagination metadata.
+ */
 export async function fetchModelsPricing(
   options?: ListModelsPricingOptions,
 ): Promise<ModelsPricingResult> {
