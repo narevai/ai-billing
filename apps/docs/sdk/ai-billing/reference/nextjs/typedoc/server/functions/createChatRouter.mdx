@@ -1,0 +1,23 @@
+[**@ai-billing/nextjs**](../../index)
+
+***
+
+[@ai-billing/nextjs](/sdk/ai-billing/reference/nextjs/typedoc/index) / [server](/sdk/ai-billing/reference/nextjs/typedoc/server/index) / createChatRouter
+
+# Function: createChatRouter()
+
+> **createChatRouter**(`options?`): `Promise`\<\{ `getProviders`: () => `ProviderEntry`[]; `getModels`: () => `ModelOption`[]; `getModel`: (`modelId`) => `LanguageModel`; \}\>
+
+Defined in: [packages/nextjs/src/chat/router.ts:413](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/router.ts#L413)
+
+Creates and initialises the chat router with all configured providers.
+
+## Parameters
+
+### options?
+
+[`ChatRouterOptions`](/sdk/ai-billing/reference/nextjs/typedoc/server/interfaces/ChatRouterOptions) = `{}`
+
+## Returns
+
+`Promise`\<\{ `getProviders`: () => `ProviderEntry`[]; `getModels`: () => `ModelOption`[]; `getModel`: (`modelId`) => `LanguageModel`; \}\>

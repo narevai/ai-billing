@@ -304,6 +304,11 @@
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/CreditConfigResponse",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/CreditPackage",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/GetProviderModelsOptions",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ListModelsMeta",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ListModelsPricingOptions",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ListModelsResponse",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/Model",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ModelPricing",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/NarevClient",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/NarevClientOptions",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/ProviderModelsResponse"
@@ -349,6 +354,7 @@
                           "sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditUsagePolarProps",
                           "sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/MessageCost",
                           "sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/ModelSelectorProps",
+                          "sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/ModelsPricingProps",
                           "sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/UseChatOptions",
                           "sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/UseChatReturn",
                           "sdk/ai-billing/reference/nextjs/typedoc/index/README",
@@ -357,21 +363,22 @@
                           "sdk/ai-billing/reference/nextjs/typedoc/index/variables/CreditTopUpPolar",
                           "sdk/ai-billing/reference/nextjs/typedoc/index/variables/CreditUsagePolar",
                           "sdk/ai-billing/reference/nextjs/typedoc/index/variables/CreditUsageStripe",
+                          "sdk/ai-billing/reference/nextjs/typedoc/index/variables/ModelsPricing",
                           "sdk/ai-billing/reference/nextjs/typedoc/server/functions/configureChatTools",
-                          "sdk/ai-billing/reference/nextjs/typedoc/server/functions/createChatGateway",
+                          "sdk/ai-billing/reference/nextjs/typedoc/server/functions/createChatRouter",
                           "sdk/ai-billing/reference/nextjs/typedoc/server/functions/createCheckout",
                           "sdk/ai-billing/reference/nextjs/typedoc/server/functions/fetchPolarConfig",
                           "sdk/ai-billing/reference/nextjs/typedoc/server/functions/fetchPolarUsage",
                           "sdk/ai-billing/reference/nextjs/typedoc/server/functions/fetchStripeUsage",
                           "sdk/ai-billing/reference/nextjs/typedoc/server/functions/fetchTopUpConfig",
-                          "sdk/ai-billing/reference/nextjs/typedoc/server/interfaces/ChatGatewayOptions",
+                          "sdk/ai-billing/reference/nextjs/typedoc/server/interfaces/ChatRouterOptions",
                           "sdk/ai-billing/reference/nextjs/typedoc/server/interfaces/ChatToolsConfig",
                           "sdk/ai-billing/reference/nextjs/typedoc/server/interfaces/CreditPackage",
                           "sdk/ai-billing/reference/nextjs/typedoc/server/interfaces/NarevPolarConfig",
                           "sdk/ai-billing/reference/nextjs/typedoc/server/interfaces/PolarUsageData",
                           "sdk/ai-billing/reference/nextjs/typedoc/server/interfaces/StripeUsageData",
                           "sdk/ai-billing/reference/nextjs/typedoc/server/README",
-                          "sdk/ai-billing/reference/nextjs/typedoc/server/type-aliases/ChatGateway"
+                          "sdk/ai-billing/reference/nextjs/typedoc/server/type-aliases/ChatRouter"
                         ]
                       }
                     ]
