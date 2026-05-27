@@ -87,8 +87,15 @@ export const TaxLocationBased: Story = {
 
 // ─── Playground ───────────────────────────────────────────────────────────────
 
+export const WithAutoTopUp: Story = {
+  name: 'Auto Top-up visible',
+  args: { showAutoTopUp: true },
+  parameters: { mock: { topUpConfig: { packages: pkgs } } },
+};
+
 type PlaygroundArgs = React.ComponentProps<typeof CreditTopUpPolar> & {
   hasPackages: boolean;
+  showAutoTopUp: boolean;
   taxBehavior: 'none' | 'inclusive' | 'exclusive' | 'location';
   loading: boolean;
   cardBg: string;
@@ -107,6 +114,7 @@ export const Playground: StoryObj<PlaygroundArgs> = {
     userId: 'usr_test',
     title: '',
     hasPackages: true,
+    showAutoTopUp: false,
     taxBehavior: 'none',
     loading: false,
     cardBg: '',
@@ -121,6 +129,10 @@ export const Playground: StoryObj<PlaygroundArgs> = {
   argTypes: {
     title: { control: 'text', description: 'Title / description' },
     hasPackages: { control: 'boolean', description: 'Show packages' },
+    showAutoTopUp: {
+      control: 'boolean',
+      description: 'Show Auto Top-up toggle',
+    },
     taxBehavior: {
       control: { type: 'select' },
       options: ['none', 'inclusive', 'exclusive', 'location'],
@@ -142,6 +154,7 @@ export const Playground: StoryObj<PlaygroundArgs> = {
   },
   render: ({
     hasPackages,
+    showAutoTopUp,
     taxBehavior,
     loading,
     cardBg,
@@ -177,7 +190,8 @@ export const Playground: StoryObj<PlaygroundArgs> = {
         })()}
       >
         <CreditTopUpPolar
-          key={`${hasPackages}-${taxBehavior}-${loading}`}
+          key={`${hasPackages}-${taxBehavior}-${loading}-${showAutoTopUp}`}
+          showAutoTopUp={showAutoTopUp}
           {...args}
         />
       </div>

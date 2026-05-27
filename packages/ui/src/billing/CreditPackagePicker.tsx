@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { cardBase } from './styles.js';
 import { formatCents, taxMessages } from '../utils.js';
 import type { CreditPackage } from '../types.js';
@@ -20,6 +20,10 @@ export interface CreditPackagePickerProps extends React.HTMLAttributes<HTMLDivEl
   isPending?: boolean;
   error?: string | null;
   loading?: boolean;
+  /** Show the Auto Top-up toggle section. */
+  showAutoTopUp?: boolean;
+  /** Called when the Auto Top-up toggle is switched. */
+  onAutoTopUpChange?: (enabled: boolean) => void;
 }
 
 function PackageTile({
@@ -69,6 +73,86 @@ function PackageTile({
   );
 }
 
+function AutoTopUpSection({
+  onChange,
+}: {
+  onChange?: (enabled: boolean) => void;
+}) {
+  const [enabled, setEnabled] = useState(false);
+
+  function toggle() {
+    const next = !enabled;
+    setEnabled(next);
+    onChange?.(next);
+  }
+
+  return (
+    <div style={{ marginTop: 20 }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12,
+          marginBottom: 8,
+        }}
+      >
+        <button
+          role="switch"
+          aria-checked={enabled}
+          onClick={toggle}
+          style={{
+            position: 'relative',
+            width: 44,
+            height: 24,
+            borderRadius: 12,
+            border: 'none',
+            background: enabled
+              ? 'var(--primary, #6366f1)'
+              : 'var(--muted, #3f3f46)',
+            cursor: 'pointer',
+            padding: 0,
+            flexShrink: 0,
+            transition: 'background 0.2s',
+          }}
+        >
+          <span
+            style={{
+              position: 'absolute',
+              top: 3,
+              left: enabled ? 23 : 3,
+              width: 18,
+              height: 18,
+              borderRadius: '50%',
+              background: 'var(--primary-foreground, #fff)',
+              transition: 'left 0.2s',
+            }}
+          />
+        </button>
+        <span
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            color: 'var(--card-foreground)',
+          }}
+        >
+          Auto Top-up
+        </span>
+      </div>
+      <p
+        style={{
+          margin: 0,
+          fontSize: 13,
+          color: 'var(--muted-foreground)',
+          lineHeight: 1.5,
+        }}
+      >
+        You need a valid payment method to enable auto top-up. Try buying some
+        credits!
+      </p>
+    </div>
+  );
+}
+
 function TaxNote({
   behavior,
 }: {
@@ -101,6 +185,8 @@ export const CreditPackagePicker = React.forwardRef<
       isPending,
       error,
       loading,
+      showAutoTopUp,
+      onAutoTopUpChange,
       className,
       style,
       ...props
@@ -171,6 +257,7 @@ export const CreditPackagePicker = React.forwardRef<
             {error}
           </p>
         )}
+        {showAutoTopUp && <AutoTopUpSection onChange={onAutoTopUpChange} />}
         {taxBehavior && <TaxNote behavior={taxBehavior} />}
       </div>
     );
