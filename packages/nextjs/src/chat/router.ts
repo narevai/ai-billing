@@ -11,7 +11,7 @@ import { getNarevClient } from '../narev-client.js';
 import { DEFAULT_MODELS, buildModelOptions } from './models.js';
 import type { ModelOption } from '@ai-billing/ui';
 
-export interface ChatGatewayOptions {
+export interface ChatRouterOptions {
   models?: Record<string, string[]>;
   tags?: Record<string, string>;
   polarAccessToken?: string;
@@ -26,7 +26,7 @@ interface ProviderEntry {
   models: ModelOption[];
 }
 
-export type ChatGateway = Awaited<ReturnType<typeof createChatGateway>>;
+export type ChatRouter = Awaited<ReturnType<typeof createChatRouter>>;
 
 async function createPolarDestinationIfConfigured(
   token?: string,
@@ -283,7 +283,7 @@ async function trySetupOpenRouter(
   }
 }
 
-async function trySetupGateway(
+async function trySetupVercelGateway(
   apiKey: string,
   destinations?: Destination[],
 ): Promise<{ getModel: (modelId: string) => LanguageModel } | null> {
@@ -403,15 +403,15 @@ function getProviderConfigs(
       providerId: 'gateway',
       envVar: 'AI_GATEWAY_API_KEY',
       models: models.gateway ?? [],
-      setup: trySetupGateway as ProviderSetupFnNoPricing,
+      setup: trySetupVercelGateway as ProviderSetupFnNoPricing,
       usesPriceResolver: false,
     },
   ];
 }
 
-/** Creates and initialises the chat gateway with all configured providers. */
-export async function createChatGateway(
-  options: ChatGatewayOptions = {},
+/** Creates and initialises the chat router with all configured providers. */
+export async function createChatRouter(
+  options: ChatRouterOptions = {},
 ): Promise<{
   getProviders: () => ProviderEntry[];
   getModels: () => ModelOption[];

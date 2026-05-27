@@ -4,19 +4,19 @@ import { createStreamableValue } from '@ai-sdk/rsc';
 import { streamText, convertToModelMessages, stepCountIs } from 'ai';
 import type { UIMessage } from 'ai';
 import { costToNumber, type Cost } from '@ai-billing/core';
-import { createChatGateway } from './gateway.js';
-import type { ChatGatewayOptions } from './gateway.js';
+import { createChatRouter } from './router.js';
+import type { ChatRouterOptions } from './router.js';
 import { getChatToolsConfig } from './chatTools.js';
 import type { ModelOption } from '@ai-billing/ui';
 
-let _gatewayPromise: ReturnType<typeof createChatGateway> | null = null;
-let _gatewayOptions: ChatGatewayOptions = {};
+let _routerPromise: ReturnType<typeof createChatRouter> | null = null;
+let _routerOptions: ChatRouterOptions = {};
 
 const _abortControllers = new Map<string, AbortController>();
 
 function optionsEqual(
-  a: ChatGatewayOptions | null,
-  b: ChatGatewayOptions,
+  a: ChatRouterOptions | null,
+  b: ChatRouterOptions,
 ): boolean {
   if (!a) return false;
   return (
@@ -29,21 +29,21 @@ function optionsEqual(
   );
 }
 
-async function getGateway(options: ChatGatewayOptions = {}) {
-  const mergedOptions = { ..._gatewayOptions, ...options };
-  if (!_gatewayPromise || !optionsEqual(_gatewayOptions, mergedOptions)) {
-    _gatewayOptions = mergedOptions;
-    _gatewayPromise = createChatGateway(mergedOptions);
+async function getRouter(options: ChatRouterOptions = {}) {
+  const mergedOptions = { ..._routerOptions, ...options };
+  if (!_routerPromise || !optionsEqual(_routerOptions, mergedOptions)) {
+    _routerOptions = mergedOptions;
+    _routerPromise = createChatRouter(mergedOptions);
   }
-  return _gatewayPromise;
+  return _routerPromise;
 }
 
 /** Returns available models for the configured providers. */
 export async function getModels(
-  options: ChatGatewayOptions = {},
+  options: ChatRouterOptions = {},
 ): Promise<ModelOption[]> {
-  const gateway = await getGateway(options);
-  return gateway.getModels();
+  const router = await getRouter(options);
+  return router.getModels();
 }
 
 /** Streams a chat response for the given messages and model. */
@@ -53,8 +53,8 @@ export async function streamChat(
   tags?: Record<string, string>,
   streamId?: string,
 ) {
-  const gateway = await getGateway({});
-  const model = gateway.getModel(modelId);
+  const router = await getRouter({});
+  const model = router.getModel(modelId);
   const modelMessages = await convertToModelMessages(messages);
 
   const abortController = new AbortController();
