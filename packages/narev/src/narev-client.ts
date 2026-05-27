@@ -5,6 +5,8 @@ import type {
   CreateCheckoutRequest,
   CreditConfigResponse,
   GetProviderModelsOptions,
+  ListModelsPricingOptions,
+  ListModelsResponse,
   ProviderModelsResponse,
 } from './types.js';
 
@@ -60,6 +62,14 @@ export interface NarevClient {
   getProviderModels(
     options?: GetProviderModelsOptions,
   ): Promise<ProviderModelsResponse>;
+
+  /**
+   * Returns a paginated list of models with pricing details.
+   * @param options - optional filters, sorting and pagination
+   */
+  listModelsPricing(
+    options?: ListModelsPricingOptions,
+  ): Promise<ListModelsResponse>;
 }
 
 class NarevClientImpl implements NarevClient {
@@ -106,6 +116,34 @@ class NarevClientImpl implements NarevClient {
       url.searchParams.set('providers', options.providers);
     }
     return this.request<ProviderModelsResponse>(url);
+  }
+
+  async listModelsPricing(
+    options?: ListModelsPricingOptions,
+  ): Promise<ListModelsResponse> {
+    const url = new URL('/v1/models/pricing', this.baseUrl);
+    if (options) {
+      const {
+        model_id,
+        search,
+        provider,
+        subprovider,
+        sort_by,
+        order,
+        page,
+        limit,
+      } = options;
+      if (model_id !== undefined) url.searchParams.set('model_id', model_id);
+      if (search !== undefined) url.searchParams.set('search', search);
+      if (provider !== undefined) url.searchParams.set('provider', provider);
+      if (subprovider !== undefined)
+        url.searchParams.set('subprovider', subprovider);
+      if (sort_by !== undefined) url.searchParams.set('sort_by', sort_by);
+      if (order !== undefined) url.searchParams.set('order', order);
+      if (page !== undefined) url.searchParams.set('page', String(page));
+      if (limit !== undefined) url.searchParams.set('limit', String(limit));
+    }
+    return this.request<ListModelsResponse>(url);
   }
 
   private async request<T>(

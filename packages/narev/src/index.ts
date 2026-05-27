@@ -12,4 +12,9 @@ export type {
   ProviderModelsData,
   ProviderModelsResponse,
   GetProviderModelsOptions,
+  Model,
+  ModelPricing,
+  ListModelsMeta,
+  ListModelsResponse,
+  ListModelsPricingOptions,
 } from './types.js';

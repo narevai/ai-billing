@@ -1,4 +1,6 @@
 'use client';
+export { ModelsPricing } from './pricing/ModelsPricing.js';
+export type { ModelsPricingProps } from './pricing/ModelsPricing.js';
 export { CreditTopUpPolar } from './polar/CreditTopUpPolar.js';
 export type { CreditTopUpPolarProps } from './polar/CreditTopUpPolar.js';
 export { CreditUsagePolar } from './polar/CreditUsagePolar.js';
