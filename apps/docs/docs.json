@@ -92,24 +92,9 @@
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "sdk/ai-billing/reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions",
-                          "sdk/ai-billing/reference/core/typedoc/interfaces/BillingEvent",
                           "sdk/ai-billing/reference/core/typedoc/interfaces/BillingMiddlewareV3Options",
                           "sdk/ai-billing/reference/core/typedoc/interfaces/BuildV3EventPayload",
-                          "sdk/ai-billing/reference/core/typedoc/interfaces/Cost",
-                          "sdk/ai-billing/reference/core/typedoc/interfaces/MeterMetadata",
-                          "sdk/ai-billing/reference/core/typedoc/interfaces/ModelPricing",
-                          "sdk/ai-billing/reference/core/typedoc/interfaces/Usage"
-                        ]
-                      },
-                      {
-                        "group": "Types",
-                        "pages": [
-                          "sdk/ai-billing/reference/core/typedoc/type-aliases/CostUnit",
-                          "sdk/ai-billing/reference/core/typedoc/type-aliases/DefaultTags",
-                          "sdk/ai-billing/reference/core/typedoc/type-aliases/Destination",
-                          "sdk/ai-billing/reference/core/typedoc/type-aliases/PriceResolver",
-                          "sdk/ai-billing/reference/core/typedoc/type-aliases/PriceResolverContext"
+                          "sdk/ai-billing/reference/core/typedoc/interfaces/ModelPricing"
                         ]
                       },
                       {

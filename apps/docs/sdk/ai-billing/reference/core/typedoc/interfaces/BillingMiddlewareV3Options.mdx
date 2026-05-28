@@ -10,20 +10,20 @@ Defined in: [packages/core/src/ai-sdk/language-model-middleware/v3/language-mode
 
 Configuration for [createV3BillingMiddleware](/sdk/ai-billing/reference/core/typedoc/functions/createV3BillingMiddleware).
 
-Extends [BaseBillingMiddlewareOptions](/sdk/ai-billing/reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions) (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
-requires an EventBuilder to construct the [BillingEvent](/sdk/ai-billing/reference/core/typedoc/interfaces/BillingEvent).
+Extends BaseBillingMiddlewareOptions (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
+requires an EventBuilder to construct the BillingEvent.
 
 ## Extends
 
-- [`BaseBillingMiddlewareOptions`](/sdk/ai-billing/reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions)\<`TTags`\>
+- `BaseBillingMiddlewareOptions`\<`TTags`\>
 
 ## Type Parameters
 
 ### TTags
 
-`TTags` *extends* [`DefaultTags`](/sdk/ai-billing/reference/core/typedoc/type-aliases/DefaultTags) = [`DefaultTags`](/sdk/ai-billing/reference/core/typedoc/type-aliases/DefaultTags)
+`TTags` *extends* `DefaultTags` = `DefaultTags`
 
-The shape of the tags object, extending [DefaultTags](/sdk/ai-billing/reference/core/typedoc/type-aliases/DefaultTags).
+The shape of the tags object, extending DefaultTags.
 
 ## Properties
 
@@ -39,15 +39,15 @@ Builds a billing event from the model response data.
 
 ### destinations?
 
-> `optional` **destinations?**: [`Destination`](/sdk/ai-billing/reference/core/typedoc/type-aliases/Destination)\<`TTags`\>[]
+> `optional` **destinations?**: `Destination`\<`TTags`\>[]
 
 Defined in: packages/types/dist/index.d.ts:71
 
-One or more billing destinations that receive each emitted [BillingEvent](/sdk/ai-billing/reference/core/typedoc/interfaces/BillingEvent).
+One or more billing destinations that receive each emitted BillingEvent.
 
 #### Inherited from
 
-[`BaseBillingMiddlewareOptions`](/sdk/ai-billing/reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions).[`destinations`](/sdk/ai-billing/reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions#destinations)
+`BaseBillingMiddlewareOptions.destinations`
 
 ***
 
@@ -61,7 +61,7 @@ Tags merged into every emitted event.
 
 #### Inherited from
 
-[`BaseBillingMiddlewareOptions`](/sdk/ai-billing/reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions).[`defaultTags`](/sdk/ai-billing/reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions#defaulttags)
+`BaseBillingMiddlewareOptions.defaultTags`
 
 ***
 
@@ -86,7 +86,7 @@ while billing events are flushed asynchronously.
 
 #### Inherited from
 
-[`BaseBillingMiddlewareOptions`](/sdk/ai-billing/reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions).[`waitUntil`](/sdk/ai-billing/reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions#waituntil)
+`BaseBillingMiddlewareOptions.waitUntil`
 
 ***
 
@@ -110,4 +110,4 @@ Called when an error occurs during event extraction or dispatch. Defaults to a s
 
 #### Inherited from
 
-[`BaseBillingMiddlewareOptions`](/sdk/ai-billing/reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions).[`onError`](/sdk/ai-billing/reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions#onerror)
+`BaseBillingMiddlewareOptions.onError`
