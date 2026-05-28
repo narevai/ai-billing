@@ -62,11 +62,32 @@
     "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
   },
   "dependencies": {
+    "@ai-billing/anthropic": "workspace:*",
+    "@ai-billing/chutes": "workspace:*",
     "@ai-billing/core": "workspace:*",
+    "@ai-billing/deepseek": "workspace:*",
+    "@ai-billing/gateway": "workspace:*",
+    "@ai-billing/google": "workspace:*",
+    "@ai-billing/groq": "workspace:*",
+    "@ai-billing/minimax": "workspace:*",
     "@ai-billing/narev": "workspace:*",
+    "@ai-billing/openai": "workspace:*",
+    "@ai-billing/openrouter": "workspace:*",
     "@ai-billing/polar": "workspace:*",
     "@ai-billing/types": "workspace:*",
-    "@ai-billing/ui": "workspace:*"
+    "@ai-billing/ui": "workspace:*",
+    "@ai-billing/xai": "workspace:*",
+    "@ai-sdk/anthropic": "^3.0.0",
+    "@ai-sdk/deepseek": "^2.0.0",
+    "@ai-sdk/google": "^3.0.0",
+    "@ai-sdk/groq": "^3.0.0",
+    "@ai-sdk/openai": "catalog:",
+    "@ai-sdk/openai-compatible": "^2.0.0",
+    "@ai-sdk/react": "^3.0.0",
+    "@ai-sdk/rsc": "^2.0.0",
+    "@ai-sdk/xai": "^3.0.0",
+    "@openrouter/ai-sdk-provider": "catalog:",
+    "ai": "catalog:"
   },
   "devDependencies": {
     "@ai-billing/typescript-config": "workspace:*",
@@ -79,84 +100,7 @@
     "vitest": "catalog:"
   },
   "peerDependencies": {
-    "@ai-billing/anthropic": "workspace:*",
-    "@ai-billing/chutes": "workspace:*",
-    "@ai-billing/deepseek": "workspace:*",
-    "@ai-billing/gateway": "workspace:*",
-    "@ai-billing/google": "workspace:*",
-    "@ai-billing/groq": "workspace:*",
-    "@ai-billing/minimax": "workspace:*",
-    "@ai-billing/openai": "workspace:*",
-    "@ai-billing/openrouter": "workspace:*",
-    "@ai-billing/xai": "workspace:*",
-    "@ai-sdk/anthropic": "^3.0.0",
-    "@ai-sdk/deepseek": "^2.0.0",
-    "@ai-sdk/google": "^3.0.0",
-    "@ai-sdk/groq": "^3.0.0",
-    "@ai-sdk/openai": "^3.0.0",
-    "@ai-sdk/openai-compatible": "^2.0.0",
-    "@ai-sdk/react": "^3.0.0",
-    "@ai-sdk/rsc": "^2.0.0",
-    "@ai-sdk/xai": "^3.0.0",
-    "@openrouter/ai-sdk-provider": "^2.3.3",
-    "ai": "^6.0.0",
     "react": "^18 || ^19"
-  },
-  "peerDependenciesMeta": {
-    "@ai-billing/anthropic": {
-      "optional": true
-    },
-    "@ai-billing/chutes": {
-      "optional": true
-    },
-    "@ai-billing/deepseek": {
-      "optional": true
-    },
-    "@ai-billing/gateway": {
-      "optional": true
-    },
-    "@ai-billing/google": {
-      "optional": true
-    },
-    "@ai-billing/groq": {
-      "optional": true
-    },
-    "@ai-billing/minimax": {
-      "optional": true
-    },
-    "@ai-billing/openai": {
-      "optional": true
-    },
-    "@ai-billing/openrouter": {
-      "optional": true
-    },
-    "@ai-billing/xai": {
-      "optional": true
-    },
-    "@ai-sdk/anthropic": {
-      "optional": true
-    },
-    "@ai-sdk/deepseek": {
-      "optional": true
-    },
-    "@ai-sdk/google": {
-      "optional": true
-    },
-    "@ai-sdk/groq": {
-      "optional": true
-    },
-    "@ai-sdk/openai": {
-      "optional": true
-    },
-    "@ai-sdk/openai-compatible": {
-      "optional": true
-    },
-    "@ai-sdk/xai": {
-      "optional": true
-    },
-    "@openrouter/ai-sdk-provider": {
-      "optional": true
-    }
   },
   "engines": {
     "node": ">=20.0.0"
