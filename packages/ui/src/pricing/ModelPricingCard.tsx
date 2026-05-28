@@ -1,6 +1,6 @@
 import React from 'react';
 import { cardBase } from '../styles.js';
-import type { Model, ModelPricing } from '../types.js';
+import type { Model, NarevModelPricing } from '@ai-billing/types';
 
 if (typeof document !== 'undefined') {
   if (!document.getElementById('aib-sk')) {
@@ -23,7 +23,7 @@ function formatField(f: PricingField): string {
   return `$${formatted}/1M`;
 }
 
-function isAllFree(p: ModelPricing): boolean {
+function isAllFree(p: NarevModelPricing): boolean {
   return (
     p.price_prompt === 0 &&
     p.price_completion === 0 &&

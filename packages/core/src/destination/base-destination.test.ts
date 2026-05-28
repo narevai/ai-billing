@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createDestination } from './base-destination.js';
 import { AiBillingDestinationError } from '../error/index.js';
-import type { BillingEvent } from '../types/index.js';
+import type { BillingEvent } from '@ai-billing/types';
 import { JSONObject } from '@ai-sdk/provider';
 
 describe('createDestination', () => {

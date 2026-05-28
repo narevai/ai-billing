@@ -9,7 +9,7 @@ import type {
   DefaultTags,
   Destination,
   MeterMetadata,
-} from '@ai-billing/core';
+} from '@ai-billing/types';
 
 /**
  * Options for {@link createStripeDestination}.

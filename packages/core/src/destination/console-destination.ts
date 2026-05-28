@@ -1,5 +1,5 @@
 import { createDestination } from './base-destination.js';
-import type { DefaultTags, Destination } from '../types/index.js';
+import type { DefaultTags, Destination } from '@ai-billing/types';
 
 /**
  * Creates a destination that logs billing events to the console.

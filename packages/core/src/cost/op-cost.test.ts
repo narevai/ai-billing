@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { multiplyCost, addCosts, applyDiscount } from './op-cost.js';
-import { Cost, CostUnit } from '../types/cost.js';
+import type { Cost, CostUnit } from '@ai-billing/types';
 
 // Mock the convertCostUnit dependency to focus purely on the math logic in op-cost
 vi.mock('./convert-cost.js', () => ({

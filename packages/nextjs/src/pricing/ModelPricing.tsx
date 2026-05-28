@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { ModelsPricingList, ModelSearchBox } from '@ai-billing/ui';
-import type { Model } from '@ai-billing/ui';
+import type { Model } from '@ai-billing/types';
 import { fetchModelPricing } from './fetchModelPricing.js';
 
 export interface ModelPricingProps extends React.HTMLAttributes<HTMLDivElement> {

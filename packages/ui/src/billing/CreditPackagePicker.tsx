@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { cardBase } from '../styles.js';
 import { formatCents, taxMessages } from '../utils.js';
-import type { CreditPackage } from '../types.js';
+import type { CreditPackage } from '@ai-billing/types';
 import { EmptyMessage } from '../empty.js';
 
 const loadingPackages: CreditPackage[] = [

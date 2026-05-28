@@ -1,7 +1,7 @@
 import React from 'react';
 import { EmptyMessage } from '../empty.js';
 import { ModelPricingCard } from './ModelPricingCard.js';
-import type { Model } from '../types.js';
+import type { Model } from '@ai-billing/types';
 
 export interface ModelsPricingListProps extends React.HTMLAttributes<HTMLDivElement> {
   models?: Model[];

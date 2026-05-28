@@ -42,7 +42,8 @@
     "postpack": "node -e \"require('fs').rmSync('LICENSE', { force: true })\""
   },
   "dependencies": {
-    "@ai-billing/core": "workspace:*"
+    "@ai-billing/core": "workspace:*",
+    "@ai-billing/types": "workspace:*"
   },
   "devDependencies": {
     "@ai-billing/typescript-config": "workspace:*",

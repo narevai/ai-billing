@@ -6,7 +6,7 @@
 
 # Function: createDestination()
 
-> **createDestination**\<`TTags`\>(`destinationId`, `handler`): [`Destination`](/sdk/ai-billing/reference/core/typedoc/type-aliases/Destination)\<`TTags`\>
+> **createDestination**\<`TTags`\>(`destinationId`, `handler`): `Destination`\<`TTags`\>
 
 Defined in: [packages/core/src/destination/base-destination.ts:11](https://github.com/narevai/ai-billing/blob/main/packages/core/src/destination/base-destination.ts#L11)
 
@@ -34,6 +34,6 @@ Destination implementation invoked for each billing event.
 
 ## Returns
 
-[`Destination`](/sdk/ai-billing/reference/core/typedoc/type-aliases/Destination)\<`TTags`\>
+`Destination`\<`TTags`\>
 
 A destination function that wraps thrown errors as AiBillingDestinationError.

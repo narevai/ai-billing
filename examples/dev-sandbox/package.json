@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ai-billing/core": "workspace:*",
+    "@ai-billing/narev": "workspace:*",
     "@ai-billing/openrouter": "workspace:*",
     "@ai-billing/openai": "workspace:*",
     "@ai-billing/polar": "workspace:*",

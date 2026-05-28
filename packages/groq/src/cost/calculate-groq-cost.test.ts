@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { calculateGroqCost } from './calculate-groq-cost.js';
-import type { ModelPricing } from '@ai-billing/core';
+import type { ModelPricing } from '@ai-billing/types';
 
 describe('calculateGroqCost (Integration)', () => {
   it('should return undefined if no pricing is provided', () => {

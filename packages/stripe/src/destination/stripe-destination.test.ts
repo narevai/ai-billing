@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createStripeDestination } from './stripe-destination.js'; // Adjust path if necessary
 import Stripe from 'stripe';
-import { costToNumber, BillingEvent } from '@ai-billing/core';
+import { costToNumber } from '@ai-billing/core';
+import type { BillingEvent } from '@ai-billing/types';
 import { BillingEventSchema } from '@ai-billing/testing';
 import { z } from 'zod';
 

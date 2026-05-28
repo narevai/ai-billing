@@ -83,7 +83,6 @@
                           "sdk/ai-billing/reference/core/typedoc/functions/consoleDestination",
                           "sdk/ai-billing/reference/core/typedoc/functions/createBasePriceResolver",
                           "sdk/ai-billing/reference/core/typedoc/functions/createDestination",
-                          "sdk/ai-billing/reference/core/typedoc/functions/createNarevPriceResolver",
                           "sdk/ai-billing/reference/core/typedoc/functions/createObjectPriceResolver",
                           "sdk/ai-billing/reference/core/typedoc/functions/createV3BillingMiddleware",
                           "sdk/ai-billing/reference/core/typedoc/functions/toJSONObject",
@@ -93,27 +92,9 @@
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "sdk/ai-billing/reference/core/typedoc/interfaces/BaseBillingMiddlewareOptions",
-                          "sdk/ai-billing/reference/core/typedoc/interfaces/BillingEvent",
                           "sdk/ai-billing/reference/core/typedoc/interfaces/BillingMiddlewareV3Options",
                           "sdk/ai-billing/reference/core/typedoc/interfaces/BuildV3EventPayload",
-                          "sdk/ai-billing/reference/core/typedoc/interfaces/Cost",
-                          "sdk/ai-billing/reference/core/typedoc/interfaces/CostInputs",
-                          "sdk/ai-billing/reference/core/typedoc/interfaces/MeterMetadata",
-                          "sdk/ai-billing/reference/core/typedoc/interfaces/ModelPricing",
-                          "sdk/ai-billing/reference/core/typedoc/interfaces/Usage"
-                        ]
-                      },
-                      {
-                        "group": "Types",
-                        "pages": [
-                          "sdk/ai-billing/reference/core/typedoc/type-aliases/CostUnit",
-                          "sdk/ai-billing/reference/core/typedoc/type-aliases/DefaultTags",
-                          "sdk/ai-billing/reference/core/typedoc/type-aliases/Destination",
-                          "sdk/ai-billing/reference/core/typedoc/type-aliases/EventBuilder",
-                          "sdk/ai-billing/reference/core/typedoc/type-aliases/NarevPriceResolverOptions",
-                          "sdk/ai-billing/reference/core/typedoc/type-aliases/PriceResolver",
-                          "sdk/ai-billing/reference/core/typedoc/type-aliases/PriceResolverContext"
+                          "sdk/ai-billing/reference/core/typedoc/interfaces/ModelPricing"
                         ]
                       },
                       {
@@ -290,7 +271,9 @@
                       {
                         "group": "Functions",
                         "pages": [
-                          "sdk/ai-billing/reference/narev/typedoc/functions/createNarevClient"
+                          "sdk/ai-billing/reference/narev/typedoc/functions/createNarevClient",
+                          "sdk/ai-billing/reference/narev/typedoc/functions/createNarevPriceResolver",
+                          "sdk/ai-billing/reference/narev/typedoc/functions/narevModelPricingToModelPricing"
                         ]
                       },
                       {
@@ -308,9 +291,9 @@
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/ListModelsMeta",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/ListModelsResponse",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/Model",
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ModelPricing",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/NarevClient",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/NarevClientOptions",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/NarevModelPricing",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/ProviderModelsResponse"
                         ]
                       },

@@ -6,7 +6,8 @@ import {
 } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 import { createOpenAIMiddleware } from '@ai-billing/openai';
-import { consoleDestination, createNarevPriceResolver } from '@ai-billing/core';
+import { consoleDestination } from '@ai-billing/core';
+import { createNarevPriceResolver } from '@ai-billing/narev';
 
 const openai = createOpenAI({
   // eslint-disable-next-line turbo/no-undeclared-env-vars

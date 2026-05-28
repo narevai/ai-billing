@@ -81,8 +81,8 @@ export interface GetProviderModelsRequest {
   providers?: string;
 }
 
-/** Pricing details for a single model. */
-export interface ModelPricing {
+/** Pricing details for a single model (raw Narev API format). */
+export interface NarevModelPricing {
   price_prompt: number;
   price_completion: number;
   pricing_discount: number;
@@ -103,7 +103,7 @@ export interface Model {
   model_id: string;
   provider: string;
   subprovider: string;
-  pricing: ModelPricing | null;
+  pricing: NarevModelPricing | null;
   message?: string;
 }
 

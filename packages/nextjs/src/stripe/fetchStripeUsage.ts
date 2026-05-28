@@ -1,6 +1,6 @@
 'use server';
 
-import type { GetBalanceRequest } from '@ai-billing/narev';
+import type { GetBalanceRequest } from '@ai-billing/types';
 import { getNarevClient } from '../narev-client.js';
 import type { StripeUsageData } from './types.js';
 

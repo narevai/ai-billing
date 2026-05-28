@@ -3,7 +3,8 @@
 import { createStreamableValue } from '@ai-sdk/rsc';
 import { streamText, convertToModelMessages, stepCountIs } from 'ai';
 import type { UIMessage } from 'ai';
-import { costToNumber, type Cost } from '@ai-billing/core';
+import { costToNumber } from '@ai-billing/core';
+import type { Cost } from '@ai-billing/types';
 import { createChatRouter } from './router.js';
 import type { ChatRouterOptions } from './router.js';
 import { getChatToolsConfig } from './chatTools.js';

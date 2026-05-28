@@ -4,7 +4,7 @@ import {
   costToNumber,
   buildMeterMetadata,
 } from '@ai-billing/core';
-import type { BillingEvent, DefaultTags, Destination } from '@ai-billing/core';
+import type { BillingEvent, DefaultTags, Destination } from '@ai-billing/types';
 import { EventMetadataInput } from '@polar-sh/sdk/models/components/eventmetadatainput.js';
 
 /**

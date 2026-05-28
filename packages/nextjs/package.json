@@ -65,6 +65,7 @@
     "@ai-billing/core": "workspace:*",
     "@ai-billing/narev": "workspace:*",
     "@ai-billing/polar": "workspace:*",
+    "@ai-billing/types": "workspace:*",
     "@ai-billing/ui": "workspace:*"
   },
   "devDependencies": {

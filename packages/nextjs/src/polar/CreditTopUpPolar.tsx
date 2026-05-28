@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useTransition } from 'react';
 import { CreditPackagePicker, EmptyCard } from '@ai-billing/ui';
-import type { CreditPackage } from '@ai-billing/ui';
+import type { CreditPackage } from '@ai-billing/types';
 import { createCheckout as checkoutAction } from './createCheckout.js';
 import { fetchTopUpConfig } from './fetchTopUpConfig.js';
 

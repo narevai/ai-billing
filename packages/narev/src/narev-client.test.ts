@@ -5,7 +5,7 @@ import type {
   BalanceResponse,
   CreditConfigResponse,
   CheckoutResponse,
-} from './types.js';
+} from '@ai-billing/types';
 
 vi.mock('ky', () => ({
   default: { create: vi.fn() },

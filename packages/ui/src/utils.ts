@@ -1,16 +1,29 @@
-/** Returns a CSS color string based on usage percentage. */
+/**
+ * Returns a CSS color string based on usage percentage.
+ *
+ * @param pct - Usage percentage (0–100).
+ */
 export function barColor(pct: number): string {
   if (pct >= 90) return '#ef4444';
   if (pct >= 70) return '#f59e0b';
   return '#22c55e';
 }
 
-/** Formats a price in cents as a dollar string, e.g. 500 → "$5". */
+/**
+ * Formats a price in cents as a dollar string, e.g. 500 → "$5".
+ *
+ * @param cents - Amount in cents.
+ */
 export function formatCents(cents: number): string {
   return `$${Math.round(cents / 100)}`;
 }
 
-/** Formats a numeric value with an optional unit prefix or suffix. */
+/**
+ * Formats a numeric value with an optional unit prefix or suffix.
+ *
+ * @param val - The numeric value to format.
+ * @param unit - Optional unit string; `'$'` prefixes, anything else appends.
+ */
 export function fmt(val: number, unit?: string): string {
   const s = val.toLocaleString(undefined, { maximumFractionDigits: 9 });
   if (unit === '$') return `$${s}`;

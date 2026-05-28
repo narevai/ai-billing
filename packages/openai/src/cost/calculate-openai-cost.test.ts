@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { calculateOpenAICost } from './calculate-openai-cost.js';
-import type { ModelPricing } from '@ai-billing/core';
+import type { ModelPricing } from '@ai-billing/types';
 
 describe('calculateOpenAICost (Integration)', () => {
   it('should return undefined if no pricing is provided', () => {

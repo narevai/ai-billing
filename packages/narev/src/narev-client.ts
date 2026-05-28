@@ -9,29 +9,13 @@ import type {
   ListModelPricingRequest,
   ListModelsResponse,
   ProviderModelsResponse,
-} from './types.js';
-
-const DEFAULT_BASE_URL = 'https://api.narev.ai';
-
-/** Error thrown when the Narev API returns a non-2xx response. */
-export class NarevApiError extends Error {
-  constructor(
-    message: string,
-    /** HTTP status code returned by the API. */
-    public status: number,
-    /** Raw response body, if parsing succeeded. */
-    public body?: unknown,
-  ) {
-    super(message);
-    this.name = 'NarevApiError';
-  }
-}
+} from '@ai-billing/types';
 
 /** Options for creating a Narev API client. */
 export interface NarevClientOptions {
   /** Narev API key (bearer token). */
   apiKey: string;
-  /** Base URL override (defaults to {@link DEFAULT_BASE_URL}). */
+  /** Base URL override (defaults to https://api.narev.ai). */
   baseUrl?: string;
 }
 
@@ -68,6 +52,22 @@ export interface NarevClient {
   listModelPricing(
     request?: ListModelPricingRequest,
   ): Promise<ListModelsResponse>;
+}
+
+const DEFAULT_BASE_URL = 'https://api.narev.ai';
+
+/** Error thrown when the Narev API returns a non-2xx response. */
+export class NarevApiError extends Error {
+  constructor(
+    message: string,
+    /** HTTP status code returned by the API. */
+    public status: number,
+    /** Raw response body, if parsing succeeded. */
+    public body?: unknown,
+  ) {
+    super(message);
+    this.name = 'NarevApiError';
+  }
 }
 
 /**

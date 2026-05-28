@@ -1,7 +1,7 @@
 import { calculateMinimaxCost } from '../../../cost/index.js';
 import { createV3BillingMiddleware, toUsage } from '@ai-billing/core';
-import type { CostInputs } from '@ai-billing/core';
 import type {
+  CostInputs,
   BaseBillingMiddlewareOptions,
   PriceResolver,
   Cost,
@@ -9,7 +9,7 @@ import type {
   PriceResolverContext,
   ModelPricing,
   BillingEvent,
-} from '@ai-billing/core';
+} from '@ai-billing/types';
 
 interface MinimaxAnthropicUsage {
   input_tokens?: number;

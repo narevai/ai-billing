@@ -1,8 +1,11 @@
 'use server';
 
 import { getNarevClient } from '../narev-client.js';
-import type { ListModelPricingRequest } from '@ai-billing/narev';
-import type { Model, ListModelsMeta } from '@ai-billing/ui';
+import type {
+  ListModelPricingRequest,
+  Model,
+  ListModelsMeta,
+} from '@ai-billing/types';
 
 export interface ModelPricingResult {
   models: Model[];

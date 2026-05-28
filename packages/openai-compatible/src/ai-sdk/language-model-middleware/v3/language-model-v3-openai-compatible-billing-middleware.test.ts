@@ -7,7 +7,7 @@ import {
   BillingEventSchema,
 } from '@ai-billing/testing';
 import { LanguageModelV3GenerateResult } from '@ai-sdk/provider';
-import type { BillingEvent, ModelPricing } from '@ai-billing/core';
+import type { BillingEvent, ModelPricing } from '@ai-billing/types';
 import { z } from 'zod';
 
 describe('OpenAICompatibleBillingMiddlewareV3 Integration', () => {

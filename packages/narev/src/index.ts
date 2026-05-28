@@ -1,5 +1,9 @@
 export { createNarevClient, NarevApiError } from './narev-client.js';
 export type { NarevClient, NarevClientOptions } from './narev-client.js';
+export {
+  createNarevPriceResolver,
+  narevModelPricingToModelPricing,
+} from './narev-price-resolver.js';
 export type {
   GetBalanceRequest,
   BalanceData,
@@ -13,8 +17,8 @@ export type {
   ProviderModelsResponse,
   GetProviderModelsRequest,
   Model,
-  ModelPricing,
+  NarevModelPricing,
   ListModelsMeta,
   ListModelsResponse,
   ListModelPricingRequest,
-} from './types.js';
+} from '@ai-billing/types';

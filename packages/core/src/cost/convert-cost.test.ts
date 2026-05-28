@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { costToNumber, convertCostUnit, rateToCost } from './convert-cost.js';
 import { AiBillingCostError } from '../index.js';
-import type { Cost } from '../types/index.js';
+import type { Cost } from '@ai-billing/types';
 
 describe('Financial Utils', () => {
   const currency = 'USD';

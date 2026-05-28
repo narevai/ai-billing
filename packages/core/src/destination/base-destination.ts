@@ -1,4 +1,4 @@
-import type { Destination, BillingEvent, DefaultTags } from '../types/index.js';
+import type { Destination, BillingEvent, DefaultTags } from '@ai-billing/types';
 import { AiBillingDestinationError } from '../error/index.js';
 
 /**

@@ -2,7 +2,7 @@ import { wrapLanguageModel } from 'ai';
 import type { LanguageModelV3 } from '@ai-sdk/provider';
 import { createOpenAIMiddleware } from '@ai-billing/openai';
 import { createPolarDestination } from '@ai-billing/polar';
-import { createNarevPriceResolver } from '@ai-billing/core';
+import { createNarevPriceResolver } from '@ai-billing/narev';
 import { isTestEnvironment } from '@/lib/constants';
 
 let _billingMiddleware: ReturnType<typeof createOpenAIMiddleware> | null = null;

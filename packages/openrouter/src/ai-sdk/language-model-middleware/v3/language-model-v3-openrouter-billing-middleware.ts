@@ -1,10 +1,12 @@
 import {
   createV3BillingMiddleware,
-  type BaseBillingMiddlewareOptions,
   AiBillingExtractorError,
-  DefaultTags,
-  type BillingEvent,
 } from '@ai-billing/core';
+import type {
+  BaseBillingMiddlewareOptions,
+  DefaultTags,
+  BillingEvent,
+} from '@ai-billing/types';
 import type { SharedV3ProviderMetadata } from '@ai-sdk/provider';
 import type { OpenRouterUsageAccounting } from '@openrouter/ai-sdk-provider';
 

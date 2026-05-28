@@ -6,15 +6,15 @@ export { ModelSearchBox } from './pricing/ModelSearchBox.js';
 export type { ModelSearchBoxProps } from './pricing/ModelSearchBox.js';
 export type {
   Model,
-  ModelPricing,
+  NarevModelPricing,
   ListModelsMeta,
   ListModelsResponse,
-} from './types.js';
+  CreditPackage,
+} from '@ai-billing/types';
 export { UsageBar } from './billing/UsageBar.js';
 export type { UsageBarProps } from './billing/UsageBar.js';
 export { CreditPackagePicker } from './billing/CreditPackagePicker.js';
 export type { CreditPackagePickerProps } from './billing/CreditPackagePicker.js';
-export type { CreditPackage } from './types.js';
 export { EmptyCard, EmptyMessage } from './empty.js';
 export {
   LightningIcon,
