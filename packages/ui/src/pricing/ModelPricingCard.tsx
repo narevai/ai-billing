@@ -1,5 +1,5 @@
 import React from 'react';
-import { cardBase } from '../billing/styles.js';
+import { cardBase } from '../styles.js';
 import type { Model, ModelPricing } from '../types.js';
 
 if (typeof document !== 'undefined') {
