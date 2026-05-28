@@ -1,5 +1,23 @@
-import { wrapLanguageModel } from 'ai';
+import { wrapLanguageModel, createGateway } from 'ai';
 import type { LanguageModel } from 'ai';
+import { createOpenAI } from '@ai-sdk/openai';
+import { createAnthropic } from '@ai-sdk/anthropic';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { createDeepSeek } from '@ai-sdk/deepseek';
+import { createGroq } from '@ai-sdk/groq';
+import { createXai } from '@ai-sdk/xai';
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import { createOpenAIMiddleware } from '@ai-billing/openai';
+import { createAnthropicMiddleware } from '@ai-billing/anthropic';
+import { createGoogleMiddleware } from '@ai-billing/google';
+import { createDeepSeekMiddleware } from '@ai-billing/deepseek';
+import { createGroqMiddleware } from '@ai-billing/groq';
+import { createXaiMiddleware } from '@ai-billing/xai';
+import { createChutesMiddleware } from '@ai-billing/chutes';
+import { createMinimaxMiddleware } from '@ai-billing/minimax';
+import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
+import { createGatewayMiddleware } from '@ai-billing/gateway';
 import { createPolarDestination } from '@ai-billing/polar';
 import { createNarevPriceResolver } from '@ai-billing/narev';
 import type {
@@ -28,301 +46,6 @@ interface ProviderEntry {
 
 export type ChatRouter = Awaited<ReturnType<typeof createChatRouter>>;
 
-async function createPolarDestinationIfConfigured(
-  token?: string,
-  server?: 'sandbox' | 'production',
-): Promise<Destination<DefaultTags> | null> {
-  const accessToken = token ?? process.env.POLAR_ACCESS_TOKEN;
-  if (!accessToken) return null;
-  const polarServer =
-    server ??
-    (process.env.POLAR_SERVER as 'sandbox' | 'production' | undefined) ??
-    'sandbox';
-  return createPolarDestination({
-    accessToken,
-    server: polarServer,
-    eventName: 'llm_usage',
-    externalCustomerIdKey: 'userId' as never,
-  });
-}
-
-async function trySetupOpenAI(
-  apiKey: string,
-  priceResolver?: PriceResolver,
-  destinations?: Destination[],
-): Promise<{ getModel: (modelId: string) => LanguageModel } | null> {
-  try {
-    const [{ createOpenAI }, { createOpenAIMiddleware }] = await Promise.all([
-      import('@ai-sdk/openai'),
-      import('@ai-billing/openai'),
-    ]);
-    const provider = createOpenAI({ apiKey });
-    const middleware = createOpenAIMiddleware({
-      priceResolver: priceResolver!,
-      destinations,
-    });
-    return {
-      getModel: (modelId: string) =>
-        wrapLanguageModel({ model: provider(modelId), middleware }),
-    };
-  } catch (error) {
-    console.warn(
-      '[ai-billing] Failed to set up OpenAI provider:',
-      error instanceof Error ? error.message : error,
-    );
-    return null;
-  }
-}
-
-async function trySetupAnthropic(
-  apiKey: string,
-  priceResolver?: PriceResolver,
-  destinations?: Destination[],
-): Promise<{ getModel: (modelId: string) => LanguageModel } | null> {
-  try {
-    const [{ createAnthropic }, { createAnthropicMiddleware }] =
-      await Promise.all([
-        import('@ai-sdk/anthropic'),
-        import('@ai-billing/anthropic'),
-      ]);
-    const provider = createAnthropic({ apiKey });
-    const middleware = createAnthropicMiddleware({
-      priceResolver: priceResolver!,
-      destinations,
-    });
-    return {
-      getModel: (modelId: string) =>
-        wrapLanguageModel({ model: provider(modelId), middleware }),
-    };
-  } catch (error) {
-    console.warn('[ai-billing] Failed to set up Anthropic provider:', error);
-    return null;
-  }
-}
-
-async function trySetupGoogle(
-  apiKey: string,
-  priceResolver?: PriceResolver,
-  destinations?: Destination[],
-): Promise<{ getModel: (modelId: string) => LanguageModel } | null> {
-  try {
-    const [{ createGoogleGenerativeAI }, { createGoogleMiddleware }] =
-      await Promise.all([
-        import('@ai-sdk/google'),
-        import('@ai-billing/google'),
-      ]);
-    const provider = createGoogleGenerativeAI({ apiKey });
-    const middleware = createGoogleMiddleware({
-      priceResolver: priceResolver!,
-      destinations,
-    });
-    return {
-      getModel: (modelId: string) =>
-        wrapLanguageModel({ model: provider(modelId), middleware }),
-    };
-  } catch (error) {
-    console.warn('[ai-billing] Failed to set up Google provider:', error);
-    return null;
-  }
-}
-
-async function trySetupDeepSeek(
-  apiKey: string,
-  priceResolver?: PriceResolver,
-  destinations?: Destination[],
-): Promise<{ getModel: (modelId: string) => LanguageModel } | null> {
-  try {
-    const [{ createDeepSeek }, { createDeepSeekMiddleware }] =
-      await Promise.all([
-        import('@ai-sdk/deepseek'),
-        import('@ai-billing/deepseek'),
-      ]);
-    const provider = createDeepSeek({ apiKey });
-    const middleware = createDeepSeekMiddleware({
-      priceResolver: priceResolver!,
-      destinations,
-    });
-    return {
-      getModel: (modelId: string) =>
-        wrapLanguageModel({ model: provider(modelId), middleware }),
-    };
-  } catch (error) {
-    console.warn('[ai-billing] Failed to set up DeepSeek provider:', error);
-    return null;
-  }
-}
-
-async function trySetupGroq(
-  apiKey: string,
-  priceResolver?: PriceResolver,
-  destinations?: Destination[],
-): Promise<{ getModel: (modelId: string) => LanguageModel } | null> {
-  try {
-    const [{ createGroq }, { createGroqMiddleware }] = await Promise.all([
-      import('@ai-sdk/groq'),
-      import('@ai-billing/groq'),
-    ]);
-    const provider = createGroq({ apiKey });
-    const middleware = createGroqMiddleware({
-      priceResolver: priceResolver!,
-      destinations,
-    });
-    return {
-      getModel: (modelId: string) =>
-        wrapLanguageModel({ model: provider(modelId), middleware }),
-    };
-  } catch (error) {
-    console.warn('[ai-billing] Failed to set up Groq provider:', error);
-    return null;
-  }
-}
-
-async function trySetupXai(
-  apiKey: string,
-  priceResolver?: PriceResolver,
-  destinations?: Destination[],
-): Promise<{ getModel: (modelId: string) => LanguageModel } | null> {
-  try {
-    const [{ createXai }, { createXaiMiddleware }] = await Promise.all([
-      import('@ai-sdk/xai'),
-      import('@ai-billing/xai'),
-    ]);
-    const provider = createXai({ apiKey });
-    const middleware = createXaiMiddleware({
-      priceResolver: priceResolver!,
-      destinations,
-    });
-    return {
-      getModel: (modelId: string) =>
-        wrapLanguageModel({ model: provider(modelId), middleware }),
-    };
-  } catch (error) {
-    console.warn('[ai-billing] Failed to set up xAI provider:', error);
-    return null;
-  }
-}
-
-async function trySetupChutes(
-  apiKey: string,
-  priceResolver?: PriceResolver,
-  destinations?: Destination[],
-): Promise<{ getModel: (modelId: string) => LanguageModel } | null> {
-  try {
-    const [{ createOpenAICompatible }, { createChutesMiddleware }] =
-      await Promise.all([
-        import('@ai-sdk/openai-compatible'),
-        import('@ai-billing/chutes'),
-      ]);
-    const provider = createOpenAICompatible({
-      name: 'chutes',
-      baseURL: 'https://llm.chutes.ai/v1',
-      apiKey,
-    });
-    const middleware = createChutesMiddleware({
-      priceResolver: priceResolver!,
-      destinations,
-    });
-    return {
-      getModel: (modelId: string) =>
-        wrapLanguageModel({ model: provider(modelId), middleware }),
-    };
-  } catch (error) {
-    console.warn('[ai-billing] Failed to set up Chutes provider:', error);
-    return null;
-  }
-}
-
-async function trySetupMiniMax(
-  apiKey: string,
-  priceResolver?: PriceResolver,
-  destinations?: Destination[],
-): Promise<{ getModel: (modelId: string) => LanguageModel } | null> {
-  try {
-    const [{ createAnthropic }, { createMinimaxMiddleware }] =
-      await Promise.all([
-        import('@ai-sdk/anthropic'),
-        import('@ai-billing/minimax'),
-      ]);
-    const provider = createAnthropic({
-      apiKey,
-      baseURL: 'https://api.minimax.io/anthropic/v1',
-    });
-    const middleware = createMinimaxMiddleware({
-      priceResolver: priceResolver!,
-      destinations,
-    });
-    return {
-      getModel: (modelId: string) =>
-        wrapLanguageModel({ model: provider(modelId), middleware }),
-    };
-  } catch (error) {
-    console.warn('[ai-billing] Failed to set up MiniMax provider:', error);
-    return null;
-  }
-}
-
-async function trySetupOpenRouter(
-  apiKey: string,
-  destinations?: Destination[],
-): Promise<{ getModel: (modelId: string) => LanguageModel } | null> {
-  try {
-    const [{ createOpenRouter }, { createOpenRouterV3Middleware }] =
-      await Promise.all([
-        import('@openrouter/ai-sdk-provider'),
-        import('@ai-billing/openrouter'),
-      ]);
-    const provider = createOpenRouter({ apiKey });
-    const middleware = createOpenRouterV3Middleware({ destinations });
-    return {
-      getModel: (modelId: string) =>
-        wrapLanguageModel({ model: provider(modelId), middleware }),
-    };
-  } catch (error) {
-    console.warn('[ai-billing] Failed to set up OpenRouter provider:', error);
-    return null;
-  }
-}
-
-async function trySetupVercelGateway(
-  apiKey: string,
-  destinations?: Destination[],
-): Promise<{ getModel: (modelId: string) => LanguageModel } | null> {
-  try {
-    const [{ createGateway }, { createGatewayMiddleware }] = await Promise.all([
-      import('ai'),
-      import('@ai-billing/gateway'),
-    ]);
-    const provider = createGateway({ apiKey });
-    const middleware = createGatewayMiddleware({ destinations });
-    return {
-      getModel: (modelId: string) =>
-        wrapLanguageModel({ model: provider(modelId), middleware }),
-    };
-  } catch (error) {
-    console.warn('[ai-billing] Failed to set up AI Gateway provider:', error);
-    return null;
-  }
-}
-
-type ProviderSetupFn = (
-  apiKey: string,
-  priceResolver?: PriceResolver,
-  destinations?: Destination[],
-) => Promise<{ getModel: (modelId: string) => LanguageModel } | null>;
-
-type ProviderSetupFnNoPricing = (
-  apiKey: string,
-  destinations?: Destination[],
-) => Promise<{ getModel: (modelId: string) => LanguageModel } | null>;
-
-interface ProviderConfig {
-  providerId: string;
-  envVar: string;
-  models: string[];
-  setup: ProviderSetupFn | ProviderSetupFnNoPricing;
-  usesPriceResolver: boolean;
-}
-
 function resolveEnv(
   key: string,
   customEnv?: Record<string, string | undefined>,
@@ -331,86 +54,9 @@ function resolveEnv(
   return process.env[key];
 }
 
-function getProviderConfigs(
-  modelsOverride?: Record<string, string[]>,
-): ProviderConfig[] {
-  const models = { ...DEFAULT_MODELS, ...modelsOverride };
-  return [
-    {
-      providerId: 'openai',
-      envVar: 'OPENAI_API_KEY',
-      models: models.openai ?? [],
-      setup: trySetupOpenAI as ProviderSetupFn,
-      usesPriceResolver: true,
-    },
-    {
-      providerId: 'anthropic',
-      envVar: 'ANTHROPIC_API_KEY',
-      models: models.anthropic ?? [],
-      setup: trySetupAnthropic as ProviderSetupFn,
-      usesPriceResolver: true,
-    },
-    {
-      providerId: 'google',
-      envVar: 'GOOGLE_AI_STUDIO_KEY',
-      models: models.google ?? [],
-      setup: trySetupGoogle as ProviderSetupFn,
-      usesPriceResolver: true,
-    },
-    {
-      providerId: 'deepseek',
-      envVar: 'DEEPSEEK_API_KEY',
-      models: models.deepseek ?? [],
-      setup: trySetupDeepSeek as ProviderSetupFn,
-      usesPriceResolver: true,
-    },
-    {
-      providerId: 'groq',
-      envVar: 'GROQ_API_KEY',
-      models: models.groq ?? [],
-      setup: trySetupGroq as ProviderSetupFn,
-      usesPriceResolver: true,
-    },
-    {
-      providerId: 'xai',
-      envVar: 'XAI_API_KEY',
-      models: models.xai ?? [],
-      setup: trySetupXai as ProviderSetupFn,
-      usesPriceResolver: true,
-    },
-    {
-      providerId: 'chutes',
-      envVar: 'CHUTES_API_KEY',
-      models: models.chutes ?? [],
-      setup: trySetupChutes as ProviderSetupFn,
-      usesPriceResolver: true,
-    },
-    {
-      providerId: 'minimax',
-      envVar: 'MINIMAX_API_KEY',
-      models: models.minimax ?? [],
-      setup: trySetupMiniMax as ProviderSetupFn,
-      usesPriceResolver: true,
-    },
-    {
-      providerId: 'openrouter',
-      envVar: 'OPENROUTER_API_KEY',
-      models: models.openrouter ?? [],
-      setup: trySetupOpenRouter as ProviderSetupFnNoPricing,
-      usesPriceResolver: false,
-    },
-    {
-      providerId: 'gateway',
-      envVar: 'AI_GATEWAY_API_KEY',
-      models: models.gateway ?? [],
-      setup: trySetupVercelGateway as ProviderSetupFnNoPricing,
-      usesPriceResolver: false,
-    },
-  ];
-}
-
 /**
  * Creates and initialises the chat router with all configured providers.
+ * Providers are enabled automatically when their API key env var is set.
  *
  * @param options - Router configuration; see {@link ChatRouterOptions}.
  */
@@ -421,18 +67,27 @@ export async function createChatRouter(
   getModels: () => ModelOption[];
   getModel: (modelId: string) => LanguageModel;
 }> {
-  const customEnv = options.env;
-  const configs = getProviderConfigs(options.models);
+  const env = options.env;
+  const modelOverrides = { ...DEFAULT_MODELS, ...options.models };
 
-  const polarDestination = await createPolarDestinationIfConfigured(
-    options.polarAccessToken,
-    options.polarServer,
-  );
-  const destinations: Destination[] = polarDestination
-    ? [polarDestination]
+  const polarAccessToken =
+    options.polarAccessToken ?? resolveEnv('POLAR_ACCESS_TOKEN', env);
+  const polarServer =
+    options.polarServer ??
+    (resolveEnv('POLAR_SERVER', env) as 'sandbox' | 'production' | undefined) ??
+    'sandbox';
+  const destinations: Destination<DefaultTags>[] = polarAccessToken
+    ? [
+        createPolarDestination({
+          accessToken: polarAccessToken,
+          server: polarServer,
+          eventName: 'llm_usage',
+          externalCustomerIdKey: 'userId' as never,
+        }),
+      ]
     : [];
 
-  const narevApiKey = options.narevApiKey ?? process.env.NAREV_API_KEY;
+  const narevApiKey = options.narevApiKey ?? resolveEnv('NAREV_API_KEY', env);
   const priceResolver: PriceResolver | undefined = narevApiKey
     ? createNarevPriceResolver({ apiKey: narevApiKey })
     : undefined;
@@ -440,39 +95,139 @@ export async function createChatRouter(
   const providers: ProviderEntry[] = [];
   const providerMap = new Map<string, ProviderEntry>();
 
-  for (const config of configs) {
-    const apiKey = resolveEnv(config.envVar, customEnv);
-    if (!apiKey) continue;
+  function add(
+    providerId: string,
+    getModel: (modelId: string) => LanguageModel,
+    models: string[],
+  ) {
+    const entry: ProviderEntry = {
+      providerId,
+      getModel,
+      models: buildModelOptions(providerId, models),
+    };
+    providers.push(entry);
+    providerMap.set(providerId, entry);
+  }
 
-    if (config.usesPriceResolver && !priceResolver) continue;
-
-    let result;
-    if (config.usesPriceResolver) {
-      result = await (config.setup as ProviderSetupFn)(
-        apiKey,
-        priceResolver,
-        destinations,
-      );
-    } else {
-      result = await (config.setup as ProviderSetupFnNoPricing)(
-        apiKey,
-        destinations,
+  if (priceResolver) {
+    const openaiKey = resolveEnv('OPENAI_API_KEY', env);
+    if (openaiKey) {
+      const p = createOpenAI({ apiKey: openaiKey });
+      const m = createOpenAIMiddleware({ priceResolver, destinations });
+      add(
+        'openai',
+        id => wrapLanguageModel({ model: p(id), middleware: m }),
+        modelOverrides.openai ?? [],
       );
     }
 
-    if (!result) continue;
+    const anthropicKey = resolveEnv('ANTHROPIC_API_KEY', env);
+    if (anthropicKey) {
+      const p = createAnthropic({ apiKey: anthropicKey });
+      const m = createAnthropicMiddleware({ priceResolver, destinations });
+      add(
+        'anthropic',
+        id => wrapLanguageModel({ model: p(id), middleware: m }),
+        modelOverrides.anthropic ?? [],
+      );
+    }
 
-    const entry: ProviderEntry = {
-      providerId: config.providerId,
-      getModel: result.getModel,
-      models: buildModelOptions(config.providerId, config.models),
-    };
+    const googleKey = resolveEnv('GOOGLE_AI_STUDIO_KEY', env);
+    if (googleKey) {
+      const p = createGoogleGenerativeAI({ apiKey: googleKey });
+      const m = createGoogleMiddleware({ priceResolver, destinations });
+      add(
+        'google',
+        id => wrapLanguageModel({ model: p(id), middleware: m }),
+        modelOverrides.google ?? [],
+      );
+    }
 
-    providers.push(entry);
-    providerMap.set(config.providerId, entry);
+    const deepseekKey = resolveEnv('DEEPSEEK_API_KEY', env);
+    if (deepseekKey) {
+      const p = createDeepSeek({ apiKey: deepseekKey });
+      const m = createDeepSeekMiddleware({ priceResolver, destinations });
+      add(
+        'deepseek',
+        id => wrapLanguageModel({ model: p(id), middleware: m }),
+        modelOverrides.deepseek ?? [],
+      );
+    }
+
+    const groqKey = resolveEnv('GROQ_API_KEY', env);
+    if (groqKey) {
+      const p = createGroq({ apiKey: groqKey });
+      const m = createGroqMiddleware({ priceResolver, destinations });
+      add(
+        'groq',
+        id => wrapLanguageModel({ model: p(id), middleware: m }),
+        modelOverrides.groq ?? [],
+      );
+    }
+
+    const xaiKey = resolveEnv('XAI_API_KEY', env);
+    if (xaiKey) {
+      const p = createXai({ apiKey: xaiKey });
+      const m = createXaiMiddleware({ priceResolver, destinations });
+      add(
+        'xai',
+        id => wrapLanguageModel({ model: p(id), middleware: m }),
+        modelOverrides.xai ?? [],
+      );
+    }
+
+    const chutesKey = resolveEnv('CHUTES_API_KEY', env);
+    if (chutesKey) {
+      const p = createOpenAICompatible({
+        name: 'chutes',
+        baseURL: 'https://llm.chutes.ai/v1',
+        apiKey: chutesKey,
+      });
+      const m = createChutesMiddleware({ priceResolver, destinations });
+      add(
+        'chutes',
+        id => wrapLanguageModel({ model: p(id), middleware: m }),
+        modelOverrides.chutes ?? [],
+      );
+    }
+
+    const minimaxKey = resolveEnv('MINIMAX_API_KEY', env);
+    if (minimaxKey) {
+      const p = createAnthropic({
+        apiKey: minimaxKey,
+        baseURL: 'https://api.minimax.io/anthropic/v1',
+      });
+      const m = createMinimaxMiddleware({ priceResolver, destinations });
+      add(
+        'minimax',
+        id => wrapLanguageModel({ model: p(id), middleware: m }),
+        modelOverrides.minimax ?? [],
+      );
+    }
   }
 
-  // Try to fetch the full model list from Narev, filtered to configured providers only.
+  const openrouterKey = resolveEnv('OPENROUTER_API_KEY', env);
+  if (openrouterKey) {
+    const p = createOpenRouter({ apiKey: openrouterKey });
+    const m = createOpenRouterV3Middleware({ destinations });
+    add(
+      'openrouter',
+      id => wrapLanguageModel({ model: p(id), middleware: m }),
+      modelOverrides.openrouter ?? [],
+    );
+  }
+
+  const gatewayKey = resolveEnv('AI_GATEWAY_API_KEY', env);
+  if (gatewayKey) {
+    const p = createGateway({ apiKey: gatewayKey });
+    const m = createGatewayMiddleware({ destinations });
+    add(
+      'gateway',
+      id => wrapLanguageModel({ model: p(id), middleware: m }),
+      modelOverrides.gateway ?? [],
+    );
+  }
+
   let allModels: ModelOption[] = providers.flatMap(p => p.models);
   if (narevApiKey && providers.length > 0) {
     try {

@@ -8,9 +8,10 @@
 
 > **createChatRouter**(`options?`): `Promise`\<\{ `getProviders`: () => `ProviderEntry`[]; `getModels`: () => `ModelOption`[]; `getModel`: (`modelId`) => `LanguageModel`; \}\>
 
-Defined in: [packages/nextjs/src/chat/router.ts:417](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/router.ts#L417)
+Defined in: [packages/nextjs/src/chat/router.ts:63](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/chat/router.ts#L63)
 
 Creates and initialises the chat router with all configured providers.
+Providers are enabled automatically when their API key env var is set.
 
 ## Parameters
 
