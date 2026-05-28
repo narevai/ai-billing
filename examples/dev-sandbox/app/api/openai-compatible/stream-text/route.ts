@@ -60,4 +60,3 @@ export async function POST() {
 
   return result.toUIMessageStreamResponse();
 }
-

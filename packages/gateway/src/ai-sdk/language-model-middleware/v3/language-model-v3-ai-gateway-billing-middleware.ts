@@ -1,4 +1,7 @@
-import { createV3BillingMiddleware, AiBillingExtractorError } from '@ai-billing/core';
+import {
+  createV3BillingMiddleware,
+  AiBillingExtractorError,
+} from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
   DefaultTags,

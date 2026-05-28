@@ -60,4 +60,3 @@ export async function POST() {
     return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 }
-
