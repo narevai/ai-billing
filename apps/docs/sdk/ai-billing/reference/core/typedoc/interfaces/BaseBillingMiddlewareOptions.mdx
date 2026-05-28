@@ -6,7 +6,7 @@
 
 # Interface: BaseBillingMiddlewareOptions\<TTags\>
 
-Defined in: [packages/core/src/types/middleware.ts:6](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L6)
+Defined in: packages/types/dist/index.d.ts:69
 
 ## Extended by
 
@@ -24,7 +24,7 @@ Defined in: [packages/core/src/types/middleware.ts:6](https://github.com/narevai
 
 > `optional` **destinations?**: [`Destination`](/sdk/ai-billing/reference/core/typedoc/type-aliases/Destination)\<`TTags`\>[]
 
-Defined in: [packages/core/src/types/middleware.ts:10](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L10)
+Defined in: packages/types/dist/index.d.ts:71
 
 One or more billing destinations that receive each emitted [BillingEvent](/sdk/ai-billing/reference/core/typedoc/interfaces/BillingEvent).
 
@@ -34,7 +34,7 @@ One or more billing destinations that receive each emitted [BillingEvent](/sdk/a
 
 > `optional` **defaultTags?**: `TTags`
 
-Defined in: [packages/core/src/types/middleware.ts:12](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L12)
+Defined in: packages/types/dist/index.d.ts:73
 
 Tags merged into every emitted event.
 
@@ -44,7 +44,7 @@ Tags merged into every emitted event.
 
 > `optional` **waitUntil?**: (`promise`) => `void`
 
-Defined in: [packages/core/src/types/middleware.ts:17](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L17)
+Defined in: packages/types/dist/index.d.ts:78
 
 Edge-runtime hook (e.g. `ctx.waitUntil`) used to keep the process alive
 while billing events are flushed asynchronously.
@@ -65,7 +65,7 @@ while billing events are flushed asynchronously.
 
 > `optional` **onError?**: (`error`) => `void`
 
-Defined in: [packages/core/src/types/middleware.ts:19](https://github.com/narevai/ai-billing/blob/main/packages/core/src/types/middleware.ts#L19)
+Defined in: packages/types/dist/index.d.ts:80
 
 Called when an error occurs during event extraction or dispatch. Defaults to a silent no-op.
 

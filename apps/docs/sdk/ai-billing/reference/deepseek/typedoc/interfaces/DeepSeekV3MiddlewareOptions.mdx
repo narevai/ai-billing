@@ -28,11 +28,19 @@ The shape of the tags object, extending DefaultTags.
 
 ## Properties
 
+### priceResolver
+
+> **priceResolver**: `PriceResolver`
+
+Defined in: [deepseek/src/ai-sdk/language-model-middleware/v3/language-model-v3-deepseek-billing-middleware.ts:39](https://github.com/narevai/ai-billing/blob/main/packages/deepseek/src/ai-sdk/language-model-middleware/v3/language-model-v3-deepseek-billing-middleware.ts#L39)
+
+***
+
 ### destinations?
 
 > `optional` **destinations?**: `Destination`\<`TTags`\>[]
 
-Defined in: core/dist/index.d.ts:30
+Defined in: types/dist/index.d.ts:71
 
 One or more billing destinations that receive each emitted BillingEvent.
 
@@ -46,7 +54,7 @@ One or more billing destinations that receive each emitted BillingEvent.
 
 > `optional` **defaultTags?**: `TTags`
 
-Defined in: core/dist/index.d.ts:32
+Defined in: types/dist/index.d.ts:73
 
 Tags merged into every emitted event.
 
@@ -60,7 +68,7 @@ Tags merged into every emitted event.
 
 > `optional` **waitUntil?**: (`promise`) => `void`
 
-Defined in: core/dist/index.d.ts:37
+Defined in: types/dist/index.d.ts:78
 
 Edge-runtime hook (e.g. `ctx.waitUntil`) used to keep the process alive
 while billing events are flushed asynchronously.
@@ -85,7 +93,7 @@ while billing events are flushed asynchronously.
 
 > `optional` **onError?**: (`error`) => `void`
 
-Defined in: core/dist/index.d.ts:39
+Defined in: types/dist/index.d.ts:80
 
 Called when an error occurs during event extraction or dispatch. Defaults to a silent no-op.
 
@@ -102,11 +110,3 @@ Called when an error occurs during event extraction or dispatch. Defaults to a s
 #### Inherited from
 
 `BaseBillingMiddlewareOptions.onError`
-
-***
-
-### priceResolver
-
-> **priceResolver**: `PriceResolver`
-
-Defined in: [deepseek/src/ai-sdk/language-model-middleware/v3/language-model-v3-deepseek-billing-middleware.ts:39](https://github.com/narevai/ai-billing/blob/main/packages/deepseek/src/ai-sdk/language-model-middleware/v3/language-model-v3-deepseek-billing-middleware.ts#L39)
