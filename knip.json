@@ -14,5 +14,5 @@
     "examples/chatbot-openai-with-billing-polar-advanced/**",
     "examples/chatbot-with-billing/**",
     "apps/storybook/**"
-  ],
+  ]
 }
