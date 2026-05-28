@@ -1,5 +1,16 @@
 # chatbot-with-billing
 
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies [faf939a]
+  - @ai-billing/anthropic@0.1.3
+  - @ai-billing/nextjs@0.0.10
+  - @ai-billing/openai@0.1.3
+  - @ai-billing/polar@0.1.6
+  - @ai-billing/core@0.1.3
+
 ## 0.0.9
 
 ### Patch Changes

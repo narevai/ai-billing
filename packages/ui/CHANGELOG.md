@@ -1,5 +1,13 @@
 # @ai-billing/ui
 
+## 0.0.6
+
+### Patch Changes
+
+- faf939a: chore(types): move types to separated package
+- Updated dependencies [faf939a]
+  - @ai-billing/types@0.0.1
+
 ## 0.0.5
 
 ### Patch Changes
