@@ -1,5 +1,12 @@
 # @ai-billing/nextjs
 
+## 0.0.11
+
+### Patch Changes
+
+- ae6c4a1: feat(nextjs): create billing wrappers
+- 1545485: fix(nexjs): make all dependencies mandatory
+
 ## 0.0.10
 
 ### Patch Changes

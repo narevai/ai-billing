@@ -1,5 +1,12 @@
 # docs
 
+## 0.1.13
+
+### Patch Changes
+
+- ae6c4a1: feat(nextjs): create billing wrappers
+- 1545485: fix(nexjs): make all dependencies mandatory
+
 ## 0.1.12
 
 ### Patch Changes
