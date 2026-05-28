@@ -43,9 +43,12 @@ describe('NarevClient', () => {
     });
 
     it('passes custom baseUrl to ky.create when provided', () => {
-      createNarevClient({ apiKey: 'test-key', baseUrl: 'https://staging.narev.ai' });
+      createNarevClient({
+        apiKey: 'test-key',
+        baseUrl: 'https://example.com',
+      });
       expect(mockKy.create).toHaveBeenCalledWith(
-        expect.objectContaining({ baseUrl: 'https://staging.narev.ai' }),
+        expect.objectContaining({ baseUrl: 'https://example.com' }),
       );
     });
   });
@@ -101,8 +104,12 @@ describe('NarevClient', () => {
 
       const client = createNarevClient({ apiKey: 'test-key' });
 
-      await expect(client.getBalance({ userId: 'unknown' })).rejects.toThrow(NarevApiError);
-      await expect(client.getBalance({ userId: 'unknown' })).rejects.toThrow('User not found');
+      await expect(client.getBalance({ userId: 'unknown' })).rejects.toThrow(
+        NarevApiError,
+      );
+      await expect(client.getBalance({ userId: 'unknown' })).rejects.toThrow(
+        'User not found',
+      );
     });
   });
 
