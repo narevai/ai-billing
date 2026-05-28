@@ -4,6 +4,15 @@
 
 ### Patch Changes
 
+- d0e7dd3: fix(examples): rename examples
+- Updated dependencies [bebd70b]
+- Updated dependencies [0126081]
+  - @ai-billing/nextjs@0.0.9
+
+## 0.0.9
+
+### Patch Changes
+
 - Updated dependencies [d64b99c]
   - @ai-billing/nextjs@0.0.8
 
