@@ -1,10 +1,13 @@
+import ky, { isHTTPError } from 'ky';
 import type {
-  BalanceLookup,
+  GetBalanceRequest,
   BalanceResponse,
   CheckoutResponse,
   CreateCheckoutRequest,
   CreditConfigResponse,
-  GetProviderModelsOptions,
+  GetProviderModelsRequest,
+  ListModelPricingRequest,
+  ListModelsResponse,
   ProviderModelsResponse,
 } from './types.js';
 
@@ -42,101 +45,29 @@ export interface NarevClient {
    * Fetches the end-user's balance and consumption for the current billing period.
    * Pass either `{ userId }` or `{ stripeCustomerId }`.
    */
-  getBalance(lookup: BalanceLookup): Promise<BalanceResponse>;
+  getBalance(request: GetBalanceRequest): Promise<BalanceResponse>;
 
   /** Fetches available credit packages for top-up. */
   getCreditConfig(): Promise<CreditConfigResponse>;
 
   /**
    * Creates a checkout session for an end-user to purchase credits.
-   * @param request - checkout details (product, user, success URL)
    */
   createCheckout(request: CreateCheckoutRequest): Promise<CheckoutResponse>;
 
   /**
    * Returns all available models grouped by provider.
-   * @param options - optional filter by provider slugs
    */
   getProviderModels(
-    options?: GetProviderModelsOptions,
+    request?: GetProviderModelsRequest,
   ): Promise<ProviderModelsResponse>;
-}
 
-class NarevClientImpl implements NarevClient {
-  private readonly apiKey: string;
-  private readonly baseUrl: string;
-
-  constructor(options: NarevClientOptions) {
-    this.apiKey = options.apiKey;
-    this.baseUrl = options.baseUrl ?? DEFAULT_BASE_URL;
-  }
-
-  async getBalance(lookup: BalanceLookup): Promise<BalanceResponse> {
-    const url = new URL('/v1/balance', this.baseUrl);
-    if ('stripeCustomerId' in lookup) {
-      url.searchParams.set('stripeCustomerId', lookup.stripeCustomerId);
-    } else {
-      url.searchParams.set('userId', lookup.userId);
-    }
-    return this.request<BalanceResponse>(url);
-  }
-
-  async getCreditConfig(): Promise<CreditConfigResponse> {
-    const url = new URL('/v1/credit', this.baseUrl);
-
-    return this.request<CreditConfigResponse>(url);
-  }
-
-  async createCheckout(
-    request: CreateCheckoutRequest,
-  ): Promise<CheckoutResponse> {
-    const url = new URL('/v1/credit', this.baseUrl);
-
-    return this.request<CheckoutResponse>(url, {
-      method: 'POST',
-      body: JSON.stringify(request),
-    });
-  }
-
-  async getProviderModels(
-    options?: GetProviderModelsOptions,
-  ): Promise<ProviderModelsResponse> {
-    const url = new URL('/v1/provider-models', this.baseUrl);
-    if (options?.providers) {
-      url.searchParams.set('providers', options.providers);
-    }
-    return this.request<ProviderModelsResponse>(url);
-  }
-
-  private async request<T>(
-    url: URL,
-    init?: Omit<RequestInit, 'headers'> & {
-      headers?: Record<string, string>;
-    },
-  ): Promise<T> {
-    const headers: Record<string, string> = {
-      Authorization: `Bearer ${this.apiKey}`,
-      'Content-Type': 'application/json',
-      ...init?.headers,
-    };
-
-    const response = await fetch(url.toString(), {
-      ...init,
-      headers,
-    });
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const body = await response.json().catch(() => undefined);
-
-    if (!response.ok) {
-      const errorMessage =
-        (body as { error?: string })?.error ??
-        `Narev API returned ${response.status} ${response.statusText}`;
-      throw new NarevApiError(errorMessage, response.status, body);
-    }
-
-    return body as T;
-  }
+  /**
+   * Returns a paginated list of models with pricing details.
+   */
+  listModelPricing(
+    request?: ListModelPricingRequest,
+  ): Promise<ListModelsResponse>;
 }
 
 /**
@@ -145,5 +76,84 @@ class NarevClientImpl implements NarevClient {
  * @returns a typed {@link NarevClient} instance
  */
 export function createNarevClient(options: NarevClientOptions): NarevClient {
-  return new NarevClientImpl(options);
+  const { apiKey, baseUrl = DEFAULT_BASE_URL } = options;
+
+  const api = ky.create({
+    baseUrl,
+    headers: { Authorization: `Bearer ${apiKey}` },
+    retry: { limit: 2 },
+    hooks: {
+      beforeError: [
+        async ({ error }) => {
+          if (!isHTTPError(error)) return error;
+          const body = (await error.response.json().catch(() => undefined)) as
+            | { error?: string }
+            | undefined;
+          const message =
+            body?.error ??
+            `Narev API returned ${error.response.status} ${error.response.statusText}`;
+          return new NarevApiError(message, error.response.status, body);
+        },
+      ],
+    },
+  });
+
+  return {
+    getBalance(request: GetBalanceRequest): Promise<BalanceResponse> {
+      const searchParams =
+        'stripeCustomerId' in request
+          ? { stripeCustomerId: request.stripeCustomerId }
+          : { userId: request.userId };
+      return api.get('v1/balance', { searchParams }).json<BalanceResponse>();
+    },
+
+    getCreditConfig(): Promise<CreditConfigResponse> {
+      return api.get('v1/credit').json<CreditConfigResponse>();
+    },
+
+    createCheckout(request: CreateCheckoutRequest): Promise<CheckoutResponse> {
+      return api.post('v1/credit', { json: request }).json<CheckoutResponse>();
+    },
+
+    getProviderModels(
+      request?: GetProviderModelsRequest,
+    ): Promise<ProviderModelsResponse> {
+      const searchParams = request?.providers
+        ? { providers: request.providers }
+        : undefined;
+      return api
+        .get('v1/provider-models', { searchParams })
+        .json<ProviderModelsResponse>();
+    },
+
+    listModelPricing(
+      request?: ListModelPricingRequest,
+    ): Promise<ListModelsResponse> {
+      const searchParams: Record<string, string | number> = {};
+      if (request) {
+        const {
+          model_id,
+          search,
+          provider,
+          subprovider,
+          sort_by,
+          order,
+          page,
+          limit,
+        } = request;
+        if (model_id !== undefined) searchParams['model_id'] = model_id;
+        if (search !== undefined) searchParams['search'] = search;
+        if (provider !== undefined) searchParams['provider'] = provider;
+        if (subprovider !== undefined)
+          searchParams['subprovider'] = subprovider;
+        if (sort_by !== undefined) searchParams['sort_by'] = sort_by;
+        if (order !== undefined) searchParams['order'] = order;
+        if (page !== undefined) searchParams['page'] = page;
+        if (limit !== undefined) searchParams['limit'] = limit;
+      }
+      return api
+        .get('v1/models/pricing', { searchParams })
+        .json<ListModelsResponse>();
+    },
+  };
 }

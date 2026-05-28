@@ -1,6 +1,7 @@
 packages:
   - 'packages/*'
   - 'examples/*'
+  - 'examples/utils/*'
   - 'apps/*'
 allowBuilds:
   sharp: false
@@ -35,6 +36,9 @@ catalogs:
     '@ai-sdk/openai': '^3.0.0'
     '@ai-sdk/provider': '^3.0.8'
     '@openrouter/ai-sdk-provider': '^2.3.3'
+
+    # HTTP
+    ky: '^2.0.2'
 
     # Next.js & React
     next: '16.2.6'

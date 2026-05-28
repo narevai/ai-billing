@@ -409,7 +409,11 @@ function getProviderConfigs(
   ];
 }
 
-/** Creates and initialises the chat router with all configured providers. */
+/**
+ * Creates and initialises the chat router with all configured providers.
+ *
+ * @param options - Router configuration; see {@link ChatRouterOptions}.
+ */
 export async function createChatRouter(
   options: ChatRouterOptions = {},
 ): Promise<{

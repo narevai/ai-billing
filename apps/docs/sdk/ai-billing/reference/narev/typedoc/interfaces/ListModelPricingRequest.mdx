@@ -1,0 +1,91 @@
+[**@ai-billing/narev**](../index)
+
+***
+
+[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/index) / ListModelPricingRequest
+
+# Interface: ListModelPricingRequest
+
+Defined in: [packages/narev/src/types.ts:125](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/types.ts#L125)
+
+Options for filtering and paginating the model pricing list.
+
+## Properties
+
+### model\_id?
+
+> `optional` **model\_id?**: `string`
+
+Defined in: [packages/narev/src/types.ts:127](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/types.ts#L127)
+
+Filter by exact model ID.
+
+***
+
+### search?
+
+> `optional` **search?**: `string`
+
+Defined in: [packages/narev/src/types.ts:129](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/types.ts#L129)
+
+Full-text search across model IDs.
+
+***
+
+### provider?
+
+> `optional` **provider?**: `string`
+
+Defined in: [packages/narev/src/types.ts:131](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/types.ts#L131)
+
+Filter by provider slug (e.g. "openai").
+
+***
+
+### subprovider?
+
+> `optional` **subprovider?**: `string`
+
+Defined in: [packages/narev/src/types.ts:133](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/types.ts#L133)
+
+Filter by subprovider name.
+
+***
+
+### sort\_by?
+
+> `optional` **sort\_by?**: `string`
+
+Defined in: [packages/narev/src/types.ts:135](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/types.ts#L135)
+
+Field to sort by.
+
+***
+
+### order?
+
+> `optional` **order?**: `"asc"` \| `"desc"`
+
+Defined in: [packages/narev/src/types.ts:137](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/types.ts#L137)
+
+Sort order ("asc" or "desc").
+
+***
+
+### page?
+
+> `optional` **page?**: `number`
+
+Defined in: [packages/narev/src/types.ts:139](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/types.ts#L139)
+
+Page number (1-based).
+
+***
+
+### limit?
+
+> `optional` **limit?**: `number`
+
+Defined in: [packages/narev/src/types.ts:141](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/types.ts#L141)
+
+Number of results per page.

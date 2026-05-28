@@ -7,7 +7,7 @@ import {
   subLabel,
   barTrack,
   barLabels,
-} from './styles.js';
+} from '../styles.js';
 
 export interface UsageBarProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string;

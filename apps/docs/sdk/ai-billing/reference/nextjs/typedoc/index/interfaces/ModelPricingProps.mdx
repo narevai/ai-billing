@@ -2,11 +2,11 @@
 
 ***
 
-[@ai-billing/nextjs](/sdk/ai-billing/reference/nextjs/typedoc/index) / [index](/sdk/ai-billing/reference/nextjs/typedoc/index/index) / CreditUsagePolarProps
+[@ai-billing/nextjs](/sdk/ai-billing/reference/nextjs/typedoc/index) / [index](/sdk/ai-billing/reference/nextjs/typedoc/index/index) / ModelPricingProps
 
-# Interface: CreditUsagePolarProps
+# Interface: ModelPricingProps
 
-Defined in: [packages/nextjs/src/polar/CreditUsagePolar.tsx:8](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/CreditUsagePolar.tsx#L8)
+Defined in: [packages/nextjs/src/pricing/ModelPricing.tsx:8](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/pricing/ModelPricing.tsx#L8)
 
 ## Extends
 
@@ -14,27 +14,67 @@ Defined in: [packages/nextjs/src/polar/CreditUsagePolar.tsx:8](https://github.co
 
 ## Properties
 
-### userId
+### title?
 
-> **userId**: `string`
+> `optional` **title?**: `string`
 
-Defined in: [packages/nextjs/src/polar/CreditUsagePolar.tsx:9](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/CreditUsagePolar.tsx#L9)
+Defined in: [packages/nextjs/src/pricing/ModelPricing.tsx:10](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/pricing/ModelPricing.tsx#L10)
 
-***
+Optional heading rendered above the list.
 
-### budget?
+#### Overrides
 
-> `optional` **budget?**: `number`
-
-Defined in: [packages/nextjs/src/polar/CreditUsagePolar.tsx:10](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/CreditUsagePolar.tsx#L10)
+`React.HTMLAttributes.title`
 
 ***
 
-### label?
+### search?
 
-> `optional` **label?**: `string`
+> `optional` **search?**: `string`
 
-Defined in: [packages/nextjs/src/polar/CreditUsagePolar.tsx:11](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/CreditUsagePolar.tsx#L11)
+Defined in: [packages/nextjs/src/pricing/ModelPricing.tsx:12](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/pricing/ModelPricing.tsx#L12)
+
+Full-text search across model IDs.
+
+***
+
+### searchBoxVisible?
+
+> `optional` **searchBoxVisible?**: `boolean`
+
+Defined in: [packages/nextjs/src/pricing/ModelPricing.tsx:14](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/pricing/ModelPricing.tsx#L14)
+
+Render a search box above the list; its value overrides the search prop.
+
+***
+
+### showEnterpriseOnly?
+
+> `optional` **showEnterpriseOnly?**: `boolean`
+
+Defined in: [packages/nextjs/src/pricing/ModelPricing.tsx:16](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/pricing/ModelPricing.tsx#L16)
+
+Include models with enterprise-only pricing (pricing: null). Defaults to true.
+
+***
+
+### limit?
+
+> `optional` **limit?**: `number`
+
+Defined in: [packages/nextjs/src/pricing/ModelPricing.tsx:18](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/pricing/ModelPricing.tsx#L18)
+
+Number of results per page (defaults to 100).
+
+***
+
+### skeletonCount?
+
+> `optional` **skeletonCount?**: `number`
+
+Defined in: [packages/nextjs/src/pricing/ModelPricing.tsx:20](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/pricing/ModelPricing.tsx#L20)
+
+Number of skeleton cards shown during initial load (defaults to 5).
 
 ***
 
@@ -3216,18 +3256,6 @@ Defined in: node\_modules/.pnpm/@types+react@19.2.15/node\_modules/@types/react/
 #### Inherited from
 
 [`CreditTopUpPolarProps`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps).[`tabIndex`](/sdk/ai-billing/reference/nextjs/typedoc/index/interfaces/CreditTopUpPolarProps#tabindex)
-
-***
-
-### title?
-
-> `optional` **title?**: `string`
-
-Defined in: node\_modules/.pnpm/@types+react@19.2.15/node\_modules/@types/react/index.d.ts:2810
-
-#### Inherited from
-
-`React.HTMLAttributes.title`
 
 ***
 

@@ -6,7 +6,7 @@
 
 # Interface: NarevClient
 
-Defined in: [packages/narev/src/narev-client.ts:40](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L40)
+Defined in: [packages/narev/src/narev-client.ts:43](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L43)
 
 Typed client for the Narev billing API.
 
@@ -16,18 +16,18 @@ Covers balance checks and top-up/credit operations.
 
 ### getBalance()
 
-> **getBalance**(`lookup`): `Promise`\<[`BalanceResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/BalanceResponse)\>
+> **getBalance**(`request`): `Promise`\<[`BalanceResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/BalanceResponse)\>
 
-Defined in: [packages/narev/src/narev-client.ts:45](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L45)
+Defined in: [packages/narev/src/narev-client.ts:48](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L48)
 
 Fetches the end-user's balance and consumption for the current billing period.
 Pass either `{ userId }` or `{ stripeCustomerId }`.
 
 #### Parameters
 
-##### lookup
+##### request
 
-[`BalanceLookup`](/sdk/ai-billing/reference/narev/typedoc/type-aliases/BalanceLookup)
+[`GetBalanceRequest`](/sdk/ai-billing/reference/narev/typedoc/type-aliases/GetBalanceRequest)
 
 #### Returns
 
@@ -39,7 +39,7 @@ Pass either `{ userId }` or `{ stripeCustomerId }`.
 
 > **getCreditConfig**(): `Promise`\<[`CreditConfigResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/CreditConfigResponse)\>
 
-Defined in: [packages/narev/src/narev-client.ts:48](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L48)
+Defined in: [packages/narev/src/narev-client.ts:51](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L51)
 
 Fetches available credit packages for top-up.
 
@@ -53,7 +53,7 @@ Fetches available credit packages for top-up.
 
 > **createCheckout**(`request`): `Promise`\<[`CheckoutResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/CheckoutResponse)\>
 
-Defined in: [packages/narev/src/narev-client.ts:54](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L54)
+Defined in: [packages/narev/src/narev-client.ts:56](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L56)
 
 Creates a checkout session for an end-user to purchase credits.
 
@@ -63,8 +63,6 @@ Creates a checkout session for an end-user to purchase credits.
 
 [`CreateCheckoutRequest`](/sdk/ai-billing/reference/narev/typedoc/interfaces/CreateCheckoutRequest)
 
-checkout details (product, user, success URL)
-
 #### Returns
 
 `Promise`\<[`CheckoutResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/CheckoutResponse)\>
@@ -73,20 +71,38 @@ checkout details (product, user, success URL)
 
 ### getProviderModels()
 
-> **getProviderModels**(`options?`): `Promise`\<[`ProviderModelsResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/ProviderModelsResponse)\>
+> **getProviderModels**(`request?`): `Promise`\<[`ProviderModelsResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/ProviderModelsResponse)\>
 
-Defined in: [packages/narev/src/narev-client.ts:60](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L60)
+Defined in: [packages/narev/src/narev-client.ts:61](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L61)
 
 Returns all available models grouped by provider.
 
 #### Parameters
 
-##### options?
+##### request?
 
-[`GetProviderModelsOptions`](/sdk/ai-billing/reference/narev/typedoc/interfaces/GetProviderModelsOptions)
-
-optional filter by provider slugs
+[`GetProviderModelsRequest`](/sdk/ai-billing/reference/narev/typedoc/interfaces/GetProviderModelsRequest)
 
 #### Returns
 
 `Promise`\<[`ProviderModelsResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/ProviderModelsResponse)\>
+
+***
+
+### listModelPricing()
+
+> **listModelPricing**(`request?`): `Promise`\<[`ListModelsResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/ListModelsResponse)\>
+
+Defined in: [packages/narev/src/narev-client.ts:68](https://github.com/narevai/ai-billing/blob/main/packages/narev/src/narev-client.ts#L68)
+
+Returns a paginated list of models with pricing details.
+
+#### Parameters
+
+##### request?
+
+[`ListModelPricingRequest`](/sdk/ai-billing/reference/narev/typedoc/interfaces/ListModelPricingRequest)
+
+#### Returns
+
+`Promise`\<[`ListModelsResponse`](/sdk/ai-billing/reference/narev/typedoc/interfaces/ListModelsResponse)\>

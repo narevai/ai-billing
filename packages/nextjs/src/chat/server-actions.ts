@@ -38,7 +38,11 @@ async function getRouter(options: ChatRouterOptions = {}) {
   return _routerPromise;
 }
 
-/** Returns available models for the configured providers. */
+/**
+ * Returns available models for the configured providers.
+ *
+ * @param options - Optional router configuration overrides.
+ */
 export async function getModels(
   options: ChatRouterOptions = {},
 ): Promise<ModelOption[]> {
@@ -46,7 +50,14 @@ export async function getModels(
   return router.getModels();
 }
 
-/** Streams a chat response for the given messages and model. */
+/**
+ * Streams a chat response for the given messages and model.
+ *
+ * @param messages - Conversation history including the latest user message.
+ * @param modelId - ID of the model to use for generation.
+ * @param tags - Optional metadata tags attached to the billing event.
+ * @param streamId - Optional ID used to abort the stream via {@link stopChat}.
+ */
 export async function streamChat(
   messages: UIMessage[],
   modelId: string,
@@ -157,7 +168,11 @@ export async function streamChat(
   return { value: stream.value };
 }
 
-/** Aborts an in-progress stream by its ID. */
+/**
+ * Aborts an in-progress stream by its ID.
+ *
+ * @param streamId - ID of the stream to abort, as passed to {@link streamChat}.
+ */
 export async function stopChat(streamId: string) {
   const controller = _abortControllers.get(streamId);
   if (controller) {

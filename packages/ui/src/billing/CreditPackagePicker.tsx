@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { cardBase } from './styles.js';
+import { cardBase } from '../styles.js';
 import { formatCents, taxMessages } from '../utils.js';
 import type { CreditPackage } from '../types.js';
 import { EmptyMessage } from '../empty.js';

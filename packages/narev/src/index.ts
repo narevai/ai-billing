@@ -1,7 +1,7 @@
 export { createNarevClient, NarevApiError } from './narev-client.js';
 export type { NarevClient, NarevClientOptions } from './narev-client.js';
 export type {
-  BalanceLookup,
+  GetBalanceRequest,
   BalanceData,
   BalanceResponse,
   CheckoutResponse,
@@ -11,5 +11,10 @@ export type {
   CreditPackage,
   ProviderModelsData,
   ProviderModelsResponse,
-  GetProviderModelsOptions,
+  GetProviderModelsRequest,
+  Model,
+  ModelPricing,
+  ListModelsMeta,
+  ListModelsResponse,
+  ListModelPricingRequest,
 } from './types.js';
