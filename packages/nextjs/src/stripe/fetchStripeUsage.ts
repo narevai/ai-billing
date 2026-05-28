@@ -1,21 +1,21 @@
 'use server';
 
-import type { BalanceLookup } from '@ai-billing/narev';
+import type { GetBalanceRequest } from '@ai-billing/narev';
 import { getNarevClient } from '../narev-client.js';
 import type { StripeUsageData } from './types.js';
 
 /**
  * Fetches usage data for a given customer via the Narev API.
- * @param lookup - User identifier — either `{ userId }` or `{ stripeCustomerId }`.
+ * @param request - User identifier — either `{ userId }` or `{ stripeCustomerId }`.
  */
 export async function fetchStripeUsage(
-  lookup: BalanceLookup,
+  request: GetBalanceRequest,
 ): Promise<StripeUsageData> {
   const empty = { aggregatedValue: 0, found: false };
 
   try {
     const client = getNarevClient();
-    const response = await client.getBalance(lookup);
+    const response = await client.getBalance(request);
     const data = response.data;
 
     const aggregatedValue =

@@ -1,10 +1,10 @@
 'use server';
 
 import { getNarevClient } from '../narev-client.js';
-import type { ListModelsPricingOptions } from '@ai-billing/narev';
+import type { ListModelPricingRequest } from '@ai-billing/narev';
 import type { Model, ListModelsMeta } from '@ai-billing/ui';
 
-export interface ModelsPricingResult {
+export interface ModelPricingResult {
   models: Model[];
   meta: ListModelsMeta;
 }
@@ -15,18 +15,18 @@ export interface ModelsPricingResult {
  * @param options - Optional filters and pagination parameters.
  * @returns List of models with pricing and pagination metadata.
  */
-export async function fetchModelsPricing(
-  options?: ListModelsPricingOptions,
-): Promise<ModelsPricingResult> {
+export async function fetchModelPricing(
+  options?: ListModelPricingRequest,
+): Promise<ModelPricingResult> {
   try {
     const client = getNarevClient();
-    const response = await client.listModelsPricing(options);
+    const response = await client.listModelPricing(options);
     return {
       models: response.data as Model[],
       meta: response.meta,
     };
   } catch (error) {
-    console.error('fetchModelsPricing: fetch failed', error);
+    console.error('fetchModelPricing: fetch failed', error);
     return {
       models: [],
       meta: { page: 1, limit: 100, total: 0, total_pages: 0 },

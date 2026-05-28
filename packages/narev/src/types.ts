@@ -45,7 +45,9 @@ export interface CreditConfigResponse {
 }
 
 /** Identifies an end-user by either their app-level ID or Stripe customer ID. */
-export type BalanceLookup = { userId: string } | { stripeCustomerId: string };
+export type GetBalanceRequest =
+  | { userId: string }
+  | { stripeCustomerId: string };
 
 /** Request body for creating a checkout session. */
 export interface CreateCheckoutRequest {
@@ -74,7 +76,7 @@ export interface ProviderModelsResponse {
 }
 
 /** Options for filtering models by provider. */
-export interface GetProviderModelsOptions {
+export interface GetProviderModelsRequest {
   /** Comma-separated list of providers to include (e.g. "openai,anthropic"). Omit to return all. */
   providers?: string;
 }
@@ -120,7 +122,7 @@ export interface ListModelsResponse {
 }
 
 /** Options for filtering and paginating the model pricing list. */
-export interface ListModelsPricingOptions {
+export interface ListModelPricingRequest {
   /** Filter by exact model ID. */
   model_id?: string;
   /** Full-text search across model IDs. */

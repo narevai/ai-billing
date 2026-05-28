@@ -4,7 +4,7 @@ import {
   Chat,
   CreditUsagePolar,
   CreditTopUpPolar,
-  ModelsPricing,
+  ModelPricing,
 } from '@ai-billing/nextjs';
 
 const ANONYMOUS_USER_ID = 'anonymous_user';
@@ -58,7 +58,7 @@ export default function Home() {
             <CreditTopUpPolar userId={ANONYMOUS_USER_ID} />
           </div>
           <div style={{ flex: 1, minHeight: 0, padding: '16px' }}>
-            <ModelsPricing searchBoxVisible={true} />
+            <ModelPricing searchBoxVisible={true} />
           </div>
         </div>
       </div>

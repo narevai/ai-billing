@@ -3,9 +3,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ModelsPricingList, ModelSearchBox } from '@ai-billing/ui';
 import type { Model } from '@ai-billing/ui';
-import { fetchModelsPricing } from './fetchModelsPricing.js';
+import { fetchModelPricing } from './fetchModelPricing.js';
 
-export interface ModelsPricingProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ModelPricingProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Optional heading rendered above the list. */
   title?: string;
   /** Full-text search across model IDs. */
@@ -26,10 +26,7 @@ type FetchParams = {
   page: number;
 };
 
-export const ModelsPricing = React.forwardRef<
-  HTMLDivElement,
-  ModelsPricingProps
->(
+export const ModelPricing = React.forwardRef<HTMLDivElement, ModelPricingProps>(
   (
     {
       title,
@@ -85,14 +82,14 @@ export const ModelsPricing = React.forwardRef<
 
       (async () => {
         try {
-          const result = await fetchModelsPricing(fetchParams);
+          const result = await fetchModelPricing(fetchParams);
           if (cancelled) return;
           setModels(prev =>
             isFirst ? result.models : [...prev, ...result.models],
           );
           setTotalPages(result.meta.total_pages);
         } catch {
-          /* silent — fetchModelsPricing already logs */
+          /* silent — fetchModelPricing already logs */
         } finally {
           if (!cancelled) {
             setInitialLoading(false);
@@ -161,4 +158,4 @@ export const ModelsPricing = React.forwardRef<
     );
   },
 );
-ModelsPricing.displayName = 'ModelsPricing';
+ModelPricing.displayName = 'ModelPricing';
