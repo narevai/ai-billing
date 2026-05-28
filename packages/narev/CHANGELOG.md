@@ -1,5 +1,13 @@
 # @ai-billing/narev
 
+## 0.0.5
+
+### Patch Changes
+
+- faf939a: chore(types): move types to separated package
+- Updated dependencies [faf939a]
+  - @ai-billing/types@0.0.1
+
 ## 0.0.4
 
 ### Patch Changes

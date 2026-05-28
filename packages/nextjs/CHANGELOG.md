@@ -1,5 +1,27 @@
 # @ai-billing/nextjs
 
+## 0.0.10
+
+### Patch Changes
+
+- faf939a: chore(types): move types to separated package
+- Updated dependencies [faf939a]
+  - @ai-billing/openrouter@0.1.3
+  - @ai-billing/anthropic@0.1.3
+  - @ai-billing/deepseek@0.1.3
+  - @ai-billing/gateway@0.1.4
+  - @ai-billing/minimax@0.1.3
+  - @ai-billing/chutes@0.1.3
+  - @ai-billing/google@0.1.3
+  - @ai-billing/openai@0.1.3
+  - @ai-billing/narev@0.0.5
+  - @ai-billing/polar@0.1.6
+  - @ai-billing/types@0.0.1
+  - @ai-billing/core@0.1.3
+  - @ai-billing/groq@0.1.3
+  - @ai-billing/xai@0.1.3
+  - @ai-billing/ui@0.0.6
+
 ## 0.0.9
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # ai-billing-storybook
 
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies [faf939a]
+  - @ai-billing/nextjs@0.0.10
+  - @ai-billing/ui@0.0.6
+
 ## 0.0.9
 
 ### Patch Changes

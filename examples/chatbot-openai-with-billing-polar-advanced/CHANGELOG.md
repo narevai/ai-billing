@@ -1,5 +1,17 @@
 # chatbot-openai-with-billing-polar-advanced
 
+## 0.0.10
+
+### Patch Changes
+
+- faf939a: chore(types): move types to separated package
+- Updated dependencies [faf939a]
+  - @ai-billing/nextjs@0.0.10
+  - @ai-billing/openai@0.1.3
+  - @ai-billing/narev@0.0.5
+  - @ai-billing/polar@0.1.6
+  - @ai-billing/core@0.1.3
+
 ## 0.0.9
 
 ### Patch Changes

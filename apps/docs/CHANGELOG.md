@@ -1,5 +1,11 @@
 # docs
 
+## 0.1.12
+
+### Patch Changes
+
+- faf939a: chore(types): move types to separated package
+
 ## 0.1.11
 
 ### Patch Changes
