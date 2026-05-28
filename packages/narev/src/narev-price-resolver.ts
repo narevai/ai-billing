@@ -1,7 +1,7 @@
 import { createNarevClient } from './narev-client.js';
+import type { NarevClientOptions } from './narev-client.js';
 import type {
   NarevModelPricing,
-  NarevClientOptions,
   ModelPricing,
   PriceResolver,
 } from '@ai-billing/types';

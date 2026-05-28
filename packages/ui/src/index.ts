@@ -6,7 +6,7 @@ export { ModelSearchBox } from './pricing/ModelSearchBox.js';
 export type { ModelSearchBoxProps } from './pricing/ModelSearchBox.js';
 export type {
   Model,
-  NarevModelPricing as ModelPricing,
+  NarevModelPricing,
   ListModelsMeta,
   ListModelsResponse,
   CreditPackage,
