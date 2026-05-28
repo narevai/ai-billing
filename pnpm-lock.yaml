@@ -45,6 +45,9 @@ catalogs:
     knip:
       specifier: ^6.0.4
       version: 6.0.5
+    ky:
+      specifier: ^2.0.2
+      version: 2.0.2
     next:
       specifier: 16.2.6
       version: 16.2.6
@@ -2300,6 +2303,10 @@ importers:
         version: 4.3.6
 
   packages/narev:
+    dependencies:
+      ky:
+        specifier: 'catalog:'
+        version: 2.0.2
     devDependencies:
       '@ai-billing/typescript-config':
         specifier: workspace:*
@@ -7401,6 +7408,10 @@ packages:
     resolution: {integrity: sha512-+i9e/ZKuYlECB5iIK82NQwnYso4oNLBhzsTbXhSqCG1qfGi6D84GNtRENafmS3C0lABX8Wf3BKM434nPXi2AbQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
+
+  ky@2.0.2:
+    resolution: {integrity: sha512-/GmXpo9F9W+f8n4Ivr2iH+7h7wL7jLbLKWkMlpflcCRb6kGjBfTlASEXaZ9qUgNTn4VgS0P2pwxxzQ4EM6Ulgg==}
+    engines: {node: '>=22'}
 
   layout-base@1.0.2:
     resolution: {integrity: sha512-8h2oVEZNktL4BH2JCOI90iD1yXwL6iNW7KcCKT2QZgQJR2vbqDsldCTPRU9NifTCqHZci57XvQQ15YTu+sTYPg==}
@@ -13342,6 +13353,8 @@ snapshots:
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
+
+  ky@2.0.2: {}
 
   layout-base@1.0.2: {}
 
