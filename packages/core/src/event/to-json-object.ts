@@ -1,4 +1,4 @@
-import { DefaultTags, BillingEvent } from '../types/index.js';
+import { DefaultTags, BillingEvent } from '@ai-billing/types';
 import type { JSONObject } from '@ai-sdk/provider';
 
 /**

@@ -3,7 +3,7 @@ import type {
   ModelPricing,
   PriceResolver,
   PriceResolverContext,
-} from '../types/index.js';
+} from '@ai-billing/types';
 
 /**
  * Creates a price resolver that uses a static pricing map.

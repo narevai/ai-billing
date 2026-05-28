@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@ai-billing/core": "workspace:*",
+    "@ai-billing/types": "workspace:*",
     "@openrouter/ai-sdk-provider": "^2.3.3"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createLagoDestination } from './lago-destination.js';
 import { costToNumber } from '@ai-billing/core';
-import type { BillingEvent } from '@ai-billing/core';
+import type { BillingEvent } from '@ai-billing/types';
 
 const mockFetch = vi.fn();
 vi.stubGlobal('fetch', mockFetch);

@@ -1,5 +1,5 @@
 import { AiBillingCostError } from '../index.js';
-import type { Cost, CostUnit } from '../index.js';
+import type { Cost, CostUnit } from '@ai-billing/types';
 
 const getNanos = (cost: Cost): number => {
   switch (cost.unit) {

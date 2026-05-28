@@ -4,7 +4,7 @@ import {
   multiplyCost,
   rateToCost,
 } from '@ai-billing/core';
-import type { ModelPricing, Cost, CostInputs } from '@ai-billing/core';
+import type { ModelPricing, Cost, CostInputs } from '@ai-billing/types';
 
 /**
  * Computes total cost for a Chutes completion from {@link ModelPricing} and token usage.

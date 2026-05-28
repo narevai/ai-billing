@@ -14,7 +14,7 @@ import {
   BillingEventSchema,
 } from '@ai-billing/testing';
 import type { z } from 'zod';
-import { BillingEvent } from '@/types/event.js';
+import type { BillingEvent } from '@ai-billing/types';
 
 describe('createV3BillingMiddleware', () => {
   const StrictBillingEventSchema: z.ZodType<BillingEvent> = BillingEventSchema;

@@ -2,7 +2,7 @@ import type {
   BillingEvent,
   DefaultTags,
   MeterMetadata,
-} from '../types/index.js';
+} from '@ai-billing/types';
 
 /**
  * Converts a billing event into a meter metadata object.

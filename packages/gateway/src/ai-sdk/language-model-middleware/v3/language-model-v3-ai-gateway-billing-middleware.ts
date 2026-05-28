@@ -1,10 +1,9 @@
-import {
-  createV3BillingMiddleware,
-  type BaseBillingMiddlewareOptions,
-  AiBillingExtractorError,
+import { createV3BillingMiddleware, AiBillingExtractorError } from '@ai-billing/core';
+import type {
+  BaseBillingMiddlewareOptions,
   DefaultTags,
   BillingEvent,
-} from '@ai-billing/core';
+} from '@ai-billing/types';
 import type { SharedV3ProviderMetadata } from '@ai-sdk/provider';
 
 export interface GatewayAttempt {

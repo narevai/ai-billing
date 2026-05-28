@@ -1,12 +1,12 @@
 import { wrapLanguageModel } from 'ai';
 import type { LanguageModel } from 'ai';
 import { createPolarDestination } from '@ai-billing/polar';
-import {
-  createNarevPriceResolver,
-  type PriceResolver,
-  type Destination,
-  type DefaultTags,
-} from '@ai-billing/core';
+import { createNarevPriceResolver } from '@ai-billing/narev';
+import type {
+  PriceResolver,
+  Destination,
+  DefaultTags,
+} from '@ai-billing/types';
 import { getNarevClient } from '../narev-client.js';
 import { DEFAULT_MODELS, buildModelOptions } from './models.js';
 import type { ModelOption } from '@ai-billing/ui';

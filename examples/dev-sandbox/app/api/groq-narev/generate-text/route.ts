@@ -6,7 +6,8 @@ import {
 } from 'ai';
 import { createGroq } from '@ai-sdk/groq';
 import { createGroqMiddleware } from '@ai-billing/groq';
-import { consoleDestination, createNarevPriceResolver } from '@ai-billing/core';
+import { consoleDestination } from '@ai-billing/core';
+import { createNarevPriceResolver } from '@ai-billing/narev';
 
 const groq = createGroq({
   // eslint-disable-next-line turbo/no-undeclared-env-vars
@@ -51,3 +52,4 @@ export async function POST() {
     return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 }
+

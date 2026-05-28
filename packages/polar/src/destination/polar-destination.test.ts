@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createPolarDestination } from './polar-destination.js';
 import { Polar } from '@polar-sh/sdk';
-import { costToNumber, type BillingEvent } from '@ai-billing/core';
+import { costToNumber } from '@ai-billing/core';
+import type { BillingEvent } from '@ai-billing/types';
 import { BillingEventSchema } from '@ai-billing/testing';
 import { z } from 'zod';
 

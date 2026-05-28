@@ -81,8 +81,8 @@ export interface GetProviderModelsRequest {
   providers?: string;
 }
 
-/** Pricing details for a single model. */
-export interface ModelPricing {
+/** Pricing details for a single model (raw Narev API format). */
+export interface NarevModelPricing {
   price_prompt: number;
   price_completion: number;
   pricing_discount: number;
@@ -103,7 +103,7 @@ export interface Model {
   model_id: string;
   provider: string;
   subprovider: string;
-  pricing: ModelPricing | null;
+  pricing: NarevModelPricing | null;
   message?: string;
 }
 
@@ -139,4 +139,47 @@ export interface ListModelPricingRequest {
   page?: number;
   /** Number of results per page. */
   limit?: number;
+}
+
+/** Options for creating a Narev API client. */
+export interface NarevClientOptions {
+  /** Narev API key (bearer token). */
+  apiKey: string;
+  /** Base URL override (defaults to https://api.narev.ai). */
+  baseUrl?: string;
+}
+
+/**
+ * Typed client for the Narev billing API.
+ *
+ * Covers balance checks and top-up/credit operations.
+ */
+export interface NarevClient {
+  /**
+   * Fetches the end-user's balance and consumption for the current billing period.
+   * Pass either `{ userId }` or `{ stripeCustomerId }`.
+   */
+  getBalance(request: GetBalanceRequest): Promise<BalanceResponse>;
+
+  /** Fetches available credit packages for top-up. */
+  getCreditConfig(): Promise<CreditConfigResponse>;
+
+  /**
+   * Creates a checkout session for an end-user to purchase credits.
+   */
+  createCheckout(request: CreateCheckoutRequest): Promise<CheckoutResponse>;
+
+  /**
+   * Returns all available models grouped by provider.
+   */
+  getProviderModels(
+    request?: GetProviderModelsRequest,
+  ): Promise<ProviderModelsResponse>;
+
+  /**
+   * Returns a paginated list of models with pricing details.
+   */
+  listModelPricing(
+    request?: ListModelPricingRequest,
+  ): Promise<ListModelsResponse>;
 }

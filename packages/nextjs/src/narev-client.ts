@@ -1,5 +1,5 @@
 import { createNarevClient } from '@ai-billing/narev';
-import type { NarevClient } from '@ai-billing/narev';
+import type { NarevClient } from '@ai-billing/types';
 
 let _client: NarevClient | undefined;
 

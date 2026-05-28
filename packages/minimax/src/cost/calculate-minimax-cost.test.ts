@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { calculateMinimaxCost } from './calculate-minimax-cost.js';
-import type { ModelPricing } from '@ai-billing/core';
+import type { ModelPricing } from '@ai-billing/types';
 
 describe('calculateMinimaxCost', () => {
   it('should return undefined if no pricing is provided', () => {

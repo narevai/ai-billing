@@ -1,6 +1,9 @@
 import React from 'react';
 import { cardBase } from '../styles.js';
-import type { Model, ModelPricing } from '../types.js';
+import type {
+  Model,
+  NarevModelPricing as ModelPricing,
+} from '@ai-billing/types';
 
 if (typeof document !== 'undefined') {
   if (!document.getElementById('aib-sk')) {

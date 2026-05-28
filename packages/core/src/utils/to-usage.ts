@@ -1,4 +1,4 @@
-import type { CostInputs, Usage } from '../types/index.js';
+import type { CostInputs, Usage } from '@ai-billing/types';
 
 /** Maps {@link CostInputs} token counts to a {@link Usage} object. */
 export function toUsage(inputs: CostInputs): Usage {

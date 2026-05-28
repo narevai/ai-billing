@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createOpenMeterDestination } from './openmeter-destination.js';
-import type { BillingEvent } from '@ai-billing/core';
+import type { BillingEvent } from '@ai-billing/types';
 
 const mockFetch = vi.fn();
 vi.stubGlobal('fetch', mockFetch);

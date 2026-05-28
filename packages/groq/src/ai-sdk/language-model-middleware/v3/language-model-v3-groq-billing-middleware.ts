@@ -1,7 +1,7 @@
 import { calculateGroqCost } from '../../../cost/index.js';
 import { createV3BillingMiddleware, toUsage } from '@ai-billing/core';
-import type { CostInputs } from '@ai-billing/core';
 import type {
+  CostInputs,
   BaseBillingMiddlewareOptions,
   PriceResolver,
   Cost,
@@ -9,7 +9,7 @@ import type {
   PriceResolverContext,
   ModelPricing,
   BillingEvent,
-} from '@ai-billing/core';
+} from '@ai-billing/types';
 
 interface GroqRawUsage {
   prompt_tokens?: number;
@@ -38,7 +38,6 @@ interface GroqRawUsage {
  * requires a {@link PriceResolver}. Usage is taken from the Groq response; cost is computed from that usage
  * and the resolved {@link ModelPricing} using the same rules as the package's cost helper.
  *
- * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
  */
 export interface GroqV3MiddlewareOptions<
   TTags extends DefaultTags,
@@ -50,7 +49,6 @@ export interface GroqV3MiddlewareOptions<
  * Creates a V3 billing middleware for the Groq provider (`@ai-sdk/groq`).
  * Derives token usage from Groq's raw usage payload and resolves cost from pricing plus usage.
  *
- * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
  * @param options - Billing options; see {@link GroqV3MiddlewareOptions}. A `priceResolver` is required
  * because Groq does not supply billed amounts in provider metadata the way the AI Gateway does.
  * @returns A V3 billing middleware instance for Groq.

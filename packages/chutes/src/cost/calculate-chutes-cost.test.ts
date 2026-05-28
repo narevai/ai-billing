@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { calculateChutesCost } from './calculate-chutes-cost.js';
-import type { ModelPricing } from '@ai-billing/core';
+import type { ModelPricing } from '@ai-billing/types';
 
 describe('calculateChutesCost', () => {
   it('should return undefined if no pricing is provided', () => {

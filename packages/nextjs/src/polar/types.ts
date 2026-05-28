@@ -1,6 +1,4 @@
-import type { CreditPackage } from '@ai-billing/ui';
-
-export type { CreditPackage };
+export type { CreditPackage } from '@ai-billing/types';
 
 export interface PolarUsageData {
   consumedUnits: number;

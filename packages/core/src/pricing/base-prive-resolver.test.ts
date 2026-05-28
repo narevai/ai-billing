@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { createBasePriceResolver } from './base-price-resolver.js';
-import type { PriceResolverContext, ModelPricing } from '../types/index.js';
+import type { PriceResolverContext, ModelPricing } from '@ai-billing/types';
 
 describe('createBasePriceResolver', () => {
   const mockContext: PriceResolverContext = {

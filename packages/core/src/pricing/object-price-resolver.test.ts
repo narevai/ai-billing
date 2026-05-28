@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { createObjectPriceResolver } from './object-price-resolver.js';
-import type { ModelPricing, PriceResolverContext } from '../types/index.js';
+import type { ModelPricing, PriceResolverContext } from '@ai-billing/types';
 
 describe('createObjectPriceResolver', () => {
   const mockPricingMap: Record<string, ModelPricing> = {

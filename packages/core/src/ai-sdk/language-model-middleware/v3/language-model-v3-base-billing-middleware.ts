@@ -12,7 +12,7 @@ import type {
   EventBuilder,
   BillingEvent,
   DefaultTags,
-} from '../../../types/index.js';
+} from '@ai-billing/types';
 import { toJSONObject } from '../../../event/index.js';
 
 export interface BuildV3EventPayload<TTags extends DefaultTags = DefaultTags> {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { calculateGoogleCost } from './calculate-google-cost.js';
-import type { ModelPricing } from '@ai-billing/core';
+import type { ModelPricing } from '@ai-billing/types';
 
 describe('calculateGoogleCost (Integration)', () => {
   const actualPricing: ModelPricing = {

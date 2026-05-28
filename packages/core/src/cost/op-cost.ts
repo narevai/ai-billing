@@ -1,4 +1,4 @@
-import { Cost } from '../types/index.js';
+import { Cost } from '@ai-billing/types';
 import { AiBillingCostError } from '../index.js';
 import { convertCostUnit } from './convert-cost.js';
 

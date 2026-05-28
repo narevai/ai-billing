@@ -9,7 +9,8 @@ import {
   MockLanguageModelV3,
   convertArrayToReadableStream,
 } from '@ai-billing/testing';
-import { AiBillingExtractorError, BillingEvent } from '@ai-billing/core';
+import { AiBillingExtractorError } from '@ai-billing/core';
+import type { BillingEvent } from '@ai-billing/types';
 import {
   LanguageModelV3GenerateResult,
   SharedV3ProviderMetadata,
