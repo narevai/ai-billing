@@ -1,5 +1,14 @@
 # chatbot-with-billing
 
+## 0.0.11
+
+### Patch Changes
+
+- 1545485: fix(nexjs): make all dependencies mandatory
+- Updated dependencies [ae6c4a1]
+- Updated dependencies [1545485]
+  - @ai-billing/nextjs@0.0.11
+
 ## 0.0.10
 
 ### Patch Changes
