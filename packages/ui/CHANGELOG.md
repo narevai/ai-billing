@@ -1,5 +1,12 @@
 # @ai-billing/ui
 
+## 0.0.5
+
+### Patch Changes
+
+- bebd70b: feat(ui): add auto topup option
+- 0126081: feat(nextjs): create ModelsPricing component
+
 ## 0.0.4
 
 ### Patch Changes

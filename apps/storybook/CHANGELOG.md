@@ -1,5 +1,16 @@
 # ai-billing-storybook
 
+## 0.0.9
+
+### Patch Changes
+
+- bebd70b: feat(ui): add auto topup option
+- 0126081: feat(nextjs): create ModelsPricing component
+- Updated dependencies [bebd70b]
+- Updated dependencies [0126081]
+  - @ai-billing/nextjs@0.0.9
+  - @ai-billing/ui@0.0.5
+
 ## 0.0.8
 
 ### Patch Changes

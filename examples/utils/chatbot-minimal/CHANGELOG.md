@@ -1,5 +1,14 @@
 # chatbot-minimal
 
+## 0.0.5
+
+### Patch Changes
+
+- 0126081: feat(nextjs): create ModelsPricing component
+- Updated dependencies [bebd70b]
+- Updated dependencies [0126081]
+  - @ai-billing/nextjs@0.0.9
+
 ## 0.0.4
 
 ### Patch Changes

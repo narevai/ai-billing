@@ -1,5 +1,12 @@
 # docs
 
+## 0.1.11
+
+### Patch Changes
+
+- bebd70b: feat(ui): add auto topup option
+- 0126081: feat(nextjs): create ModelsPricing component
+
 ## 0.1.10
 
 ### Patch Changes
