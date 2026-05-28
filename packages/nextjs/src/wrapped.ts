@@ -20,7 +20,11 @@ import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
 import { createGatewayMiddleware } from '@ai-billing/gateway';
 import { createPolarDestination } from '@ai-billing/polar';
 import { createNarevPriceResolver } from '@ai-billing/narev';
-import type { PriceResolver, Destination, DefaultTags } from '@ai-billing/types';
+import type {
+  PriceResolver,
+  Destination,
+  DefaultTags,
+} from '@ai-billing/types';
 
 function getPolarDestinations(): Destination<DefaultTags>[] {
   const accessToken = process.env.POLAR_ACCESS_TOKEN;
@@ -28,7 +32,8 @@ function getPolarDestinations(): Destination<DefaultTags>[] {
   return [
     createPolarDestination({
       accessToken,
-      server: (process.env.POLAR_SERVER as 'sandbox' | 'production') ?? 'sandbox',
+      server:
+        (process.env.POLAR_SERVER as 'sandbox' | 'production') ?? 'sandbox',
       eventName: 'llm_usage',
       externalCustomerIdKey: 'userId' as never,
     }),
@@ -45,7 +50,10 @@ function getNarevPriceResolver(): PriceResolver {
  */
 export function createOpenAIWithBilling(modelId: string): LanguageModel {
   const p = createOpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  const m = createOpenAIMiddleware({ priceResolver: getNarevPriceResolver(), destinations: getPolarDestinations() });
+  const m = createOpenAIMiddleware({
+    priceResolver: getNarevPriceResolver(),
+    destinations: getPolarDestinations(),
+  });
   return wrapLanguageModel({ model: p(modelId), middleware: m });
 }
 
@@ -55,7 +63,10 @@ export function createOpenAIWithBilling(modelId: string): LanguageModel {
  */
 export function createAnthropicWithBilling(modelId: string): LanguageModel {
   const p = createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-  const m = createAnthropicMiddleware({ priceResolver: getNarevPriceResolver(), destinations: getPolarDestinations() });
+  const m = createAnthropicMiddleware({
+    priceResolver: getNarevPriceResolver(),
+    destinations: getPolarDestinations(),
+  });
   return wrapLanguageModel({ model: p(modelId), middleware: m });
 }
 
@@ -64,8 +75,13 @@ export function createAnthropicWithBilling(modelId: string): LanguageModel {
  * @param modelId - The Google model ID (e.g. `"gemini-2.0-flash"`).
  */
 export function createGoogleWithBilling(modelId: string): LanguageModel {
-  const p = createGoogleGenerativeAI({ apiKey: process.env.GOOGLE_AI_STUDIO_KEY });
-  const m = createGoogleMiddleware({ priceResolver: getNarevPriceResolver(), destinations: getPolarDestinations() });
+  const p = createGoogleGenerativeAI({
+    apiKey: process.env.GOOGLE_AI_STUDIO_KEY,
+  });
+  const m = createGoogleMiddleware({
+    priceResolver: getNarevPriceResolver(),
+    destinations: getPolarDestinations(),
+  });
   return wrapLanguageModel({ model: p(modelId), middleware: m });
 }
 
@@ -75,7 +91,10 @@ export function createGoogleWithBilling(modelId: string): LanguageModel {
  */
 export function createDeepSeekWithBilling(modelId: string): LanguageModel {
   const p = createDeepSeek({ apiKey: process.env.DEEPSEEK_API_KEY });
-  const m = createDeepSeekMiddleware({ priceResolver: getNarevPriceResolver(), destinations: getPolarDestinations() });
+  const m = createDeepSeekMiddleware({
+    priceResolver: getNarevPriceResolver(),
+    destinations: getPolarDestinations(),
+  });
   return wrapLanguageModel({ model: p(modelId), middleware: m });
 }
 
@@ -85,7 +104,10 @@ export function createDeepSeekWithBilling(modelId: string): LanguageModel {
  */
 export function createGroqWithBilling(modelId: string): LanguageModel {
   const p = createGroq({ apiKey: process.env.GROQ_API_KEY });
-  const m = createGroqMiddleware({ priceResolver: getNarevPriceResolver(), destinations: getPolarDestinations() });
+  const m = createGroqMiddleware({
+    priceResolver: getNarevPriceResolver(),
+    destinations: getPolarDestinations(),
+  });
   return wrapLanguageModel({ model: p(modelId), middleware: m });
 }
 
@@ -95,7 +117,10 @@ export function createGroqWithBilling(modelId: string): LanguageModel {
  */
 export function createXaiWithBilling(modelId: string): LanguageModel {
   const p = createXai({ apiKey: process.env.XAI_API_KEY });
-  const m = createXaiMiddleware({ priceResolver: getNarevPriceResolver(), destinations: getPolarDestinations() });
+  const m = createXaiMiddleware({
+    priceResolver: getNarevPriceResolver(),
+    destinations: getPolarDestinations(),
+  });
   return wrapLanguageModel({ model: p(modelId), middleware: m });
 }
 
@@ -104,8 +129,15 @@ export function createXaiWithBilling(modelId: string): LanguageModel {
  * @param modelId - The Chutes model ID.
  */
 export function createChutesWithBilling(modelId: string): LanguageModel {
-  const p = createOpenAICompatible({ name: 'chutes', baseURL: 'https://llm.chutes.ai/v1', apiKey: process.env.CHUTES_API_KEY });
-  const m = createChutesMiddleware({ priceResolver: getNarevPriceResolver(), destinations: getPolarDestinations() });
+  const p = createOpenAICompatible({
+    name: 'chutes',
+    baseURL: 'https://llm.chutes.ai/v1',
+    apiKey: process.env.CHUTES_API_KEY,
+  });
+  const m = createChutesMiddleware({
+    priceResolver: getNarevPriceResolver(),
+    destinations: getPolarDestinations(),
+  });
   return wrapLanguageModel({ model: p(modelId), middleware: m });
 }
 
@@ -114,8 +146,14 @@ export function createChutesWithBilling(modelId: string): LanguageModel {
  * @param modelId - The MiniMax model ID.
  */
 export function createMinimaxWithBilling(modelId: string): LanguageModel {
-  const p = createAnthropic({ apiKey: process.env.MINIMAX_API_KEY, baseURL: 'https://api.minimax.io/anthropic/v1' });
-  const m = createMinimaxMiddleware({ priceResolver: getNarevPriceResolver(), destinations: getPolarDestinations() });
+  const p = createAnthropic({
+    apiKey: process.env.MINIMAX_API_KEY,
+    baseURL: 'https://api.minimax.io/anthropic/v1',
+  });
+  const m = createMinimaxMiddleware({
+    priceResolver: getNarevPriceResolver(),
+    destinations: getPolarDestinations(),
+  });
   return wrapLanguageModel({ model: p(modelId), middleware: m });
 }
 
@@ -125,7 +163,9 @@ export function createMinimaxWithBilling(modelId: string): LanguageModel {
  */
 export function createOpenRouterWithBilling(modelId: string): LanguageModel {
   const p = createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY });
-  const m = createOpenRouterV3Middleware({ destinations: getPolarDestinations() });
+  const m = createOpenRouterV3Middleware({
+    destinations: getPolarDestinations(),
+  });
   return wrapLanguageModel({ model: p(modelId), middleware: m });
 }
 
