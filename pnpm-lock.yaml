@@ -2414,9 +2414,6 @@ importers:
       '@ai-sdk/openai-compatible':
         specifier: ^2.0.0
         version: 2.0.41(zod@4.3.6)
-      '@ai-sdk/react':
-        specifier: ^3.0.0
-        version: 3.0.118(react@19.2.4)(zod@4.3.6)
       '@ai-sdk/rsc':
         specifier: ^2.0.0
         version: 2.0.185(react@19.2.4)(zod@4.3.6)
@@ -9342,16 +9339,6 @@ snapshots:
     dependencies:
       '@ai-sdk/provider-utils': 4.0.19(zod@3.25.76)
       ai: 6.0.116(zod@3.25.76)
-      react: 19.2.4
-      swr: 2.4.1(react@19.2.4)
-      throttleit: 2.1.0
-    transitivePeerDependencies:
-      - zod
-
-  '@ai-sdk/react@3.0.118(react@19.2.4)(zod@4.3.6)':
-    dependencies:
-      '@ai-sdk/provider-utils': 4.0.19(zod@4.3.6)
-      ai: 6.0.116(zod@4.3.6)
       react: 19.2.4
       swr: 2.4.1(react@19.2.4)
       throttleit: 2.1.0
