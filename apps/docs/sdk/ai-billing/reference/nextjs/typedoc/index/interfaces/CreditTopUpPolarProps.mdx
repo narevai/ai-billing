@@ -50,6 +50,36 @@ URL to redirect after successful purchase (defaults to current origin).
 
 ***
 
+### showAutoTopUp?
+
+> `optional` **showAutoTopUp?**: `boolean`
+
+Defined in: [packages/nextjs/src/polar/CreditTopUpPolar.tsx:18](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/CreditTopUpPolar.tsx#L18)
+
+Show the Auto Top-up toggle. Defaults to false; will be driven by fetchTopUpConfig in the future.
+
+***
+
+### onAutoTopUpChange?
+
+> `optional` **onAutoTopUpChange?**: (`enabled`) => `void`
+
+Defined in: [packages/nextjs/src/polar/CreditTopUpPolar.tsx:20](https://github.com/narevai/ai-billing/blob/main/packages/nextjs/src/polar/CreditTopUpPolar.tsx#L20)
+
+Called when the Auto Top-up toggle is switched.
+
+#### Parameters
+
+##### enabled
+
+`boolean`
+
+#### Returns
+
+`void`
+
+***
+
 ### children?
 
 > `optional` **children?**: `ReactNode`
