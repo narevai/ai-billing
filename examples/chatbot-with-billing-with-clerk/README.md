@@ -1,10 +1,10 @@
 <a href="https://narev.ai/guides">
   <img alt="Chatbot with Billing" src="app/(chat)/opengraph-image.png">
-  <h1 align="center">Chatbot with AI Billing in Polars</h1>
+  <h1 align="center">Chatbot with AI Billing (Clerk)</h1>
 </a>
 
 <p align="center">
-    This is an open-source template built with Next.js, the AI SDK, and the <strong>ai-billing</strong> package. It helps you quickly build powerful chatbot applications with built-in monetization and billing capabilities.
+    This is an open-source template built with Next.js, the AI SDK, <strong>Clerk</strong> for authentication, and the <strong>ai-billing</strong> package. It helps you quickly build powerful chatbot applications with built-in monetization and billing capabilities.
 </p>
 
 <p align="center">
@@ -33,8 +33,8 @@
   - Component primitives from [Radix UI](https://radix-ui.com) for accessibility and flexibility
 - Data Persistence
   - [Neon Serverless Postgres](https://vercel.com/marketplace/neon) for saving chat history and user data
-- [Auth.js](https://authjs.dev)
-  - Simple and secure authentication
+- [Clerk](https://clerk.com)
+  - Authentication with email verification code (passwordless sign-in)
 
 ## Model Providers
 
@@ -52,17 +52,13 @@ With the [AI SDK](https://ai-sdk.dev/docs/introduction), you can also switch to 
 
 You can deploy your own version of Chatbot with billing to Vercel with one click:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fchatbot-with-billing&env=AUTH_SECRET,AI_GATEWAY_API_KEY,POSTGRES_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fchatbot-with-billing&env=NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,CLERK_SECRET_KEY,AI_GATEWAY_API_KEY,POSTGRES_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D)
 
 ## Running locally
 
 You will need to use the environment variables [defined in `.env.example`](.env.example) to run Chatbot. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables) for this, but a `.env` file is all that is necessary.
 
 > Note: You should not commit your `.env` file or it will expose secrets that will allow others to control access to your various AI and authentication provider accounts.
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. Link local instance with Vercel and GitHub accounts (creates `.vercel` directory): `vercel link`
-3. Download your environment variables: `vercel env pull`
 
 ```bash
 pnpm install
