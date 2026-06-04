@@ -75,7 +75,7 @@ export const ModelsPricingList = React.forwardRef<
             ))
           : (models as Model[]).map(model => (
               <ModelPricingCard
-                key={`${model.model_id}::${model.provider}`}
+                key={`${model.model_id}::${model.provider_id}`}
                 model={model}
               />
             ))}
