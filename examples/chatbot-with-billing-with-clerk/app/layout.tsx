@@ -49,17 +49,25 @@ const THEME_COLOR_SCRIPT = `\
   updateThemeColor();
 })();`;
 
-async function Providers({ children }: { children: React.ReactNode }) {
+function Providers({ children }: { children: React.ReactNode }) {
+  const inner = (
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      disableTransitionOnChange
+      enableSystem
+    >
+      <TooltipProvider>{children}</TooltipProvider>
+    </ThemeProvider>
+  );
+
+  if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
+    return inner;
+  }
+
   return (
     <ClerkProvider signInUrl="/sign-in" signUpUrl="/sign-up">
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        disableTransitionOnChange
-        enableSystem
-      >
-        <TooltipProvider>{children}</TooltipProvider>
-      </ThemeProvider>
+      {inner}
     </ClerkProvider>
   );
 }
