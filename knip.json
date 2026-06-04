@@ -13,6 +13,7 @@
     "examples/chatbot-gateway-with-billing-stripe-advanced/**",
     "examples/chatbot-openai-with-billing-polar-advanced/**",
     "examples/chatbot-with-billing/**",
+    "examples/chatbot-with-billing-with-clerk/**",
     "apps/storybook/**"
   ]
 }
