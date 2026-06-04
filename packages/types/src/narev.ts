@@ -67,76 +67,120 @@ export interface CheckoutResponse {
   };
 }
 
-/** Models available per provider. Keys are provider slugs (e.g. "openai"), values are model ID arrays. */
-export type ProviderModelsData = Record<string, string[]>;
-
-/** Response wrapper for provider models. */
-export interface ProviderModelsResponse {
-  data: ProviderModelsData;
+/** Pricing fields for a single model (new API format, no price_/pricing_ prefixes). */
+export interface NarevPricing {
+  prompt: number;
+  completion: number;
+  discount: number;
+  request: number;
+  web_search: number;
+  input_cache_read: number;
+  input_cache_write: number;
+  image: number;
+  image_output: number;
+  audio: number;
+  audio_output: number;
+  input_audio_cache: number;
+  internal_reasoning: number;
 }
 
-/** Options for filtering models by provider. */
-export interface GetProviderModelsRequest {
-  /** Comma-separated list of providers to include (e.g. "openai,anthropic"). Omit to return all. */
-  providers?: string;
-}
-
-/** Pricing details for a single model (raw Narev API format). */
-export interface NarevModelPricing {
-  price_prompt: number;
-  price_completion: number;
-  pricing_discount: number;
-  pricing_request: number;
-  price_web_search: number;
-  price_input_cache_read: number;
-  price_input_cache_write: number;
-  price_image: number;
-  price_image_output: number;
-  price_audio: number;
-  price_audio_output: number;
-  price_input_audio_cache: number;
-  price_internal_reasoning: number;
-}
-
-/** A single model entry with provider and pricing info. */
-export interface Model {
+/** A single pricing entry with provider and model info (ModelPricingItem in openapi). */
+export interface ModelPricingItem {
   model_id: string;
-  provider: string;
-  subprovider: string;
-  pricing: NarevModelPricing | null;
+  provider_id: string;
+  pricing: NarevPricing | null;
   message?: string;
 }
 
-/** Pagination metadata returned with model list responses. */
-export interface ListModelsMeta {
+/** Pagination metadata returned with list responses. */
+export interface PaginationMeta {
   page: number;
-  limit: number;
+  page_size: number;
   total: number;
   total_pages: number;
 }
 
-/** Response wrapper for the model list. */
-export interface ListModelsResponse {
-  data: Model[];
-  meta: ListModelsMeta;
+/** Response wrapper for the pricing list. */
+export interface PriceResponse {
+  data: ModelPricingItem[];
+  meta: PaginationMeta;
 }
 
-/** Options for filtering and paginating the model pricing list. */
-export interface ListModelPricingRequest {
-  /** Filter by exact model ID. */
+/** A model reference entry (provider_id + model_id, no pricing). */
+export interface ModelRef {
+  provider_id: string;
+  model_id: string;
+}
+
+/** Response wrapper for the models reference list. */
+export interface ModelsResponse {
+  data: ModelRef[];
+  meta: PaginationMeta;
+}
+
+/** A provider reference entry. */
+export interface ProviderRef {
+  provider_id: string;
+  name: string;
+}
+
+/** Response wrapper for the providers reference list. */
+export interface ProvidersResponse {
+  data: ProviderRef[];
+}
+
+/** Options for filtering and paginating the pricing list (GET /v1/prices). */
+export interface ListPricesRequest {
+  provider_id?: string;
   model_id?: string;
-  /** Full-text search across model IDs. */
-  search?: string;
-  /** Filter by provider slug (e.g. "openai"). */
-  provider?: string;
-  /** Filter by subprovider name. */
-  subprovider?: string;
-  /** Field to sort by. */
-  sort_by?: string;
-  /** Sort order ("asc" or "desc"). */
+  sort_by?: 'model_id' | 'provider_id';
   order?: 'asc' | 'desc';
-  /** Page number (1-based). */
   page?: number;
-  /** Number of results per page. */
-  limit?: number;
+  page_size?: number;
+}
+
+/** Options for searching pricing by model ID (GET /v1/prices/search). */
+export interface SearchPricesRequest {
+  /** Full-text search query matched against model ID. */
+  q?: string;
+  provider_id?: string;
+  model_id?: string;
+  sort_by?: 'model_id' | 'provider_id';
+  order?: 'asc' | 'desc';
+  page?: number;
+  page_size?: number;
+}
+
+/** Options for filtering the models reference list (GET /v1/reference/models). */
+export interface ListModelsRequest {
+  /** Comma-separated list of provider IDs to filter by. */
+  provider_id?: string;
+  page?: number;
+  page_size?: number;
+}
+
+/** Token usage for a cost calculation request. */
+export interface TraceCostUsage {
+  prompt_tokens: number;
+  completion_tokens: number;
+  cache_read_tokens?: number;
+  cache_write_tokens?: number;
+  reasoning_tokens?: number;
+  web_search_count?: number;
+}
+
+/** Request body for POST /v1/traces/cost. */
+export interface TraceCostRequest {
+  model_id: string;
+  provider_id: string;
+  usage: TraceCostUsage;
+}
+
+/** Response from POST /v1/traces/cost. */
+export interface TraceCostResponse {
+  model_id: string;
+  provider_id: string;
+  usage: TraceCostUsage;
+  pricing: NarevPricing;
+  cost_breakdown: { total: number };
 }

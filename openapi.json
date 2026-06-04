@@ -1,0 +1,904 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Models Pricing API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.narev.ai"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "CreditCheckoutBody": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "minLength": 1,
+            "example": "prod_abc123",
+            "x-default": "prod_abc123"
+          },
+          "userId": {
+            "type": "string",
+            "minLength": 1,
+            "example": "user_123",
+            "x-default": "user_123"
+          },
+          "successUrl": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://example.com/success",
+            "x-default": "https://example.com/success"
+          }
+        },
+        "required": ["productId", "userId", "successUrl"]
+      },
+      "ModelRef": {
+        "type": "object",
+        "properties": {
+          "provider_id": {
+            "type": "string"
+          },
+          "model_id": {
+            "type": "string"
+          }
+        },
+        "required": ["provider_id", "model_id"]
+      },
+      "PaginationMeta": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer"
+          },
+          "page_size": {
+            "type": "integer"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "total_pages": {
+            "type": "integer"
+          }
+        },
+        "required": ["page", "page_size", "total", "total_pages"]
+      },
+      "ModelsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModelRef"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/PaginationMeta"
+          }
+        },
+        "required": ["data", "meta"]
+      },
+      "ModelPricingItem": {
+        "type": "object",
+        "properties": {
+          "model_id": {
+            "type": "string"
+          },
+          "provider_id": {
+            "type": "string"
+          },
+          "pricing": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "prompt": {
+                "type": "number"
+              },
+              "completion": {
+                "type": "number"
+              },
+              "discount": {
+                "type": "number"
+              },
+              "request": {
+                "type": "number"
+              },
+              "web_search": {
+                "type": "number"
+              },
+              "input_cache_read": {
+                "type": "number"
+              },
+              "input_cache_write": {
+                "type": "number"
+              },
+              "image": {
+                "type": "number"
+              },
+              "image_output": {
+                "type": "number"
+              },
+              "audio": {
+                "type": "number"
+              },
+              "audio_output": {
+                "type": "number"
+              },
+              "input_audio_cache": {
+                "type": "number"
+              },
+              "internal_reasoning": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "prompt",
+              "completion",
+              "discount",
+              "request",
+              "web_search",
+              "input_cache_read",
+              "input_cache_write",
+              "image",
+              "image_output",
+              "audio",
+              "audio_output",
+              "input_audio_cache",
+              "internal_reasoning"
+            ]
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": ["model_id", "provider_id", "pricing"]
+      },
+      "PriceResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModelPricingItem"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/PaginationMeta"
+          }
+        },
+        "required": ["data", "meta"]
+      },
+      "ProviderRef": {
+        "type": "object",
+        "properties": {
+          "provider_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["provider_id", "name"]
+      },
+      "ProvidersResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProviderRef"
+            }
+          }
+        },
+        "required": ["data"]
+      },
+      "TraceCostResponse": {
+        "type": "object",
+        "properties": {
+          "model_id": {
+            "type": "string"
+          },
+          "provider_id": {
+            "type": "string"
+          },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "prompt_tokens": {
+                "type": "integer"
+              },
+              "completion_tokens": {
+                "type": "integer"
+              },
+              "cache_read_tokens": {
+                "type": "integer",
+                "default": 0
+              },
+              "cache_write_tokens": {
+                "type": "integer",
+                "default": 0
+              },
+              "reasoning_tokens": {
+                "type": "integer",
+                "default": 0
+              },
+              "web_search_count": {
+                "type": "integer"
+              }
+            },
+            "required": ["prompt_tokens", "completion_tokens"]
+          },
+          "pricing": {
+            "type": "object",
+            "properties": {
+              "prompt": {
+                "type": "number"
+              },
+              "completion": {
+                "type": "number"
+              },
+              "discount": {
+                "type": "number"
+              },
+              "request": {
+                "type": "number"
+              },
+              "web_search": {
+                "type": "number"
+              },
+              "input_cache_read": {
+                "type": "number"
+              },
+              "input_cache_write": {
+                "type": "number"
+              },
+              "image": {
+                "type": "number"
+              },
+              "image_output": {
+                "type": "number"
+              },
+              "audio": {
+                "type": "number"
+              },
+              "audio_output": {
+                "type": "number"
+              },
+              "input_audio_cache": {
+                "type": "number"
+              },
+              "internal_reasoning": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "prompt",
+              "completion",
+              "discount",
+              "request",
+              "web_search",
+              "input_cache_read",
+              "input_cache_write",
+              "image",
+              "image_output",
+              "audio",
+              "audio_output",
+              "input_audio_cache",
+              "internal_reasoning"
+            ]
+          },
+          "cost_breakdown": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "number"
+              }
+            },
+            "required": ["total"]
+          }
+        },
+        "required": [
+          "model_id",
+          "provider_id",
+          "usage",
+          "pricing",
+          "cost_breakdown"
+        ]
+      },
+      "TraceCostErrorResponse": {
+        "type": "object",
+        "properties": {
+          "model_id": {
+            "type": "string"
+          },
+          "provider_id": {
+            "type": "string"
+          },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "prompt_tokens": {
+                "type": "integer"
+              },
+              "completion_tokens": {
+                "type": "integer"
+              },
+              "cache_read_tokens": {
+                "type": "integer",
+                "default": 0
+              },
+              "cache_write_tokens": {
+                "type": "integer",
+                "default": 0
+              },
+              "reasoning_tokens": {
+                "type": "integer",
+                "default": 0
+              },
+              "web_search_count": {
+                "type": "integer"
+              }
+            },
+            "required": ["prompt_tokens", "completion_tokens"]
+          },
+          "pricing": {
+            "nullable": true
+          },
+          "cost_breakdown": {
+            "nullable": true
+          },
+          "error": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "model_id",
+          "provider_id",
+          "usage",
+          "pricing",
+          "cost_breakdown",
+          "error"
+        ]
+      },
+      "TraceCostUsage": {
+        "type": "object",
+        "properties": {
+          "prompt_tokens": {
+            "type": "integer",
+            "example": 1000,
+            "x-default": 1000
+          },
+          "completion_tokens": {
+            "type": "integer",
+            "example": 500,
+            "x-default": 500
+          },
+          "cache_read_tokens": {
+            "type": "integer",
+            "default": 0,
+            "example": 0,
+            "x-default": 0
+          },
+          "cache_write_tokens": {
+            "type": "integer",
+            "default": 0,
+            "example": 0,
+            "x-default": 0
+          },
+          "reasoning_tokens": {
+            "type": "integer",
+            "default": 0,
+            "example": 0,
+            "x-default": 0
+          },
+          "web_search_count": {
+            "type": "integer",
+            "example": 0,
+            "x-default": 0
+          }
+        },
+        "required": ["prompt_tokens", "completion_tokens"]
+      },
+      "TraceCostRequest": {
+        "type": "object",
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "example": "gpt-4o",
+            "x-default": "gpt-4o"
+          },
+          "provider_id": {
+            "type": "string",
+            "enum": [
+              "anthropic",
+              "bedrock",
+              "cerebras",
+              "chutes",
+              "cohere",
+              "deepinfra",
+              "deepseek",
+              "fireworks",
+              "github-models",
+              "google_ai_studio",
+              "groq",
+              "minimax",
+              "mistral",
+              "moonshot",
+              "nebius",
+              "novita",
+              "nvidia",
+              "openai",
+              "sambanova",
+              "siliconflow",
+              "stepfun",
+              "together",
+              "xai",
+              "zai"
+            ],
+            "example": "openai",
+            "x-default": "openai"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/TraceCostUsage"
+          }
+        },
+        "required": ["model_id", "provider_id", "usage"]
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/v1/balance": {
+      "get": {
+        "summary": "Get balance for a sub-user",
+        "tags": ["Billing"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "example": "user_123",
+              "x-default": "user_123"
+            },
+            "required": false,
+            "name": "userId",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "example": "cus_abc123",
+              "x-default": "cus_abc123"
+            },
+            "required": false,
+            "name": "stripeCustomerId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Balance data for the sub-user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/credit": {
+      "post": {
+        "summary": "Create a top-up checkout session",
+        "tags": ["Billing"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditCheckoutBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Checkout session created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/reference/models": {
+      "get": {
+        "summary": "List models",
+        "description": "Returns all available models with their provider.",
+        "tags": ["Reference"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "description": "Comma-separated list of provider IDs to filter by.",
+              "example": "openai,anthropic",
+              "x-default": "openai,anthropic"
+            },
+            "required": false,
+            "name": "provider_id",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "x-default": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000,
+              "default": 100,
+              "example": 100,
+              "x-default": 100
+            },
+            "required": false,
+            "name": "page_size",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of models.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/prices": {
+      "get": {
+        "summary": "List pricing by provider and model",
+        "description": "Returns pricing entries filtered by optional provider_id and model_id query parameters.",
+        "tags": ["Pricing"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "example": "openai",
+              "x-default": "openai"
+            },
+            "required": false,
+            "name": "provider_id",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "example": "gpt-4o",
+              "x-default": "gpt-4o"
+            },
+            "required": false,
+            "name": "model_id",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["model_id", "provider_id"],
+              "example": "model_id",
+              "x-default": "model_id"
+            },
+            "required": false,
+            "name": "sort_by",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "default": "asc",
+              "example": "asc",
+              "x-default": "asc"
+            },
+            "required": false,
+            "name": "order",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "x-default": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000,
+              "default": 100,
+              "example": 100,
+              "x-default": 100
+            },
+            "required": false,
+            "name": "page_size",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pricing entries.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/prices/search": {
+      "get": {
+        "summary": "Search pricing by model ID",
+        "description": "Search pricing across all providers by model ID.",
+        "tags": ["Pricing"],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "description": "Search query matched against model ID.",
+              "example": "gpt-4",
+              "x-default": "gpt-4"
+            },
+            "required": false,
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "example": "openai",
+              "x-default": "openai"
+            },
+            "required": false,
+            "name": "provider_id",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "example": "gpt-4o",
+              "x-default": "gpt-4o"
+            },
+            "required": false,
+            "name": "model_id",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["model_id", "provider_id"],
+              "example": "model_id",
+              "x-default": "model_id"
+            },
+            "required": false,
+            "name": "sort_by",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "default": "asc",
+              "example": "asc",
+              "x-default": "asc"
+            },
+            "required": false,
+            "name": "order",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "x-default": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000,
+              "default": 100,
+              "example": 100,
+              "x-default": 100
+            },
+            "required": false,
+            "name": "page_size",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matching pricing entries.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/reference/providers": {
+      "get": {
+        "summary": "List providers",
+        "description": "Returns all supported providers with their display name.",
+        "tags": ["Reference"],
+        "responses": {
+          "200": {
+            "description": "List of providers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProvidersResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/traces/cost": {
+      "post": {
+        "summary": "Calculate cost for a model call",
+        "description": "Given a model ID, provider, and token usage, returns an itemized cost breakdown in USD.",
+        "tags": ["Pricing"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TraceCostRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cost breakdown.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TraceCostResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request body failed validation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "code": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["message", "type", "code"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "code": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["message", "type", "code"]
+                    }
+                  },
+                  "required": ["error"]
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Model is enterprise-only and pricing is not publicly available.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TraceCostErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pricing not found for the given model and provider.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TraceCostErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
