@@ -5,10 +5,10 @@ export type { ModelsPricingListProps } from './pricing/ModelsPricingList.js';
 export { ModelSearchBox } from './pricing/ModelSearchBox.js';
 export type { ModelSearchBoxProps } from './pricing/ModelSearchBox.js';
 export type {
-  Model,
-  NarevModelPricing,
-  ListModelsMeta,
-  ListModelsResponse,
+  ModelPricingItem,
+  NarevPricing,
+  PaginationMeta,
+  PriceResponse,
   CreditPackage,
 } from '@ai-billing/types';
 export { UsageBar } from './billing/UsageBar.js';

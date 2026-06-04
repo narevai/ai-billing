@@ -5,10 +5,14 @@ import type {
   CheckoutResponse,
   CreateCheckoutRequest,
   CreditConfigResponse,
-  GetProviderModelsRequest,
-  ListModelPricingRequest,
-  ListModelsResponse,
-  ProviderModelsResponse,
+  ListModelsRequest,
+  ModelsResponse,
+  ListPricesRequest,
+  PriceResponse,
+  SearchPricesRequest,
+  ProvidersResponse,
+  TraceCostRequest,
+  TraceCostResponse,
 } from '@ai-billing/types';
 
 /** Options for creating a Narev API client. */
@@ -22,7 +26,8 @@ export interface NarevClientOptions {
 /**
  * Typed client for the Narev billing API.
  *
- * Covers balance checks and top-up/credit operations.
+ * Covers balance checks, top-up/credit operations, model/provider reference,
+ * pricing lookups, and cost calculation.
  */
 export interface NarevClient {
   /**
@@ -34,24 +39,23 @@ export interface NarevClient {
   /** Fetches available credit packages for top-up. */
   getCreditConfig(): Promise<CreditConfigResponse>;
 
-  /**
-   * Creates a checkout session for an end-user to purchase credits.
-   */
+  /** Creates a checkout session for an end-user to purchase credits. */
   createCheckout(request: CreateCheckoutRequest): Promise<CheckoutResponse>;
 
-  /**
-   * Returns all available models grouped by provider.
-   */
-  getProviderModels(
-    request?: GetProviderModelsRequest,
-  ): Promise<ProviderModelsResponse>;
+  /** Returns a paginated list of model references (provider_id + model_id, no pricing). */
+  listModels(request?: ListModelsRequest): Promise<ModelsResponse>;
 
-  /**
-   * Returns a paginated list of models with pricing details.
-   */
-  listModelPricing(
-    request?: ListModelPricingRequest,
-  ): Promise<ListModelsResponse>;
+  /** Returns all supported providers with their display name. */
+  listProviders(): Promise<ProvidersResponse>;
+
+  /** Returns a paginated list of pricing entries filtered by provider and/or model. */
+  listPrices(request?: ListPricesRequest): Promise<PriceResponse>;
+
+  /** Searches pricing entries by model ID (full-text search via `q`). */
+  searchPrices(request?: SearchPricesRequest): Promise<PriceResponse>;
+
+  /** Calculates the cost for a model call given token usage. */
+  calculateCost(request: TraceCostRequest): Promise<TraceCostResponse>;
 }
 
 const DEFAULT_BASE_URL = 'https://api.narev.ai';
@@ -115,45 +119,65 @@ export function createNarevClient(options: NarevClientOptions): NarevClient {
       return api.post('v1/credit', { json: request }).json<CheckoutResponse>();
     },
 
-    getProviderModels(
-      request?: GetProviderModelsRequest,
-    ): Promise<ProviderModelsResponse> {
-      const searchParams = request?.providers
-        ? { providers: request.providers }
-        : undefined;
-      return api
-        .get('v1/provider-models', { searchParams })
-        .json<ProviderModelsResponse>();
-    },
-
-    listModelPricing(
-      request?: ListModelPricingRequest,
-    ): Promise<ListModelsResponse> {
+    listModels(request?: ListModelsRequest): Promise<ModelsResponse> {
       const searchParams: Record<string, string | number> = {};
       if (request) {
-        const {
-          model_id,
-          search,
-          provider,
-          subprovider,
-          sort_by,
-          order,
-          page,
-          limit,
-        } = request;
-        if (model_id !== undefined) searchParams['model_id'] = model_id;
-        if (search !== undefined) searchParams['search'] = search;
-        if (provider !== undefined) searchParams['provider'] = provider;
-        if (subprovider !== undefined)
-          searchParams['subprovider'] = subprovider;
-        if (sort_by !== undefined) searchParams['sort_by'] = sort_by;
-        if (order !== undefined) searchParams['order'] = order;
-        if (page !== undefined) searchParams['page'] = page;
-        if (limit !== undefined) searchParams['limit'] = limit;
+        if (request.provider_id !== undefined)
+          searchParams['provider_id'] = request.provider_id;
+        if (request.page !== undefined) searchParams['page'] = request.page;
+        if (request.page_size !== undefined)
+          searchParams['page_size'] = request.page_size;
       }
       return api
-        .get('v1/models/pricing', { searchParams })
-        .json<ListModelsResponse>();
+        .get('v1/reference/models', { searchParams })
+        .json<ModelsResponse>();
+    },
+
+    listProviders(): Promise<ProvidersResponse> {
+      return api.get('v1/reference/providers').json<ProvidersResponse>();
+    },
+
+    listPrices(request?: ListPricesRequest): Promise<PriceResponse> {
+      const searchParams: Record<string, string | number> = {};
+      if (request) {
+        if (request.provider_id !== undefined)
+          searchParams['provider_id'] = request.provider_id;
+        if (request.model_id !== undefined)
+          searchParams['model_id'] = request.model_id;
+        if (request.sort_by !== undefined)
+          searchParams['sort_by'] = request.sort_by;
+        if (request.order !== undefined) searchParams['order'] = request.order;
+        if (request.page !== undefined) searchParams['page'] = request.page;
+        if (request.page_size !== undefined)
+          searchParams['page_size'] = request.page_size;
+      }
+      return api.get('v1/prices', { searchParams }).json<PriceResponse>();
+    },
+
+    searchPrices(request?: SearchPricesRequest): Promise<PriceResponse> {
+      const searchParams: Record<string, string | number> = {};
+      if (request) {
+        if (request.q !== undefined) searchParams['q'] = request.q;
+        if (request.provider_id !== undefined)
+          searchParams['provider_id'] = request.provider_id;
+        if (request.model_id !== undefined)
+          searchParams['model_id'] = request.model_id;
+        if (request.sort_by !== undefined)
+          searchParams['sort_by'] = request.sort_by;
+        if (request.order !== undefined) searchParams['order'] = request.order;
+        if (request.page !== undefined) searchParams['page'] = request.page;
+        if (request.page_size !== undefined)
+          searchParams['page_size'] = request.page_size;
+      }
+      return api
+        .get('v1/prices/search', { searchParams })
+        .json<PriceResponse>();
+    },
+
+    calculateCost(request: TraceCostRequest): Promise<TraceCostResponse> {
+      return api
+        .post('v1/traces/cost', { json: request })
+        .json<TraceCostResponse>();
     },
   };
 }

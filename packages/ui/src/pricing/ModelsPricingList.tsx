@@ -1,10 +1,10 @@
 import React from 'react';
 import { EmptyMessage } from '../empty.js';
 import { ModelPricingCard } from './ModelPricingCard.js';
-import type { Model } from '@ai-billing/types';
+import type { ModelPricingItem } from '@ai-billing/types';
 
 export interface ModelsPricingListProps extends React.HTMLAttributes<HTMLDivElement> {
-  models?: Model[];
+  models?: ModelPricingItem[];
   loading?: boolean;
   loadingMore?: boolean;
   skeletonCount?: number;
@@ -73,9 +73,9 @@ export const ModelsPricingList = React.forwardRef<
           ? Array.from({ length: skeletonCount }, (_, i) => (
               <ModelPricingCard key={i} loading />
             ))
-          : (models as Model[]).map(model => (
+          : (models as ModelPricingItem[]).map(model => (
               <ModelPricingCard
-                key={`${model.model_id}::${model.provider}`}
+                key={`${model.model_id}::${model.provider_id}`}
                 model={model}
               />
             ))}

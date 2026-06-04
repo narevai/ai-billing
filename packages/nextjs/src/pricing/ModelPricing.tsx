@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { ModelsPricingList, ModelSearchBox } from '@ai-billing/ui';
-import type { Model } from '@ai-billing/types';
+import type { ModelPricingItem } from '@ai-billing/types';
 import { fetchModelPricing } from './fetchModelPricing.js';
 
 export interface ModelPricingProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -21,8 +21,8 @@ export interface ModelPricingProps extends React.HTMLAttributes<HTMLDivElement> 
 }
 
 type FetchParams = {
-  search?: string;
-  limit?: number;
+  q?: string;
+  page_size?: number;
   page: number;
 };
 
@@ -44,11 +44,11 @@ export const ModelPricing = React.forwardRef<HTMLDivElement, ModelPricingProps>(
     const [searchInput, setSearchInput] = useState('');
     const [debouncedSearch, setDebouncedSearch] = useState('');
     const [fetchParams, setFetchParams] = useState<FetchParams>({
-      search: searchProp,
-      limit,
+      q: searchProp,
+      page_size: limit,
       page: 1,
     });
-    const [models, setModels] = useState<Model[]>([]);
+    const [models, setModels] = useState<ModelPricingItem[]>([]);
     const [totalPages, setTotalPages] = useState(1);
     const [initialLoading, setInitialLoading] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
@@ -68,7 +68,7 @@ export const ModelPricing = React.forwardRef<HTMLDivElement, ModelPricingProps>(
 
     // Reset when filters change
     useEffect(() => {
-      setFetchParams({ search: effectiveSearch, limit, page: 1 });
+      setFetchParams({ q: effectiveSearch, page_size: limit, page: 1 });
       setModels([]);
       setInitialLoading(true);
     }, [effectiveSearch, limit]);

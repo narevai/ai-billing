@@ -1,6 +1,6 @@
 import React from 'react';
 import { cardBase } from '../styles.js';
-import type { Model, NarevModelPricing } from '@ai-billing/types';
+import type { ModelPricingItem, NarevPricing } from '@ai-billing/types';
 
 if (typeof document !== 'undefined') {
   if (!document.getElementById('aib-sk')) {
@@ -23,14 +23,14 @@ function formatField(f: PricingField): string {
   return `$${formatted}/1M`;
 }
 
-function isAllFree(p: NarevModelPricing): boolean {
+function isAllFree(p: NarevPricing): boolean {
   return (
-    p.price_prompt === 0 &&
-    p.price_completion === 0 &&
-    p.price_web_search === 0 &&
-    p.price_image === 0 &&
-    p.price_audio === 0 &&
-    p.price_internal_reasoning === 0
+    p.prompt === 0 &&
+    p.completion === 0 &&
+    p.web_search === 0 &&
+    p.image === 0 &&
+    p.audio === 0 &&
+    p.internal_reasoning === 0
   );
 }
 
@@ -113,7 +113,7 @@ function SkeletonCard() {
 }
 
 export interface ModelPricingCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  model?: Model;
+  model?: ModelPricingItem;
   loading?: boolean;
 }
 
@@ -139,21 +139,19 @@ export const ModelPricingCard = React.forwardRef<
   const { pricing } = model;
   const isEnterprise = pricing === null;
   const free = !isEnterprise && isAllFree(pricing);
-  const hasDiscount = !isEnterprise && (pricing.pricing_discount ?? 0) > 0;
-  const discountPct = hasDiscount
-    ? Math.round(pricing!.pricing_discount * 100)
-    : 0;
+  const hasDiscount = !isEnterprise && (pricing.discount ?? 0) > 0;
+  const discountPct = hasDiscount ? Math.round(pricing!.discount * 100) : 0;
 
   const fields: PricingField[] = isEnterprise
     ? []
     : [
-        { label: 'Input', value: pricing!.price_prompt },
-        { label: 'Output', value: pricing!.price_completion },
-        ...(pricing!.price_input_cache_read > 0
-          ? [{ label: 'Cache Read', value: pricing!.price_input_cache_read }]
+        { label: 'Input', value: pricing!.prompt },
+        { label: 'Output', value: pricing!.completion },
+        ...(pricing!.input_cache_read > 0
+          ? [{ label: 'Cache Read', value: pricing!.input_cache_read }]
           : []),
-        ...(pricing!.price_input_cache_write > 0
-          ? [{ label: 'Cache Write', value: pricing!.price_input_cache_write }]
+        ...(pricing!.input_cache_write > 0
+          ? [{ label: 'Cache Write', value: pricing!.input_cache_write }]
           : []),
       ];
 
@@ -184,7 +182,7 @@ export const ModelPricingCard = React.forwardRef<
             {model.model_id}
           </p>
           <span style={{ fontSize: 12, color: 'var(--muted-foreground)' }}>
-            {model.provider}
+            {model.provider_id}
           </span>
         </div>
         <div
