@@ -14,6 +14,7 @@ async function OnboardingContent() {
   }
 
   redirect('/');
+  return null;
 }
 
 export default function OnboardingPage() {
