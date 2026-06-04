@@ -83,26 +83,26 @@ export interface GetProviderModelsRequest {
 
 /** Pricing details for a single model (raw Narev API format). */
 export interface NarevModelPricing {
-  price_prompt: number;
-  price_completion: number;
-  pricing_discount: number;
-  pricing_request: number;
-  price_web_search: number;
-  price_input_cache_read: number;
-  price_input_cache_write: number;
-  price_image: number;
-  price_image_output: number;
-  price_audio: number;
-  price_audio_output: number;
-  price_input_audio_cache: number;
-  price_internal_reasoning: number;
+  prompt: number;
+  completion: number;
+  discount: number;
+  request: number;
+  web_search: number;
+  input_cache_read: number;
+  input_cache_write: number;
+  image: number;
+  image_output: number;
+  audio: number;
+  audio_output: number;
+  input_audio_cache: number;
+  internal_reasoning: number;
 }
 
 /** A single model entry with provider and pricing info. */
 export interface Model {
   model_id: string;
-  provider: string;
-  subprovider: string;
+  provider_id: string;
+  subprovider: string | null;
   pricing: NarevModelPricing | null;
   message?: string;
 }
