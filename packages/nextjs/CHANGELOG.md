@@ -1,5 +1,27 @@
 # @ai-billing/nextjs
 
+## 0.0.12
+
+### Patch Changes
+
+- 2b0c2e2: chore: update package to match new narev api format
+- Updated dependencies [2b0c2e2]
+  - @ai-billing/narev@0.0.6
+  - @ai-billing/types@0.0.2
+  - @ai-billing/ui@0.0.7
+  - @ai-billing/anthropic@0.1.4
+  - @ai-billing/chutes@0.1.4
+  - @ai-billing/core@0.1.4
+  - @ai-billing/deepseek@0.1.4
+  - @ai-billing/gateway@0.1.5
+  - @ai-billing/google@0.1.4
+  - @ai-billing/groq@0.1.4
+  - @ai-billing/minimax@0.1.4
+  - @ai-billing/openai@0.1.4
+  - @ai-billing/openrouter@0.1.4
+  - @ai-billing/polar@0.1.7
+  - @ai-billing/xai@0.1.4
+
 ## 0.0.11
 
 ### Patch Changes
