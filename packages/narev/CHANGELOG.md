@@ -1,5 +1,13 @@
 # @ai-billing/narev
 
+## 0.0.6
+
+### Patch Changes
+
+- 2b0c2e2: chore: update package to match new narev api format
+- Updated dependencies [2b0c2e2]
+  - @ai-billing/types@0.0.2
+
 ## 0.0.5
 
 ### Patch Changes

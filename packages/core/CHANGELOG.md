@@ -1,5 +1,12 @@
 # @ai-billing/core
 
+## 0.1.4
+
+### Patch Changes
+
+- Updated dependencies [2b0c2e2]
+  - @ai-billing/types@0.0.2
+
 ## 0.1.3
 
 ### Patch Changes

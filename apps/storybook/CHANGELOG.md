@@ -1,5 +1,14 @@
 # ai-billing-storybook
 
+## 0.0.12
+
+### Patch Changes
+
+- 2b0c2e2: chore: update package to match new narev api format
+- Updated dependencies [2b0c2e2]
+  - @ai-billing/nextjs@0.0.12
+  - @ai-billing/ui@0.0.7
+
 ## 0.0.11
 
 ### Patch Changes
