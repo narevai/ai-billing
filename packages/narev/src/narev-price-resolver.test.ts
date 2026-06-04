@@ -2,9 +2,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ky from 'ky';
 import {
   createNarevPriceResolver,
-  narevModelPricingToModelPricing,
+  narevPricingToModelPricing,
 } from './narev-price-resolver.js';
-import type { NarevModelPricing, ListModelsResponse } from '@ai-billing/types';
+import type { NarevPricing, PriceResponse } from '@ai-billing/types';
 
 vi.mock('ky', () => ({
   default: { create: vi.fn() },
@@ -24,74 +24,73 @@ function makeJsonResponse<T>(data: T) {
 }
 
 function makeResponse(
-  entries: { model_id: string; pricing: Partial<NarevModelPricing> | null }[],
-): ListModelsResponse {
-  const zeroPricing: NarevModelPricing = {
-    price_prompt: 0,
-    price_completion: 0,
-    pricing_discount: 0,
-    pricing_request: 0,
-    price_web_search: 0,
-    price_input_cache_read: 0,
-    price_input_cache_write: 0,
-    price_image: 0,
-    price_image_output: 0,
-    price_audio: 0,
-    price_audio_output: 0,
-    price_input_audio_cache: 0,
-    price_internal_reasoning: 0,
+  entries: { model_id: string; pricing: Partial<NarevPricing> | null }[],
+): PriceResponse {
+  const zeroPricing: NarevPricing = {
+    prompt: 0,
+    completion: 0,
+    discount: 0,
+    request: 0,
+    web_search: 0,
+    input_cache_read: 0,
+    input_cache_write: 0,
+    image: 0,
+    image_output: 0,
+    audio: 0,
+    audio_output: 0,
+    input_audio_cache: 0,
+    internal_reasoning: 0,
   };
   return {
     data: entries.map(e => ({
-      provider: 'openai',
-      subprovider: '',
+      provider_id: 'openai',
       model_id: e.model_id,
       pricing: e.pricing ? { ...zeroPricing, ...e.pricing } : null,
     })),
-    meta: { page: 1, limit: 10, total: entries.length, total_pages: 1 },
+    meta: { page: 1, page_size: 10, total: entries.length, total_pages: 1 },
   };
 }
 
-describe('narevModelPricingToModelPricing', () => {
+describe('narevPricingToModelPricing', () => {
   it('maps required fields', () => {
-    const input: NarevModelPricing = {
-      price_prompt: 5e-6,
-      price_completion: 15e-6,
-      pricing_discount: 0,
-      pricing_request: 0,
-      price_web_search: 0,
-      price_input_cache_read: 0,
-      price_input_cache_write: 0,
-      price_image: 0,
-      price_image_output: 0,
-      price_audio: 0,
-      price_audio_output: 0,
-      price_input_audio_cache: 0,
-      price_internal_reasoning: 0,
+    const input: NarevPricing = {
+      prompt: 5e-6,
+      completion: 15e-6,
+      discount: 0,
+      request: 0,
+      web_search: 0,
+      input_cache_read: 0,
+      input_cache_write: 0,
+      image: 0,
+      image_output: 0,
+      audio: 0,
+      audio_output: 0,
+      input_audio_cache: 0,
+      internal_reasoning: 0,
     };
-    expect(narevModelPricingToModelPricing(input)).toEqual({
+    expect(narevPricingToModelPricing(input)).toEqual({
       promptTokens: 5e-6,
       completionTokens: 15e-6,
     });
   });
 
   it('maps optional fields when non-zero', () => {
-    const input: NarevModelPricing = {
-      price_prompt: 3e-6,
-      price_completion: 15e-6,
-      pricing_discount: 0.5,
-      pricing_request: 0.001,
-      price_web_search: 0,
-      price_input_cache_read: 0.3e-6,
-      price_input_cache_write: 3.75e-6,
-      price_image: 0,
-      price_image_output: 0,
-      price_audio: 0,
-      price_audio_output: 0,
-      price_input_audio_cache: 0,
-      price_internal_reasoning: 15e-6,
+    const input: NarevPricing = {
+      prompt: 3e-6,
+      completion: 15e-6,
+      discount: 0.5,
+      request: 0.001,
+      web_search: 0,
+      input_cache_read: 0.3e-6,
+      input_cache_write: 3.75e-6,
+      image: 0,
+      image_output: 0,
+      audio: 0,
+      audio_output: 0,
+      input_audio_cache: 0,
+      internal_reasoning: 15e-6,
     };
-    expect(narevModelPricingToModelPricing(input)).toEqual({
+    expect(narevPricingToModelPricing(input)).toEqual({
       promptTokens: 3e-6,
       completionTokens: 15e-6,
       request: 0.001,
@@ -110,7 +109,7 @@ describe('createNarevPriceResolver', () => {
         makeResponse([
           {
             model_id: 'gpt-4o',
-            pricing: { price_prompt: 5e-6, price_completion: 15e-6 },
+            pricing: { prompt: 5e-6, completion: 15e-6 },
           },
         ]),
       ),
@@ -122,13 +121,13 @@ describe('createNarevPriceResolver', () => {
     expect(result).toEqual({ promptTokens: 5e-6, completionTokens: 15e-6 });
   });
 
-  it('passes model_id, provider, subprovider to listModelPricing', async () => {
+  it('passes model_id and provider_id to listPrices', async () => {
     mockGet.mockReturnValue(
       makeJsonResponse(
         makeResponse([
           {
             model_id: 'gpt-4o',
-            pricing: { price_prompt: 1e-6, price_completion: 2e-6 },
+            pricing: { prompt: 1e-6, completion: 2e-6 },
           },
         ]),
       ),
@@ -141,11 +140,10 @@ describe('createNarevPriceResolver', () => {
       subProvider: 'azure',
     });
 
-    expect(mockGet).toHaveBeenCalledWith('v1/models/pricing', {
+    expect(mockGet).toHaveBeenCalledWith('v1/prices', {
       searchParams: expect.objectContaining({
         model_id: 'gpt-4o',
-        provider: 'openai',
-        subprovider: 'azure',
+        provider_id: 'openai',
       }),
     });
   });

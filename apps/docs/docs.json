@@ -273,7 +273,7 @@
                         "pages": [
                           "sdk/ai-billing/reference/narev/typedoc/functions/createNarevClient",
                           "sdk/ai-billing/reference/narev/typedoc/functions/createNarevPriceResolver",
-                          "sdk/ai-billing/reference/narev/typedoc/functions/narevModelPricingToModelPricing"
+                          "sdk/ai-billing/reference/narev/typedoc/functions/narevPricingToModelPricing"
                         ]
                       },
                       {
@@ -286,22 +286,28 @@
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/CreditConfigData",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/CreditConfigResponse",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/CreditPackage",
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/GetProviderModelsRequest",
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ListModelPricingRequest",
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ListModelsMeta",
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ListModelsResponse",
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/Model",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ListModelsRequest",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ListPricesRequest",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ModelPricingItem",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ModelRef",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ModelsResponse",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/NarevClient",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/NarevClientOptions",
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/NarevModelPricing",
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ProviderModelsResponse"
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/NarevPricing",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/PaginationMeta",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/PriceResponse",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ProviderRef",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/ProvidersResponse",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/SearchPricesRequest",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/TraceCostRequest",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/TraceCostResponse",
+                          "sdk/ai-billing/reference/narev/typedoc/interfaces/TraceCostUsage"
                         ]
                       },
                       {
                         "group": "Types",
                         "pages": [
-                          "sdk/ai-billing/reference/narev/typedoc/type-aliases/GetBalanceRequest",
-                          "sdk/ai-billing/reference/narev/typedoc/type-aliases/ProviderModelsData"
+                          "sdk/ai-billing/reference/narev/typedoc/type-aliases/GetBalanceRequest"
                         ]
                       },
                       {

@@ -233,12 +233,17 @@ export async function createChatRouter(
     try {
       const narevClient = getNarevClient();
       const configuredProviderIds = providers.map(p => p.providerId).join(',');
-      const { data } = await narevClient.getProviderModels({
-        providers: configuredProviderIds,
+      const { data } = await narevClient.listModels({
+        provider_id: configuredProviderIds,
+        page_size: 1000,
       });
-      allModels = Object.entries(data).flatMap(([providerId, modelIds]) => {
-        if (!providerMap.has(providerId)) return [];
-        return buildModelOptions(providerId, modelIds);
+      const byProvider: Record<string, string[]> = {};
+      for (const { provider_id, model_id } of data) {
+        (byProvider[provider_id] ??= []).push(model_id);
+      }
+      allModels = Object.entries(byProvider).flatMap(([pid, ids]) => {
+        if (!providerMap.has(pid)) return [];
+        return buildModelOptions(pid, ids);
       });
     } catch {
       // fall back to DEFAULT_MODELS list
