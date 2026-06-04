@@ -1,6 +1,7 @@
 import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { Suspense } from 'react';
 import { ThemeProvider } from '@/components/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
@@ -48,37 +49,45 @@ const THEME_COLOR_SCRIPT = `\
   updateThemeColor();
 })();`;
 
-export default async function RootLayout({
+async function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <ClerkProvider signInUrl="/sign-in" signUpUrl="/sign-up">
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        disableTransitionOnChange
+        enableSystem
+      >
+        <TooltipProvider>{children}</TooltipProvider>
+      </ThemeProvider>
+    </ClerkProvider>
+  );
+}
+
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider signInUrl="/sign-in" signUpUrl="/sign-up">
-      <html
-        className={`${geist.variable} ${geistMono.variable}`}
-        lang="en"
-        suppressHydrationWarning
-      >
-        <head>
-          <script
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: "Required"
-            dangerouslySetInnerHTML={{
-              __html: THEME_COLOR_SCRIPT,
-            }}
-          />
-        </head>
-        <body className="antialiased">
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            disableTransitionOnChange
-            enableSystem
-          >
-            <TooltipProvider>{children}</TooltipProvider>
-          </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html
+      className={`${geist.variable} ${geistMono.variable}`}
+      lang="en"
+      suppressHydrationWarning
+    >
+      <head>
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: "Required"
+          dangerouslySetInnerHTML={{
+            __html: THEME_COLOR_SCRIPT,
+          }}
+        />
+      </head>
+      <body className="antialiased">
+        <Suspense>
+          <Providers>{children}</Providers>
+        </Suspense>
+      </body>
+    </html>
   );
 }

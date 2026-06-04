@@ -1,10 +1,9 @@
+import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
 import { auth, currentUser } from '@clerk/nextjs/server';
 import { createPolarCustomer } from '@/lib/polar-client';
 
-export const dynamic = 'force-dynamic';
-
-export default async function OnboardingPage() {
+async function OnboardingContent() {
   const { userId } = await auth();
   if (!userId) redirect('/sign-up');
 
@@ -15,4 +14,12 @@ export default async function OnboardingPage() {
   }
 
   redirect('/');
+}
+
+export default function OnboardingPage() {
+  return (
+    <Suspense>
+      <OnboardingContent />
+    </Suspense>
+  );
 }
