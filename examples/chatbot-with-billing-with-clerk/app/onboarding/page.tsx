@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation';
 import { auth, currentUser } from '@clerk/nextjs/server';
 import { createPolarCustomer } from '@/lib/polar-client';
 
+export const dynamic = 'force-dynamic';
+
 export default async function OnboardingPage() {
   const { userId } = await auth();
   if (!userId) redirect('/sign-up');

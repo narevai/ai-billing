@@ -5,6 +5,8 @@ import { ChatShell } from '@/components/chat/shell';
 import { getChatById, getMessagesByChatId, getUserId } from '@/lib/db/queries';
 import { convertToUIMessages } from '@/lib/utils';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ChatPage({
   params,
 }: {
