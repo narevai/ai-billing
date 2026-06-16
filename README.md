@@ -16,17 +16,13 @@
 </p>
 
 ## UI Components
-**Storybook:** [Explore the `@ai-billing/nextjs` components](https://ai-billing-storybook.vercel.app/)
 
-### `<CreditTopUpPolar>`
-<p align="center">
-  <img src="/assets/topup-component.png" alt="Topup Component from @ai-billing/nextjs">
-</p>
+Explore the full component library in [Storybook](https://ai-billing-storybook.vercel.app/).
 
-### `<CreditUsagePolar>`
-<p align="center">
-  <img src="/assets/usage-component.png" alt="Usage Component from @ai-billing/nextjs">
-</p>
+| Component | Preview |
+| :--- | :--- |
+| `<CreditTopUpPolar>` | <img src="/assets/topup-component.png" alt="CreditTopUpPolar component preview from @ai-billing/nextjs" width="320"> |
+| `<CreditUsagePolar>` | <img src="/assets/usage-component.png" alt="CreditUsagePolar component preview from @ai-billing/nextjs" width="320"> |
 
 ## Full-stack examples
 | Name | Demo Link | Repo | Deploy |
