@@ -1,28 +1,30 @@
-# ai-billing
-
-- Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs)
-- Sends billing events directly to billing platforms (Stripe, Polar, and Lago)
-- Ships with components to make usage-based billing easy
-
-[![codecov](https://codecov.io/github/narevai/ai-billing/graph/badge.svg?token=KZG0YE4THI)](https://codecov.io/github/narevai/ai-billing)
-![Node Current](https://img.shields.io/node/v/%40ai-billing%2Fcore)
-![NPM License](https://img.shields.io/npm/l/%40ai-billing%2Fcore)
-<a href="https://discord.gg/eAFaCwmEEy">
-    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord Chat" />
-</a>
-
 <p align="center">
-  <img src="/assets/header-1.png" alt="AI Billing Header 1">
+  <a href="https://github.com/narevai/ai-billing">
+    <img src="/assets/header-1.png" alt="ai-billing" width="420">
+    <h1 align="center">ai-billing</h1>
+  </a>
 </p>
 
-## UI Components
+<p align="center">
+  <a aria-label="Codecov" href="https://codecov.io/github/narevai/ai-billing">
+    <img alt="Codecov" src="https://img.shields.io/codecov/c/github/narevai/ai-billing?style=for-the-badge&labelColor=000000">
+  </a>
+  <a aria-label="Node version" href="https://www.npmjs.com/package/@ai-billing/core">
+    <img alt="Node version" src="https://img.shields.io/node/v/%40ai-billing%2Fcore?style=for-the-badge&labelColor=000000">
+  </a>
+  <a aria-label="NPM license" href="https://www.npmjs.com/package/@ai-billing/core">
+    <img alt="NPM license" src="https://img.shields.io/npm/l/%40ai-billing%2Fcore?style=for-the-badge&labelColor=000000">
+  </a>
+  <a aria-label="Discord chat" href="https://discord.gg/eAFaCwmEEy">
+    <img alt="Discord chat" src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg?style=for-the-badge&logo=discord&labelColor=000000">
+  </a>
+</p>
 
-Explore the full component library in [Storybook](https://ai-billing-storybook.vercel.app/).
+<p align="center">
+  Middleware for the <a href="https://sdk.vercel.ai/docs">Vercel AI SDK</a> that sends billing events directly to Stripe, Polar, and Lago.
+  Ships with components to make usage-based billing easy.
+</p>
 
-| Component | Preview |
-| :--- | :--- |
-| `<CreditTopUpPolar>` | <img src="/assets/topup-component.png" alt="CreditTopUpPolar component preview from @ai-billing/nextjs" width="320"> |
-| `<CreditUsagePolar>` | <img src="/assets/usage-component.png" alt="CreditUsagePolar component preview from @ai-billing/nextjs" width="320"> |
 
 ## Full-stack examples
 | Name | Demo Link | Repo | Deploy |
@@ -63,7 +65,18 @@ Explore the full component library in [Storybook](https://ai-billing-storybook.v
 | **OpenMeter** (Kong) | [`@ai-billing/openmeter`](https://www.npmjs.com/package/@ai-billing/openmeter) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenmeter) |
 | **Lago** | [`@ai-billing/lago`](https://www.npmjs.com/package/@ai-billing/lago) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Flago) |
 
-### UI & SDKs
+## UI Components
+
+Explore the full component library in [Storybook](https://ai-billing-storybook.vercel.app/).
+
+
+| Component | Preview |
+| :--- | :--- |
+| `<CreditTopUpPolar>` | <img src="/assets/topup-component.png" alt="CreditTopUpPolar component preview from @ai-billing/nextjs" width="320"> |
+| `<CreditUsagePolar>` | <img src="/assets/usage-component.png" alt="CreditUsagePolar component preview from @ai-billing/nextjs" width="320"> |
+
+
+### SDKs
 
 | Package | Description | Size |
 | :--- | :--- | :--- |
