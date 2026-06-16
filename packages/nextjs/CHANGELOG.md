@@ -1,5 +1,13 @@
 # @ai-billing/nextjs
 
+## 0.0.13
+
+### Patch Changes
+
+- be9b06c: chore(deps): update Next.js catalog to 16.2.9
+- Updated dependencies [cee31f6]
+  - @ai-billing/polar@0.1.8
+
 ## 0.0.12
 
 ### Patch Changes

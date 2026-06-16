@@ -1,5 +1,12 @@
 # dev-sandbox
 
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies [cee31f6]
+  - @ai-billing/polar@0.1.8
+
 ## 0.1.9
 
 ### Patch Changes
