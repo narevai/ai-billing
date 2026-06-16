@@ -1,12 +1,29 @@
+<p align="center">
+  <a href="https://github.com/narevai/ai-billing">
+    <img src="/assets/logo.svg" alt="ai-billing" height="128">
+    <h1 align="center">ai-billing</h1>
+  </a>
+</p>
 
+<p align="center">
+  <a aria-label="Codecov" href="https://codecov.io/github/narevai/ai-billing">
+    <img alt="Codecov" src="https://img.shields.io/codecov/c/github/narevai/ai-billing?style=for-the-badge&labelColor=000000">
+  </a>
+  <a aria-label="Node version" href="https://www.npmjs.com/package/@ai-billing/core">
+    <img alt="Node version" src="https://img.shields.io/node/v/%40ai-billing%2Fcore?style=for-the-badge&labelColor=000000">
+  </a>
+  <a aria-label="NPM license" href="https://www.npmjs.com/package/@ai-billing/core">
+    <img alt="NPM license" src="https://img.shields.io/npm/l/%40ai-billing%2Fcore?style=for-the-badge&labelColor=000000">
+  </a>
+  <a aria-label="Discord chat" href="https://discord.gg/eAFaCwmEEy">
+    <img alt="Discord chat" src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg?style=for-the-badge&logo=discord&labelColor=000000">
+  </a>
+</p>
 
-# [ai-billing](https://github.com/narevai/ai-billing)
-
-
-
-
-
-Middleware for the [Vercel AI SDK](https://sdk.vercel.ai/docs) that sends billing events directly to Stripe, Polar, and Lago. Ships with components to make usage-based billing easy.
+<p align="center">
+  Middleware for the <a href="https://sdk.vercel.ai/docs">Vercel AI SDK</a> that sends billing events directly to Stripe, Polar, and Lago.
+  Ships with components to make usage-based billing easy.
+</p>
 
 ## Full-stack examples
 

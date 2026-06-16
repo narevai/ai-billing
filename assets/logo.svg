@@ -1,0 +1,8 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">ai-billing logo</title>
+  <desc id="desc">A minimal billing receipt logo.</desc>
+  <path d="M72 36H184V220L156 196L128 220L100 196L72 220V36Z" fill="#000"/>
+  <rect x="104" y="82" width="48" height="16" rx="8" fill="#fff"/>
+  <rect x="104" y="120" width="72" height="16" rx="8" fill="#fff"/>
+  <rect x="104" y="158" width="40" height="16" rx="8" fill="#fff"/>
+</svg>
