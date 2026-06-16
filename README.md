@@ -33,11 +33,67 @@
 | **Chatbot (OpenAI + Polar)** | [View Demo](https://chatbot-openai-with-billing-polar.vercel.app/) | [GitHub](https://github.com/narevai/chatbot-openai-with-billing-polar) | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fchatbot-openai-with-billing-polar&env=AUTH_SECRET,OPENAI_API_KEY,POSTGRES_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER,NAREV_API_KEY&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D) |
 | **Chatbot (Stripe)** | [View Demo](https://chatbot-with-billing-stripe.vercel.app/) | [GitHub](https://github.com/narevai/chatbot-with-billing-stripe) | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fchatbot-with-billing-polar&env=AUTH_SECRET,AI_GATEWAY_API_KEY,POSTGRES_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D) |
 
-## Billing Architecture
+## What is `ai-billing`?
 
 <p align="center">
-  <img src="/assets/header-2.png" alt="AI Billing architecture">
+  <img src="/assets/header-1.png" alt="AI Billing architecture">
 </p>
+
+## Installation
+
+```bash
+npm install @ai-billing/core @ai-billing/openrouter # Example for OpenRouter
+```
+
+## Basic Usage
+
+Wrap your model provider with the billing middleware and define your destinations.
+
+```typescript
+import { streamText, wrapLanguageModel } from 'ai';
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
+
+const billingMiddleware = createOpenRouterV3Middleware({});
+
+const model = wrapLanguageModel({
+  model: createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY })('google/gemini-2.0-flash-001'),
+  middleware: billingMiddleware,
+});
+```
+
+## Send usage to destination (Polar.sh)
+
+Wrap your model provider with the billing middleware and define your destinations.
+
+```typescript
+import { streamText, wrapLanguageModel } from 'ai';
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
+import { createPolarDestination } from '@ai-billing/polar';
+
+const billingMiddleware = createOpenRouterV3Middleware({
+  destinations: [
+    createPolarDestination({
+      accessToken: process.env.POLAR_ACCESS_TOKEN,
+      eventName: 'llm_usage',
+    })
+  ],
+});
+
+const model = wrapLanguageModel({
+  model: createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY })('google/gemini-2.0-flash-001'),
+  middleware: billingMiddleware,
+});
+
+const { textStream } = await streamText({
+  model,
+  messages: [{ role: 'user', content: 'Quantify the value of metadata.' }],
+  providerOptions: { 
+    'ai-billing-tags': { userId: 'usr_123', org: 'Acme' } 
+  },
+});
+```
 
 ### Supported Providers
 
@@ -82,64 +138,6 @@ Explore the full component library in [Storybook](https://ai-billing-storybook.v
 | [`@ai-billing/narev`](https://www.npmjs.com/package/@ai-billing/narev) | TypeScript SDK for the [Narev](https://narev.ai) billing API. | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fnarev) |
 
 ---
-
-## Installation
-
-```bash
-npm install @ai-billing/core @ai-billing/openrouter # Example for OpenRouter
-```
-
-## Basic Usage
-
-Wrap your model provider with the billing middleware and define your destinations.
-
-```typescript
-import { streamText, wrapLanguageModel } from 'ai';
-import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
-
-const billingMiddleware = createOpenRouterV3Middleware({});
-
-const model = wrapLanguageModel({
-  model: createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY })('google/gemini-2.0-flash-001'),
-  middleware: billingMiddleware,
-});
-```
-
----
-
-## Send usage to Polar.sh
-
-Wrap your model provider with the billing middleware and define your destinations.
-
-```typescript
-import { streamText, wrapLanguageModel } from 'ai';
-import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
-import { createPolarDestination } from '@ai-billing/polar';
-
-const billingMiddleware = createOpenRouterV3Middleware({
-  destinations: [
-    createPolarDestination({
-      accessToken: process.env.POLAR_ACCESS_TOKEN,
-      eventName: 'llm_usage',
-    })
-  ],
-});
-
-const model = wrapLanguageModel({
-  model: createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY })('google/gemini-2.0-flash-001'),
-  middleware: billingMiddleware,
-});
-
-const { textStream } = await streamText({
-  model,
-  messages: [{ role: 'user', content: 'Quantify the value of metadata.' }],
-  providerOptions: { 
-    'ai-billing-tags': { userId: 'usr_123', org: 'Acme' } 
-  },
-});
-```
 
 ## Status and Roadmap
 
