@@ -2899,7 +2899,7 @@ importers:
         specifier: workspace:*
         version: link:../types
       '@polar-sh/sdk':
-        specifier: ^0.46.7 || ^0.47.0
+        specifier: ^0.46.7 || ^0.47.0 || ^0.48.0
         version: 0.46.7
     devDependencies:
       '@ai-billing/testing':
