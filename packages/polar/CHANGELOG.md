@@ -1,5 +1,11 @@
 # @ai-billing/polar
 
+## 0.1.8
+
+### Patch Changes
+
+- cee31f6: chore(polar): widen peer dependency range for @polar-sh/sdk to include ^0.48.0
+
 ## 0.1.7
 
 ### Patch Changes

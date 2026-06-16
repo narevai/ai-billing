@@ -1,5 +1,12 @@
 # chatbot-minimal
 
+## 0.0.9
+
+### Patch Changes
+
+- Updated dependencies [be9b06c]
+  - @ai-billing/nextjs@0.0.13
+
 ## 0.0.8
 
 ### Patch Changes

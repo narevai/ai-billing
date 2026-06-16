@@ -1,5 +1,14 @@
 # chatbot-openai-with-billing-polar-advanced
 
+## 0.0.13
+
+### Patch Changes
+
+- Updated dependencies [be9b06c]
+- Updated dependencies [cee31f6]
+  - @ai-billing/nextjs@0.0.13
+  - @ai-billing/polar@0.1.8
+
 ## 0.0.12
 
 ### Patch Changes
