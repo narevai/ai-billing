@@ -6,6 +6,24 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DOCS_APP_DIR = path.resolve(__dirname, '..');
 const REFERENCE_DIR = path.resolve(DOCS_APP_DIR, 'sdk/ai-billing/reference');
 const DOCS_JSON_PATH = path.resolve(DOCS_APP_DIR, 'docs.json');
+const SDK_INDEX_MDX_PATH = path.join(DOCS_APP_DIR, 'sdk/ai-billing/index.mdx');
+
+/** Tab containing SDK docs. Use `Open source` when embedded in Narev docs. */
+const TARGET_TAB = process.env.DOCS_NAV_TARGET_TAB ?? 'SDKs';
+/** Parent nav group for all @ai-billing/* package groups. */
+const SDK_GROUP = process.env.DOCS_NAV_SDK_GROUP ?? '@ai-billing SDK';
+/**
+ * `standalone`: owns the target tab and rebuilds all @ai-billing/* groups (ai-billing repo).
+ * `embedded`: replaces only SDK_GROUP within the target tab; preserves other groups (Narev docs).
+ */
+const NAV_MODE = process.env.DOCS_NAV_MODE ?? 'standalone';
+
+const TYPEDOC_CATEGORIES = new Set([
+  'functions',
+  'interfaces',
+  'type-aliases',
+  'classes',
+]);
 
 if (!fs.existsSync(DOCS_JSON_PATH)) {
   throw new Error(`Mintlify docs.json not found at ${DOCS_JSON_PATH}`);
@@ -64,12 +82,26 @@ function normalizeTypedocOutput(typedocDir) {
     fs.renameSync(filePath, filePath.replace(/\.md$/i, '.mdx'));
   }
 
-  const readmeMdxPath = path.join(typedocDir, 'README.mdx');
-  const indexMdxPath = path.join(typedocDir, 'index.mdx');
-  if (fs.existsSync(readmeMdxPath)) {
-    if (fs.existsSync(indexMdxPath)) fs.unlinkSync(indexMdxPath);
-    fs.renameSync(readmeMdxPath, indexMdxPath);
+  // Rename every README.mdx → index.mdx (root and submodule entry points).
+  for (const readmePath of walkFiles(typedocDir, '.mdx')) {
+    if (path.basename(readmePath) !== 'README.mdx') continue;
+    const indexPath = path.join(path.dirname(readmePath), 'index.mdx');
+    if (fs.existsSync(indexPath)) fs.unlinkSync(indexPath);
+    fs.renameSync(readmePath, indexPath);
   }
+}
+
+function typedocCategory(rel) {
+  const segments = rel.split('/');
+  let category = null;
+  if (TYPEDOC_CATEGORIES.has(segments[0])) {
+    category = segments[0];
+  } else if (segments.length >= 2 && TYPEDOC_CATEGORIES.has(segments[1])) {
+    category = segments[1];
+  }
+  if (!category) return 'other';
+  if (category === 'type-aliases') return 'types';
+  return category;
 }
 
 function buildTypedocPages(typedocDir, pkg) {
@@ -82,6 +114,7 @@ function buildTypedocPages(typedocDir, pkg) {
 
   const bucketed = {
     readme: [],
+    modules: [],
     functions: [],
     interfaces: [],
     types: [],
@@ -91,29 +124,29 @@ function buildTypedocPages(typedocDir, pkg) {
 
   for (const filePath of files) {
     const rel = path.relative(typedocDir, filePath).replace(/\\/g, '/');
-    const mintPath = toMintPagePath(filePath);
-    const [firstSegment] = rel.split('/');
 
     if (/^(README|index)\.(md|mdx)$/.test(rel)) {
       bucketed.readme.push(`sdk/ai-billing/reference/${pkg}/typedoc/index`);
       continue;
     }
 
-    const bucket =
-      firstSegment === 'functions'
-        ? 'functions'
-        : firstSegment === 'interfaces'
-          ? 'interfaces'
-          : firstSegment === 'type-aliases'
-            ? 'types'
-            : firstSegment === 'classes'
-              ? 'classes'
-              : 'other';
+    const moduleIndexMatch = rel.match(/^([^/]+)\/(README|index)\.(md|mdx)$/);
+    if (moduleIndexMatch) {
+      const moduleName = moduleIndexMatch[1];
+      bucketed.modules.push(
+        `sdk/ai-billing/reference/${pkg}/typedoc/${moduleName}/index`,
+      );
+      continue;
+    }
+
+    const mintPath = toMintPagePath(filePath);
+    const bucket = typedocCategory(rel);
     bucketed[bucket].push(mintPath);
   }
 
   const pages = [];
   pages.push(...[...new Set(bucketed.readme)].sort(sortAlpha));
+  pages.push(...[...new Set(bucketed.modules)].sort(sortAlpha));
 
   const groups = [
     { key: 'functions', label: 'Functions' },
@@ -157,28 +190,10 @@ function buildHandwrittenPages(pkgDir, pkg) {
   return pages;
 }
 
-const SDK_PARENT_GROUP = '@ai-billing SDK';
+const SDK_PARENT_GROUP = SDK_GROUP;
 
-function syncNavigation() {
+function buildSdkNavGroup() {
   const packages = discoverPackages();
-  if (packages.length === 0) {
-    console.log('No packages found in reference/. Nothing to do.');
-    return;
-  }
-
-  const docsJson = JSON.parse(fs.readFileSync(DOCS_JSON_PATH, 'utf8'));
-  const tabs = docsJson?.navigation?.tabs;
-  if (!Array.isArray(tabs)) {
-    throw new Error('docs.json is missing navigation.tabs array');
-  }
-
-  const sdkTab = tabs.find((tab) => tab?.tab === 'SDKs');
-  if (!sdkTab) {
-    throw new Error('SDKs tab not found in docs.json navigation.tabs');
-  }
-
-  if (!Array.isArray(sdkTab.groups)) sdkTab.groups = [];
-
   const nestedSdkGroups = [];
 
   for (const pkg of packages.sort(sortAlpha)) {
@@ -211,20 +226,43 @@ function syncNavigation() {
     });
   }
 
-  const existingSdkParent = sdkTab.groups.find(
+  return nestedSdkGroups;
+}
+
+function fixSdkIndexLinks() {
+  if (!fs.existsSync(SDK_INDEX_MDX_PATH)) return;
+
+  const original = fs.readFileSync(SDK_INDEX_MDX_PATH, 'utf8');
+  let updated = original.replace(
+    /href="\/reference\//g,
+    'href="/sdk/ai-billing/reference/',
+  );
+  // @ai-billing/core has typedoc only — no handwritten reference/core/index.mdx.
+  updated = updated.replace(
+    'href="/sdk/ai-billing/reference/core/index"',
+    'href="/sdk/ai-billing/reference/core/typedoc/index"',
+  );
+  if (updated !== original) {
+    fs.writeFileSync(SDK_INDEX_MDX_PATH, updated);
+    console.log('Updated sdk/ai-billing/index.mdx reference links.');
+  }
+}
+
+function applyStandaloneNav(tab, nestedSdkGroups) {
+  const existingSdkParent = tab.groups.find(
     (g) => g?.group === SDK_PARENT_GROUP,
   );
   const preservedTopLevelPages = existingSdkParent?.pages
     ? existingSdkParent.pages.filter((p) => typeof p === 'string')
     : [];
 
-  const withoutLegacySdkGroups = sdkTab.groups.filter(
+  const withoutLegacySdkGroups = tab.groups.filter(
     (g) =>
       g?.group !== SDK_PARENT_GROUP && !g?.group?.startsWith('@ai-billing/'),
   );
 
   if (nestedSdkGroups.length > 0) {
-    sdkTab.groups = [
+    tab.groups = [
       ...withoutLegacySdkGroups,
       {
         group: SDK_PARENT_GROUP,
@@ -233,7 +271,65 @@ function syncNavigation() {
       },
     ];
   } else {
-    sdkTab.groups = withoutLegacySdkGroups;
+    tab.groups = withoutLegacySdkGroups;
+  }
+}
+
+function applyEmbeddedNav(tab, nestedSdkGroups) {
+  const groupIndex = tab.groups.findIndex((g) => g?.group === SDK_PARENT_GROUP);
+  if (groupIndex < 0) {
+    throw new Error(
+      `${SDK_PARENT_GROUP} group not found in ${TARGET_TAB} tab`,
+    );
+  }
+
+  const existingSdkParent = tab.groups[groupIndex];
+  const preservedTopLevelPages = existingSdkParent?.pages
+    ? existingSdkParent.pages.filter((p) => typeof p === 'string')
+    : [];
+
+  if (nestedSdkGroups.length === 0) {
+    tab.groups.splice(groupIndex, 1);
+    return;
+  }
+
+  tab.groups[groupIndex] = {
+    group: SDK_PARENT_GROUP,
+    icon: existingSdkParent.icon ?? 'npm',
+    pages: [...preservedTopLevelPages, ...nestedSdkGroups],
+  };
+}
+
+function syncNavigation() {
+  const nestedSdkGroups = buildSdkNavGroup();
+  if (nestedSdkGroups.length === 0 && discoverPackages().length === 0) {
+    console.log('No packages found in reference/. Nothing to do.');
+    return;
+  }
+
+  fixSdkIndexLinks();
+
+  const docsJson = JSON.parse(fs.readFileSync(DOCS_JSON_PATH, 'utf8'));
+  const tabs = docsJson?.navigation?.tabs;
+  if (!Array.isArray(tabs)) {
+    throw new Error('docs.json is missing navigation.tabs array');
+  }
+
+  const targetTab = tabs.find((tab) => tab?.tab === TARGET_TAB);
+  if (!targetTab) {
+    throw new Error(`${TARGET_TAB} tab not found in docs.json navigation.tabs`);
+  }
+
+  if (!Array.isArray(targetTab.groups)) targetTab.groups = [];
+
+  if (NAV_MODE === 'embedded') {
+    applyEmbeddedNav(targetTab, nestedSdkGroups);
+  } else if (NAV_MODE === 'standalone') {
+    applyStandaloneNav(targetTab, nestedSdkGroups);
+  } else {
+    throw new Error(
+      `Invalid DOCS_NAV_MODE "${NAV_MODE}" (expected standalone or embedded)`,
+    );
   }
 
   fs.writeFileSync(DOCS_JSON_PATH, `${JSON.stringify(docsJson, null, 2)}\n`);
