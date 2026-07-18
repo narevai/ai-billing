@@ -75,7 +75,7 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
 
       - name: Detect app changes
-        uses: dorny/paths-filter@de90cc6fb38fc096f679154cb674f1dcfe5129d7 # v3
+        uses: dorny/paths-filter@v3
         id: changes
         with:
           filters: |
@@ -110,7 +110,7 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
 
       - name: Detect example changes
-        uses: dorny/paths-filter@de90cc6fb38fc096f679154cb674f1dcfe5129d7 # v3
+        uses: dorny/paths-filter@v3
         id: changes
         with:
           filters: |
