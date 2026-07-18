@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "build:packages": "turbo run build --filter=\"./packages/*\"",
+    "build:apps": "turbo run build --filter=\"./apps/*\"",
+    "build:examples": "turbo run build --filter=\"./examples/*\" --filter=\"./examples/utils/*\"",
     "dev": "turbo run dev",
     "docs": "turbo run docs:generate --filter=docs",
     "lint": "turbo run lint",

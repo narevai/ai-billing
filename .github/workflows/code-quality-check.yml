@@ -34,8 +34,8 @@ jobs:
             command: 'pnpm turbo run check-types'
             step_name: 'TypeScript validation'
           - name: 'Build Check'
-            command: 'pnpm turbo run build'
-            step_name: 'Verify production builds'
+            command: 'pnpm run build:packages'
+            step_name: 'Verify package production builds'
           - name: 'Unit Tests'
             command: 'pnpm run test:coverage'
             step_name: 'Run Vitest suite with coverage'
@@ -67,6 +67,75 @@ jobs:
           slug: narevai/ai-billing
           fail_ci_if_error: false
 
+  build-apps:
+    name: Build Apps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+
+      - name: Detect app changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            apps:
+              - 'apps/**'
+              - '!apps/docs/**'
+
+      - name: Install pnpm
+        if: steps.changes.outputs.apps == 'true' || github.event_name == 'workflow_dispatch'
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5
+
+      - name: Setup Node.js
+        if: steps.changes.outputs.apps == 'true' || github.event_name == 'workflow_dispatch'
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        if: steps.changes.outputs.apps == 'true' || github.event_name == 'workflow_dispatch'
+        run: pnpm install --frozen-lockfile
+
+      - name: Build apps
+        if: steps.changes.outputs.apps == 'true' || github.event_name == 'workflow_dispatch'
+        run: pnpm run build:apps
+
+  build-examples:
+    name: Build Examples
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+
+      - name: Detect example changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            examples:
+              - 'examples/**'
+
+      - name: Install pnpm
+        if: steps.changes.outputs.examples == 'true' || github.event_name == 'workflow_dispatch'
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5
+
+      - name: Setup Node.js
+        if: steps.changes.outputs.examples == 'true' || github.event_name == 'workflow_dispatch'
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        if: steps.changes.outputs.examples == 'true' || github.event_name == 'workflow_dispatch'
+        run: pnpm install --frozen-lockfile
+
+      - name: Build examples
+        if: steps.changes.outputs.examples == 'true' || github.event_name == 'workflow_dispatch'
+        run: pnpm run build:examples
+
   compatibility-tests:
     name: Unit Tests Node ${{ matrix.node-version }} Runtime
     runs-on: ubuntu-latest
@@ -95,12 +164,15 @@ jobs:
 
   quality-checks-passed:
     name: Quality Checks Passed
-    needs: [quality-checks, compatibility-tests]
+    needs: [quality-checks, build-apps, build-examples, compatibility-tests]
     if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Verify matrix status
         run: |
-          if [[ "${{ needs.quality-checks.result }}" != "success" || "${{ needs.compatibility-tests.result }}" != "success" ]]; then
+          if [[ "${{ needs.quality-checks.result }}" != "success" \
+             || "${{ needs.build-apps.result }}" != "success" \
+             || "${{ needs.build-examples.result }}" != "success" \
+             || "${{ needs.compatibility-tests.result }}" != "success" ]]; then
             exit 1
           fi
