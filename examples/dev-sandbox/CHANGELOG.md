@@ -1,5 +1,13 @@
 # dev-sandbox
 
+## 0.1.11
+
+### Patch Changes
+
+- 0c312de: feat(baseten): first release
+- Updated dependencies [0c312de]
+  - @ai-billing/baseten@0.0.1
+
 ## 0.1.10
 
 ### Patch Changes
