@@ -110,7 +110,12 @@ describe('BasetenBillingMiddlewareV3 Integration', () => {
 
       const baseResult = createResult({
         usage: {
-          inputTokens: { total: 999, noCache: 999, cacheRead: 0, cacheWrite: 0 },
+          inputTokens: {
+            total: 999,
+            noCache: 999,
+            cacheRead: 0,
+            cacheWrite: 0,
+          },
           outputTokens: { total: 999, text: 999, reasoning: 999 },
           raw: {
             prompt_tokens: 85,
