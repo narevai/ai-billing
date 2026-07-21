@@ -1535,6 +1535,9 @@ importers:
       '@ai-billing/anthropic':
         specifier: workspace:*
         version: link:../../packages/anthropic
+      '@ai-billing/baseten':
+        specifier: workspace:*
+        version: link:../../packages/baseten
       '@ai-billing/chutes':
         specifier: workspace:*
         version: link:../../packages/chutes
@@ -1586,6 +1589,9 @@ importers:
       '@ai-sdk/anthropic':
         specifier: ^3.0.0
         version: 3.0.71(zod@4.3.6)
+      '@ai-sdk/baseten':
+        specifier: ^2.0.0
+        version: 2.0.14(zod@4.3.6)
       '@ai-sdk/deepseek':
         specifier: ^2.0.0
         version: 2.0.29(zod@4.3.6)
@@ -1607,6 +1613,9 @@ importers:
       '@ai-sdk/xai':
         specifier: ^3.0.0
         version: 3.0.83(zod@4.3.6)
+      '@basetenlabs/performance-client':
+        specifier: 0.0.10
+        version: 0.0.10
       '@openrouter/ai-sdk-provider':
         specifier: 'catalog:'
         version: 2.3.3(ai@6.0.138(zod@4.3.6))(zod@4.3.6)
