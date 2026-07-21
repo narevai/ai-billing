@@ -15,5 +15,10 @@
     "examples/chatbot-with-billing/**",
     "examples/chatbot-with-billing-with-clerk/**",
     "apps/storybook/**"
-  ]
+  ],
+  "workspaces": {
+    "examples/dev-sandbox": {
+      "ignoreDependencies": ["@basetenlabs/performance-client"]
+    }
+  }
 }
