@@ -31,6 +31,17 @@ describe('BasetenBillingMiddlewareV3 Integration', () => {
     usage: {
       inputTokens: { total: 93, noCache: 29, cacheRead: 64, cacheWrite: 0 },
       outputTokens: { total: 107, text: 69, reasoning: 38 },
+      raw: {
+        prompt_tokens: 93,
+        completion_tokens: 107,
+        total_tokens: 200,
+        prompt_tokens_details: {
+          cached_tokens: 64,
+        },
+        completion_tokens_details: {
+          reasoning_tokens: 38,
+        },
+      },
     },
     response: { id: 'resp_baseten_abc123', timestamp: new Date() },
     providerMetadata: {},
@@ -88,6 +99,54 @@ describe('BasetenBillingMiddlewareV3 Integration', () => {
         parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
       }).not.toThrow();
       expect(parsedEmittedEvent!).toMatchObject(expectedEvent!);
+    });
+
+    it('should prefer raw provider usage over normalized SDK fields', async () => {
+      const destinationSpy = vi.fn();
+      const middleware = createBasetenV3Middleware({
+        destinations: [destinationSpy],
+        priceResolver: mockPriceResolver,
+      });
+
+      const baseResult = createResult({
+        usage: {
+          inputTokens: { total: 999, noCache: 999, cacheRead: 0, cacheWrite: 0 },
+          outputTokens: { total: 999, text: 999, reasoning: 999 },
+          raw: {
+            prompt_tokens: 85,
+            completion_tokens: 37,
+            total_tokens: 122,
+            prompt_tokens_details: {
+              cached_tokens: 64,
+            },
+            completion_tokens_details: {
+              reasoning_tokens: 0,
+            },
+          },
+        },
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        modelId: 'openai/gpt-oss-120b',
+        provider: 'baseten',
+        doGenerate: async () => baseResult,
+      });
+
+      const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
+      await generateText({ model: wrappedModel, prompt: 'Capital of Sweden?' });
+
+      const emittedPayload = destinationSpy.mock.calls[0]![0] as BillingEvent;
+      expect(emittedPayload.usage).toMatchObject({
+        inputTokens: 85,
+        outputTokens: 37,
+        cacheReadTokens: 64,
+        reasoningTokens: 0,
+      });
+      expect(emittedPayload.cost).toMatchObject({
+        amount: 20600,
+        unit: 'nanos',
+        currency: 'USD',
+      });
     });
   });
 
