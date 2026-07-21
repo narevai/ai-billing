@@ -11,6 +11,25 @@ import type {
   BillingEvent,
 } from '@ai-billing/types';
 
+interface BasetenRawUsage {
+  prompt_tokens?: number;
+  completion_tokens?: number;
+  total_tokens?: number;
+  prompt_tokens_details?: {
+    cached_tokens?: number;
+    audio_tokens?: number;
+  };
+  completion_tokens_details?: {
+    reasoning_tokens?: number;
+    accepted_prediction_tokens?: number;
+    rejected_prediction_tokens?: number;
+    audio_tokens?: number;
+  };
+}
+
+/**
+ * Configuration for {@link createBasetenV3Middleware}.
+ */
 export interface BasetenV3MiddlewareOptions<
   TTags extends DefaultTags,
 > extends BaseBillingMiddlewareOptions<TTags> {
@@ -19,6 +38,7 @@ export interface BasetenV3MiddlewareOptions<
 
 /**
  * Creates a V3 billing middleware for the Baseten provider (`@ai-sdk/baseten`).
+ * Derives token usage from Baseten's raw OpenAI-compatible usage payload.
  */
 export function createBasetenV3Middleware<TTags extends DefaultTags>(
   options: BasetenV3MiddlewareOptions<TTags>,
@@ -26,13 +46,23 @@ export function createBasetenV3Middleware<TTags extends DefaultTags>(
   return createV3BillingMiddleware<TTags>({
     ...options,
 
-    buildEvent: async ({ model, usage, responseId, tags, webSearchCount }) => {
+    buildEvent: async ({
+      model,
+      usage,
+      providerMetadata: _empty,
+      responseId,
+      tags,
+      webSearchCount,
+    }) => {
+      const rawUsage = usage?.raw as BasetenRawUsage | undefined;
+
       const basetenUsage: CostInputs = {
-        promptTokens: usage?.inputTokens?.total ?? 0,
-        completionTokens: usage?.outputTokens?.total ?? 0,
-        cacheReadTokens: usage?.inputTokens?.cacheRead ?? 0,
-        cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
-        reasoningTokens: usage?.outputTokens?.reasoning ?? 0,
+        promptTokens: rawUsage?.prompt_tokens ?? 0,
+        completionTokens: rawUsage?.completion_tokens ?? 0,
+        cacheReadTokens: rawUsage?.prompt_tokens_details?.cached_tokens ?? 0,
+        cacheWriteTokens: 0,
+        reasoningTokens:
+          rawUsage?.completion_tokens_details?.reasoning_tokens ?? 0,
         webSearchCount,
       };
 
