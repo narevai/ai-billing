@@ -59,7 +59,7 @@
     "zod": "catalog:"
   },
   "peerDependencies": {
-    "ai": "^6.0.0"
+    "ai": "^6.0.0 || ^7.0.0"
   },
   "engines": {
     "node": ">=20.0.0"

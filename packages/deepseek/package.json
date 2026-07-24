@@ -59,7 +59,7 @@
     "zod": "catalog:"
   },
   "peerDependencies": {
-    "@ai-sdk/deepseek": "^2.0.0"
+    "@ai-sdk/deepseek": "^2.0.0 || ^3.0.0"
   },
   "engines": {
     "node": ">=20.0.0"

@@ -44,7 +44,7 @@
   "dependencies": {
     "@ai-billing/core": "workspace:*",
     "@ai-billing/types": "workspace:*",
-    "@openrouter/ai-sdk-provider": "^2.3.3"
+    "@openrouter/ai-sdk-provider": "^3.0.0"
   },
   "devDependencies": {
     "@ai-billing/typescript-config": "workspace:*",
