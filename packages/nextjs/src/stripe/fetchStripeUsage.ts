@@ -1,35 +1,20 @@
 'use server';
 
 import type { GetBalanceRequest } from '@ai-billing/types';
-import { getNarevClient } from '../narev-client.js';
+import { MOCK_STRIPE_USAGE_DATA } from '../mock-billing-data.js';
 import type { StripeUsageData } from './types.js';
 
 /**
- * Fetches usage data for a given customer via the Narev API.
+ * Returns mock usage data for a given customer.
+ *
+ * The Narev balance endpoint (`GET /v1/balance`) this action used to call no
+ * longer exists. Until a replacement backend is available this returns
+ * deterministic mock data instead of making a network call.
  * @param request - User identifier — either `{ userId }` or `{ stripeCustomerId }`.
  */
 export async function fetchStripeUsage(
   request: GetBalanceRequest,
 ): Promise<StripeUsageData> {
-  const empty = { aggregatedValue: 0, found: false };
-
-  try {
-    const client = getNarevClient();
-    const response = await client.getBalance(request);
-    const data = response.data;
-
-    const aggregatedValue =
-      data.unit === 'nanos'
-        ? data.unitsConsumed / 1_000_000_000
-        : data.unitsConsumed;
-
-    return {
-      aggregatedValue,
-      found: data.found,
-    };
-  } catch (error) {
-    console.error('fetchStripeUsage:', error);
-  }
-
-  return empty;
+  void request;
+  return MOCK_STRIPE_USAGE_DATA;
 }

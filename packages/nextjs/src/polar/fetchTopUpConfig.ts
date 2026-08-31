@@ -1,6 +1,9 @@
 'use server';
 
-import { getNarevClient } from '../narev-client.js';
+import {
+  MOCK_CREDIT_PACKAGES,
+  MOCK_TAX_BEHAVIOR,
+} from '../mock-billing-data.js';
 import type { CreditPackage } from './types.js';
 
 interface TopUpConfig {
@@ -8,23 +11,16 @@ interface TopUpConfig {
   taxBehavior?: 'inclusive' | 'exclusive' | 'location';
 }
 
-/** Fetches available top-up packages and optional tax behavior from Narev. */
+/**
+ * Returns mock top-up packages and tax behavior.
+ *
+ * The Narev credit config endpoint (`GET /v1/credit`) this action used to
+ * call no longer exists. Until a replacement backend is available this
+ * returns deterministic mock data instead of making a network call.
+ */
 export async function fetchTopUpConfig(): Promise<TopUpConfig> {
-  const config: TopUpConfig = { packages: [] };
-
-  try {
-    const client = getNarevClient();
-    const response = await client.getCreditConfig();
-    const data = response.data;
-
-    config.packages = data.packages;
-
-    if (data.taxBehavior) {
-      config.taxBehavior = data.taxBehavior;
-    }
-  } catch (error) {
-    console.error('fetchTopUpConfig: config fetch failed', error);
-  }
-
-  return config;
+  return {
+    packages: MOCK_CREDIT_PACKAGES,
+    taxBehavior: MOCK_TAX_BEHAVIOR,
+  };
 }

@@ -6,80 +6,31 @@ vi.mock('../narev-client.js', () => ({
 
 import { getNarevClient } from '../narev-client.js';
 import { fetchStripeUsage } from './fetchStripeUsage.js';
+import { MOCK_STRIPE_USAGE_DATA } from '../mock-billing-data.js';
 
 beforeEach(() => {
   vi.clearAllMocks();
-  process.env.NAREV_API_KEY = 'test-key';
 });
 
 describe('fetchStripeUsage', () => {
-  it('converts nanos to dollars when unit is nanos', async () => {
-    vi.mocked(getNarevClient).mockReturnValueOnce({
-      getBalance: vi.fn().mockResolvedValueOnce({
-        data: {
-          unitsBalance: null,
-          unitsConsumed: 1_417_500,
-          unitsCredited: null,
-          unit: 'nanos',
-          currency: 'USD',
-          meterName: 'Usage',
-          found: true,
-        },
-      }),
-    } as ReturnType<typeof getNarevClient>);
-
-    const result = await fetchStripeUsage({ stripeCustomerId: 'cus_1' });
-    expect(result).toEqual({ aggregatedValue: 0.0014175, found: true });
-  });
-
-  it('does not convert when unit is base', async () => {
-    vi.mocked(getNarevClient).mockReturnValueOnce({
-      getBalance: vi.fn().mockResolvedValueOnce({
-        data: {
-          unitsBalance: 50,
-          unitsConsumed: 25,
-          unitsCredited: 100,
-          unit: 'base',
-          currency: 'USD',
-          meterName: 'Usage',
-          found: true,
-        },
-      }),
-    } as ReturnType<typeof getNarevClient>);
-
+  it('returns the mock usage data for a userId lookup', async () => {
     const result = await fetchStripeUsage({ userId: 'user_1' });
-    expect(result).toEqual({ aggregatedValue: 25, found: true });
+    expect(result).toEqual(MOCK_STRIPE_USAGE_DATA);
   });
 
-  it('returns empty when not found', async () => {
-    vi.mocked(getNarevClient).mockReturnValueOnce({
-      getBalance: vi.fn().mockResolvedValueOnce({
-        data: {
-          unitsBalance: null,
-          unitsConsumed: 0,
-          unitsCredited: null,
-          unit: 'nanos',
-          currency: 'USD',
-          meterName: 'Usage',
-          found: false,
-        },
-      }),
-    } as ReturnType<typeof getNarevClient>);
-
+  it('returns the mock usage data for a stripeCustomerId lookup', async () => {
     const result = await fetchStripeUsage({ stripeCustomerId: 'cus_1' });
-    expect(result).toEqual({ aggregatedValue: 0, found: false });
+    expect(result).toEqual(MOCK_STRIPE_USAGE_DATA);
   });
 
-  it('returns empty on Narev API error', async () => {
-    const consoleError = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
-    vi.mocked(getNarevClient).mockReturnValueOnce({
-      getBalance: vi.fn().mockRejectedValueOnce(new Error('API down')),
-    } as ReturnType<typeof getNarevClient>);
+  it('returns a found, non-empty, contract-valid result', async () => {
+    const result = await fetchStripeUsage({ userId: 'user_1' });
+    expect(result.found).toBe(true);
+    expect(result.aggregatedValue).toBeGreaterThan(0);
+  });
 
-    const result = await fetchStripeUsage({ stripeCustomerId: 'cus_1' });
-    expect(result).toEqual({ aggregatedValue: 0, found: false });
-    consoleError.mockRestore();
+  it('does not call getNarevClient', async () => {
+    await fetchStripeUsage({ userId: 'user_1' });
+    expect(getNarevClient).not.toHaveBeenCalled();
   });
 });

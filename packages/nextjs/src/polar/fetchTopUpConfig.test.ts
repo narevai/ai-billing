@@ -6,56 +6,34 @@ vi.mock('../narev-client.js', () => ({
 
 import { getNarevClient } from '../narev-client.js';
 import { fetchTopUpConfig } from './fetchTopUpConfig.js';
+import {
+  MOCK_CREDIT_PACKAGES,
+  MOCK_TAX_BEHAVIOR,
+} from '../mock-billing-data.js';
 
 beforeEach(() => {
   vi.clearAllMocks();
-  process.env.NAREV_API_KEY = 'test-key';
 });
 
 describe('fetchTopUpConfig', () => {
-  it('returns packages and tax behavior from Narev', async () => {
-    vi.mocked(getNarevClient).mockReturnValueOnce({
-      getCreditConfig: vi.fn().mockResolvedValueOnce({
-        data: {
-          packages: [
-            { id: 'pkg_1', credits: 100, priceCents: 1000 },
-            { id: 'pkg_2', credits: 500, priceCents: 4500 },
-          ],
-          taxBehavior: 'inclusive',
-        },
-      }),
-    } as ReturnType<typeof getNarevClient>);
-
+  it('returns the mock packages and tax behavior', async () => {
     const result = await fetchTopUpConfig();
-    expect(result.packages).toEqual([
-      { id: 'pkg_1', credits: 100, priceCents: 1000 },
-      { id: 'pkg_2', credits: 500, priceCents: 4500 },
-    ]);
-    expect(result.taxBehavior).toBe('inclusive');
+    expect(result.packages).toEqual(MOCK_CREDIT_PACKAGES);
+    expect(result.taxBehavior).toBe(MOCK_TAX_BEHAVIOR);
   });
 
-  it('returns empty packages when no packages available', async () => {
-    vi.mocked(getNarevClient).mockReturnValueOnce({
-      getCreditConfig: vi.fn().mockResolvedValueOnce({
-        data: { packages: [] },
-      }),
-    } as ReturnType<typeof getNarevClient>);
-
+  it('returns a non-empty, contract-valid package list', async () => {
     const result = await fetchTopUpConfig();
-    expect(result.packages).toEqual([]);
-    expect(result.taxBehavior).toBeUndefined();
+    expect(result.packages.length).toBeGreaterThan(0);
+    for (const pkg of result.packages) {
+      expect(typeof pkg.id).toBe('string');
+      expect(pkg.credits).toBeGreaterThan(0);
+      expect(pkg.priceCents).toBeGreaterThan(0);
+    }
   });
 
-  it('returns empty config when Narev API throws', async () => {
-    const consoleError = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
-    vi.mocked(getNarevClient).mockReturnValueOnce({
-      getCreditConfig: vi.fn().mockRejectedValueOnce(new Error('API down')),
-    } as ReturnType<typeof getNarevClient>);
-
-    const result = await fetchTopUpConfig();
-    expect(result).toEqual({ packages: [] });
-    consoleError.mockRestore();
+  it('does not call getNarevClient', async () => {
+    await fetchTopUpConfig();
+    expect(getNarevClient).not.toHaveBeenCalled();
   });
 });

@@ -26,7 +26,6 @@ import { CreditUsagePolar, CreditTopUpPolar } from '@ai-billing/nextjs';
 
 | Variable | Required |
 |----------|----------|
-| `NAREV_API_KEY` | Config fetch |
 | `POLAR_ACCESS_TOKEN` | Meter usage + top-up |
 | `POLAR_SERVER` | `sandbox` or `production` |
 
@@ -46,7 +45,6 @@ Stripe meters report values in nano-units. The component converts them to dollar
 
 | Variable | Required |
 |----------|----------|
-| `NAREV_API_KEY` | Config fetch |
 | `STRIPE_SECRET_KEY` | Meter usage |
 
 ## Server Actions
@@ -56,6 +54,8 @@ Server actions are available for advanced use cases:
 ```tsx
 import { fetchPolarUsage, fetchStripeUsage, createCheckout } from '@ai-billing/nextjs/server';
 ```
+
+> **Note:** `fetchPolarUsage`, `fetchStripeUsage`, `fetchTopUpConfig`, and `createCheckout` currently return mocked data. The Narev balance/credit endpoints they used to call have been removed, so no `NAREV_API_KEY` is required for these UI billing/config calls anymore. `NAREV_API_KEY` is still required for model pricing lookups (e.g. `createOpenAIWithBilling` and friends, `fetchModelPricing`), which continue to call the live Narev API.
 
 ## Theming
 

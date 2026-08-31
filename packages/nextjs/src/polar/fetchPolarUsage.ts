@@ -1,34 +1,17 @@
 'use server';
 
-import { getNarevClient } from '../narev-client.js';
+import { MOCK_POLAR_USAGE_DATA } from '../mock-billing-data.js';
 import type { PolarUsageData } from './types.js';
 
 /**
- * Fetches usage data for a given user via the Narev API.
+ * Returns mock usage data for a given user.
+ *
+ * The Narev balance endpoint (`GET /v1/balance`) this action used to call no
+ * longer exists. Until a replacement backend is available this returns
+ * deterministic mock data instead of making a network call.
  * @param userId - the end-user ID
  */
 export async function fetchPolarUsage(userId: string): Promise<PolarUsageData> {
-  const empty = {
-    consumedUnits: 0,
-    creditedUnits: 0,
-    meterName: 'Usage',
-    found: false,
-  };
-
-  try {
-    const client = getNarevClient();
-    const response = await client.getBalance({ userId });
-    const data = response.data;
-
-    return {
-      consumedUnits: data.unitsConsumed,
-      creditedUnits: data.unitsCredited ?? 0,
-      meterName: data.meterName,
-      found: data.found,
-    };
-  } catch (error) {
-    console.error('fetchPolarUsage:', error);
-  }
-
-  return empty;
+  void userId;
+  return MOCK_POLAR_USAGE_DATA;
 }
