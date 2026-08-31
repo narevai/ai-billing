@@ -29,6 +29,7 @@ export function ModelSelector({
   onSelect,
   className,
   style,
+  autoFocus,
   ...props
 }: ModelSelectorProps) {
   const { models, isLoading, error } = useModels(staticModels);
@@ -79,6 +80,7 @@ export function ModelSelector({
             models={filtered}
             selectedModelId={selectedModel}
             onSelect={handleSelect}
+            autoFocus={autoFocus}
           />
         </div>
       )}
