@@ -128,7 +128,7 @@ export function createV3BillingMiddleware<
       return {
         ...result,
         providerMetadata: providerMetadataWithBilling,
-      };
+      } as any;
     },
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -190,7 +190,7 @@ export function createV3BillingMiddleware<
         }),
       );
 
-      return { ...rest, stream: billedStream };
+      return { ...rest, stream: billedStream } as any;
     },
   };
 }

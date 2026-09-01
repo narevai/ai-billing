@@ -46,7 +46,7 @@ export async function POST() {
   const model = 'openai/gpt-oss-120b';
 
   const wrappedModel = wrapLanguageModel({
-    model: baseten(model) as unknown as LanguageModelV3,
+    model: baseten(model),
     middleware: billingMiddleware,
   });
 

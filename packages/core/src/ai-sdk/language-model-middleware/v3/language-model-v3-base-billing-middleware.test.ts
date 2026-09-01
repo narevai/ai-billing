@@ -429,6 +429,56 @@ describe('createV3BillingMiddleware', () => {
       );
     });
 
+
+    it('should correctly handle a V4-specific stream including reasoning-start before finish', async () => {
+      const buildEventSpy = vi.fn().mockResolvedValue(null);
+      const middleware = createV3BillingMiddleware({
+        buildEvent: buildEventSpy,
+        destinations: [],
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        doStream: {
+          stream: convertArrayToReadableStream([
+            { type: 'text-start', id: 'res-id-1' },
+            { type: 'reasoning-start' },
+            { type: 'reasoning-delta', delta: 'thinking...' },
+            { type: 'text-delta', id: 'block-1', delta: 'done thinking' },
+            {
+              type: 'finish',
+              finishReason: { unified: 'stop', raw: 'stop' },
+              usage: {
+                inputTokens: { total: 10, noCache: 10, cacheRead: 0, cacheWrite: 0 },
+                outputTokens: { total: 20, text: 5, reasoning: 15 },
+              },
+            },
+          ] as any),
+        },
+      });
+
+      const { stream } = await middleware.wrapStream!({
+        model: mockModel,
+        params: testParams as any,
+        doGenerate: () => mockModel.doGenerate(testParams) as any,
+        doStream: () => mockModel.doStream(testParams) as any,
+      } as any);
+
+      const resultChunks = await convertReadableStreamToArray(stream as any);
+
+      expect(buildEventSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          responseId: 'res-id-1',
+          usage: {
+            inputTokens: { total: 10, noCache: 10, cacheRead: 0, cacheWrite: 0 },
+            outputTokens: { total: 20, text: 5, reasoning: 15 },
+          }
+        }),
+      );
+      
+      expect(resultChunks.some((c: any) => c.type === 'reasoning-start')).toBe(true);
+      expect(resultChunks.some((c: any) => c.type === 'reasoning-delta')).toBe(true);
+    });
+
     it('should not drop or modify any non-finish chunks (Parity Check)', async () => {
       const middleware = createV3BillingMiddleware({
         buildEvent: vi.fn().mockResolvedValue(null),

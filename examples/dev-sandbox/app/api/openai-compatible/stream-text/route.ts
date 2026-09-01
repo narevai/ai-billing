@@ -49,7 +49,7 @@ export async function POST() {
   const model = 'grok-4-1-fast-reasoning';
 
   const wrappedModel = wrapLanguageModel({
-    model: xai(model) as unknown as LanguageModelV3,
+    model: xai(model),
     middleware: billingMiddleware,
   });
 

@@ -80,7 +80,7 @@ export interface OpenAICompatibleV3MiddlewareOptions<
  * });
  *
  * const wrappedModel = wrapLanguageModel({
- *   model: xai('grok-4-1-fast-reasoning') as unknown as LanguageModelV3,
+ *   model: xai('grok-4-1-fast-reasoning'),
  *   middleware: billingMiddleware,
  * });
  * ```
