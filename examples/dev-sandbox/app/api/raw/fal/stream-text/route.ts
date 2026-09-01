@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, streamText } from 'ai';
-// @ts-ignore
-import { createFal } from '@ai-sdk/fal';
-
-const provider = createFal({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.FAL_API_KEY,
-} as any);
+import { fal } from '@ai-sdk/fal';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: fal.languageModel('fal-ai/fast-sdxl'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return (result as any).toDataStreamResponse ? (result as any).toDataStreamResponse() : (result as any).toTextStreamResponse();

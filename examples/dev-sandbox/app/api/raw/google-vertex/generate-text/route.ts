@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, generateText } from 'ai';
-// @ts-ignore
-import { createGoogleVertex } from '@ai-sdk/google-vertex';
-
-const provider = createGoogleVertex({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.GOOGLE_VERTEX_API_KEY,
-} as any);
+import { googleVertex } from '@ai-sdk/google-vertex';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: googleVertex('gemini-1.5-flash'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return Response.json(result);

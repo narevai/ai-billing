@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, streamText } from 'ai';
-// @ts-ignore
-import { createDeepseek } from '@ai-sdk/deepseek';
-
-const provider = createDeepseek({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.DEEPSEEK_API_KEY,
-} as any);
+import { deepseek } from '@ai-sdk/deepseek';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: deepseek('deepseek-chat'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return (result as any).toDataStreamResponse ? (result as any).toDataStreamResponse() : (result as any).toTextStreamResponse();

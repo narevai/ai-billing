@@ -1,11 +1,10 @@
 import { UIMessage, convertToModelMessages, generateText } from 'ai';
-// @ts-ignore
 import { createGateway } from '@ai-sdk/gateway';
 
 const provider = createGateway({
   // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.GATEWAY_API_KEY,
-} as any);
+  apiKey: process.env.AI_GATEWAY_API_KEY,
+});
 
 export async function POST() {
   try {
@@ -18,8 +17,10 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: provider('openai:gpt-3.5-turbo'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return Response.json(result);

@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, generateText } from 'ai';
-// @ts-ignore
-import { createLmnt } from '@ai-sdk/lmnt';
-
-const provider = createLmnt({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.LMNT_API_KEY,
-} as any);
+import { lmnt } from '@ai-sdk/lmnt';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: lmnt('aurora'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return Response.json(result);

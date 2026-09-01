@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, generateText } from 'ai';
-// @ts-ignore
-import { createBlackForestLabs } from '@ai-sdk/black-forest-labs';
-
-const provider = createBlackForestLabs({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.BLACK_FOREST_LABS_API_KEY,
-} as any);
+import { blackForestLabs } from '@ai-sdk/black-forest-labs';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: blackForestLabs.languageModel('flux-pro'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return Response.json(result);

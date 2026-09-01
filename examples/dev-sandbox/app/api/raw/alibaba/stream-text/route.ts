@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, streamText } from 'ai';
-// @ts-ignore
-import { createAlibaba } from '@ai-sdk/alibaba';
-
-const provider = createAlibaba({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.ALIBABA_API_KEY,
-} as any);
+import { alibaba } from '@ai-sdk/alibaba';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: alibaba('qwen-turbo'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return (result as any).toDataStreamResponse ? (result as any).toDataStreamResponse() : (result as any).toTextStreamResponse();

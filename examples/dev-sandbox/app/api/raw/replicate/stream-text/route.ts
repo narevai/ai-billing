@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, streamText } from 'ai';
-// @ts-ignore
-import { createReplicate } from '@ai-sdk/replicate';
-
-const provider = createReplicate({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.REPLICATE_API_KEY,
-} as any);
+import { replicate } from '@ai-sdk/replicate';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: replicate.languageModel('meta/meta-llama-3-8b-instruct'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return (result as any).toDataStreamResponse ? (result as any).toDataStreamResponse() : (result as any).toTextStreamResponse();

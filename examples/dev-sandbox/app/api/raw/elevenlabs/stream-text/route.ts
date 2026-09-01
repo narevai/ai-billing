@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, streamText } from 'ai';
-// @ts-ignore
-import { createElevenlabs } from '@ai-sdk/elevenlabs';
-
-const provider = createElevenlabs({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.ELEVENLABS_API_KEY,
-} as any);
+import { elevenlabs } from '@ai-sdk/elevenlabs';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: elevenlabs('eleven_multilingual_v2'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return (result as any).toDataStreamResponse ? (result as any).toDataStreamResponse() : (result as any).toTextStreamResponse();

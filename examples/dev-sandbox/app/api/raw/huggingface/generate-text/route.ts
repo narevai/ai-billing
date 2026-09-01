@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, generateText } from 'ai';
-// @ts-ignore
-import { createHuggingface } from '@ai-sdk/huggingface';
-
-const provider = createHuggingface({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.HUGGINGFACE_API_KEY,
-} as any);
+import { huggingface } from '@ai-sdk/huggingface';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: huggingface('meta-llama/Meta-Llama-3-8B-Instruct'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return Response.json(result);

@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, generateText } from 'ai';
-// @ts-ignore
-import { createMinimax } from '@ai-sdk/minimax';
-
-const provider = createMinimax({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.MINIMAX_API_KEY,
-} as any);
+import { minimax } from '@ai-sdk/minimax';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: minimax('abab6.5-chat'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return Response.json(result);

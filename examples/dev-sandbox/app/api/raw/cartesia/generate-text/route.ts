@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, generateText } from 'ai';
-// @ts-ignore
-import { createCartesia } from '@ai-sdk/cartesia';
-
-const provider = createCartesia({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.CARTESIA_API_KEY,
-} as any);
+import { cartesia } from '@ai-sdk/cartesia';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: cartesia('sonic-english'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return Response.json(result);

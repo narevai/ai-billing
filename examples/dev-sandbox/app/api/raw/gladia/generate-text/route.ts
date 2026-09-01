@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, generateText } from 'ai';
-// @ts-ignore
-import { createGladia } from '@ai-sdk/gladia';
-
-const provider = createGladia({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.GLADIA_API_KEY,
-} as any);
+import { gladia } from '@ai-sdk/gladia';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: gladia('gladia-v2'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return Response.json(result);

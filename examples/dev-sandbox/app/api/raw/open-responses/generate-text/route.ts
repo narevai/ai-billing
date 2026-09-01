@@ -1,11 +1,11 @@
 import { UIMessage, convertToModelMessages, generateText } from 'ai';
-// @ts-ignore
 import { createOpenResponses } from '@ai-sdk/open-responses';
 
 const provider = createOpenResponses({
   // eslint-disable-next-line turbo/no-undeclared-env-vars
+  name: 'open-responses', url: 'http://localhost',
   apiKey: process.env.OPEN_RESPONSES_API_KEY,
-} as any);
+});
 
 export async function POST() {
   try {
@@ -18,8 +18,10 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: provider('llama-3-8b'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return Response.json(result);

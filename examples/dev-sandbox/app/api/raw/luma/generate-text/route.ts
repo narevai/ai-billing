@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, generateText } from 'ai';
-// @ts-ignore
-import { createLuma } from '@ai-sdk/luma';
-
-const provider = createLuma({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.LUMA_API_KEY,
-} as any);
+import { luma } from '@ai-sdk/luma';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: luma.languageModel('luma-dream-machine'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return Response.json(result);

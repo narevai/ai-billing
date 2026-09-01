@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, generateText } from 'ai';
-// @ts-ignore
-import { createTogetherai } from '@ai-sdk/togetherai';
-
-const provider = createTogetherai({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.TOGETHERAI_API_KEY,
-} as any);
+import { togetherai } from '@ai-sdk/togetherai';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: togetherai('meta-llama/Llama-3-8b-chat-hf'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return Response.json(result);

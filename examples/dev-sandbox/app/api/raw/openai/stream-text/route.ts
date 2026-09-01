@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, streamText } from 'ai';
-// @ts-ignore
-import { createOpenai } from '@ai-sdk/openai';
-
-const provider = createOpenai({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.OPENAI_API_KEY,
-} as any);
+import { openai } from '@ai-sdk/openai';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: openai('gpt-3.5-turbo'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return (result as any).toDataStreamResponse ? (result as any).toDataStreamResponse() : (result as any).toTextStreamResponse();

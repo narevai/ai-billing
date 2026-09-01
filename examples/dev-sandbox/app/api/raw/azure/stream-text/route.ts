@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, streamText } from 'ai';
-// @ts-ignore
-import { createAzure } from '@ai-sdk/azure';
-
-const provider = createAzure({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.AZURE_API_KEY,
-} as any);
+import { azure } from '@ai-sdk/azure';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: azure('gpt-35-turbo'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return (result as any).toDataStreamResponse ? (result as any).toDataStreamResponse() : (result as any).toTextStreamResponse();

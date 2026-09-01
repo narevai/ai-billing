@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, streamText } from 'ai';
-// @ts-ignore
-import { createKlingai } from '@ai-sdk/klingai';
-
-const provider = createKlingai({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.KLINGAI_API_KEY,
-} as any);
+import { klingai } from '@ai-sdk/klingai';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: klingai.languageModel('kling-v1'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return (result as any).toDataStreamResponse ? (result as any).toDataStreamResponse() : (result as any).toTextStreamResponse();

@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, generateText } from 'ai';
-// @ts-ignore
-import { createQuiverai } from '@ai-sdk/quiverai';
-
-const provider = createQuiverai({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.QUIVERAI_API_KEY,
-} as any);
+import { quiverai } from '@ai-sdk/quiverai';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: quiverai.languageModel('default'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return Response.json(result);

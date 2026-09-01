@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, streamText } from 'ai';
-// @ts-ignore
-import { createDeepinfra } from '@ai-sdk/deepinfra';
-
-const provider = createDeepinfra({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.DEEPINFRA_API_KEY,
-} as any);
+import { deepinfra } from '@ai-sdk/deepinfra';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: deepinfra('meta-llama/Meta-Llama-3-8B-Instruct'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return (result as any).toDataStreamResponse ? (result as any).toDataStreamResponse() : (result as any).toTextStreamResponse();

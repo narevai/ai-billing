@@ -1,11 +1,5 @@
 import { UIMessage, convertToModelMessages, generateText } from 'ai';
-// @ts-ignore
-import { createRevai } from '@ai-sdk/revai';
-
-const provider = createRevai({
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  apiKey: process.env.REVAI_API_KEY,
-} as any);
+import { revai } from '@ai-sdk/revai';
 
 export async function POST() {
   try {
@@ -18,8 +12,10 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: revai('default'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return Response.json(result);

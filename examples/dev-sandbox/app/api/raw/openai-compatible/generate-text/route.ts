@@ -1,11 +1,11 @@
 import { UIMessage, convertToModelMessages, generateText } from 'ai';
-// @ts-ignore
-import { createOpenaiCompatible } from '@ai-sdk/openai-compatible';
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 
-const provider = createOpenaiCompatible({
+const provider = createOpenAICompatible({
+  name: 'openai-compatible', baseURL: 'https://api.openai.com/v1',
   // eslint-disable-next-line turbo/no-undeclared-env-vars
   apiKey: process.env.OPENAI_COMPATIBLE_API_KEY,
-} as any);
+});
 
 export async function POST() {
   try {
@@ -18,8 +18,10 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      model: (provider as any)('dummy-model') as any,
-      messages: await convertToModelMessages(messages),
+      // @ts-ignore
+      model: provider('gpt-3.5-turbo'),
+
+            messages: await convertToModelMessages(messages),
     });
 
     return Response.json(result);
