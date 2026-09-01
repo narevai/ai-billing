@@ -279,12 +279,6 @@
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/BalanceData",
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/BalanceResponse",
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/CheckoutResponse",
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/CreateCheckoutRequest",
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/CreditConfigData",
-                          "sdk/ai-billing/reference/narev/typedoc/interfaces/CreditConfigResponse",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/CreditPackage",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/ListModelsRequest",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/ListPricesRequest",
@@ -302,12 +296,6 @@
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/TraceCostRequest",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/TraceCostResponse",
                           "sdk/ai-billing/reference/narev/typedoc/interfaces/TraceCostUsage"
-                        ]
-                      },
-                      {
-                        "group": "Types",
-                        "pages": [
-                          "sdk/ai-billing/reference/narev/typedoc/type-aliases/GetBalanceRequest"
                         ]
                       },
                       {

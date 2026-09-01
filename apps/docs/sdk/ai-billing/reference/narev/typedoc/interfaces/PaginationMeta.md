@@ -1,0 +1,43 @@
+[**@ai-billing/narev**](../README.md)
+
+***
+
+[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/README.md) / PaginationMeta
+
+# Interface: PaginationMeta
+
+Defined in: packages/types/dist/index.d.ts:133
+
+Pagination metadata returned with list responses.
+
+## Properties
+
+### page
+
+> **page**: `number`
+
+Defined in: packages/types/dist/index.d.ts:134
+
+***
+
+### page\_size
+
+> **page\_size**: `number`
+
+Defined in: packages/types/dist/index.d.ts:135
+
+***
+
+### total
+
+> **total**: `number`
+
+Defined in: packages/types/dist/index.d.ts:136
+
+***
+
+### total\_pages
+
+> **total\_pages**: `number`
+
+Defined in: packages/types/dist/index.d.ts:137

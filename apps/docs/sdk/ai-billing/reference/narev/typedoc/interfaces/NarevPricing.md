@@ -1,12 +1,12 @@
-[**@ai-billing/narev**](../index)
+[**@ai-billing/narev**](../README.md)
 
 ***
 
-[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/index) / NarevPricing
+[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/README.md) / NarevPricing
 
 # Interface: NarevPricing
 
-Defined in: packages/types/dist/index.d.ts:164
+Defined in: packages/types/dist/index.d.ts:110
 
 Pricing fields for a single model (new API format, no price_/pricing_ prefixes).
 
@@ -16,7 +16,7 @@ Pricing fields for a single model (new API format, no price_/pricing_ prefixes).
 
 > **prompt**: `number`
 
-Defined in: packages/types/dist/index.d.ts:165
+Defined in: packages/types/dist/index.d.ts:111
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: packages/types/dist/index.d.ts:165
 
 > **completion**: `number`
 
-Defined in: packages/types/dist/index.d.ts:166
+Defined in: packages/types/dist/index.d.ts:112
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/index.d.ts:166
 
 > **discount**: `number`
 
-Defined in: packages/types/dist/index.d.ts:167
+Defined in: packages/types/dist/index.d.ts:113
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: packages/types/dist/index.d.ts:167
 
 > **request**: `number`
 
-Defined in: packages/types/dist/index.d.ts:168
+Defined in: packages/types/dist/index.d.ts:114
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: packages/types/dist/index.d.ts:168
 
 > **web\_search**: `number`
 
-Defined in: packages/types/dist/index.d.ts:169
+Defined in: packages/types/dist/index.d.ts:115
 
 ***
 
@@ -56,7 +56,7 @@ Defined in: packages/types/dist/index.d.ts:169
 
 > **input\_cache\_read**: `number`
 
-Defined in: packages/types/dist/index.d.ts:170
+Defined in: packages/types/dist/index.d.ts:116
 
 ***
 
@@ -64,7 +64,7 @@ Defined in: packages/types/dist/index.d.ts:170
 
 > **input\_cache\_write**: `number`
 
-Defined in: packages/types/dist/index.d.ts:171
+Defined in: packages/types/dist/index.d.ts:117
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: packages/types/dist/index.d.ts:171
 
 > **image**: `number`
 
-Defined in: packages/types/dist/index.d.ts:172
+Defined in: packages/types/dist/index.d.ts:118
 
 ***
 
@@ -80,7 +80,7 @@ Defined in: packages/types/dist/index.d.ts:172
 
 > **image\_output**: `number`
 
-Defined in: packages/types/dist/index.d.ts:173
+Defined in: packages/types/dist/index.d.ts:119
 
 ***
 
@@ -88,7 +88,7 @@ Defined in: packages/types/dist/index.d.ts:173
 
 > **audio**: `number`
 
-Defined in: packages/types/dist/index.d.ts:174
+Defined in: packages/types/dist/index.d.ts:120
 
 ***
 
@@ -96,7 +96,7 @@ Defined in: packages/types/dist/index.d.ts:174
 
 > **audio\_output**: `number`
 
-Defined in: packages/types/dist/index.d.ts:175
+Defined in: packages/types/dist/index.d.ts:121
 
 ***
 
@@ -104,7 +104,7 @@ Defined in: packages/types/dist/index.d.ts:175
 
 > **input\_audio\_cache**: `number`
 
-Defined in: packages/types/dist/index.d.ts:176
+Defined in: packages/types/dist/index.d.ts:122
 
 ***
 
@@ -112,4 +112,4 @@ Defined in: packages/types/dist/index.d.ts:176
 
 > **internal\_reasoning**: `number`
 
-Defined in: packages/types/dist/index.d.ts:177
+Defined in: packages/types/dist/index.d.ts:123

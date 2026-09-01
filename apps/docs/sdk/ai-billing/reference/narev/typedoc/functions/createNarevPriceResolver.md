@@ -1,8 +1,8 @@
-[**@ai-billing/narev**](../index)
+[**@ai-billing/narev**](../README.md)
 
 ***
 
-[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/index) / createNarevPriceResolver
+[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/README.md) / createNarevPriceResolver
 
 # Function: createNarevPriceResolver()
 
@@ -16,7 +16,7 @@ Creates a PriceResolver backed by the Narev pricing API.
 
 ### options
 
-[`NarevClientOptions`](/sdk/ai-billing/reference/narev/typedoc/interfaces/NarevClientOptions)
+[`NarevClientOptions`](/sdk/ai-billing/reference/narev/typedoc/interfaces/NarevClientOptions.md)
 
 ## Returns
 

@@ -3,10 +3,12 @@
 import type { PolarUsageData } from './types.js';
 
 /**
- * Fetches usage data for a given user via the Narev API.
- * @param userId - the end-user ID
+ * Fetches usage data for a given user. (Mocked implementation)
+ * @param _userId - the end-user ID
  */
-export async function fetchPolarUsage(userId: string): Promise<PolarUsageData> {
+export async function fetchPolarUsage(
+  _userId: string,
+): Promise<PolarUsageData> {
   return {
     consumedUnits: 12.5,
     creditedUnits: 50.0,

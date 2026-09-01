@@ -1,8 +1,8 @@
-[**@ai-billing/narev**](../index)
+[**@ai-billing/narev**](../README.md)
 
 ***
 
-[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/index) / narevPricingToModelPricing
+[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/README.md) / narevPricingToModelPricing
 
 # Function: narevPricingToModelPricing()
 
@@ -16,7 +16,7 @@ Converts a Narev API pricing object to the billing `ModelPricing` format.
 
 ### p
 
-[`NarevPricing`](/sdk/ai-billing/reference/narev/typedoc/interfaces/NarevPricing)
+[`NarevPricing`](/sdk/ai-billing/reference/narev/typedoc/interfaces/NarevPricing.md)
 
 ## Returns
 

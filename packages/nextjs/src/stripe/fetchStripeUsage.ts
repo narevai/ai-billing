@@ -3,10 +3,10 @@
 import type { StripeUsageData } from './types.js';
 
 /**
- * Fetches usage data for a given customer via the Narev API.
- * @param request - User identifier — either `{ userId }` or `{ stripeCustomerId }`.
+ * Fetches usage data for a given customer. (Mocked implementation)
+ * @param _request - User identifier — either `{ userId }` or `{ stripeCustomerId }`.
  */
-export async function fetchStripeUsage(request: {
+export async function fetchStripeUsage(_request: {
   stripeCustomerId?: string;
   userId?: string;
 }): Promise<StripeUsageData> {
