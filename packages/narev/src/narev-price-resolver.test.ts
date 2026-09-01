@@ -1,27 +1,27 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import ky from 'ky';
 import {
   createNarevPriceResolver,
   narevPricingToModelPricing,
 } from './narev-price-resolver.js';
+import * as narevClient from './narev-client.js';
 import type { NarevPricing, PriceResponse } from '@ai-billing/types';
 
-vi.mock('ky', () => ({
-  default: { create: vi.fn() },
-  isHTTPError: vi.fn(),
-}));
+vi.mock('./narev-client.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('./narev-client.js')>();
+  return {
+    ...actual,
+    createNarevClient: vi.fn(),
+  };
+});
 
-const mockKy = vi.mocked(ky);
-const mockGet = vi.fn();
+const mockListPrices = vi.fn();
 
 beforeEach(() => {
   vi.clearAllMocks();
-  mockKy.create.mockReturnValue({ get: mockGet } as never);
+  vi.mocked(narevClient.createNarevClient).mockReturnValue({
+    listPrices: mockListPrices,
+  } as unknown as ReturnType<typeof narevClient.createNarevClient>);
 });
-
-function makeJsonResponse<T>(data: T) {
-  return { json: () => Promise.resolve(data) };
-}
 
 function makeResponse(
   entries: { model_id: string; pricing: Partial<NarevPricing> | null }[],
@@ -104,15 +104,13 @@ describe('narevPricingToModelPricing', () => {
 
 describe('createNarevPriceResolver', () => {
   it('returns ModelPricing for a matching model', async () => {
-    mockGet.mockReturnValue(
-      makeJsonResponse(
-        makeResponse([
-          {
-            model_id: 'gpt-4o',
-            pricing: { prompt: 5e-6, completion: 15e-6 },
-          },
-        ]),
-      ),
+    mockListPrices.mockResolvedValue(
+      makeResponse([
+        {
+          model_id: 'gpt-4o',
+          pricing: { prompt: 5e-6, completion: 15e-6 },
+        },
+      ]),
     );
 
     const resolver = createNarevPriceResolver({ apiKey: 'test-key' });
@@ -122,15 +120,13 @@ describe('createNarevPriceResolver', () => {
   });
 
   it('passes model_id and provider_id to listPrices', async () => {
-    mockGet.mockReturnValue(
-      makeJsonResponse(
-        makeResponse([
-          {
-            model_id: 'gpt-4o',
-            pricing: { prompt: 1e-6, completion: 2e-6 },
-          },
-        ]),
-      ),
+    mockListPrices.mockResolvedValue(
+      makeResponse([
+        {
+          model_id: 'gpt-4o',
+          pricing: { prompt: 1e-6, completion: 2e-6 },
+        },
+      ]),
     );
 
     const resolver = createNarevPriceResolver({ apiKey: 'key' });
@@ -140,24 +136,22 @@ describe('createNarevPriceResolver', () => {
       subProvider: 'azure',
     });
 
-    expect(mockGet).toHaveBeenCalledWith('v1/prices', {
-      searchParams: expect.objectContaining({
-        model_id: 'gpt-4o',
-        provider_id: 'openai',
-      }),
+    expect(mockListPrices).toHaveBeenCalledWith({
+      model_id: 'gpt-4o',
+      provider_id: 'openai',
     });
   });
 
   it('returns undefined when model not in response', async () => {
-    mockGet.mockReturnValue(makeJsonResponse(makeResponse([])));
+    mockListPrices.mockResolvedValue(makeResponse([]));
 
     const resolver = createNarevPriceResolver({ apiKey: 'key' });
     expect(await resolver({ modelId: 'unknown' })).toBeUndefined();
   });
 
   it('returns undefined when pricing is null', async () => {
-    mockGet.mockReturnValue(
-      makeJsonResponse(makeResponse([{ model_id: 'gpt-4o', pricing: null }])),
+    mockListPrices.mockResolvedValue(
+      makeResponse([{ model_id: 'gpt-4o', pricing: null }]),
     );
 
     const resolver = createNarevPriceResolver({ apiKey: 'key' });
@@ -165,9 +159,7 @@ describe('createNarevPriceResolver', () => {
   });
 
   it('returns undefined on error', async () => {
-    mockGet.mockReturnValue({
-      json: () => Promise.reject(new Error('network')),
-    });
+    mockListPrices.mockRejectedValue(new Error('network'));
 
     const resolver = createNarevPriceResolver({ apiKey: 'key' });
     expect(await resolver({ modelId: 'gpt-4o' })).toBeUndefined();

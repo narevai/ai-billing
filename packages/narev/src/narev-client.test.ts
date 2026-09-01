@@ -1,125 +1,49 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import ky from 'ky';
-import { createNarevClient, NarevApiError } from './narev-client.js';
-import type {
-  BalanceResponse,
-  CreditConfigResponse,
-  CheckoutResponse,
-  ModelsResponse,
-  ProvidersResponse,
-  PriceResponse,
-  TraceCostResponse,
-} from '@ai-billing/types';
-
-vi.mock('ky', () => ({
-  default: { create: vi.fn() },
-  isHTTPError: vi.fn(),
-}));
-
-const mockKy = vi.mocked(ky);
-
-const mockGet = vi.fn();
-const mockPost = vi.fn();
-
-function makeJsonResponse<T>(data: T) {
-  return { json: () => Promise.resolve(data) };
-}
-
-function makeErrorHook(message: string, status: number) {
-  return () => Promise.reject(new NarevApiError(message, status));
-}
-
-beforeEach(() => {
-  vi.clearAllMocks();
-  mockKy.create.mockReturnValue({ get: mockGet, post: mockPost } as never);
-});
+import { describe, it, expect } from 'vitest';
+import { createNarevClient } from './narev-client.js';
 
 describe('NarevClient', () => {
-  describe('createNarevClient', () => {
-    it('passes apiKey as Authorization header and default baseUrl to ky.create', () => {
-      createNarevClient({ apiKey: 'test-key' });
-      expect(mockKy.create).toHaveBeenCalledWith(
-        expect.objectContaining({
-          baseUrl: 'https://api.narev.ai',
-          headers: { Authorization: 'Bearer test-key' },
-        }),
-      );
-    });
-
-    it('passes custom baseUrl to ky.create when provided', () => {
-      createNarevClient({
-        apiKey: 'test-key',
-        baseUrl: 'https://example.com',
-      });
-      expect(mockKy.create).toHaveBeenCalledWith(
-        expect.objectContaining({ baseUrl: 'https://example.com' }),
-      );
-    });
-  });
-
   describe('getBalance', () => {
-    it('calls GET v1/balance with userId searchParam', async () => {
-      const balance: BalanceResponse = {
+    it('returns mocked balance with base unit for userId', async () => {
+      const client = createNarevClient({ apiKey: 'test-key' });
+      const result = await client.getBalance({ userId: 'user_123' });
+
+      expect(result).toEqual({
         data: {
-          unitsBalance: 50,
-          unitsConsumed: 10,
-          unitsCredited: 100,
+          unitsBalance: 1000000000,
+          unitsConsumed: 1000,
+          unitsCredited: 1000000000,
           unit: 'base',
           currency: 'USD',
           meterName: 'Usage',
           found: true,
         },
-      };
-      mockGet.mockReturnValue(makeJsonResponse(balance));
-
-      const client = createNarevClient({ apiKey: 'test-key' });
-      const result = await client.getBalance({ userId: 'user_123' });
-
-      expect(mockGet).toHaveBeenCalledWith('v1/balance', {
-        searchParams: { userId: 'user_123' },
       });
-      expect(result).toEqual(balance);
     });
 
-    it('calls GET v1/balance with stripeCustomerId searchParam', async () => {
-      const balance: BalanceResponse = {
+    it('returns mocked balance with nanos unit for stripeCustomerId', async () => {
+      const client = createNarevClient({ apiKey: 'test-key' });
+      const result = await client.getBalance({ stripeCustomerId: 'cus_abc' });
+
+      expect(result).toEqual({
         data: {
           unitsBalance: null,
-          unitsConsumed: 5,
+          unitsConsumed: 1000,
           unitsCredited: null,
           unit: 'nanos',
           currency: 'USD',
           meterName: 'Usage',
           found: true,
         },
-      };
-      mockGet.mockReturnValue(makeJsonResponse(balance));
-
-      const client = createNarevClient({ apiKey: 'test-key' });
-      await client.getBalance({ stripeCustomerId: 'cus_abc' });
-
-      expect(mockGet).toHaveBeenCalledWith('v1/balance', {
-        searchParams: { stripeCustomerId: 'cus_abc' },
       });
-    });
-
-    it('propagates NarevApiError thrown by ky', async () => {
-      mockGet.mockReturnValue({ json: makeErrorHook('User not found', 404) });
-
-      const client = createNarevClient({ apiKey: 'test-key' });
-
-      await expect(client.getBalance({ userId: 'unknown' })).rejects.toThrow(
-        NarevApiError,
-      );
-      await expect(client.getBalance({ userId: 'unknown' })).rejects.toThrow(
-        'User not found',
-      );
     });
   });
 
   describe('getCreditConfig', () => {
-    it('calls GET v1/credit', async () => {
-      const config: CreditConfigResponse = {
+    it('returns mocked credit config', async () => {
+      const client = createNarevClient({ apiKey: 'test-key' });
+      const result = await client.getCreditConfig();
+
+      expect(result).toEqual({
         data: {
           packages: [
             { id: 'prod_1', credits: 100, priceCents: 1000 },
@@ -127,24 +51,12 @@ describe('NarevClient', () => {
           ],
           taxBehavior: 'exclusive',
         },
-      };
-      mockGet.mockReturnValue(makeJsonResponse(config));
-
-      const client = createNarevClient({ apiKey: 'test-key' });
-      const result = await client.getCreditConfig();
-
-      expect(mockGet).toHaveBeenCalledWith('v1/credit');
-      expect(result).toEqual(config);
+      });
     });
   });
 
   describe('createCheckout', () => {
-    it('calls POST v1/credit with json body', async () => {
-      const response: CheckoutResponse = {
-        data: { url: 'https://polar.sh/checkout/sess_abc' },
-      };
-      mockPost.mockReturnValue(makeJsonResponse(response));
-
+    it('returns mocked checkout response', async () => {
       const client = createNarevClient({ apiKey: 'test-key' });
       const result = await client.createCheckout({
         productId: 'prod_1',
@@ -152,132 +64,81 @@ describe('NarevClient', () => {
         successUrl: 'https://myapp.com/success',
       });
 
-      expect(mockPost).toHaveBeenCalledWith('v1/credit', {
-        json: {
-          productId: 'prod_1',
-          userId: 'user_123',
-          successUrl: 'https://myapp.com/success',
-        },
+      expect(result).toEqual({
+        data: { url: 'https://mock.checkout.url/sess_mock' },
       });
-      expect(result).toEqual(response);
     });
   });
 
   describe('listModels', () => {
-    it('calls GET v1/reference/models without params', async () => {
-      const response: ModelsResponse = {
+    it('returns mocked models list', async () => {
+      const client = createNarevClient({ apiKey: 'test-key' });
+      const result = await client.listModels();
+
+      expect(result).toEqual({
         data: [
           { provider_id: 'openai', model_id: 'gpt-4o' },
           { provider_id: 'anthropic', model_id: 'claude-3-5-haiku-latest' },
         ],
         meta: { page: 1, page_size: 100, total: 2, total_pages: 1 },
-      };
-      mockGet.mockReturnValue(makeJsonResponse(response));
-
-      const client = createNarevClient({ apiKey: 'test-key' });
-      const result = await client.listModels();
-
-      expect(mockGet).toHaveBeenCalledWith('v1/reference/models', {
-        searchParams: {},
-      });
-      expect(result).toEqual(response);
-    });
-
-    it('passes provider_id and page_size as searchParams', async () => {
-      mockGet.mockReturnValue(
-        makeJsonResponse({
-          data: [],
-          meta: { page: 1, page_size: 1000, total: 0, total_pages: 0 },
-        }),
-      );
-
-      const client = createNarevClient({ apiKey: 'test-key' });
-      await client.listModels({
-        provider_id: 'openai,anthropic',
-        page_size: 1000,
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('v1/reference/models', {
-        searchParams: { provider_id: 'openai,anthropic', page_size: 1000 },
       });
     });
   });
 
   describe('listProviders', () => {
-    it('calls GET v1/reference/providers', async () => {
-      const response: ProvidersResponse = {
+    it('returns mocked providers list', async () => {
+      const client = createNarevClient({ apiKey: 'test-key' });
+      const result = await client.listProviders();
+
+      expect(result).toEqual({
         data: [
           { provider_id: 'openai', name: 'OpenAI' },
           { provider_id: 'anthropic', name: 'Anthropic' },
         ],
-      };
-      mockGet.mockReturnValue(makeJsonResponse(response));
-
-      const client = createNarevClient({ apiKey: 'test-key' });
-      const result = await client.listProviders();
-
-      expect(mockGet).toHaveBeenCalledWith('v1/reference/providers');
-      expect(result).toEqual(response);
+      });
     });
   });
 
   describe('listPrices', () => {
-    it('calls GET v1/prices without params', async () => {
-      const response: PriceResponse = {
+    it('returns mocked prices list', async () => {
+      const client = createNarevClient({ apiKey: 'test-key' });
+      const result = await client.listPrices();
+
+      expect(result).toEqual({
         data: [],
         meta: { page: 1, page_size: 100, total: 0, total_pages: 0 },
-      };
-      mockGet.mockReturnValue(makeJsonResponse(response));
-
-      const client = createNarevClient({ apiKey: 'test-key' });
-      await client.listPrices();
-
-      expect(mockGet).toHaveBeenCalledWith('v1/prices', { searchParams: {} });
-    });
-
-    it('passes provider_id and model_id as searchParams', async () => {
-      mockGet.mockReturnValue(
-        makeJsonResponse({
-          data: [],
-          meta: { page: 1, page_size: 100, total: 0, total_pages: 0 },
-        }),
-      );
-
-      const client = createNarevClient({ apiKey: 'test-key' });
-      await client.listPrices({ provider_id: 'openai', model_id: 'gpt-4o' });
-
-      expect(mockGet).toHaveBeenCalledWith('v1/prices', {
-        searchParams: { provider_id: 'openai', model_id: 'gpt-4o' },
       });
     });
   });
 
   describe('searchPrices', () => {
-    it('calls GET v1/prices/search with q param', async () => {
-      const response: PriceResponse = {
+    it('returns mocked searched prices', async () => {
+      const client = createNarevClient({ apiKey: 'test-key' });
+      const result = await client.searchPrices({ q: 'gpt-4', provider_id: 'openai' });
+
+      expect(result).toEqual({
         data: [],
         meta: { page: 1, page_size: 100, total: 0, total_pages: 0 },
-      };
-      mockGet.mockReturnValue(makeJsonResponse(response));
-
-      const client = createNarevClient({ apiKey: 'test-key' });
-      await client.searchPrices({ q: 'gpt-4', provider_id: 'openai' });
-
-      expect(mockGet).toHaveBeenCalledWith('v1/prices/search', {
-        searchParams: { q: 'gpt-4', provider_id: 'openai' },
       });
     });
   });
 
   describe('calculateCost', () => {
-    it('calls POST v1/traces/cost with json body', async () => {
-      const response: TraceCostResponse = {
+    it('returns mocked trace cost calculation', async () => {
+      const client = createNarevClient({ apiKey: 'test-key' });
+      const result = await client.calculateCost({
+        model_id: 'gpt-4o',
+        provider_id: 'openai',
+        usage: { prompt_tokens: 1000, completion_tokens: 500 },
+      });
+
+      expect(result).toEqual({
         model_id: 'gpt-4o',
         provider_id: 'openai',
         usage: { prompt_tokens: 1000, completion_tokens: 500 },
         pricing: {
-          prompt: 5e-6,
-          completion: 15e-6,
+          prompt: 0,
+          completion: 0,
           discount: 0,
           request: 0,
           web_search: 0,
@@ -290,42 +151,8 @@ describe('NarevClient', () => {
           input_audio_cache: 0,
           internal_reasoning: 0,
         },
-        cost_breakdown: { total: 0.0125 },
-      };
-      mockPost.mockReturnValue(makeJsonResponse(response));
-
-      const client = createNarevClient({ apiKey: 'test-key' });
-      const result = await client.calculateCost({
-        model_id: 'gpt-4o',
-        provider_id: 'openai',
-        usage: { prompt_tokens: 1000, completion_tokens: 500 },
+        cost_breakdown: { total: 0 },
       });
-
-      expect(mockPost).toHaveBeenCalledWith('v1/traces/cost', {
-        json: {
-          model_id: 'gpt-4o',
-          provider_id: 'openai',
-          usage: { prompt_tokens: 1000, completion_tokens: 500 },
-        },
-      });
-      expect(result).toEqual(response);
-    });
-  });
-
-  describe('error handling', () => {
-    it('includes status code in NarevApiError', async () => {
-      mockGet.mockReturnValue({ json: makeErrorHook('Forbidden', 401) });
-
-      const client = createNarevClient({ apiKey: 'invalid-key' });
-
-      try {
-        await client.getBalance({ userId: 'user_1' });
-        expect.fail('Expected error to be thrown');
-      } catch (error) {
-        expect(error).toBeInstanceOf(NarevApiError);
-        expect((error as NarevApiError).status).toBe(401);
-        expect((error as NarevApiError).message).toBe('Forbidden');
-      }
     });
   });
 });

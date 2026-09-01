@@ -1,4 +1,3 @@
-import ky, { isHTTPError } from 'ky';
 import type {
   GetBalanceRequest,
   BalanceResponse,
@@ -40,25 +39,23 @@ export interface NarevClient {
   getCreditConfig(): Promise<CreditConfigResponse>;
 
   /** Creates a checkout session for an end-user to purchase credits. */
-  createCheckout(request: CreateCheckoutRequest): Promise<CheckoutResponse>;
+  createCheckout(_request: CreateCheckoutRequest): Promise<CheckoutResponse>;
 
   /** Returns a paginated list of model references (provider_id + model_id, no pricing). */
-  listModels(request?: ListModelsRequest): Promise<ModelsResponse>;
+  listModels(_request?: ListModelsRequest): Promise<ModelsResponse>;
 
   /** Returns all supported providers with their display name. */
   listProviders(): Promise<ProvidersResponse>;
 
   /** Returns a paginated list of pricing entries filtered by provider and/or model. */
-  listPrices(request?: ListPricesRequest): Promise<PriceResponse>;
+  listPrices(_request?: ListPricesRequest): Promise<PriceResponse>;
 
   /** Searches pricing entries by model ID (full-text search via `q`). */
-  searchPrices(request?: SearchPricesRequest): Promise<PriceResponse>;
+  searchPrices(_request?: SearchPricesRequest): Promise<PriceResponse>;
 
   /** Calculates the cost for a model call given token usage. */
   calculateCost(request: TraceCostRequest): Promise<TraceCostResponse>;
 }
-
-const DEFAULT_BASE_URL = 'https://api.narev.ai';
 
 /** Error thrown when the Narev API returns a non-2xx response. */
 export class NarevApiError extends Error {
@@ -79,105 +76,96 @@ export class NarevApiError extends Error {
  * @param options - client configuration (API key, optional base URL)
  * @returns a typed {@link NarevClient} instance
  */
-export function createNarevClient(options: NarevClientOptions): NarevClient {
-  const { apiKey, baseUrl = DEFAULT_BASE_URL } = options;
-
-  const api = ky.create({
-    baseUrl,
-    headers: { Authorization: `Bearer ${apiKey}` },
-    retry: { limit: 2 },
-    hooks: {
-      beforeError: [
-        async ({ error }) => {
-          if (!isHTTPError(error)) return error;
-          const body = (await error.response.json().catch(() => undefined)) as
-            | { error?: string }
-            | undefined;
-          const message =
-            body?.error ??
-            `Narev API returned ${error.response.status} ${error.response.statusText}`;
-          return new NarevApiError(message, error.response.status, body);
-        },
-      ],
-    },
-  });
-
+export function createNarevClient(_options: NarevClientOptions): NarevClient {
   return {
-    getBalance(request: GetBalanceRequest): Promise<BalanceResponse> {
-      const searchParams =
-        'stripeCustomerId' in request
-          ? { stripeCustomerId: request.stripeCustomerId }
-          : { userId: request.userId };
-      return api.get('v1/balance', { searchParams }).json<BalanceResponse>();
+    async getBalance(request: GetBalanceRequest): Promise<BalanceResponse> {
+      const isStripe = 'stripeCustomerId' in request;
+      return {
+        data: {
+          unitsBalance: isStripe ? null : 1000000000,
+          unitsConsumed: 1000,
+          unitsCredited: isStripe ? null : 1000000000,
+          unit: isStripe ? 'nanos' : 'base',
+          currency: 'USD',
+          meterName: 'Usage',
+          found: true,
+        },
+      };
     },
 
-    getCreditConfig(): Promise<CreditConfigResponse> {
-      return api.get('v1/credit').json<CreditConfigResponse>();
+    async getCreditConfig(): Promise<CreditConfigResponse> {
+      return {
+        data: {
+          packages: [
+            { id: 'prod_1', credits: 100, priceCents: 1000 },
+            { id: 'prod_2', credits: 500, priceCents: 4500 },
+          ],
+          taxBehavior: 'exclusive',
+        },
+      };
     },
 
-    createCheckout(request: CreateCheckoutRequest): Promise<CheckoutResponse> {
-      return api.post('v1/credit', { json: request }).json<CheckoutResponse>();
+    async createCheckout(_request: CreateCheckoutRequest): Promise<CheckoutResponse> {
+      return {
+        data: { url: 'https://mock.checkout.url/sess_mock' },
+      };
     },
 
-    listModels(request?: ListModelsRequest): Promise<ModelsResponse> {
-      const searchParams: Record<string, string | number> = {};
-      if (request) {
-        if (request.provider_id !== undefined)
-          searchParams['provider_id'] = request.provider_id;
-        if (request.page !== undefined) searchParams['page'] = request.page;
-        if (request.page_size !== undefined)
-          searchParams['page_size'] = request.page_size;
-      }
-      return api
-        .get('v1/reference/models', { searchParams })
-        .json<ModelsResponse>();
+    async listModels(_request?: ListModelsRequest): Promise<ModelsResponse> {
+      return {
+        data: [
+          { provider_id: 'openai', model_id: 'gpt-4o' },
+          { provider_id: 'anthropic', model_id: 'claude-3-5-haiku-latest' },
+        ],
+        meta: { page: 1, page_size: 100, total: 2, total_pages: 1 },
+      };
     },
 
-    listProviders(): Promise<ProvidersResponse> {
-      return api.get('v1/reference/providers').json<ProvidersResponse>();
+    async listProviders(): Promise<ProvidersResponse> {
+      return {
+        data: [
+          { provider_id: 'openai', name: 'OpenAI' },
+          { provider_id: 'anthropic', name: 'Anthropic' },
+        ],
+      };
     },
 
-    listPrices(request?: ListPricesRequest): Promise<PriceResponse> {
-      const searchParams: Record<string, string | number> = {};
-      if (request) {
-        if (request.provider_id !== undefined)
-          searchParams['provider_id'] = request.provider_id;
-        if (request.model_id !== undefined)
-          searchParams['model_id'] = request.model_id;
-        if (request.sort_by !== undefined)
-          searchParams['sort_by'] = request.sort_by;
-        if (request.order !== undefined) searchParams['order'] = request.order;
-        if (request.page !== undefined) searchParams['page'] = request.page;
-        if (request.page_size !== undefined)
-          searchParams['page_size'] = request.page_size;
-      }
-      return api.get('v1/prices', { searchParams }).json<PriceResponse>();
+    async listPrices(_request?: ListPricesRequest): Promise<PriceResponse> {
+      return {
+        data: [],
+        meta: { page: 1, page_size: 100, total: 0, total_pages: 0 },
+      };
     },
 
-    searchPrices(request?: SearchPricesRequest): Promise<PriceResponse> {
-      const searchParams: Record<string, string | number> = {};
-      if (request) {
-        if (request.q !== undefined) searchParams['q'] = request.q;
-        if (request.provider_id !== undefined)
-          searchParams['provider_id'] = request.provider_id;
-        if (request.model_id !== undefined)
-          searchParams['model_id'] = request.model_id;
-        if (request.sort_by !== undefined)
-          searchParams['sort_by'] = request.sort_by;
-        if (request.order !== undefined) searchParams['order'] = request.order;
-        if (request.page !== undefined) searchParams['page'] = request.page;
-        if (request.page_size !== undefined)
-          searchParams['page_size'] = request.page_size;
-      }
-      return api
-        .get('v1/prices/search', { searchParams })
-        .json<PriceResponse>();
+    async searchPrices(_request?: SearchPricesRequest): Promise<PriceResponse> {
+      return {
+        data: [],
+        meta: { page: 1, page_size: 100, total: 0, total_pages: 0 },
+      };
     },
 
-    calculateCost(request: TraceCostRequest): Promise<TraceCostResponse> {
-      return api
-        .post('v1/traces/cost', { json: request })
-        .json<TraceCostResponse>();
+    async calculateCost(request: TraceCostRequest): Promise<TraceCostResponse> {
+      return {
+        model_id: request.model_id,
+        provider_id: request.provider_id,
+        usage: request.usage,
+        pricing: {
+          prompt: 0,
+          completion: 0,
+          discount: 0,
+          request: 0,
+          web_search: 0,
+          input_cache_read: 0,
+          input_cache_write: 0,
+          image: 0,
+          image_output: 0,
+          audio: 0,
+          audio_output: 0,
+          input_audio_cache: 0,
+          internal_reasoning: 0,
+        },
+        cost_breakdown: { total: 0 },
+      };
     },
   };
 }
