@@ -6,7 +6,7 @@ import {
 import * as narevClient from './narev-client.js';
 import type { NarevPricing, PriceResponse } from '@ai-billing/types';
 
-vi.mock('./narev-client.js', async (importOriginal) => {
+vi.mock('./narev-client.js', async importOriginal => {
   const actual = await importOriginal<typeof import('./narev-client.js')>();
   return {
     ...actual,

@@ -114,7 +114,10 @@ describe('NarevClient', () => {
   describe('searchPrices', () => {
     it('returns mocked searched prices', async () => {
       const client = createNarevClient({ apiKey: 'test-key' });
-      const result = await client.searchPrices({ q: 'gpt-4', provider_id: 'openai' });
+      const result = await client.searchPrices({
+        q: 'gpt-4',
+        provider_id: 'openai',
+      });
 
       expect(result).toEqual({
         data: [],

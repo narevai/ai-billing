@@ -10,6 +10,7 @@ overrides:
   '@opentelemetry/core': '>=2.8.0'
   '@opentelemetry/resources': '>=2.8.0'
   dompurify: '>=3.4.13'
+  jsondiffpatch: '>=0.7.6'
   linkify-it: '^5.0.2'
   markdown-it: '>=14.2.0'
   mermaid: '>=11.16.1'
@@ -50,9 +51,6 @@ catalogs:
     '@ai-sdk/openai': '^3.0.0'
     '@ai-sdk/provider': '^3.0.8'
     '@openrouter/ai-sdk-provider': '^2.3.3'
-
-    # HTTP
-    ky: '^2.0.2'
 
     # Next.js & React
     next: '16.2.11'

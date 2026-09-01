@@ -105,7 +105,9 @@ export function createNarevClient(_options: NarevClientOptions): NarevClient {
       };
     },
 
-    async createCheckout(_request: CreateCheckoutRequest): Promise<CheckoutResponse> {
+    async createCheckout(
+      _request: CreateCheckoutRequest,
+    ): Promise<CheckoutResponse> {
       return {
         data: { url: 'https://mock.checkout.url/sess_mock' },
       };
