@@ -1,5 +1,12 @@
 # chatbot-with-billing-with-clerk
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [0fb5389]
+  - @ai-billing/nextjs@0.0.14
+
 ## 0.0.2
 
 ### Patch Changes

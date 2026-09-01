@@ -1,5 +1,11 @@
 # @ai-billing/types
 
+## 0.0.3
+
+### Patch Changes
+
+- 0fb5389: Remove missing billing endpoints from Narev SDK and mock responses in Next.js hooks.
+
 ## 0.0.2
 
 ### Patch Changes
