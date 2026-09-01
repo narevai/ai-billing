@@ -29,9 +29,7 @@
 
 | Name | Demo Link | Repo | Deploy |
 | :--- | :--- | :--- | :--- |
-| **Chatbot (OpenRouter + Polar)** | [View Demo](https://chatbot-with-billing-polar-three.vercel.app/) | [GitHub](https://github.com/narevai/chatbot-with-billing-polar) | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fai-billing%2Ftree%2Fmain%2Fexamples%2Fchatbot-with-billing-polar) |
-| **Chatbot (OpenAI + Polar)** | [View Demo](https://chatbot-openai-with-billing-polar.vercel.app/) | [GitHub](https://github.com/narevai/chatbot-openai-with-billing-polar) | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fchatbot-openai-with-billing-polar&env=AUTH_SECRET,OPENAI_API_KEY,POSTGRES_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER,NAREV_API_KEY&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D) |
-| **Chatbot (Stripe)** | [View Demo](https://chatbot-with-billing-stripe.vercel.app/) | [GitHub](https://github.com/narevai/chatbot-with-billing-stripe) | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fchatbot-with-billing-polar&env=AUTH_SECRET,AI_GATEWAY_API_KEY,POSTGRES_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D) |
+| **Chatbot with Billing** | | [GitHub](https://github.com/narevai/ai-billing/tree/main/examples/chatbot-with-billing) | |
 
 ## What is `ai-billing`?
 
