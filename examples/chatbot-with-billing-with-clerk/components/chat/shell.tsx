@@ -65,7 +65,7 @@ export function ChatShell({
         ],
       });
 
-      
+
       generateTitleFromUserMessage({ message: userMsg as any })
         .then(title => updateChatTitleById({ chatId, title }))
         .catch(() => {});
