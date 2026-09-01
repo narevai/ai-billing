@@ -1,10 +1,10 @@
+import type { LanguageModelMiddleware } from 'ai';
 import type {
   LanguageModelV3,
   LanguageModelV3CallOptions,
   LanguageModelV3Usage,
   LanguageModelV3GenerateResult,
   LanguageModelV3StreamPart,
-  LanguageModelV3Middleware,
   SharedV3ProviderMetadata,
 } from '@ai-sdk/provider';
 import type {
@@ -48,7 +48,7 @@ export interface BillingMiddlewareV3Options<
  */
 export function createV3BillingMiddleware<
   TTags extends DefaultTags = DefaultTags,
->(options: BillingMiddlewareV3Options<TTags>): LanguageModelV3Middleware {
+>(options: BillingMiddlewareV3Options<TTags>): LanguageModelMiddleware {
   const { buildEvent, destinations, defaultTags, waitUntil, onError } = options;
 
   const processEvent = async ({
@@ -100,7 +100,8 @@ export function createV3BillingMiddleware<
   return {
     specificationVersion: 'v3',
 
-    wrapGenerate: async ({ doGenerate, model, params }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    wrapGenerate: async ({ doGenerate, model, params }: any) => {
       const result: LanguageModelV3GenerateResult = await doGenerate();
 
       const webSearchCount = result.content.filter(
@@ -130,7 +131,8 @@ export function createV3BillingMiddleware<
       };
     },
 
-    wrapStream: async ({ doStream, model, params }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    wrapStream: async ({ doStream, model, params }: any) => {
       const { stream, ...rest } = await doStream();
 
       let responseId: string | undefined;
@@ -142,10 +144,8 @@ export function createV3BillingMiddleware<
       let webSearchCount = 0;
 
       const billedStream = stream.pipeThrough(
-        new TransformStream<
-          LanguageModelV3StreamPart,
-          LanguageModelV3StreamPart
-        >({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        new TransformStream<any, any>({
           transform(chunk, controller) {
             if (chunk.type === 'text-start') responseId = chunk.id;
             if (chunk.type === 'response-metadata' && !responseId) {
