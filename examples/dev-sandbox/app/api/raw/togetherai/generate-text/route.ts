@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      // @ts-ignore
-      model: togetherai('meta-llama/Llama-3-8b-chat-hf'),
+      
+      model: togetherai('meta-llama/Llama-3-8b-chat-hf') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

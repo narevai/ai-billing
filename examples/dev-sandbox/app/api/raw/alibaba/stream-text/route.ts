@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      // @ts-ignore
-      model: alibaba('qwen-turbo'),
+      
+      model: alibaba('qwen-turbo') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

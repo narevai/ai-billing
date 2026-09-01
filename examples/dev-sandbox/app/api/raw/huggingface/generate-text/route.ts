@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      // @ts-ignore
-      model: huggingface('meta-llama/Meta-Llama-3-8B-Instruct'),
+      
+      model: huggingface('meta-llama/Meta-Llama-3-8B-Instruct') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

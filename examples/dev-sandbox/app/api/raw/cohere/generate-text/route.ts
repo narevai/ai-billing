@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      // @ts-ignore
-      model: cohere('command-r-plus'),
+      
+      model: cohere('command-r-plus') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      // @ts-ignore
-      model: groq('llama3-8b-8192'),
+      
+      model: groq('llama3-8b-8192') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      // @ts-ignore
-      model: bedrock('anthropic.claude-3-haiku-20240307-v1:0'),
+      
+      model: bedrock('anthropic.claude-3-haiku-20240307-v1:0') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

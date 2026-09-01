@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      // @ts-ignore
-      model: deepseek('deepseek-chat'),
+      
+      model: deepseek('deepseek-chat') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      // @ts-ignore
-      model: google('gemini-1.5-flash'),
+      
+      model: google('gemini-1.5-flash') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      // @ts-ignore
-      model: prodia.languageModel('sdxl'),
+      
+      model: prodia.languageModel('sdxl') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

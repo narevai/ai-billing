@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      // @ts-ignore
-      model: fireworks('accounts/fireworks/models/llama-v3-8b-instruct'),
+      
+      model: fireworks('accounts/fireworks/models/llama-v3-8b-instruct') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

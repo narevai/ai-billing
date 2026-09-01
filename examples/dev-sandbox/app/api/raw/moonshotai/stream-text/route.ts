@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      // @ts-ignore
-      model: moonshotai('moonshot-v1-8k'),
+      
+      model: moonshotai('moonshot-v1-8k') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

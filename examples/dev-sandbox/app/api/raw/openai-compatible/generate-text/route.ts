@@ -18,8 +18,8 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      // @ts-ignore
-      model: provider('gpt-3.5-turbo'),
+      
+      model: provider('gpt-3.5-turbo') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

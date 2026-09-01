@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      // @ts-ignore
-      model: anthropic('claude-3-haiku-20240307'),
+      
+      model: anthropic('claude-3-haiku-20240307') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      // @ts-ignore
-      model: minimax('abab6.5-chat'),
+      
+      model: minimax('abab6.5-chat') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

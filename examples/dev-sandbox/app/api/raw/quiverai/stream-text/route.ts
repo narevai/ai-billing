@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      // @ts-ignore
-      model: quiverai.languageModel('default'),
+      
+      model: quiverai.languageModel('default') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

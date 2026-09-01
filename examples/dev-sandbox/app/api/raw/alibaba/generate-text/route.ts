@@ -1,4 +1,4 @@
-import { UIMessage, convertToModelMessages, generateText } from 'ai';
+import { UIMessage, convertToModelMessages, generateText, LanguageModel } from 'ai';
 import { alibaba } from '@ai-sdk/alibaba';
 
 export async function POST() {
@@ -12,8 +12,7 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      // @ts-ignore
-      model: alibaba('qwen-turbo'),
+      model: alibaba('qwen-turbo') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

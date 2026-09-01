@@ -18,8 +18,8 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      // @ts-ignore
-      model: provider('llama-3-8b'),
+      
+      model: provider('llama-3-8b') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

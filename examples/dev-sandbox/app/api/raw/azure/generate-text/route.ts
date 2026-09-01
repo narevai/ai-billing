@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      // @ts-ignore
-      model: azure('gpt-35-turbo'),
+      
+      model: azure('gpt-35-turbo') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

@@ -17,8 +17,8 @@ export async function POST() {
     ];
 
     const result = await streamText({
-      // @ts-ignore
-      model: provider('openai:gpt-3.5-turbo'),
+      
+      model: provider('openai:gpt-3.5-turbo') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });

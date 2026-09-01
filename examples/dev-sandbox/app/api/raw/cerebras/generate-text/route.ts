@@ -12,8 +12,8 @@ export async function POST() {
     ];
 
     const result = await generateText({
-      // @ts-ignore
-      model: cerebras('llama3.1-8b'),
+      
+      model: cerebras('llama3.1-8b') as unknown as import('ai').LanguageModel,
 
             messages: await convertToModelMessages(messages),
     });
