@@ -7,11 +7,11 @@ settings:
 catalogs:
   default:
     '@ai-sdk/openai':
-      specifier: ^3.0.0
-      version: 3.0.49
+      specifier: ^4.0.55
+      version: 4.0.55
     '@ai-sdk/provider':
-      specifier: ^3.0.8
-      version: 3.0.8
+      specifier: ^4.0.10
+      version: 4.0.10
     '@changesets/cli':
       specifier: ^2.30.0
       version: 2.30.0
@@ -19,8 +19,8 @@ catalogs:
       specifier: ^5.0.0
       version: 5.0.0
     '@openrouter/ai-sdk-provider':
-      specifier: ^2.3.3
-      version: 2.3.3
+      specifier: ^3.0.0
+      version: 3.0.0
     '@types/node':
       specifier: ^22.15.3
       version: 22.19.15
@@ -34,8 +34,8 @@ catalogs:
       specifier: 4.1.11
       version: 4.1.11
     ai:
-      specifier: ^6.0.138
-      version: 6.0.138
+      specifier: ^7.0.89
+      version: 7.0.89
     eslint-plugin-jsdoc:
       specifier: ^63.0.0
       version: 63.0.0
@@ -181,7 +181,7 @@ importers:
         version: 3.0.49(zod@4.3.6)
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@codemirror/lang-python':
         specifier: ^6.1.6
         version: 6.2.1
@@ -508,14 +508,14 @@ importers:
         specifier: ^3.0.0
         version: 3.0.34(zod@4.3.6)
       '@ai-sdk/openai':
-        specifier: ^3.0.49
+        specifier: ^3.0.0
         version: 3.0.49(zod@4.3.6)
       '@ai-sdk/openai-compatible':
         specifier: ^2.0.0
         version: 2.0.38(zod@4.3.6)
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@ai-sdk/xai':
         specifier: ^3.0.0
         version: 3.0.83(zod@4.3.6)
@@ -524,10 +524,10 @@ importers:
         version: 0.0.10
       '@openrouter/ai-sdk-provider':
         specifier: 'catalog:'
-        version: 2.3.3(ai@6.0.138(zod@4.3.6))(zod@4.3.6)
+        version: 3.0.0(ai@6.0.116(zod@4.3.6))(zod@4.3.6)
       ai:
-        specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        specifier: 6.0.116
+        version: 6.0.116(zod@4.3.6)
       next:
         specifier: 'catalog:'
         version: 16.2.11(@opentelemetry/api@1.9.1)(@playwright/test@1.59.1)(@types/node@22.19.15)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -558,7 +558,7 @@ importers:
     dependencies:
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@ai-sdk/react':
         specifier: 3.0.118
         version: 3.0.118(react@19.2.4)(zod@3.25.76)
@@ -853,11 +853,11 @@ importers:
   examples/utils/chatbot-openai-base:
     dependencies:
       '@ai-sdk/openai':
-        specifier: 'catalog:'
+        specifier: ^3.0.0
         version: 3.0.49(zod@3.25.76)
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@ai-sdk/react':
         specifier: 3.0.118
         version: 3.0.118(react@19.2.4)(zod@3.25.76)
@@ -1132,13 +1132,13 @@ importers:
         version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@edge-runtime/vm':
         specifier: 'catalog:'
         version: 5.0.0
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 7.0.89(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1178,13 +1178,13 @@ importers:
         version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@edge-runtime/vm':
         specifier: 'catalog:'
         version: 5.0.0
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 7.0.89(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1224,13 +1224,13 @@ importers:
         version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@edge-runtime/vm':
         specifier: 'catalog:'
         version: 5.0.0
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 7.0.89(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1264,10 +1264,13 @@ importers:
         version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@edge-runtime/vm':
         specifier: 'catalog:'
         version: 5.0.0
+      ai:
+        specifier: 'catalog:'
+        version: 7.0.89(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1307,13 +1310,13 @@ importers:
         version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@edge-runtime/vm':
         specifier: 'catalog:'
         version: 5.0.0
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 7.0.89(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1350,13 +1353,13 @@ importers:
         version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@edge-runtime/vm':
         specifier: 'catalog:'
         version: 5.0.0
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 7.0.89(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1396,13 +1399,13 @@ importers:
         version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@edge-runtime/vm':
         specifier: 'catalog:'
         version: 5.0.0
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 7.0.89(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1442,13 +1445,13 @@ importers:
         version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@edge-runtime/vm':
         specifier: 'catalog:'
         version: 5.0.0
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 7.0.89(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1519,13 +1522,13 @@ importers:
         version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@edge-runtime/vm':
         specifier: 'catalog:'
         version: 5.0.0
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 7.0.89(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1637,7 +1640,7 @@ importers:
         version: 3.0.34(zod@4.3.6)
       '@ai-sdk/openai':
         specifier: 'catalog:'
-        version: 3.0.49(zod@4.3.6)
+        version: 4.0.55(zod@4.3.6)
       '@ai-sdk/openai-compatible':
         specifier: ^2.0.0
         version: 2.0.41(zod@4.3.6)
@@ -1649,10 +1652,10 @@ importers:
         version: 3.0.83(zod@4.3.6)
       '@openrouter/ai-sdk-provider':
         specifier: 'catalog:'
-        version: 2.3.3(ai@6.0.138(zod@4.3.6))(zod@4.3.6)
+        version: 3.0.0(ai@7.0.89(zod@4.3.6))(zod@4.3.6)
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 7.0.89(zod@4.3.6)
       react:
         specifier: ^18 || ^19
         version: 19.2.4
@@ -1702,13 +1705,13 @@ importers:
         version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@edge-runtime/vm':
         specifier: 'catalog:'
         version: 5.0.0
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 7.0.89(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1748,13 +1751,13 @@ importers:
         version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@edge-runtime/vm':
         specifier: 'catalog:'
         version: 5.0.0
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 7.0.89(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1814,8 +1817,8 @@ importers:
         specifier: workspace:*
         version: link:../types
       '@openrouter/ai-sdk-provider':
-        specifier: ^2.3.3
-        version: 2.3.3(ai@6.0.138(zod@4.3.6))(zod@4.3.6)
+        specifier: 'catalog:'
+        version: 3.0.0(ai@7.0.89(zod@4.3.6))(zod@4.3.6)
     devDependencies:
       '@ai-billing/testing':
         specifier: workspace:*
@@ -1825,13 +1828,13 @@ importers:
         version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@edge-runtime/vm':
         specifier: 'catalog:'
         version: 5.0.0
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 7.0.89(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1935,7 +1938,7 @@ importers:
     dependencies:
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       zod:
         specifier: 'catalog:'
         version: 4.3.6
@@ -1957,7 +1960,7 @@ importers:
         version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2024,13 +2027,13 @@ importers:
         version: link:../typescript-config
       '@ai-sdk/provider':
         specifier: 'catalog:'
-        version: 3.0.8
+        version: 4.0.10
       '@edge-runtime/vm':
         specifier: 'catalog:'
         version: 5.0.0
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 7.0.89(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2091,9 +2094,9 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  '@ai-sdk/gateway@3.0.80':
-    resolution: {integrity: sha512-uM7kpZB5l977lW7+2X1+klBUxIZQ78+1a9jHlaHFEzcOcmmslTl3sdP0QqfuuBcO0YBM2gwOiqVdp8i4TRQYcw==}
-    engines: {node: '>=18'}
+  '@ai-sdk/gateway@4.0.71':
+    resolution: {integrity: sha512-QSkcaJkJl4Gn8DuLlRi6xVbty5grQ71VlIt90Grd79lJ4y2KOixiLjQNU2n3mDNFKTKzIdFynzM6fUSuawKhmQ==}
+    engines: {node: '>=22'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
@@ -2133,6 +2136,12 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
+  '@ai-sdk/openai@4.0.55':
+    resolution: {integrity: sha512-V/t+dzxb6PZjHSTiYomCo2l+5XNgYTc9/FZuhdyiL4VKA175IxXnvvOC+KUjEiRC7JJOLjPwAwbssMfJSxAfMw==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
   '@ai-sdk/provider-utils@4.0.19':
     resolution: {integrity: sha512-3eG55CrSWCu2SXlqq2QCsFjo3+E7+Gmg7i/oRVoSZzIodTuDSfLb3MRje67xE9RFea73Zao7Lm4mADIfUETKGg==}
     engines: {node: '>=18'}
@@ -2169,6 +2178,12 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
+  '@ai-sdk/provider-utils@5.0.35':
+    resolution: {integrity: sha512-Ukfa9aFLwCqfGaBESrcivbedkEvHfULqrzWdxjNlcZMhPs9XcrPs4YXia94jDqbppIIlscarSm4/OhQflP/Fug==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
   '@ai-sdk/provider@3.0.10':
     resolution: {integrity: sha512-Q3BZ27qfpYqnCYGvE3vt+Qi6LGOF9R5Nmzn+9JoM1lCRsD9mYaIhfJLkSunN48nfGXJ6n+XNV0J/XVpqGQl7Dw==}
     engines: {node: '>=18'}
@@ -2176,6 +2191,10 @@ packages:
   '@ai-sdk/provider@3.0.8':
     resolution: {integrity: sha512-oGMAgGoQdBXbZqNG0Ze56CHjDZ1IDYOwGYxYjO5KLSlz5HiNQ9udIXsPZ61VWaHGZ5XW/jyjmr6t2xz2jGVwbQ==}
     engines: {node: '>=18'}
+
+  '@ai-sdk/provider@4.0.10':
+    resolution: {integrity: sha512-fX2ENAc7iDpZ+Wp4+Rk06Usn/Ys7dI9uAkGv0jlF6XVrW13NkRWx5Ou+U6lIM2E1fTLkCs16GGrUAaVvroag7A==}
+    engines: {node: '>=22'}
 
   '@ai-sdk/provider@4.0.3':
     resolution: {integrity: sha512-e0CpNWJUY7OxAFAnCZkw+ri9QOHWwTs1tXP42782KFGCU07qt8NiXCrCVowyCB5dP2r5/Uls+g2oPd8kOJn9dw==}
@@ -3364,12 +3383,12 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@openrouter/ai-sdk-provider@2.3.3':
-    resolution: {integrity: sha512-4fVteGkVedc7fGoA9+qJs4tpYwALezMq14m2Sjub3KmyRlksCbK+WJf67NPdGem8+NZrV2tAN42A1NU3+SiV3w==}
-    engines: {node: '>=18'}
+  '@openrouter/ai-sdk-provider@3.0.0':
+    resolution: {integrity: sha512-m9XTSWoODH2RM5OsZpaGiN7QRR8cdP5paBWq699Tu3JVmGPBKT8xF8XwV0ZBVVsjikD/JgWfak4VSsTR4wAVbg==}
+    engines: {node: '>=22'}
     peerDependencies:
-      ai: ^6.0.0
-      zod: ^3.25.0 || ^4.0.0
+      ai: ^7.0.0
+      zod: ^3.25.76 || ^4.1.8
 
   '@opentelemetry/api-logs@0.200.0':
     resolution: {integrity: sha512-IKJBQxh91qJ+3ssRly5hYEJ8NDHu9oY/B1PXVSCWf7zytmYO9RNLB0Ox9XQ/fJ8m6gY6Q6NtBWlmXfaXt5Uc4Q==}
@@ -5711,15 +5730,15 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  ai@6.0.138:
-    resolution: {integrity: sha512-49OfPe0f5uxJ6jUdA5BBXjIinP6+ZdYfAtpF2aEH64GA5wPcxH2rf/TBUQQ0bbamBz/D+TLMV18xilZqOC+zaA==}
+  ai@6.0.185:
+    resolution: {integrity: sha512-oGsqscREaTlo75KHZLtwZxRyI+ZBwHV2wRX9B8smHjgOs13WwoCvUyr5aPUWpIBRz406wmIKy1RzoUEq0/WKJw==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  ai@6.0.185:
-    resolution: {integrity: sha512-oGsqscREaTlo75KHZLtwZxRyI+ZBwHV2wRX9B8smHjgOs13WwoCvUyr5aPUWpIBRz406wmIKy1RzoUEq0/WKJw==}
-    engines: {node: '>=18'}
+  ai@7.0.89:
+    resolution: {integrity: sha512-Bzbw9HNUhKaawU5tJ2mONfhC5UeWlfJEe5OL/f+KVn20l2TfkbkvILSLk4hDGWbBrl+hz/tRmTC9de8tOFOQNA==}
+    engines: {node: '>=22'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
@@ -8289,6 +8308,10 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
+  undici@7.29.0:
+    resolution: {integrity: sha512-IDxfleLmmbSskfWSUATiN1nfn2rDuvnMOqb5CWR92iIfojA0Ud+ulOAAEQ57LPr9rWmsreUyf5lwyao+7GNNVw==}
+    engines: {node: '>=20.18.1'}
+
   unified@11.0.5:
     resolution: {integrity: sha512-xKvGhPWw3k84Qjh8bI3ZeJjqnyadK+GEFtazSfZv/rKeTkTjOJho6mFqh2SM96iIcZokxiOpg78GazTSg8+KHA==}
 
@@ -8585,11 +8608,11 @@ snapshots:
       '@vercel/oidc': 3.1.0
       zod: 4.3.6
 
-  '@ai-sdk/gateway@3.0.80(zod@4.3.6)':
+  '@ai-sdk/gateway@4.0.71(zod@4.3.6)':
     dependencies:
-      '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.21(zod@4.3.6)
-      '@vercel/oidc': 3.1.0
+      '@ai-sdk/provider': 4.0.10
+      '@ai-sdk/provider-utils': 5.0.35(zod@4.3.6)
+      '@vercel/oidc': 3.2.0
       zod: 4.3.6
 
   '@ai-sdk/google@3.0.64(zod@4.3.6)':
@@ -8632,6 +8655,12 @@ snapshots:
     dependencies:
       '@ai-sdk/provider': 3.0.8
       '@ai-sdk/provider-utils': 4.0.21(zod@4.3.6)
+      zod: 4.3.6
+
+  '@ai-sdk/openai@4.0.55(zod@4.3.6)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.10
+      '@ai-sdk/provider-utils': 5.0.35(zod@4.3.6)
       zod: 4.3.6
 
   '@ai-sdk/provider-utils@4.0.19(zod@3.25.76)':
@@ -8691,11 +8720,24 @@ snapshots:
       eventsource-parser: 3.0.8
       zod: 4.3.6
 
+  '@ai-sdk/provider-utils@5.0.35(zod@4.3.6)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.10
+      '@standard-schema/spec': 1.1.0
+      '@workflow/serde': 4.1.0
+      eventsource-parser: 3.0.8
+      undici: 7.29.0
+      zod: 4.3.6
+
   '@ai-sdk/provider@3.0.10':
     dependencies:
       json-schema: 0.4.0
 
   '@ai-sdk/provider@3.0.8':
+    dependencies:
+      json-schema: 0.4.0
+
+  '@ai-sdk/provider@4.0.10':
     dependencies:
       json-schema: 0.4.0
 
@@ -9773,9 +9815,14 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
 
-  '@openrouter/ai-sdk-provider@2.3.3(ai@6.0.138(zod@4.3.6))(zod@4.3.6)':
+  '@openrouter/ai-sdk-provider@3.0.0(ai@6.0.116(zod@4.3.6))(zod@4.3.6)':
     dependencies:
-      ai: 6.0.138(zod@4.3.6)
+      ai: 6.0.116(zod@4.3.6)
+      zod: 4.3.6
+
+  '@openrouter/ai-sdk-provider@3.0.0(ai@7.0.89(zod@4.3.6))(zod@4.3.6)':
+    dependencies:
+      ai: 7.0.89(zod@4.3.6)
       zod: 4.3.6
 
   '@opentelemetry/api-logs@0.200.0':
@@ -11819,20 +11866,19 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       zod: 4.3.6
 
-  ai@6.0.138(zod@4.3.6):
-    dependencies:
-      '@ai-sdk/gateway': 3.0.80(zod@4.3.6)
-      '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.21(zod@4.3.6)
-      '@opentelemetry/api': 1.9.0
-      zod: 4.3.6
-
   ai@6.0.185(zod@4.3.6):
     dependencies:
       '@ai-sdk/gateway': 3.0.116(zod@4.3.6)
       '@ai-sdk/provider': 3.0.10
       '@ai-sdk/provider-utils': 4.0.27(zod@4.3.6)
       '@opentelemetry/api': 1.9.1
+      zod: 4.3.6
+
+  ai@7.0.89(zod@4.3.6):
+    dependencies:
+      '@ai-sdk/gateway': 4.0.71(zod@4.3.6)
+      '@ai-sdk/provider': 4.0.10
+      '@ai-sdk/provider-utils': 5.0.35(zod@4.3.6)
       zod: 4.3.6
 
   ajv-draft-04@1.0.0(ajv@8.18.0):
@@ -14849,6 +14895,8 @@ snapshots:
   unbash@2.2.0: {}
 
   undici-types@6.21.0: {}
+
+  undici@7.29.0: {}
 
   unified@11.0.5:
     dependencies:

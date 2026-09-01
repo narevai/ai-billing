@@ -54,10 +54,12 @@
     "typedoc-plugin-markdown": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
-    "zod": "catalog:"
+    "zod": "catalog:",
+    "ai": "catalog:"
   },
   "peerDependencies": {
-    "@ai-sdk/provider": "catalog:"
+    "@ai-sdk/provider": "^3.0.0 || ^4.0.0",
+    "ai": "^3.0.0 || ^4.0.0 || ^7.0.0"
   },
   "engines": {
     "node": ">=20.0.0"

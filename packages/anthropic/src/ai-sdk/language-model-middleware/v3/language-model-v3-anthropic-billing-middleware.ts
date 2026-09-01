@@ -84,13 +84,13 @@ export function createAnthropicV3Middleware<TTags extends DefaultTags>(
         anthropicRawUsage?.output_tokens ?? usage?.outputTokens?.text ?? 0;
       const cacheReadTokens =
         anthropicRawUsage?.cache_read_input_tokens ??
-        usage?.inputTokens?.cacheRead ??
+        (usage?.inputTokenDetails?.cacheReadTokens ?? usage?.inputTokens?.cacheRead) ??
         0;
       const cacheWriteTokens =
         anthropicRawUsage?.cache_creation_input_tokens ??
-        usage?.inputTokens?.cacheWrite ??
+        (usage?.inputTokenDetails?.cacheWriteTokens ?? usage?.inputTokens?.cacheWrite) ??
         0;
-      const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
+      const outputTokensReasoning = (usage?.outputTokenDetails?.reasoningTokens ?? usage?.outputTokens?.reasoning) ?? 0;
 
       const anthropicUsage: CostInputs = {
         promptTokens: inputTokensTotal,

@@ -44,7 +44,7 @@
   "dependencies": {
     "@ai-billing/core": "workspace:*",
     "@ai-billing/types": "workspace:*",
-    "@openrouter/ai-sdk-provider": "^2.3.3"
+    "@openrouter/ai-sdk-provider": "catalog:"
   },
   "devDependencies": {
     "@ai-billing/typescript-config": "workspace:*",
@@ -60,7 +60,8 @@
     "zod": "catalog:"
   },
   "peerDependencies": {
-    "@ai-sdk/provider": "catalog:"
+    "@ai-sdk/provider": "^3.0.0 || ^4.0.0",
+    "ai": "^3.0.0 || ^4.0.0 || ^7.0.0"
   },
   "engines": {
     "node": ">=20.0.0"

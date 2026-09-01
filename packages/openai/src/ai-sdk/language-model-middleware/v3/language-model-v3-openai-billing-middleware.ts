@@ -109,9 +109,9 @@ export function createOpenAIV3Middleware<TTags extends DefaultTags>(
       const openAIUsage: CostInputs = {
         promptTokens: usage?.inputTokens?.total ?? 0,
         completionTokens: usage?.outputTokens?.text ?? 0,
-        cacheReadTokens: usage?.inputTokens?.cacheRead ?? 0,
-        cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
-        reasoningTokens: usage?.outputTokens?.reasoning ?? 0,
+        cacheReadTokens: (usage?.inputTokenDetails?.cacheReadTokens ?? usage?.inputTokens?.cacheRead) ?? 0,
+        cacheWriteTokens: (usage?.inputTokenDetails?.cacheWriteTokens ?? usage?.inputTokens?.cacheWrite) ?? 0,
+        reasoningTokens: (usage?.outputTokenDetails?.reasoningTokens ?? usage?.outputTokens?.reasoning) ?? 0,
         webSearchCount: webSearchCount,
       };
 

@@ -19,17 +19,17 @@ export const myProvider = isTestEnvironment
     })()
   : null;
 
-export function getLanguageModel(modelId: string) {
+export function getLanguageModel(modelId: string): any {
   if (isTestEnvironment && myProvider) {
     return myProvider.languageModel(modelId);
   }
 
-  return openai!(modelId);
+  return openai!(modelId) as any;
 }
 
-export function getTitleModel() {
+export function getTitleModel(): any {
   if (isTestEnvironment && myProvider) {
     return myProvider.languageModel('title-model');
   }
-  return openai!(titleModel.id);
+  return openai!(titleModel.id) as any;
 }

@@ -105,7 +105,7 @@ export function createMinimaxV3Middleware<TTags extends DefaultTags>(
       const inputTokensCacheWrite =
         minimaxRawUsage?.cache_creation_input_tokens ?? 0;
       const outputTokensText = minimaxRawUsage?.output_tokens ?? 0;
-      const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
+      const outputTokensReasoning = (usage?.outputTokenDetails?.reasoningTokens ?? usage?.outputTokens?.reasoning) ?? 0;
 
       const minimaxUsage: CostInputs = {
         promptTokens: inputTokensTotal,

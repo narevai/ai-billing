@@ -88,15 +88,15 @@ export function createChutesV3Middleware<TTags extends DefaultTags>(
       webSearchCount,
     }) => {
       const inputTokensTotal = usage?.inputTokens?.total ?? 0;
-      const inputTokensCacheRead = usage?.inputTokens?.cacheRead ?? 0;
+      const inputTokensCacheRead = (usage?.inputTokenDetails?.cacheReadTokens ?? usage?.inputTokens?.cacheRead) ?? 0;
       const outputTokensTotal = usage?.outputTokens?.total ?? 0;
-      const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
+      const outputTokensReasoning = (usage?.outputTokenDetails?.reasoningTokens ?? usage?.outputTokens?.reasoning) ?? 0;
 
       const chutesUsage: CostInputs = {
         promptTokens: inputTokensTotal,
         completionTokens: outputTokensTotal,
         cacheReadTokens: inputTokensCacheRead,
-        cacheWriteTokens: usage?.inputTokens?.cacheWrite ?? 0,
+        cacheWriteTokens: (usage?.inputTokenDetails?.cacheWriteTokens ?? usage?.inputTokens?.cacheWrite) ?? 0,
         reasoningTokens: outputTokensReasoning,
         webSearchCount: webSearchCount,
       };
