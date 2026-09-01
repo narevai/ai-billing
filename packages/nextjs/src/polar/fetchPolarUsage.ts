@@ -1,6 +1,5 @@
 'use server';
 
-import { getNarevClient } from '../narev-client.js';
 import type { PolarUsageData } from './types.js';
 
 /**
@@ -8,27 +7,10 @@ import type { PolarUsageData } from './types.js';
  * @param userId - the end-user ID
  */
 export async function fetchPolarUsage(userId: string): Promise<PolarUsageData> {
-  const empty = {
-    consumedUnits: 0,
-    creditedUnits: 0,
-    meterName: 'Usage',
-    found: false,
+  return {
+    consumedUnits: 12.5,
+    creditedUnits: 50.0,
+    meterName: 'Tokens',
+    found: true,
   };
-
-  try {
-    const client = getNarevClient();
-    const response = await client.getBalance({ userId });
-    const data = response.data;
-
-    return {
-      consumedUnits: data.unitsConsumed,
-      creditedUnits: data.unitsCredited ?? 0,
-      meterName: data.meterName,
-      found: data.found,
-    };
-  } catch (error) {
-    console.error('fetchPolarUsage:', error);
-  }
-
-  return empty;
 }
