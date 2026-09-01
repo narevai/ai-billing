@@ -1,12 +1,12 @@
-[**@ai-billing/narev**](../index)
+[**@ai-billing/narev**](../README.md)
 
 ***
 
-[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/index) / SearchPricesRequest
+[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/README.md) / SearchPricesRequest
 
 # Interface: SearchPricesRequest
 
-Defined in: packages/types/dist/index.d.ts:227
+Defined in: packages/types/dist/index.d.ts:173
 
 Options for searching pricing by model ID (GET /v1/prices/search).
 
@@ -16,7 +16,7 @@ Options for searching pricing by model ID (GET /v1/prices/search).
 
 > `optional` **q?**: `string`
 
-Defined in: packages/types/dist/index.d.ts:229
+Defined in: packages/types/dist/index.d.ts:175
 
 Full-text search query matched against model ID.
 
@@ -26,7 +26,7 @@ Full-text search query matched against model ID.
 
 > `optional` **provider\_id?**: `string`
 
-Defined in: packages/types/dist/index.d.ts:230
+Defined in: packages/types/dist/index.d.ts:176
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: packages/types/dist/index.d.ts:230
 
 > `optional` **model\_id?**: `string`
 
-Defined in: packages/types/dist/index.d.ts:231
+Defined in: packages/types/dist/index.d.ts:177
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/types/dist/index.d.ts:231
 
 > `optional` **sort\_by?**: `"provider_id"` \| `"model_id"`
 
-Defined in: packages/types/dist/index.d.ts:232
+Defined in: packages/types/dist/index.d.ts:178
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: packages/types/dist/index.d.ts:232
 
 > `optional` **order?**: `"asc"` \| `"desc"`
 
-Defined in: packages/types/dist/index.d.ts:233
+Defined in: packages/types/dist/index.d.ts:179
 
 ***
 
@@ -58,7 +58,7 @@ Defined in: packages/types/dist/index.d.ts:233
 
 > `optional` **page?**: `number`
 
-Defined in: packages/types/dist/index.d.ts:234
+Defined in: packages/types/dist/index.d.ts:180
 
 ***
 
@@ -66,4 +66,4 @@ Defined in: packages/types/dist/index.d.ts:234
 
 > `optional` **page\_size?**: `number`
 
-Defined in: packages/types/dist/index.d.ts:235
+Defined in: packages/types/dist/index.d.ts:181

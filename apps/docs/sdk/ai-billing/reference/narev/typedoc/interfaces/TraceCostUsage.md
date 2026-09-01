@@ -1,12 +1,12 @@
-[**@ai-billing/narev**](../index)
+[**@ai-billing/narev**](../README.md)
 
 ***
 
-[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/index) / TraceCostUsage
+[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/README.md) / TraceCostUsage
 
 # Interface: TraceCostUsage
 
-Defined in: packages/types/dist/index.d.ts:245
+Defined in: packages/types/dist/index.d.ts:191
 
 Token usage for a cost calculation request.
 
@@ -16,7 +16,7 @@ Token usage for a cost calculation request.
 
 > **prompt\_tokens**: `number`
 
-Defined in: packages/types/dist/index.d.ts:246
+Defined in: packages/types/dist/index.d.ts:192
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: packages/types/dist/index.d.ts:246
 
 > **completion\_tokens**: `number`
 
-Defined in: packages/types/dist/index.d.ts:247
+Defined in: packages/types/dist/index.d.ts:193
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/index.d.ts:247
 
 > `optional` **cache\_read\_tokens?**: `number`
 
-Defined in: packages/types/dist/index.d.ts:248
+Defined in: packages/types/dist/index.d.ts:194
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: packages/types/dist/index.d.ts:248
 
 > `optional` **cache\_write\_tokens?**: `number`
 
-Defined in: packages/types/dist/index.d.ts:249
+Defined in: packages/types/dist/index.d.ts:195
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: packages/types/dist/index.d.ts:249
 
 > `optional` **reasoning\_tokens?**: `number`
 
-Defined in: packages/types/dist/index.d.ts:250
+Defined in: packages/types/dist/index.d.ts:196
 
 ***
 
@@ -56,4 +56,4 @@ Defined in: packages/types/dist/index.d.ts:250
 
 > `optional` **web\_search\_count?**: `number`
 
-Defined in: packages/types/dist/index.d.ts:251
+Defined in: packages/types/dist/index.d.ts:197

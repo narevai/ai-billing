@@ -1,12 +1,12 @@
-[**@ai-billing/narev**](../index)
+[**@ai-billing/narev**](../README.md)
 
 ***
 
-[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/index) / ListPricesRequest
+[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/README.md) / ListPricesRequest
 
 # Interface: ListPricesRequest
 
-Defined in: packages/types/dist/index.d.ts:218
+Defined in: packages/types/dist/index.d.ts:164
 
 Options for filtering and paginating the pricing list (GET /v1/prices).
 
@@ -16,7 +16,7 @@ Options for filtering and paginating the pricing list (GET /v1/prices).
 
 > `optional` **provider\_id?**: `string`
 
-Defined in: packages/types/dist/index.d.ts:219
+Defined in: packages/types/dist/index.d.ts:165
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: packages/types/dist/index.d.ts:219
 
 > `optional` **model\_id?**: `string`
 
-Defined in: packages/types/dist/index.d.ts:220
+Defined in: packages/types/dist/index.d.ts:166
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/index.d.ts:220
 
 > `optional` **sort\_by?**: `"provider_id"` \| `"model_id"`
 
-Defined in: packages/types/dist/index.d.ts:221
+Defined in: packages/types/dist/index.d.ts:167
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: packages/types/dist/index.d.ts:221
 
 > `optional` **order?**: `"asc"` \| `"desc"`
 
-Defined in: packages/types/dist/index.d.ts:222
+Defined in: packages/types/dist/index.d.ts:168
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: packages/types/dist/index.d.ts:222
 
 > `optional` **page?**: `number`
 
-Defined in: packages/types/dist/index.d.ts:223
+Defined in: packages/types/dist/index.d.ts:169
 
 ***
 
@@ -56,4 +56,4 @@ Defined in: packages/types/dist/index.d.ts:223
 
 > `optional` **page\_size?**: `number`
 
-Defined in: packages/types/dist/index.d.ts:224
+Defined in: packages/types/dist/index.d.ts:170

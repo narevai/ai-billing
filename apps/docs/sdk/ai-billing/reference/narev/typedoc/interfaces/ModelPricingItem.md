@@ -1,0 +1,43 @@
+[**@ai-billing/narev**](../README.md)
+
+***
+
+[@ai-billing/narev](/sdk/ai-billing/reference/narev/typedoc/README.md) / ModelPricingItem
+
+# Interface: ModelPricingItem
+
+Defined in: packages/types/dist/index.d.ts:126
+
+A single pricing entry with provider and model info (ModelPricingItem in openapi).
+
+## Properties
+
+### model\_id
+
+> **model\_id**: `string`
+
+Defined in: packages/types/dist/index.d.ts:127
+
+***
+
+### provider\_id
+
+> **provider\_id**: `string`
+
+Defined in: packages/types/dist/index.d.ts:128
+
+***
+
+### pricing
+
+> **pricing**: [`NarevPricing`](/sdk/ai-billing/reference/narev/typedoc/interfaces/NarevPricing.md) \| `null`
+
+Defined in: packages/types/dist/index.d.ts:129
+
+***
+
+### message?
+
+> `optional` **message?**: `string`
+
+Defined in: packages/types/dist/index.d.ts:130
