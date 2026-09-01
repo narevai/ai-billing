@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 import { generateText, streamText, wrapLanguageModel } from 'ai';
 import { describe, expect, it, vi } from 'vitest';
 import {
@@ -237,6 +238,44 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
     const error = onErrorSpy.mock.calls[0]![0];
     expect(error).toBeInstanceOf(AiBillingExtractorError);
     expect(error.message).toContain('Expected');
+  });
+
+  it('should extract usage correctly from AI SDK V4 token structures', async () => {
+    const destinationSpy = vi.fn();
+    const middleware = createGatewayV3Middleware({
+      destinations: [destinationSpy],
+    });
+
+    const baseResult = createResult({
+      response: { id: 'v4-response-id' },
+      usage: {
+        inputTokens: { total: 14, cacheRead: undefined, cacheWrite: undefined },
+        outputTokens: { total: 10, reasoning: undefined },
+        inputTokenDetails: { cacheReadTokens: 5, cacheWriteTokens: 3 },
+        outputTokenDetails: { reasoningTokens: 2 }
+      } as any,
+      providerMetadata: realMetadata as SharedV3ProviderMetadata,
+    });
+
+    const mockModel = new MockLanguageModelV3({
+      modelId: 'test-model',
+      provider: 'gateway',
+      doGenerate: async () => baseResult,
+    });
+
+    const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
+    await generateText({ model: wrappedModel, prompt: 'Hi' });
+
+    await vi.waitFor(() => expect(destinationSpy).toHaveBeenCalledTimes(1));
+    const emittedPayload = destinationSpy.mock.calls[0]![0];
+    
+    expect(emittedPayload.usage).toMatchObject({
+      inputTokens: 14,
+      outputTokens: 10,
+      cacheReadTokens: 5,
+      cacheWriteTokens: 3,
+      reasoningTokens: 2,
+    });
   });
 
   it('should hit all fallback branches for full coverage', async () => {

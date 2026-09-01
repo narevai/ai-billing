@@ -73,6 +73,42 @@ describe('createV3BillingMiddleware', () => {
   };
 
   describe('wrapGenerate', () => {
+
+    it('should pass unmodified V4 token structure to buildEvent', async () => {
+      const buildEventSpy = vi.fn().mockResolvedValue(null);
+      const middleware = createV3BillingMiddleware({ buildEvent: buildEventSpy });
+      
+      const v4Usage = {
+        promptTokens: 14,
+        completionTokens: 10,
+        totalTokens: 24,
+        inputTokenDetails: { cacheReadTokens: 5, cacheWriteTokens: 3 },
+        outputTokenDetails: { reasoningTokens: 2 },
+      };
+
+      const mockModel = new MockLanguageModelV3({
+        doGenerate: {
+          ...createGenerateResult('resp-1'),
+          usage: v4Usage as any,
+        },
+      });
+
+      await middleware.wrapGenerate!({ ...({} as any),
+        model: mockModel,
+        params: testParams,
+        doGenerate: () => mockModel.doGenerate(testParams),
+      });
+
+      expect(buildEventSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          usage: expect.objectContaining({
+             promptTokens: 14,
+             inputTokenDetails: expect.objectContaining({ cacheReadTokens: 5 }),
+          }),
+        })
+      );
+    });
+
     it('should pass webSearchCount=0 to buildEvent when content has no sources', async () => {
       const buildEventSpy = vi.fn().mockResolvedValue(null);
       const middleware = createV3BillingMiddleware({
@@ -334,6 +370,45 @@ describe('createV3BillingMiddleware', () => {
   });
 
   describe('wrapStream', () => {
+
+    it('should pass unmodified V4 token structure to buildEvent from stream', async () => {
+      const buildEventSpy = vi.fn().mockResolvedValue(null);
+      const middleware = createV3BillingMiddleware({ buildEvent: buildEventSpy });
+
+      const v4Usage = {
+        promptTokens: 14,
+        completionTokens: 10,
+        totalTokens: 24,
+        inputTokenDetails: { cacheReadTokens: 5, cacheWriteTokens: 3 },
+        outputTokenDetails: { reasoningTokens: 2 },
+      };
+
+      const mockModel = new MockLanguageModelV3({
+        doStream: {
+          stream: convertArrayToReadableStream([
+            { type: 'finish', finishReason: 'stop', usage: v4Usage as any },
+          ]),
+        },
+      });
+
+      const { stream } = await middleware.wrapStream!({ ...({} as any),
+        model: mockModel,
+        params: testParams,
+        doStream: () => mockModel.doStream(testParams),
+      });
+
+      await consumeStream({ stream });
+
+      expect(buildEventSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          usage: expect.objectContaining({
+             promptTokens: 14,
+             inputTokenDetails: expect.objectContaining({ cacheReadTokens: 5 }),
+          }),
+        })
+      );
+    });
+
     it('should pass webSearchCount=0 to buildEvent when there are no source chunks', async () => {
       const buildEventSpy = vi.fn().mockResolvedValue(null);
       const middleware = createV3BillingMiddleware({
