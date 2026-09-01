@@ -1,5 +1,15 @@
 # chatbot-gateway-with-billing-polar-advanced
 
+## 0.0.14
+
+### Patch Changes
+
+- Updated dependencies [0fb5389]
+  - @ai-billing/nextjs@0.0.14
+  - @ai-billing/core@0.1.5
+  - @ai-billing/gateway@0.1.6
+  - @ai-billing/polar@0.1.9
+
 ## 0.0.13
 
 ### Patch Changes
