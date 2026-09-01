@@ -10,7 +10,7 @@ overrides:
   '@opentelemetry/core': '>=2.8.0'
   '@opentelemetry/resources': '>=2.8.0'
   dompurify: '>=3.4.13'
-  linkify-it: '^5.0.2'
+  linkify-it: '^6.0.0'
   markdown-it: '>=14.2.0'
   mermaid: '>=11.16.1'
   nanoid: '^6.0.0'
