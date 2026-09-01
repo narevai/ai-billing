@@ -40,5 +40,5 @@ export function getBillingWrappedModel(
 ): LanguageModelV3 {
   const middleware = getBillingMiddleware();
   if (!middleware) return model;
-  return wrapLanguageModel({ model, middleware });
+  return wrapLanguageModel({ model, middleware: middleware as any });
 }

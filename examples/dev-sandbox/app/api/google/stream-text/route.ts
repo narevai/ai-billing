@@ -53,7 +53,7 @@ export async function POST() {
 
   const wrappedModel = wrapLanguageModel({
     model: google(model),
-    middleware: billingMiddleware,
+    middleware: billingMiddleware as any,
   });
 
   const result = streamText({

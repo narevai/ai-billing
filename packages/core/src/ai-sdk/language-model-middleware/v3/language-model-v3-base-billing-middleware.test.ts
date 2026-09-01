@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, expect, it, vi } from 'vitest';
 import type {
   LanguageModelV3CallOptions,
@@ -83,7 +84,7 @@ describe('createV3BillingMiddleware', () => {
         doGenerate: createGenerateResult('resp-1'),
       });
 
-      await middleware.wrapGenerate!({
+      await (middleware as any).wrapGenerate!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
@@ -123,7 +124,7 @@ describe('createV3BillingMiddleware', () => {
         doGenerate: resultWithSources,
       });
 
-      await middleware.wrapGenerate!({
+      await (middleware as any).wrapGenerate!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
@@ -151,7 +152,7 @@ describe('createV3BillingMiddleware', () => {
         doGenerate: createGenerateResult('resp-1'),
       });
 
-      await middleware.wrapGenerate!({
+      await (middleware as any).wrapGenerate!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
@@ -182,7 +183,7 @@ describe('createV3BillingMiddleware', () => {
         doGenerate: createGenerateResult('resp-1'),
       });
 
-      const result = await middleware.wrapGenerate!({
+      const result = await (middleware as any).wrapGenerate!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
@@ -204,7 +205,7 @@ describe('createV3BillingMiddleware', () => {
         doGenerate: createGenerateResult('resp-1'),
       });
 
-      const result = await middleware.wrapGenerate!({
+      const result = await (middleware as any).wrapGenerate!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
@@ -229,7 +230,7 @@ describe('createV3BillingMiddleware', () => {
         doGenerate: createGenerateResult('resp-1'),
       });
 
-      await middleware.wrapGenerate!({
+      await (middleware as any).wrapGenerate!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
@@ -259,7 +260,7 @@ describe('createV3BillingMiddleware', () => {
         },
       };
 
-      await middleware.wrapGenerate!({
+      await (middleware as any).wrapGenerate!({
         model: mockModel,
         params: paramsWithProviderOptions,
         doGenerate: () => mockModel.doGenerate(paramsWithProviderOptions),
@@ -287,7 +288,7 @@ describe('createV3BillingMiddleware', () => {
         doGenerate: createGenerateResult('resp-1'),
       });
 
-      await middleware.wrapGenerate!({
+      await (middleware as any).wrapGenerate!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
@@ -318,7 +319,7 @@ describe('createV3BillingMiddleware', () => {
         doGenerate: createGenerateResult('resp-1'),
       });
 
-      const result = await middleware.wrapGenerate!({
+      const result = await (middleware as any).wrapGenerate!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
@@ -361,7 +362,7 @@ describe('createV3BillingMiddleware', () => {
         },
       });
 
-      const { stream } = await middleware.wrapStream!({
+      const { stream } = await (middleware as any).wrapStream!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
@@ -415,7 +416,7 @@ describe('createV3BillingMiddleware', () => {
         },
       });
 
-      const { stream } = await middleware.wrapStream!({
+      const { stream } = await (middleware as any).wrapStream!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
@@ -439,7 +440,7 @@ describe('createV3BillingMiddleware', () => {
 
       const mockModel = new MockLanguageModelV3({
         doStream: {
-          stream: convertArrayToReadableStream([
+          stream: convertArrayToReadableStream<any>([
             { type: 'text-start', id: 'res-id-1' },
             { type: 'reasoning-start' },
             { type: 'reasoning-delta', delta: 'thinking...' },
@@ -456,14 +457,14 @@ describe('createV3BillingMiddleware', () => {
         },
       });
 
-      const { stream } = await middleware.wrapStream!({
+      const { stream } = await (middleware as any).wrapStream!({
         model: mockModel,
         params: testParams as any,
         doGenerate: () => mockModel.doGenerate(testParams) as any,
         doStream: () => mockModel.doStream(testParams) as any,
       } as any);
 
-      const resultChunks = await convertReadableStreamToArray(stream as any);
+      const resultChunks = await convertReadableStreamToArray<any>(stream as any);
 
       expect(buildEventSpy).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -474,7 +475,7 @@ describe('createV3BillingMiddleware', () => {
           }
         }),
       );
-      
+
       expect(resultChunks.some((c: any) => c.type === 'reasoning-start')).toBe(true);
       expect(resultChunks.some((c: any) => c.type === 'reasoning-delta')).toBe(true);
     });
@@ -506,14 +507,14 @@ describe('createV3BillingMiddleware', () => {
         doStream: { stream: convertArrayToReadableStream(inputChunks) },
       });
 
-      const { stream } = await middleware.wrapStream!({
+      const { stream } = await (middleware as any).wrapStream!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
         doStream: () => mockModel.doStream(testParams),
       });
 
-      const outputChunks = await convertReadableStreamToArray(stream);
+      const outputChunks = await convertReadableStreamToArray<any>(stream as any);
 
       // Non-finish chunks pass through unmodified
       expect(outputChunks.slice(0, -1)).toEqual(inputChunks.slice(0, -1));
@@ -562,14 +563,14 @@ describe('createV3BillingMiddleware', () => {
         },
       });
 
-      const { stream } = await middleware.wrapStream!({
+      const { stream } = await (middleware as any).wrapStream!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
         doStream: () => mockModel.doStream(testParams),
       });
 
-      const outputChunks = await convertReadableStreamToArray(stream);
+      const outputChunks = await convertReadableStreamToArray<any>(stream as any);
       const finish = outputChunks.at(-1) as Extract<
         LanguageModelV3StreamPart,
         { type: 'finish' }
@@ -594,14 +595,14 @@ describe('createV3BillingMiddleware', () => {
         },
       });
 
-      const { stream } = await middleware.wrapStream!({
+      const { stream } = await (middleware as any).wrapStream!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
         doStream: () => mockModel.doStream(testParams),
       });
 
-      const outputChunks = await convertReadableStreamToArray(stream);
+      const outputChunks = await convertReadableStreamToArray<any>(stream as any);
       expect(outputChunks).toHaveLength(1);
       expect(outputChunks[0]!.type).toBe('text-delta');
     });
@@ -635,7 +636,7 @@ describe('createV3BillingMiddleware', () => {
         },
       });
 
-      const { stream } = await middleware.wrapStream!({
+      const { stream } = await (middleware as any).wrapStream!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
@@ -684,7 +685,7 @@ describe('createV3BillingMiddleware', () => {
         },
       });
 
-      const { stream } = await middleware.wrapStream!({
+      const { stream } = await (middleware as any).wrapStream!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
@@ -731,7 +732,7 @@ describe('createV3BillingMiddleware', () => {
         },
       });
 
-      const { stream } = await middleware.wrapStream!({
+      const { stream } = await (middleware as any).wrapStream!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
@@ -784,14 +785,14 @@ describe('createV3BillingMiddleware', () => {
         },
       });
 
-      const { stream } = await middleware.wrapStream!({
+      const { stream } = await (middleware as any).wrapStream!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
         doStream: () => mockModel.doStream(testParams),
       });
 
-      const outputChunks = await convertReadableStreamToArray(stream);
+      const outputChunks = await convertReadableStreamToArray<any>(stream as any);
 
       expect(buildEventSpy).toHaveBeenCalled();
 
@@ -824,7 +825,7 @@ describe('createV3BillingMiddleware', () => {
         doGenerate: createGenerateResult('resp-1'),
       });
 
-      await middleware.wrapGenerate!({
+      await (middleware as any).wrapGenerate!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),
@@ -859,7 +860,7 @@ describe('createV3BillingMiddleware', () => {
         },
       };
 
-      await middleware.wrapGenerate!({
+      await (middleware as any).wrapGenerate!({
         model: mockModel,
         params,
         doGenerate: () => mockModel.doGenerate(params),
@@ -885,7 +886,7 @@ describe('createV3BillingMiddleware', () => {
         doGenerate: createGenerateResult('resp-1'),
       });
 
-      await middleware.wrapGenerate!({
+      await (middleware as any).wrapGenerate!({
         model: mockModel,
         params: testParams,
         doGenerate: () => mockModel.doGenerate(testParams),

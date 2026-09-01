@@ -42,7 +42,7 @@ export async function POST() {
 
     const wrappedModel = wrapLanguageModel({
       model: openrouter(model),
-      middleware: billingMiddleware,
+      middleware: billingMiddleware as any,
     });
 
     const result = await generateText({

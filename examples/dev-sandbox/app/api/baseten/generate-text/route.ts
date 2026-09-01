@@ -11,7 +11,6 @@ import {
   createObjectPriceResolver,
   ModelPricing,
 } from '@ai-billing/core';
-import type { LanguageModelV3 } from '@ai-sdk/provider';
 
 const baseten = createBaseten({
   // eslint-disable-next-line turbo/no-undeclared-env-vars
@@ -47,8 +46,8 @@ export async function POST() {
     const model = 'openai/gpt-oss-120b';
 
     const wrappedModel = wrapLanguageModel({
-      model: baseten(model),
-      middleware: billingMiddleware,
+      model: baseten(model) as any,
+      middleware: billingMiddleware as any,
     });
 
     const result = await generateText({

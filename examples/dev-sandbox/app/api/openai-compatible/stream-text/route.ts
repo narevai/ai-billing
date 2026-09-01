@@ -11,7 +11,6 @@ import {
   createObjectPriceResolver,
   ModelPricing,
 } from '@ai-billing/core';
-import type { LanguageModelV3 } from '@ai-sdk/provider';
 
 const xai = createOpenAICompatible({
   name: 'xai', // must match the providerId used in the middleware
@@ -50,7 +49,7 @@ export async function POST() {
 
   const wrappedModel = wrapLanguageModel({
     model: xai(model),
-    middleware: billingMiddleware,
+    middleware: billingMiddleware as any,
   });
 
   const result = streamText({

@@ -38,7 +38,7 @@ export async function POST() {
 
     const wrappedModel = wrapLanguageModel({
       model: groq(model),
-      middleware: billingMiddleware,
+      middleware: billingMiddleware as any,
     });
 
     const result = await generateText({

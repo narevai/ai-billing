@@ -36,7 +36,7 @@ export async function POST() {
 
   const wrappedModel = wrapLanguageModel({
     model: gateway(model),
-    middleware: billingMiddleware,
+    middleware: billingMiddleware as any,
   });
 
   const result = streamText({
