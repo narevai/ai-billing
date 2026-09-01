@@ -274,9 +274,9 @@ describe('OpenRouterBillingMiddlewareV3 Integration', () => {
       provider: 'openrouter', // Fallback provider
       usage: {
         subProvider: 'Google AI Studio',
-        inputTokens: 0,
+        inputTokens: 1,
         cacheReadTokens: 0,
-        outputTokens: 0,
+        outputTokens: 1,
         reasoningTokens: 0,
         rawProviderCost: 0.000004653,
         rawUpstreamInferenceCost: 0.0000047,

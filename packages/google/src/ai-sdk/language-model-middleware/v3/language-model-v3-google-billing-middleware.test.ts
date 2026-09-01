@@ -255,12 +255,12 @@ describe('GoogleBillingMiddlewareV3 Integration', () => {
       modelId: mockModel.modelId,
       provider: 'google', // Expected fallback
       usage: {
-        inputTokens: 0,
-        outputTokens: 0,
+        inputTokens: 16,
+        outputTokens: 54,
         cacheReadTokens: 0,
-        reasoningTokens: 0,
+        reasoningTokens: 342,
       },
-      cost: { amount: 0, unit: 'nanos', currency: 'USD' },
+      cost: { amount: 680000, unit: 'nanos', currency: 'USD' },
       tags: {},
     });
 

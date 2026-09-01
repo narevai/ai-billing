@@ -111,13 +111,13 @@ export function createXaiV3Middleware<TTags extends DefaultTags>(
     }) => {
       const xaiRawUsage = usage?.raw as XaiUsageAccounting | undefined;
 
-      const inputTokensTotal = xaiRawUsage?.prompt_tokens ?? 0;
-      const outputTokensTotal = xaiRawUsage?.completion_tokens ?? 0;
+      const inputTokensTotal = xaiRawUsage?.prompt_tokens ?? (usage as any)?.promptTokens ?? usage?.inputTokens?.total ?? 0;
+      const outputTokensTotal = xaiRawUsage?.completion_tokens ?? (usage as any)?.completionTokens ?? usage?.outputTokens?.text ?? 0;
       const inputTokensCacheRead =
-        xaiRawUsage?.prompt_tokens_details?.cached_tokens ?? 0;
-      const inputTokensCacheWrite = 0;
+        xaiRawUsage?.prompt_tokens_details?.cached_tokens ?? (usage as any)?.inputTokenDetails?.cacheReadTokens ?? usage?.inputTokens?.cacheRead ?? 0;
+      const inputTokensCacheWrite = (usage as any)?.inputTokenDetails?.cacheWriteTokens ?? usage?.inputTokens?.cacheWrite ?? 0;
       const outputTokensReasoning =
-        xaiRawUsage?.completion_tokens_details?.reasoning_tokens ?? 0;
+        xaiRawUsage?.completion_tokens_details?.reasoning_tokens ?? (usage as any)?.outputTokenDetails?.reasoningTokens ?? usage?.outputTokens?.reasoning ?? 0;
 
       const xaiUsage: CostInputs = {
         promptTokens: inputTokensTotal,

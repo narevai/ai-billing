@@ -77,7 +77,7 @@ describe('createV3BillingMiddleware', () => {
     it('should pass unmodified V4 token structure to buildEvent', async () => {
       const buildEventSpy = vi.fn().mockResolvedValue(null);
       const middleware = createV3BillingMiddleware({ buildEvent: buildEventSpy });
-      
+
       const v4Usage = {
         promptTokens: 14,
         completionTokens: 10,
@@ -385,8 +385,8 @@ describe('createV3BillingMiddleware', () => {
 
       const mockModel = new MockLanguageModelV3({
         doStream: {
-          stream: convertArrayToReadableStream([
-            { type: 'finish', finishReason: 'stop', usage: v4Usage as any },
+          stream: convertArrayToReadableStream<LanguageModelV3StreamPart>([
+            { type: 'finish', finishReason: { unified: 'stop', raw: 'stop' }, usage: v4Usage as any },
           ]),
         },
       });

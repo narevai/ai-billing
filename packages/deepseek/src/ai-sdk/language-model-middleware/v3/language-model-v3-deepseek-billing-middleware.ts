@@ -109,12 +109,12 @@ export function createDeepSeekV3Middleware<TTags extends DefaultTags>(
       const rawUsage = usage?.raw as DeepSeekRawUsage | undefined;
 
       const deepSeekUsage: CostInputs = {
-        promptTokens: rawUsage?.prompt_tokens ?? 0,
-        completionTokens: rawUsage?.completion_tokens ?? 0,
-        cacheReadTokens: rawUsage?.prompt_cache_hit_tokens ?? 0,
-        cacheWriteTokens: 0,
+        promptTokens: rawUsage?.prompt_tokens ?? (usage as any)?.promptTokens ?? usage?.inputTokens?.total ?? 0,
+        completionTokens: rawUsage?.completion_tokens ?? (usage as any)?.completionTokens ?? usage?.outputTokens?.text ?? 0,
+        cacheReadTokens: rawUsage?.prompt_cache_hit_tokens ?? (usage as any)?.inputTokenDetails?.cacheReadTokens ?? usage?.inputTokens?.cacheRead ?? 0,
+        cacheWriteTokens: (usage as any)?.inputTokenDetails?.cacheWriteTokens ?? usage?.inputTokens?.cacheWrite ?? 0,
         reasoningTokens:
-          rawUsage?.completion_tokens_details?.reasoning_tokens ?? 0,
+          rawUsage?.completion_tokens_details?.reasoning_tokens ?? (usage as any)?.outputTokenDetails?.reasoningTokens ?? usage?.outputTokens?.reasoning ?? 0,
         webSearchCount: webSearchCount,
       };
 

@@ -166,7 +166,7 @@ export async function POST(request: Request) {
           system: systemPrompt({ requestHints, supportsTools }),
           messages: modelMessages,
           stopWhen: stepCountIs(5),
-          experimental_activeTools:
+          activeTools:
             isReasoningModel && !supportsTools
               ? []
               : [

@@ -268,7 +268,7 @@ describe('GatewayBillingMiddlewareV3 Integration', () => {
 
     await vi.waitFor(() => expect(destinationSpy).toHaveBeenCalledTimes(1));
     const emittedPayload = destinationSpy.mock.calls[0]![0];
-    
+
     expect(emittedPayload.usage).toMatchObject({
       inputTokens: 14,
       outputTokens: 10,

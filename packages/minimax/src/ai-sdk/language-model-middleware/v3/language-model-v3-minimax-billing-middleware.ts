@@ -99,12 +99,12 @@ export function createMinimaxV3Middleware<TTags extends DefaultTags>(
           | undefined
       )?.anthropic?.usage;
 
-      const inputTokensTotal = minimaxRawUsage?.input_tokens ?? 0;
+      const inputTokensTotal = minimaxRawUsage?.input_tokens ?? (usage as any)?.promptTokens ?? usage?.inputTokens?.total ?? 0;
       const inputTokensCacheRead =
-        minimaxRawUsage?.cache_read_input_tokens ?? 0;
+        minimaxRawUsage?.cache_read_input_tokens ?? (usage as any)?.inputTokenDetails?.cacheReadTokens ?? usage?.inputTokens?.cacheRead ?? 0;
       const inputTokensCacheWrite =
-        minimaxRawUsage?.cache_creation_input_tokens ?? 0;
-      const outputTokensText = minimaxRawUsage?.output_tokens ?? 0;
+        minimaxRawUsage?.cache_creation_input_tokens ?? (usage as any)?.inputTokenDetails?.cacheWriteTokens ?? usage?.inputTokens?.cacheWrite ?? 0;
+      const outputTokensText = minimaxRawUsage?.output_tokens ?? (usage as any)?.completionTokens ?? usage?.outputTokens?.text ?? 0;
       const outputTokensReasoning = (usage?.outputTokenDetails?.reasoningTokens ?? usage?.outputTokens?.reasoning) ?? 0;
 
       const minimaxUsage: CostInputs = {

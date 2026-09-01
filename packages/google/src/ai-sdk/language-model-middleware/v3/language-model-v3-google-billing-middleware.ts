@@ -102,7 +102,7 @@ export function createGoogleV3Middleware<TTags extends DefaultTags>(
 
     buildEvent: async ({
       model,
-      usage: _usage,
+      usage,
       providerMetadata,
       responseId,
       tags,
@@ -112,21 +112,21 @@ export function createGoogleV3Middleware<TTags extends DefaultTags>(
         | undefined;
 
       const inputTokensTotal =
-        googleMetadata?.google?.usageMetadata?.promptTokenCount ?? 0;
+        googleMetadata?.google?.usageMetadata?.promptTokenCount ?? (usage as any)?.promptTokens ?? usage?.inputTokens?.total ?? 0;
       const inputTokensCacheRead =
-        googleMetadata?.google?.usageMetadata?.cachedContentTokenCount ?? 0;
+        googleMetadata?.google?.usageMetadata?.cachedContentTokenCount ?? (usage as any)?.inputTokenDetails?.cacheReadTokens ?? usage?.inputTokens?.cacheRead ?? 0;
       const outputTokensTotal =
         (googleMetadata?.google?.usageMetadata?.candidatesTokenCount ?? 0) +
-        (googleMetadata?.google?.usageMetadata?.thoughtsTokenCount ?? 0);
+        (googleMetadata?.google?.usageMetadata?.thoughtsTokenCount ?? 0) || ((usage as any)?.completionTokens ?? usage?.outputTokens?.text ?? 0);
 
       const outputTokensReasoning =
-        googleMetadata?.google?.usageMetadata?.thoughtsTokenCount ?? 0;
+        googleMetadata?.google?.usageMetadata?.thoughtsTokenCount ?? (usage as any)?.outputTokenDetails?.reasoningTokens ?? usage?.outputTokens?.reasoning ?? 0;
 
       const googleAIUsage: CostInputs = {
         promptTokens: inputTokensTotal,
         completionTokens: outputTokensTotal ?? 0,
         cacheReadTokens: inputTokensCacheRead,
-        cacheWriteTokens: 0,
+        cacheWriteTokens: (usage as any)?.inputTokenDetails?.cacheWriteTokens ?? usage?.inputTokens?.cacheWrite ?? 0,
         reasoningTokens: outputTokensReasoning,
       };
 

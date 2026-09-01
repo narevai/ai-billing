@@ -47,6 +47,7 @@ catalogs:
 
     # AI SDK Stack
     ai: '^7.0.89'
+    "@ai-sdk/react": '^4.0.92'
     '@ai-sdk/openai': '^4.0.55'
     '@ai-sdk/provider': '^4.0.10'
     '@openrouter/ai-sdk-provider': '^3.0.0'

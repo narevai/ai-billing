@@ -76,7 +76,7 @@ export function createOpenRouterV3Middleware<TTags extends DefaultTags>(
 
     buildEvent: ({
       model,
-      usage: _sdkUsage, // We ignore sdk usage because OpenRouter provides better cost metrics
+      usage: sdkUsage,
       providerMetadata,
       responseId,
       tags,
@@ -104,12 +104,12 @@ export function createOpenRouterV3Middleware<TTags extends DefaultTags>(
         tags: tags,
         usage: {
           subProvider: openrouterMetadata?.openrouter?.provider,
-          inputTokens: openRouterUsage.promptTokens ?? 0,
-          outputTokens: openRouterUsage.completionTokens ?? 0,
+          inputTokens: openRouterUsage?.promptTokens ?? (sdkUsage as any)?.promptTokens ?? sdkUsage?.inputTokens?.total ?? 0,
+          outputTokens: openRouterUsage?.completionTokens ?? (sdkUsage as any)?.completionTokens ?? sdkUsage?.outputTokens?.text ?? 0,
           cacheReadTokens:
-            openRouterUsage.promptTokensDetails?.cachedTokens ?? 0,
+            openRouterUsage?.promptTokensDetails?.cachedTokens ?? (sdkUsage as any)?.inputTokenDetails?.cacheReadTokens ?? sdkUsage?.inputTokens?.cacheRead ?? 0,
           reasoningTokens:
-            openRouterUsage.completionTokensDetails?.reasoningTokens ?? 0,
+            openRouterUsage?.completionTokensDetails?.reasoningTokens ?? (sdkUsage as any)?.outputTokenDetails?.reasoningTokens ?? sdkUsage?.outputTokens?.reasoning ?? 0,
           rawProviderCost: openRouterUsage.cost,
           rawUpstreamInferenceCost:
             openRouterUsage.costDetails?.upstreamInferenceCost,
