@@ -1,5 +1,15 @@
 # chatbot-gateway-with-billing-stripe-advanced
 
+## 0.0.14
+
+### Patch Changes
+
+- Updated dependencies [0fb5389]
+  - @ai-billing/nextjs@0.0.14
+  - @ai-billing/core@0.1.5
+  - @ai-billing/gateway@0.1.6
+  - @ai-billing/stripe@0.1.6
+
 ## 0.0.13
 
 ### Patch Changes

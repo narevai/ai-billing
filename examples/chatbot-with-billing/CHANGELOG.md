@@ -1,5 +1,12 @@
 # chatbot-with-billing
 
+## 0.0.14
+
+### Patch Changes
+
+- Updated dependencies [0fb5389]
+  - @ai-billing/nextjs@0.0.14
+
 ## 0.0.13
 
 ### Patch Changes

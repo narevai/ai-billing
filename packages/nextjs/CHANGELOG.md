@@ -1,5 +1,27 @@
 # @ai-billing/nextjs
 
+## 0.0.14
+
+### Patch Changes
+
+- 0fb5389: Remove missing billing endpoints from Narev SDK and mock responses in Next.js hooks.
+- Updated dependencies [0fb5389]
+  - @ai-billing/narev@0.0.7
+  - @ai-billing/types@0.0.3
+  - @ai-billing/anthropic@0.1.5
+  - @ai-billing/chutes@0.1.5
+  - @ai-billing/core@0.1.5
+  - @ai-billing/deepseek@0.1.5
+  - @ai-billing/gateway@0.1.6
+  - @ai-billing/google@0.1.5
+  - @ai-billing/groq@0.1.5
+  - @ai-billing/minimax@0.1.5
+  - @ai-billing/openai@0.1.5
+  - @ai-billing/openrouter@0.1.5
+  - @ai-billing/polar@0.1.9
+  - @ai-billing/ui@0.0.8
+  - @ai-billing/xai@0.1.5
+
 ## 0.0.13
 
 ### Patch Changes
