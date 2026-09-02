@@ -1,0 +1,140 @@
+import { calculateMinimaxCost } from '../../../cost/index.js';
+import { toUsage } from '@ai-billing/core';
+import { createV4BillingMiddleware } from '@ai-billing/core/v4';
+import type {
+  CostInputs,
+  BaseBillingMiddlewareOptions,
+  PriceResolver,
+  Cost,
+  DefaultTags,
+  PriceResolverContext,
+  ModelPricing,
+  BillingEvent,
+} from '@ai-billing/types';
+
+interface MinimaxAnthropicUsage {
+  input_tokens?: number;
+  output_tokens?: number;
+  cache_creation_input_tokens?: number;
+  cache_read_input_tokens?: number;
+}
+
+/**
+ * Configuration for {@link createMinimaxV4Middleware}.
+ *
+ * Extends {@link BaseBillingMiddlewareOptions} (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
+ * requires a {@link PriceResolver}. Usage is taken from the AI SDK's normalized usage fields; cost is
+ * computed from that usage and the resolved {@link ModelPricing} using the same rules as the package's cost
+ * helper.
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
+ */
+export interface MinimaxV4MiddlewareOptions<
+  TTags extends DefaultTags,
+> extends BaseBillingMiddlewareOptions<TTags> {
+  priceResolver: PriceResolver;
+}
+
+/**
+ * Creates a V4 billing middleware for the Minimax provider (via `@ai-sdk/anthropic` with MiniMax base URL).
+ * Maps AI SDK usage into billing fields and resolves cost from pricing plus usage.
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
+ * @param options - Billing options; see {@link MinimaxV4MiddlewareOptions}. A `priceResolver` is required.
+ * @returns A V4 billing middleware instance for Minimax.
+ *
+ * @example
+ * ```ts
+ * import { createAnthropic } from '@ai-sdk/anthropic';
+ * import { wrapLanguageModel } from 'ai';
+ * import { createMinimaxV4Middleware } from '@ai-billing/minimax/v4';
+ * import {
+ *   consoleDestination,
+ *   createObjectPriceResolver,
+ *   type ModelPricing,
+ * } from '@ai-billing/core';
+ *
+ * const minimax = createAnthropic({
+ *   apiKey: process.env.MINIMAX_API_KEY,
+ *   baseURL: 'https://api.minimax.io/anthropic/v1',
+ * });
+ *
+ * const customPricingMap: Record<string, ModelPricing> = {
+ *   'minimax-m1': {
+ *     promptTokens: 0.4 / 1_000_000,
+ *     completionTokens: 1.6 / 1_000_000,
+ *     internalReasoningTokens: 1.6 / 1_000_000,
+ *   },
+ * };
+ *
+ * const priceResolver = createObjectPriceResolver(customPricingMap);
+ *
+ * const billingMiddleware = createMinimaxV4Middleware({
+ *   destinations: [consoleDestination()],
+ *   priceResolver,
+ * });
+ *
+ * const wrappedModel = wrapLanguageModel({
+ *   model: minimax('minimax-m1'),
+ *   middleware: billingMiddleware,
+ * });
+ * ```
+ */
+export function createMinimaxV4Middleware<TTags extends DefaultTags>(
+  options: MinimaxV4MiddlewareOptions<TTags>,
+) {
+  return createV4BillingMiddleware<TTags>({
+    ...options,
+
+    buildEvent: async ({
+      model,
+      usage,
+      providerMetadata,
+      responseId,
+      tags,
+      webSearchCount,
+    }) => {
+      const minimaxRawUsage = (
+        providerMetadata as
+          | { anthropic?: { usage?: MinimaxAnthropicUsage } }
+          | undefined
+      )?.anthropic?.usage;
+
+      const inputTokensTotal = minimaxRawUsage?.input_tokens ?? 0;
+      const inputTokensCacheRead =
+        minimaxRawUsage?.cache_read_input_tokens ?? 0;
+      const inputTokensCacheWrite =
+        minimaxRawUsage?.cache_creation_input_tokens ?? 0;
+      const outputTokensText = minimaxRawUsage?.output_tokens ?? 0;
+      const outputTokensReasoning = usage?.outputTokens?.reasoning ?? 0;
+
+      const minimaxUsage: CostInputs = {
+        promptTokens: inputTokensTotal,
+        completionTokens: outputTokensText,
+        cacheReadTokens: inputTokensCacheRead,
+        cacheWriteTokens: inputTokensCacheWrite,
+        reasoningTokens: outputTokensReasoning,
+        webSearchCount: webSearchCount,
+      };
+
+      const pricing: ModelPricing | undefined = await options.priceResolver({
+        modelId: model.modelId,
+        providerId: 'minimax',
+      } as PriceResolverContext);
+
+      const calculatedCost: Cost | undefined = calculateMinimaxCost({
+        pricing,
+        usage: minimaxUsage,
+      });
+
+      return {
+        generationId: responseId ?? crypto.randomUUID(),
+        modelId: model.modelId,
+        provider: 'minimax',
+        tags,
+        usage: toUsage(minimaxUsage),
+        ...(calculatedCost !== undefined && { cost: calculatedCost }),
+      } satisfies BillingEvent<TTags>;
+    },
+  });
+}

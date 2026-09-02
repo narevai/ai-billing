@@ -20,6 +20,16 @@
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
+    },
+    "./v4": {
+      "import": {
+        "types": "./dist/v4.d.ts",
+        "default": "./dist/v4.js"
+      },
+      "require": {
+        "types": "./dist/v4.d.cts",
+        "default": "./dist/v4.cjs"
+      }
     }
   },
   "publishConfig": {
@@ -54,12 +64,13 @@
     "typescript": "catalog:",
     "vitest": "catalog:",
     "ai": "catalog:",
+    "ai-v7": "npm:ai@^7.0.0",
     "@ai-sdk/provider": "catalog:",
     "@edge-runtime/vm": "catalog:",
     "zod": "catalog:"
   },
   "peerDependencies": {
-    "@ai-sdk/deepseek": "^2.0.0"
+    "@ai-sdk/deepseek": "^2.0.0 || ^3.0.0"
   },
   "engines": {
     "node": ">=20.0.0"

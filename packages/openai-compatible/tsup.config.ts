@@ -17,7 +17,7 @@ const commonConfig: Options = {
 export default defineConfig([
   {
     ...commonConfig,
-    entry: ['src/index.ts'],
+    entry: ['src/index.ts', 'src/v4.ts'],
     outDir: 'dist',
   },
 ]);
