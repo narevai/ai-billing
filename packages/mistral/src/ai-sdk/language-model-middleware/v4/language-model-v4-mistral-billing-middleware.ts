@@ -109,7 +109,9 @@ export function createMistralV4Middleware<TTags extends DefaultTags>(
       tags,
       webSearchCount,
     }) => {
-      const mistralRawUsage = usage?.raw as MistralV4UsageAccounting | undefined;
+      const mistralRawUsage = usage?.raw as
+        | MistralV4UsageAccounting
+        | undefined;
 
       const inputTokensTotal = mistralRawUsage?.prompt_tokens ?? 0;
       const outputTokensTotal = mistralRawUsage?.completion_tokens ?? 0;
