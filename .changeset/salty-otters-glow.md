@@ -1,5 +1,5 @@
 ---
-"@ai-billing/core": minor
+"@ai-billing/core": patch
 "@ai-billing/anthropic": minor
 "@ai-billing/baseten": minor
 "@ai-billing/chutes": minor
@@ -12,7 +12,7 @@
 "@ai-billing/openai-compatible": minor
 "@ai-billing/openrouter": minor
 "@ai-billing/xai": minor
-"@ai-billing/types": minor
+"@ai-billing/types": patch
 ---
 
 feat: add AI SDK v7 / LanguageModelMiddlewareV4 support to every package's default entry
