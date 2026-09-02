@@ -1,8 +1,8 @@
-import { generateText, streamText, wrapLanguageModel } from 'ai';
+import { generateText, streamText, wrapLanguageModel } from 'ai-v6';
 import { describe, expect, it, test, vi } from 'vitest';
 import {
   createOpenRouterV3Middleware,
-  OpenRouterProviderMetadata,
+  OpenRouterV3ProviderMetadata,
 } from './language-model-v3-openrouter-billing-middleware.js';
 import {
   BillingEventSchema,
@@ -20,7 +20,7 @@ import { z } from 'zod';
 describe('OpenRouterBillingMiddlewareV3 Integration', () => {
   const StrictBillingEventSchema: z.ZodType<BillingEvent> = BillingEventSchema;
 
-  const realMetadata: OpenRouterProviderMetadata = {
+  const realMetadata: OpenRouterV3ProviderMetadata = {
     openrouter: {
       provider: 'Google AI Studio',
       reasoning_details: [],

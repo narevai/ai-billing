@@ -1,6 +1,5 @@
 import { calculateChutesCost } from '../../../cost/index.js';
-import { toUsage } from '@ai-billing/core';
-import { createV4BillingMiddleware } from '@ai-billing/core/v4';
+import { createV4BillingMiddleware, toUsage } from '@ai-billing/core';
 import type {
   CostInputs,
   BaseBillingMiddlewareOptions,
@@ -41,7 +40,7 @@ export interface ChutesV4MiddlewareOptions<
  * ```ts
  * import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
  * import { wrapLanguageModel } from 'ai';
- * import { createChutesV4Middleware } from '@ai-billing/chutes/v4';
+ * import { createChutesV4Middleware } from '@ai-billing/chutes';
  * import {
  *   consoleDestination,
  *   createObjectPriceResolver,

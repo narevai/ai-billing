@@ -20,16 +20,6 @@
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
-    },
-    "./v4": {
-      "import": {
-        "types": "./dist/v4.d.ts",
-        "default": "./dist/v4.js"
-      },
-      "require": {
-        "types": "./dist/v4.d.cts",
-        "default": "./dist/v4.cjs"
-      }
     }
   },
   "publishConfig": {
@@ -63,8 +53,8 @@
     "typedoc-plugin-markdown": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
-    "ai": "catalog:",
-    "ai-v7": "npm:ai@^7.0.0",
+    "ai": "^7.0.0",
+    "ai-v6": "npm:ai@^6.0.138",
     "@ai-sdk/provider": "catalog:",
     "@edge-runtime/vm": "catalog:",
     "zod": "catalog:"

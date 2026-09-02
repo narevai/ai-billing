@@ -1,6 +1,5 @@
 import { calculateXaiCost } from '../../../cost/index.js';
-import { toUsage } from '@ai-billing/core';
-import { createV4BillingMiddleware } from '@ai-billing/core/v4';
+import { createV4BillingMiddleware, toUsage } from '@ai-billing/core';
 import type {
   CostInputs,
   BaseBillingMiddlewareOptions,
@@ -13,7 +12,7 @@ import type {
 } from '@ai-billing/types';
 import { JSONObject } from '@ai-sdk/provider';
 
-export interface XaiUsageAccounting extends JSONObject {
+export interface XaiV4UsageAccounting extends JSONObject {
   prompt_tokens: number;
   completion_tokens: number;
   total_tokens: number;
@@ -60,7 +59,7 @@ export interface XaiV4MiddlewareOptions<
  * ```ts
  * import { createXai } from '@ai-sdk/xai';
  * import { wrapLanguageModel } from 'ai';
- * import { createXaiV4Middleware } from '@ai-billing/xai/v4';
+ * import { createXaiV4Middleware } from '@ai-billing/xai';
  * import {
  *   consoleDestination,
  *   createObjectPriceResolver,
@@ -110,7 +109,7 @@ export function createXaiV4Middleware<TTags extends DefaultTags>(
       tags,
       webSearchCount,
     }) => {
-      const xaiRawUsage = usage?.raw as XaiUsageAccounting | undefined;
+      const xaiRawUsage = usage?.raw as XaiV4UsageAccounting | undefined;
 
       const inputTokensTotal = xaiRawUsage?.prompt_tokens ?? 0;
       const outputTokensTotal = xaiRawUsage?.completion_tokens ?? 0;

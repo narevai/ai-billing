@@ -1,4 +1,4 @@
-import { generateText, streamText, wrapLanguageModel } from 'ai-v7';
+import { generateText, streamText, wrapLanguageModel } from 'ai';
 import { describe, expect, it, vi } from 'vitest';
 import { createDeepSeekV4Middleware } from './language-model-v4-deepseek-billing-middleware.js';
 import {

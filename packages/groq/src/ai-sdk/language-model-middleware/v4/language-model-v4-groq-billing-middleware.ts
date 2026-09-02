@@ -1,6 +1,5 @@
 import { calculateGroqCost } from '../../../cost/index.js';
-import { toUsage } from '@ai-billing/core';
-import { createV4BillingMiddleware } from '@ai-billing/core/v4';
+import { createV4BillingMiddleware, toUsage } from '@ai-billing/core';
 import type {
   CostInputs,
   BaseBillingMiddlewareOptions,
@@ -55,12 +54,12 @@ export interface GroqV4MiddlewareOptions<
  * @returns A V4 billing middleware instance for Groq.
  *
  * @example
- * Targets AI SDK v7 (`LanguageModelV4Middleware`) via the package's `./v4` export subpath.
+ * Targets AI SDK v7 (`LanguageModelV4Middleware`).
  *
  * ```ts
  * import { createGroq } from '@ai-sdk/groq';
  * import { wrapLanguageModel } from 'ai';
- * import { createGroqV4Middleware } from '@ai-billing/groq/v4';
+ * import { createGroqV4Middleware } from '@ai-billing/groq';
  * import {
  *   consoleDestination,
  *   createObjectPriceResolver,

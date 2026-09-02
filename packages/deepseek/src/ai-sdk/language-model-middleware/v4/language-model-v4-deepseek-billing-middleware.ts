@@ -1,6 +1,5 @@
 import { calculateDeepSeekCost } from '../../../cost/index.js';
-import { toUsage } from '@ai-billing/core';
-import { createV4BillingMiddleware } from '@ai-billing/core/v4';
+import { createV4BillingMiddleware, toUsage } from '@ai-billing/core';
 import type {
   CostInputs,
   BaseBillingMiddlewareOptions,
@@ -55,7 +54,7 @@ export interface DeepSeekV4MiddlewareOptions<
  * ```ts
  * import { createDeepSeek } from '@ai-sdk/deepseek';
  * import { wrapLanguageModel } from 'ai';
- * import { createDeepSeekV4Middleware } from '@ai-billing/deepseek/v4';
+ * import { createDeepSeekV4Middleware } from '@ai-billing/deepseek';
  * import {
  *   consoleDestination,
  *   createObjectPriceResolver,

@@ -1,6 +1,5 @@
 import { calculateMinimaxCost } from '../../../cost/index.js';
-import { toUsage } from '@ai-billing/core';
-import { createV4BillingMiddleware } from '@ai-billing/core/v4';
+import { createV4BillingMiddleware, toUsage } from '@ai-billing/core';
 import type {
   CostInputs,
   BaseBillingMiddlewareOptions,
@@ -47,7 +46,7 @@ export interface MinimaxV4MiddlewareOptions<
  * ```ts
  * import { createAnthropic } from '@ai-sdk/anthropic';
  * import { wrapLanguageModel } from 'ai';
- * import { createMinimaxV4Middleware } from '@ai-billing/minimax/v4';
+ * import { createMinimaxV4Middleware } from '@ai-billing/minimax';
  * import {
  *   consoleDestination,
  *   createObjectPriceResolver,

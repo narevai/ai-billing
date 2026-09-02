@@ -1,6 +1,5 @@
 import { calculateGoogleCost } from '../../../cost/index.js';
-import { toUsage } from '@ai-billing/core';
-import { createV4BillingMiddleware } from '@ai-billing/core/v4';
+import { createV4BillingMiddleware, toUsage } from '@ai-billing/core';
 import type {
   CostInputs,
   BaseBillingMiddlewareOptions,
@@ -58,12 +57,12 @@ export interface GoogleV4MiddlewareOptions<
  * @returns A V4 billing middleware instance for Google.
  *
  * @example
- * Targets AI SDK v7 (`LanguageModelV4Middleware`) via the package's `./v4` export subpath.
+ * Targets AI SDK v7 (`LanguageModelV4Middleware`).
  *
  * ```ts
  * import { createGoogleGenerativeAI } from '@ai-sdk/google';
  * import { wrapLanguageModel } from 'ai';
- * import { createGoogleV4Middleware } from '@ai-billing/google/v4';
+ * import { createGoogleV4Middleware } from '@ai-billing/google';
  * import {
  *   consoleDestination,
  *   createObjectPriceResolver,

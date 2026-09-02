@@ -1,4 +1,4 @@
-import { generateText, streamText, wrapLanguageModel } from 'ai';
+import { generateText, streamText, wrapLanguageModel } from 'ai-v6';
 import { describe, expect, it, vi } from 'vitest';
 import { createOpenAIV3Middleware } from './language-model-v3-openai-billing-middleware.js';
 import {

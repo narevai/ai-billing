@@ -9,7 +9,7 @@ import type {
 } from '@ai-billing/types';
 import type { SharedV3ProviderMetadata } from '@ai-sdk/provider';
 
-export interface GatewayAttempt {
+export interface GatewayV3Attempt {
   provider: string;
   internalModelId: string;
   providerApiModelId: string;
@@ -21,15 +21,15 @@ export interface GatewayAttempt {
   providerResponseId: string;
 }
 
-export interface GatewayModelAttempt {
+export interface GatewayV3ModelAttempt {
   modelId: string;
   canonicalSlug: string;
   success: boolean;
   providerAttemptCount: number;
-  providerAttempts: GatewayAttempt[];
+  providerAttempts: GatewayV3Attempt[];
 }
 
-export interface GatewayRouting {
+export interface GatewayV3Routing {
   originalModelId: string;
   resolvedProvider: string;
   resolvedProviderApiModelId: string;
@@ -39,20 +39,20 @@ export interface GatewayRouting {
   planningReasoning: string;
   canonicalSlug: string;
   finalProvider: string;
-  attempts: GatewayAttempt[];
+  attempts: GatewayV3Attempt[];
   modelAttemptCount: number;
-  modelAttempts: GatewayModelAttempt[];
+  modelAttempts: GatewayV3ModelAttempt[];
   totalProviderAttemptCount: number;
 }
 
-export type GatewayProviderMetadata = SharedV3ProviderMetadata & {
+export type GatewayV3ProviderMetadata = SharedV3ProviderMetadata & {
   gateway?: {
     generationId: string;
     cost?: string;
     marketCost?: string;
     enabledZeroDataRetention: boolean;
     enabledDisallowPromptTraining: boolean;
-    routing?: GatewayRouting;
+    routing?: GatewayV3Routing;
   };
 };
 
@@ -108,7 +108,7 @@ export function createGatewayV3Middleware<TTags extends DefaultTags>(
 
     buildEvent: ({ model, usage, providerMetadata, responseId, tags }) => {
       const gatewayMetadata = providerMetadata as
-        | GatewayProviderMetadata
+        | GatewayV3ProviderMetadata
         | undefined;
 
       const gatewayCost = Number(gatewayMetadata?.gateway?.cost ?? '0');

@@ -1,6 +1,5 @@
 import { calculateOpenAICompatibleCost } from '../../../cost/index.js';
-import { toUsage } from '@ai-billing/core';
-import { createV4BillingMiddleware } from '@ai-billing/core/v4';
+import { createV4BillingMiddleware, toUsage } from '@ai-billing/core';
 import type {
   CostInputs,
   BaseBillingMiddlewareOptions,
@@ -42,12 +41,12 @@ export interface OpenAICompatibleV4MiddlewareOptions<
  * @returns A V4 billing middleware instance for the configured provider.
  *
  * @example
- * Targets AI SDK v7 (`LanguageModelV4Middleware`) via the package's `./v4` export subpath.
+ * Targets AI SDK v7 (`LanguageModelV4Middleware`).
  *
  * ```ts
  * import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
  * import { wrapLanguageModel } from 'ai';
- * import { createOpenAICompatibleV4Middleware } from '@ai-billing/openai-compatible/v4';
+ * import { createOpenAICompatibleV4Middleware } from '@ai-billing/openai-compatible';
  * import {
  *   consoleDestination,
  *   createObjectPriceResolver,

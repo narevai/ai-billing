@@ -1,4 +1,4 @@
-import { generateText, streamText, wrapLanguageModel } from 'ai-v7';
+import { generateText, streamText, wrapLanguageModel } from 'ai';
 import { describe, expect, it, vi } from 'vitest';
 import { createChutesV4Middleware } from './language-model-v4-chutes-billing-middleware.js';
 import {

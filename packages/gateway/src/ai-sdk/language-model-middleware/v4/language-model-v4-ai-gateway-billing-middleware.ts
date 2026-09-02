@@ -1,5 +1,7 @@
-import { AiBillingExtractorError } from '@ai-billing/core';
-import { createV4BillingMiddleware } from '@ai-billing/core/v4';
+import {
+  createV4BillingMiddleware,
+  AiBillingExtractorError,
+} from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
   DefaultTags,
@@ -7,7 +9,7 @@ import type {
 } from '@ai-billing/types';
 import type { SharedV4ProviderMetadata } from '@ai-sdk/provider';
 
-export interface GatewayAttempt {
+export interface GatewayV4Attempt {
   provider: string;
   internalModelId: string;
   providerApiModelId: string;
@@ -19,15 +21,15 @@ export interface GatewayAttempt {
   providerResponseId: string;
 }
 
-export interface GatewayModelAttempt {
+export interface GatewayV4ModelAttempt {
   modelId: string;
   canonicalSlug: string;
   success: boolean;
   providerAttemptCount: number;
-  providerAttempts: GatewayAttempt[];
+  providerAttempts: GatewayV4Attempt[];
 }
 
-export interface GatewayRouting {
+export interface GatewayV4Routing {
   originalModelId: string;
   resolvedProvider: string;
   resolvedProviderApiModelId: string;
@@ -37,20 +39,20 @@ export interface GatewayRouting {
   planningReasoning: string;
   canonicalSlug: string;
   finalProvider: string;
-  attempts: GatewayAttempt[];
+  attempts: GatewayV4Attempt[];
   modelAttemptCount: number;
-  modelAttempts: GatewayModelAttempt[];
+  modelAttempts: GatewayV4ModelAttempt[];
   totalProviderAttemptCount: number;
 }
 
-export type GatewayProviderMetadata = SharedV4ProviderMetadata & {
+export type GatewayV4ProviderMetadata = SharedV4ProviderMetadata & {
   gateway?: {
     generationId: string;
     cost?: string;
     marketCost?: string;
     enabledZeroDataRetention: boolean;
     enabledDisallowPromptTraining: boolean;
-    routing?: GatewayRouting;
+    routing?: GatewayV4Routing;
   };
 };
 
@@ -78,11 +80,11 @@ export interface GatewayV4MiddlewareOptions<
  * @returns A V4 billing middleware instance for the AI Gateway.
  *
  * @example
- * Targets AI SDK v7 (`LanguageModelV4Middleware`) via the package's `./v4` export subpath.
+ * Targets AI SDK v7 (`LanguageModelV4Middleware`).
  *
  * ```ts
  * import { createGateway, wrapLanguageModel } from 'ai';
- * import { createGatewayV4Middleware } from '@ai-billing/gateway/v4';
+ * import { createGatewayV4Middleware } from '@ai-billing/gateway';
  * import { consoleDestination } from '@ai-billing/core';
  *
  * const gateway = createGateway({ apiKey: process.env.AI_GATEWAY_API_KEY });
@@ -105,7 +107,7 @@ export function createGatewayV4Middleware<TTags extends DefaultTags>(
 
     buildEvent: ({ model, usage, providerMetadata, responseId, tags }) => {
       const gatewayMetadata = providerMetadata as
-        | GatewayProviderMetadata
+        | GatewayV4ProviderMetadata
         | undefined;
 
       const gatewayCost = Number(gatewayMetadata?.gateway?.cost ?? '0');

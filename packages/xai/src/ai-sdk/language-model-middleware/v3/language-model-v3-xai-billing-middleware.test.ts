@@ -1,8 +1,8 @@
-import { generateText, streamText, wrapLanguageModel } from 'ai';
+import { generateText, streamText, wrapLanguageModel } from 'ai-v6';
 import { describe, expect, it, vi } from 'vitest';
 import {
   createXaiV3Middleware,
-  XaiUsageAccounting,
+  XaiV3UsageAccounting,
 } from './language-model-v3-xai-billing-middleware.js';
 import {
   BillingEventSchema,
@@ -58,7 +58,7 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
           accepted_prediction_tokens: 0,
           rejected_prediction_tokens: 0,
         },
-      } as XaiUsageAccounting,
+      } as XaiV3UsageAccounting,
     },
     response: { id: 'resp_xai_abc123', timestamp: new Date() },
     providerMetadata: {},
@@ -88,7 +88,7 @@ describe('XAIBillingMiddlewareV3 Integration', () => {
         modelId: 'grok-3',
         providerId: 'xai',
       });
-      const rawUsage = baseResult.usage.raw as XaiUsageAccounting;
+      const rawUsage = baseResult.usage.raw as XaiV3UsageAccounting;
 
       // prompt: 0.000001 * 1e9 * (14 - 5) = 9,000 nanos
       // completion: 0.000003 * 1e9 * (61 - 193) = 0 nanos (negative, floored to 0)

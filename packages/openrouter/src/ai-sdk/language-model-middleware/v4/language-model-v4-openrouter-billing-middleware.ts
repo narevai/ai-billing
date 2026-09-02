@@ -1,5 +1,7 @@
-import { AiBillingExtractorError } from '@ai-billing/core';
-import { createV4BillingMiddleware } from '@ai-billing/core/v4';
+import {
+  createV4BillingMiddleware,
+  AiBillingExtractorError,
+} from '@ai-billing/core';
 import type {
   BaseBillingMiddlewareOptions,
   DefaultTags,
@@ -14,7 +16,7 @@ import type { OpenRouterUsageAccounting } from '@openrouter/ai-sdk-provider';
  * The billing middleware reads token and cost fields from `openrouter.usage` (including numeric `cost`) and
  * ignores normalized SDK usage counts in favor of these values.
  */
-export type OpenRouterProviderMetadata = SharedV4ProviderMetadata & {
+export type OpenRouterV4ProviderMetadata = SharedV4ProviderMetadata & {
   openrouter?: {
     provider?: string;
     usage?: OpenRouterUsageAccounting;
@@ -43,12 +45,12 @@ export type OpenRouterV4MiddlewareOptions<TTags extends DefaultTags> =
  * @returns A V4 billing middleware instance for OpenRouter.
  *
  * @example
- * Targets AI SDK v7 (`LanguageModelV4Middleware`) via the package's `./v4` export subpath.
+ * Targets AI SDK v7 (`LanguageModelV4Middleware`).
  *
  * ```ts
  * import { createOpenRouter } from '@openrouter/ai-sdk-provider';
  * import { wrapLanguageModel } from 'ai';
- * import { createOpenRouterV4Middleware } from '@ai-billing/openrouter/v4';
+ * import { createOpenRouterV4Middleware } from '@ai-billing/openrouter';
  * import { consoleDestination } from '@ai-billing/core';
  *
  * const openrouter = createOpenRouter({
@@ -79,7 +81,7 @@ export function createOpenRouterV4Middleware<TTags extends DefaultTags>(
       tags,
     }) => {
       const openrouterMetadata = providerMetadata as
-        | OpenRouterProviderMetadata
+        | OpenRouterV4ProviderMetadata
         | undefined;
       const openRouterUsage = openrouterMetadata?.openrouter?.usage;
 
