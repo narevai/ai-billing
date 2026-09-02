@@ -1,5 +1,26 @@
 # @ai-billing/nextjs
 
+## 0.0.15
+
+### Patch Changes
+
+- Updated dependencies [5315582]
+  - @ai-billing/core@0.1.6
+  - @ai-billing/anthropic@0.2.0
+  - @ai-billing/chutes@0.2.0
+  - @ai-billing/deepseek@0.2.0
+  - @ai-billing/gateway@0.2.0
+  - @ai-billing/google@0.2.0
+  - @ai-billing/groq@0.2.0
+  - @ai-billing/minimax@0.2.0
+  - @ai-billing/openai@0.2.0
+  - @ai-billing/openrouter@0.2.0
+  - @ai-billing/xai@0.2.0
+  - @ai-billing/types@0.0.4
+  - @ai-billing/polar@0.1.10
+  - @ai-billing/narev@0.0.8
+  - @ai-billing/ui@0.0.9
+
 ## 0.0.14
 
 ### Patch Changes
