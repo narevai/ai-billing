@@ -1,5 +1,12 @@
 # @ai-billing/ui
 
+## 0.0.9
+
+### Patch Changes
+
+- Updated dependencies [5315582]
+  - @ai-billing/types@0.0.4
+
 ## 0.0.8
 
 ### Patch Changes

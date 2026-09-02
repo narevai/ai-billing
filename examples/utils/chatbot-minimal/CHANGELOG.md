@@ -1,5 +1,13 @@
 # chatbot-minimal
 
+## 0.0.11
+
+### Patch Changes
+
+- Updated dependencies [5315582]
+  - @ai-billing/openai@0.2.0
+  - @ai-billing/nextjs@0.0.15
+
 ## 0.0.10
 
 ### Patch Changes
