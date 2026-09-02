@@ -123,7 +123,7 @@ export function createGoogleV4Middleware<TTags extends DefaultTags>(
 
       const googleAIUsage: CostInputs = {
         promptTokens: inputTokensTotal,
-        completionTokens: outputTokensTotal ?? 0,
+        completionTokens: outputTokensTotal,
         cacheReadTokens: inputTokensCacheRead,
         cacheWriteTokens: 0,
         reasoningTokens: outputTokensReasoning,
