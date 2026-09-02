@@ -12,6 +12,7 @@
 "@ai-billing/openai-compatible": minor
 "@ai-billing/openrouter": minor
 "@ai-billing/xai": minor
+"@ai-billing/types": minor
 ---
 
 feat: add AI SDK v7 / LanguageModelMiddlewareV4 support via a new `./v4` export subpath

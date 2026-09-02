@@ -40,6 +40,8 @@ export interface BasetenV4MiddlewareOptions<
 /**
  * Creates a V4 billing middleware for the Baseten provider (`@ai-sdk/baseten`).
  * Derives token usage from Baseten's raw OpenAI-compatible usage payload.
+ *
+ * @param options - Billing options; see {@link BasetenV4MiddlewareOptions}. A `priceResolver` is required.
  */
 export function createBasetenV4Middleware<TTags extends DefaultTags>(
   options: BasetenV4MiddlewareOptions<TTags>,
