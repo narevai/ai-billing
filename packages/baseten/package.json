@@ -53,13 +53,14 @@
     "typedoc-plugin-markdown": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
-    "ai": "catalog:",
+    "ai": "^7.0.0",
+    "ai-v6": "npm:ai@^6.0.138",
     "@ai-sdk/provider": "catalog:",
     "@edge-runtime/vm": "catalog:",
     "zod": "catalog:"
   },
   "peerDependencies": {
-    "@ai-sdk/baseten": "^2.0.0"
+    "@ai-sdk/baseten": "^1.0.0 || ^2.0.0"
   },
   "engines": {
     "node": ">=22.0.0"

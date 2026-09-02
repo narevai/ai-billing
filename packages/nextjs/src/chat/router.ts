@@ -8,16 +8,16 @@ import { createGroq } from '@ai-sdk/groq';
 import { createXai } from '@ai-sdk/xai';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { createOpenAIMiddleware } from '@ai-billing/openai';
-import { createAnthropicMiddleware } from '@ai-billing/anthropic';
-import { createGoogleMiddleware } from '@ai-billing/google';
-import { createDeepSeekMiddleware } from '@ai-billing/deepseek';
-import { createGroqMiddleware } from '@ai-billing/groq';
-import { createXaiMiddleware } from '@ai-billing/xai';
-import { createChutesMiddleware } from '@ai-billing/chutes';
-import { createMinimaxMiddleware } from '@ai-billing/minimax';
+import { createOpenAIV3Middleware } from '@ai-billing/openai';
+import { createAnthropicV3Middleware } from '@ai-billing/anthropic';
+import { createGoogleV3Middleware } from '@ai-billing/google';
+import { createDeepSeekV3Middleware } from '@ai-billing/deepseek';
+import { createGroqV3Middleware } from '@ai-billing/groq';
+import { createXaiV3Middleware } from '@ai-billing/xai';
+import { createChutesV3Middleware } from '@ai-billing/chutes';
+import { createMinimaxV3Middleware } from '@ai-billing/minimax';
 import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
-import { createGatewayMiddleware } from '@ai-billing/gateway';
+import { createGatewayV3Middleware } from '@ai-billing/gateway';
 import { createPolarDestination } from '@ai-billing/polar';
 import { createNarevPriceResolver } from '@ai-billing/narev';
 import type {
@@ -113,7 +113,7 @@ export async function createChatRouter(
     const openaiKey = resolveEnv('OPENAI_API_KEY', env);
     if (openaiKey) {
       const p = createOpenAI({ apiKey: openaiKey });
-      const m = createOpenAIMiddleware({ priceResolver, destinations });
+      const m = createOpenAIV3Middleware({ priceResolver, destinations });
       add(
         'openai',
         id => wrapLanguageModel({ model: p(id), middleware: m }),
@@ -124,7 +124,7 @@ export async function createChatRouter(
     const anthropicKey = resolveEnv('ANTHROPIC_API_KEY', env);
     if (anthropicKey) {
       const p = createAnthropic({ apiKey: anthropicKey });
-      const m = createAnthropicMiddleware({ priceResolver, destinations });
+      const m = createAnthropicV3Middleware({ priceResolver, destinations });
       add(
         'anthropic',
         id => wrapLanguageModel({ model: p(id), middleware: m }),
@@ -135,7 +135,7 @@ export async function createChatRouter(
     const googleKey = resolveEnv('GOOGLE_AI_STUDIO_KEY', env);
     if (googleKey) {
       const p = createGoogleGenerativeAI({ apiKey: googleKey });
-      const m = createGoogleMiddleware({ priceResolver, destinations });
+      const m = createGoogleV3Middleware({ priceResolver, destinations });
       add(
         'google',
         id => wrapLanguageModel({ model: p(id), middleware: m }),
@@ -146,7 +146,7 @@ export async function createChatRouter(
     const deepseekKey = resolveEnv('DEEPSEEK_API_KEY', env);
     if (deepseekKey) {
       const p = createDeepSeek({ apiKey: deepseekKey });
-      const m = createDeepSeekMiddleware({ priceResolver, destinations });
+      const m = createDeepSeekV3Middleware({ priceResolver, destinations });
       add(
         'deepseek',
         id => wrapLanguageModel({ model: p(id), middleware: m }),
@@ -157,7 +157,7 @@ export async function createChatRouter(
     const groqKey = resolveEnv('GROQ_API_KEY', env);
     if (groqKey) {
       const p = createGroq({ apiKey: groqKey });
-      const m = createGroqMiddleware({ priceResolver, destinations });
+      const m = createGroqV3Middleware({ priceResolver, destinations });
       add(
         'groq',
         id => wrapLanguageModel({ model: p(id), middleware: m }),
@@ -168,7 +168,7 @@ export async function createChatRouter(
     const xaiKey = resolveEnv('XAI_API_KEY', env);
     if (xaiKey) {
       const p = createXai({ apiKey: xaiKey });
-      const m = createXaiMiddleware({ priceResolver, destinations });
+      const m = createXaiV3Middleware({ priceResolver, destinations });
       add(
         'xai',
         id => wrapLanguageModel({ model: p(id), middleware: m }),
@@ -183,7 +183,7 @@ export async function createChatRouter(
         baseURL: 'https://llm.chutes.ai/v1',
         apiKey: chutesKey,
       });
-      const m = createChutesMiddleware({ priceResolver, destinations });
+      const m = createChutesV3Middleware({ priceResolver, destinations });
       add(
         'chutes',
         id => wrapLanguageModel({ model: p(id), middleware: m }),
@@ -197,7 +197,7 @@ export async function createChatRouter(
         apiKey: minimaxKey,
         baseURL: 'https://api.minimax.io/anthropic/v1',
       });
-      const m = createMinimaxMiddleware({ priceResolver, destinations });
+      const m = createMinimaxV3Middleware({ priceResolver, destinations });
       add(
         'minimax',
         id => wrapLanguageModel({ model: p(id), middleware: m }),
@@ -220,7 +220,7 @@ export async function createChatRouter(
   const gatewayKey = resolveEnv('AI_GATEWAY_API_KEY', env);
   if (gatewayKey) {
     const p = createGateway({ apiKey: gatewayKey });
-    const m = createGatewayMiddleware({ destinations });
+    const m = createGatewayV3Middleware({ destinations });
     add(
       'gateway',
       id => wrapLanguageModel({ model: p(id), middleware: m }),

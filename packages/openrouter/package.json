@@ -55,12 +55,13 @@
     "typescript": "catalog:",
     "vitest": "catalog:",
     "@ai-sdk/provider": "catalog:",
-    "ai": "catalog:",
+    "ai": "^7.0.0",
+    "ai-v6": "npm:ai@^6.0.138",
     "@edge-runtime/vm": "catalog:",
     "zod": "catalog:"
   },
   "peerDependencies": {
-    "@ai-sdk/provider": "catalog:"
+    "@ai-sdk/provider": "^3.0.8 || ^4.0.0"
   },
   "engines": {
     "node": ">=20.0.0"

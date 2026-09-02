@@ -5,7 +5,7 @@ import {
   wrapLanguageModel,
 } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
-import { createOpenAIMiddleware } from '@ai-billing/openai';
+import { createOpenAIV3Middleware } from '@ai-billing/openai';
 import { consoleDestination } from '@ai-billing/core';
 import { createNarevPriceResolver } from '@ai-billing/narev';
 
@@ -19,7 +19,7 @@ const priceResolver = createNarevPriceResolver({
   apiKey: process.env.NAREV_API_KEY ?? '',
 });
 
-const billingMiddleware = createOpenAIMiddleware({
+const billingMiddleware = createOpenAIV3Middleware({
   destinations: [consoleDestination()],
   priceResolver,
 });
