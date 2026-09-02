@@ -5,7 +5,7 @@ import {
   wrapLanguageModel,
 } from 'ai';
 
-import { createGoogleMiddleware } from '@ai-billing/google';
+import { createGoogleV3Middleware } from '@ai-billing/google';
 import {
   consoleDestination,
   createObjectPriceResolver,
@@ -30,7 +30,7 @@ const customPricingMap: Record<string, ModelPricing> = {
 
 const priceResolver = createObjectPriceResolver(customPricingMap);
 
-const billingMiddleware = createGoogleMiddleware({
+const billingMiddleware = createGoogleV3Middleware({
   destinations: [consoleDestination()],
   priceResolver: priceResolver,
 });

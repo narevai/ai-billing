@@ -5,7 +5,7 @@ import {
   wrapLanguageModel,
 } from 'ai';
 import { createGroq } from '@ai-sdk/groq';
-import { createGroqMiddleware } from '@ai-billing/groq';
+import { createGroqV3Middleware } from '@ai-billing/groq';
 import { consoleDestination } from '@ai-billing/core';
 import { createNarevPriceResolver } from '@ai-billing/narev';
 
@@ -19,7 +19,7 @@ const priceResolver = createNarevPriceResolver({
   apiKey: process.env.NAREV_API_KEY ?? '',
 });
 
-const billingMiddleware = createGroqMiddleware({
+const billingMiddleware = createGroqV3Middleware({
   destinations: [consoleDestination()],
   priceResolver,
 });

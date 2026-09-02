@@ -5,7 +5,7 @@ import {
   wrapLanguageModel,
 } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
-import { createOpenAIMiddleware } from '@ai-billing/openai';
+import { createOpenAIV3Middleware } from '@ai-billing/openai';
 import {
   consoleDestination,
   createObjectPriceResolver,
@@ -32,7 +32,7 @@ const customPricingMap: Record<string, ModelPricing> = {
 
 const priceResolver = createObjectPriceResolver(customPricingMap);
 
-const billingMiddleware = createOpenAIMiddleware({
+const billingMiddleware = createOpenAIV3Middleware({
   destinations: [consoleDestination()],
   priceResolver,
 });
