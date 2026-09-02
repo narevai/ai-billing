@@ -1,8 +1,4 @@
-import {
-  UIMessage,
-  convertToModelMessages,
-  generateText,
-} from 'ai';
+import { UIMessage, convertToModelMessages, generateText } from 'ai';
 import { createCerebras } from '@ai-sdk/cerebras';
 
 const cerebras = createCerebras({

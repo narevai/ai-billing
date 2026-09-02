@@ -1,8 +1,4 @@
-import {
-  UIMessage,
-  convertToModelMessages,
-  generateText,
-} from 'ai';
+import { UIMessage, convertToModelMessages, generateText } from 'ai';
 import { createCohere } from '@ai-sdk/cohere';
 
 const cohere = createCohere({

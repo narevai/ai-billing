@@ -1,8 +1,4 @@
-import {
-  UIMessage,
-  convertToModelMessages,
-  generateText,
-} from 'ai';
+import { UIMessage, convertToModelMessages, generateText } from 'ai';
 import { createTogetherAI } from '@ai-sdk/togetherai';
 
 const togetherai = createTogetherAI({

@@ -1,8 +1,4 @@
-import {
-  UIMessage,
-  convertToModelMessages,
-  generateText,
-} from 'ai';
+import { UIMessage, convertToModelMessages, generateText } from 'ai';
 import { createFireworks } from '@ai-sdk/fireworks';
 
 const fireworks = createFireworks({

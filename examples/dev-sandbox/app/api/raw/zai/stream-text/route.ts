@@ -1,8 +1,4 @@
-import {
-  UIMessage,
-  convertToModelMessages,
-  streamText,
-} from 'ai';
+import { UIMessage, convertToModelMessages, streamText } from 'ai';
 import { createZai } from '@ai-sdk/zai';
 
 const zai = createZai({

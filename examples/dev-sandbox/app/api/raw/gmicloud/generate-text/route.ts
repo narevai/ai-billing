@@ -1,8 +1,4 @@
-import {
-  UIMessage,
-  convertToModelMessages,
-  generateText,
-} from 'ai';
+import { UIMessage, convertToModelMessages, generateText } from 'ai';
 import { createGmicloud } from '@ai-sdk/gmicloud';
 
 const gmicloud = createGmicloud({

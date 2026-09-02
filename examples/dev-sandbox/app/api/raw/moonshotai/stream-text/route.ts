@@ -1,8 +1,4 @@
-import {
-  UIMessage,
-  convertToModelMessages,
-  streamText,
-} from 'ai';
+import { UIMessage, convertToModelMessages, streamText } from 'ai';
 import { createMoonshotAI } from '@ai-sdk/moonshotai';
 
 const moonshotai = createMoonshotAI({

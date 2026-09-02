@@ -1,8 +1,4 @@
-import {
-  UIMessage,
-  convertToModelMessages,
-  streamText,
-} from 'ai';
+import { UIMessage, convertToModelMessages, streamText } from 'ai';
 import { createAlibaba } from '@ai-sdk/alibaba';
 
 const alibaba = createAlibaba({

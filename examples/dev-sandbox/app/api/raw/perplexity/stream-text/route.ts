@@ -1,8 +1,4 @@
-import {
-  UIMessage,
-  convertToModelMessages,
-  streamText,
-} from 'ai';
+import { UIMessage, convertToModelMessages, streamText } from 'ai';
 import { createPerplexity } from '@ai-sdk/perplexity';
 
 const perplexity = createPerplexity({

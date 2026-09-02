@@ -1,8 +1,4 @@
-import {
-  UIMessage,
-  convertToModelMessages,
-  generateText,
-} from 'ai';
+import { UIMessage, convertToModelMessages, generateText } from 'ai';
 import { createDeepInfra } from '@ai-sdk/deepinfra';
 
 const deepInfra = createDeepInfra({

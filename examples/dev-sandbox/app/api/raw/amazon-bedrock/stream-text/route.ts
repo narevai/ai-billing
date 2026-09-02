@@ -1,8 +1,4 @@
-import {
-  UIMessage,
-  convertToModelMessages,
-  streamText,
-} from 'ai';
+import { UIMessage, convertToModelMessages, streamText } from 'ai';
 import { createAmazonBedrock } from '@ai-sdk/amazon-bedrock';
 
 const amazonBedrock = createAmazonBedrock({

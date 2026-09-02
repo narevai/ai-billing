@@ -1,8 +1,4 @@
-import {
-  UIMessage,
-  convertToModelMessages,
-  streamText,
-} from 'ai';
+import { UIMessage, convertToModelMessages, streamText } from 'ai';
 import { createHuggingFace } from '@ai-sdk/huggingface';
 
 const huggingFace = createHuggingFace({

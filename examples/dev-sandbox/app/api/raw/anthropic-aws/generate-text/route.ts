@@ -1,8 +1,4 @@
-import {
-  UIMessage,
-  convertToModelMessages,
-  generateText,
-} from 'ai';
+import { UIMessage, convertToModelMessages, generateText } from 'ai';
 import { createAnthropicAws } from '@ai-sdk/anthropic-aws';
 
 const anthropicAws = createAnthropicAws({
