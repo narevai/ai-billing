@@ -54,13 +54,13 @@ export interface GroqV3MiddlewareOptions<
  * @returns A V3 billing middleware instance for Groq.
  *
  * @example
- * Same wiring as `examples/dev-sandbox/app/api/groq` (`createGroqMiddleware` is this function's export alias
- * from `@ai-billing/groq`).
+ * Same wiring as `examples/dev-sandbox/app/api/groq`, using this function directly (the unversioned
+ * `createGroqMiddleware` alias from `@ai-billing/groq` now points to the V4 middleware instead).
  *
  * ```ts
  * import { createGroq } from '@ai-sdk/groq';
  * import { wrapLanguageModel } from 'ai';
- * import { createGroqMiddleware } from '@ai-billing/groq';
+ * import { createGroqV3Middleware } from '@ai-billing/groq';
  * import {
  *   consoleDestination,
  *   createObjectPriceResolver,
@@ -80,7 +80,7 @@ export interface GroqV3MiddlewareOptions<
  *
  * const priceResolver = createObjectPriceResolver(customPricingMap);
  *
- * const billingMiddleware = createGroqMiddleware({
+ * const billingMiddleware = createGroqV3Middleware({
  *   destinations: [consoleDestination()],
  *   priceResolver,
  * });

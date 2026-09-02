@@ -40,7 +40,7 @@ export interface ChutesV3MiddlewareOptions<
  * ```ts
  * import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
  * import { wrapLanguageModel } from 'ai';
- * import { createChutesMiddleware } from '@ai-billing/chutes';
+ * import { createChutesV3Middleware } from '@ai-billing/chutes';
  * import {
  *   consoleDestination,
  *   createObjectPriceResolver,
@@ -62,7 +62,7 @@ export interface ChutesV3MiddlewareOptions<
  *
  * const priceResolver = createObjectPriceResolver(customPricingMap);
  *
- * const billingMiddleware = createChutesMiddleware({
+ * const billingMiddleware = createChutesV3Middleware({
  *   destinations: [consoleDestination()],
  *   priceResolver,
  * });

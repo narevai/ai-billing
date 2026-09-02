@@ -54,7 +54,7 @@ export interface DeepSeekV3MiddlewareOptions<
  * ```ts
  * import { createDeepSeek } from '@ai-sdk/deepseek';
  * import { wrapLanguageModel } from 'ai';
- * import { createDeepSeekMiddleware } from '@ai-billing/deepseek';
+ * import { createDeepSeekV3Middleware } from '@ai-billing/deepseek';
  * import {
  *   consoleDestination,
  *   createObjectPriceResolver,
@@ -81,7 +81,7 @@ export interface DeepSeekV3MiddlewareOptions<
  *
  * const priceResolver = createObjectPriceResolver(customPricingMap);
  *
- * const billingMiddleware = createDeepSeekMiddleware({
+ * const billingMiddleware = createDeepSeekV3Middleware({
  *   destinations: [consoleDestination()],
  *   priceResolver,
  * });

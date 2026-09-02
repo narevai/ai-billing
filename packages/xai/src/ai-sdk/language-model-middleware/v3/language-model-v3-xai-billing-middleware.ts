@@ -59,7 +59,7 @@ export interface XaiV3MiddlewareOptions<
  * ```ts
  * import { createXai } from '@ai-sdk/xai';
  * import { wrapLanguageModel } from 'ai';
- * import { createXAIMiddleware } from '@ai-billing/xai';
+ * import { createXaiV3Middleware } from '@ai-billing/xai';
  * import {
  *   consoleDestination,
  *   createObjectPriceResolver,
@@ -84,7 +84,7 @@ export interface XaiV3MiddlewareOptions<
  *
  * const priceResolver = createObjectPriceResolver(customPricingMap);
  *
- * const billingMiddleware = createXAIMiddleware({
+ * const billingMiddleware = createXaiV3Middleware({
  *   destinations: [consoleDestination()],
  *   priceResolver,
  * });
