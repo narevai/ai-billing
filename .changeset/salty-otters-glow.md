@@ -1,17 +1,17 @@
 ---
 "@ai-billing/core": minor
-"@ai-billing/anthropic": major
-"@ai-billing/baseten": major
-"@ai-billing/chutes": major
-"@ai-billing/deepseek": major
-"@ai-billing/gateway": major
-"@ai-billing/google": major
-"@ai-billing/groq": major
-"@ai-billing/minimax": major
-"@ai-billing/openai": major
-"@ai-billing/openai-compatible": major
-"@ai-billing/openrouter": major
-"@ai-billing/xai": major
+"@ai-billing/anthropic": minor
+"@ai-billing/baseten": minor
+"@ai-billing/chutes": minor
+"@ai-billing/deepseek": minor
+"@ai-billing/gateway": minor
+"@ai-billing/google": minor
+"@ai-billing/groq": minor
+"@ai-billing/minimax": minor
+"@ai-billing/openai": minor
+"@ai-billing/openai-compatible": minor
+"@ai-billing/openrouter": minor
+"@ai-billing/xai": minor
 "@ai-billing/types": minor
 ---
 
@@ -30,15 +30,13 @@ AI SDK v6 (`LanguageModelMiddlewareV3`) and AI SDK v7 (`LanguageModelMiddlewareV
 supported concurrently: peer dependency ranges were widened (never narrowed) to accept either
 major of each provider's upstream AI SDK package.
 
-## Breaking Changes
-
-For every provider package, the unversioned convenience alias — `createXMiddleware` /
-`XMiddlewareOptions` (for example `createOpenAIMiddleware`/`OpenAIMiddlewareOptions`) — now
-targets the **V4** factory (AI SDK v7 / `LanguageModelV4Middleware`) instead of V3 (AI SDK v6 /
-`LanguageModelV3Middleware`). If you rely on the unversioned alias and need to keep the previous
-V3 behavior, import `createXV3Middleware`/`XV3MiddlewareOptions` directly instead (for example
-`createOpenAIV3Middleware`/`OpenAIV3MiddlewareOptions` from `@ai-billing/openai`).
-
-`@ai-billing/core` and `@ai-billing/types` are unaffected by this alias repoint and stay on a
-minor bump: `core`'s default entry only gains the new `V4` exports alongside the unchanged `V3`
-ones.
+For every provider package, the previously-unversioned convenience alias — `createXMiddleware` /
+`XMiddlewareOptions` (for example `createOpenAIMiddleware`/`OpenAIMiddlewareOptions`) — now points
+at the new **V4** factory (AI SDK v7 / `LanguageModelV4Middleware`) by default. Existing V3
+behavior is unaffected and remains available under the explicit
+`createXV3Middleware`/`XV3MiddlewareOptions` names (for example
+`createOpenAIV3Middleware`/`OpenAIV3MiddlewareOptions` from `@ai-billing/openai`) for anyone who
+wants to pin to it. Because `LanguageModelV3Middleware` and `LanguageModelV4Middleware` are
+structurally compatible, existing applications keep working unmodified, no dependency bump is
+forced on consumers, and no runtime behavior changes for V3 users — this is an additive feature,
+not a breaking change.
