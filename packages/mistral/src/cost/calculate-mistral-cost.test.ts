@@ -160,4 +160,34 @@ describe('calculateMistralCost', () => {
       currency: 'USD',
     });
   });
+
+  it('should include web search cost when both pricing.webSearch and usage.webSearchCount are provided', () => {
+    const mockPricing: ModelPricing = {
+      promptTokens: 0.000001,
+      completionTokens: 0.000003,
+      request: 0,
+      webSearch: 0.000005,
+    };
+
+    const usage = {
+      promptTokens: 41,
+      completionTokens: 26,
+      cacheReadTokens: 0,
+      cacheWriteTokens: 0,
+      reasoningTokens: 0,
+      webSearchCount: 3,
+    };
+
+    const result = calculateMistralCost({ pricing: mockPricing, usage });
+
+    // Prompt: 0.000001 * 1e9 * 41 = 41,000 nanos
+    // Completion: 0.000003 * 1e9 * 26 = 78,000 nanos
+    // Web search: 0.000005 * 1e9 * 3 = 15,000 nanos
+    // Total: 41,000 + 78,000 + 15,000 = 134,000 nanos
+    expect(result).toEqual({
+      amount: 134000,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
 });
