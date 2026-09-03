@@ -468,6 +468,9 @@ importers:
       '@ai-billing/minimax':
         specifier: workspace:*
         version: link:../../packages/minimax
+      '@ai-billing/mistral':
+        specifier: workspace:*
+        version: link:../../packages/mistral
       '@ai-billing/narev':
         specifier: workspace:*
         version: link:../../packages/narev
