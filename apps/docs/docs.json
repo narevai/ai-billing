@@ -72,6 +72,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/cerebras",
+                "pages": [
+                  "sdk/ai-billing/reference/cerebras/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/cerebras/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/cerebras/typedoc/functions/createCerebrasV3Middleware",
+                          "sdk/ai-billing/reference/cerebras/typedoc/functions/createCerebrasV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/cerebras/typedoc/interfaces/CerebrasV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/cerebras/typedoc/interfaces/CerebrasV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/chutes",
                 "pages": [
                   "sdk/ai-billing/reference/chutes/index",
