@@ -30,6 +30,7 @@
     "@ai-billing/minimax": "workspace:*",
     "@ai-billing/baseten": "workspace:*",
     "@ai-billing/mistral": "workspace:*",
+    "@ai-billing/togetherai": "workspace:*",
     "@ai-sdk/baseten": "^2.0.0",
     "@basetenlabs/performance-client": "0.0.10",
     "@ai-sdk/openai": "^3.0.49",

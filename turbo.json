@@ -87,6 +87,7 @@
         "@ai-billing/nextjs#docs:generate",
         "@ai-billing/mistral#docs:generate",
         "@ai-billing/baseten#docs:generate",
+        "@ai-billing/togetherai#docs:generate",
         "@ai-billing/narev#docs:generate"
       ],
       "cache": false

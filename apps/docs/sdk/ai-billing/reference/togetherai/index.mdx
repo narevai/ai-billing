@@ -1,0 +1,101 @@
+---
+title: 'Getting started'
+description: 'First steps with Together AI middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/togetherai @ai-billing/core @ai-sdk/togetherai ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/togetherai @ai-billing/core @ai-sdk/togetherai ai
+```
+
+```bash yarn
+yarn add @ai-billing/togetherai @ai-billing/core @ai-sdk/togetherai ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/togetherai` package provides middleware for tracking token usage and calculating costs when using Together AI models with the Vercel AI SDK.
+
+Together AI's usage payload is a flat, OpenAI-compatible block (`prompt_tokens`, `completion_tokens`, `total_tokens`, `reasoning_tokens`) with no cache fields, so cache-read and cache-write tokens are always billed as zero.
+
+## Usage
+
+To use the middleware, wrap your Together AI model using `wrapLanguageModel` from the `ai` package and pass the `createTogetheraiMiddleware`.
+
+<Steps>
+  <Step title="Initialize the Together AI provider">
+    First, set up the Together AI provider using your API key.
+
+    ```typescript
+    import { createTogetherAI } from '@ai-sdk/togetherai';
+
+    const togetherai = createTogetherAI({
+      apiKey: process.env.TOGETHER_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using.
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'openai/gpt-oss-20b': {
+        promptTokens: 0.05 / 1_000_000,
+        completionTokens: 0.2 / 1_000_000,
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the Together AI billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createTogetheraiMiddleware } from '@ai-billing/togetherai';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createTogetheraiMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your Together AI model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: togetherai('openai/gpt-oss-20b'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>
