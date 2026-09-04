@@ -112,8 +112,7 @@ export function createMoonshotaiV3Middleware<TTags extends DefaultTags>(
         | undefined;
 
       const inputTokensTotal = moonshotaiRawUsage?.prompt_tokens ?? 0;
-      const completionTokensTotal =
-        moonshotaiRawUsage?.completion_tokens ?? 0;
+      const completionTokensTotal = moonshotaiRawUsage?.completion_tokens ?? 0;
       const inputTokensCacheRead =
         moonshotaiRawUsage?.cached_tokens ??
         moonshotaiRawUsage?.prompt_tokens_details?.cached_tokens ??
