@@ -1,0 +1,75 @@
+[**@ai-billing/deepinfra**](../index)
+
+***
+
+[@ai-billing/deepinfra](/sdk/ai-billing/reference/deepinfra/typedoc/index) / createDeepinfraV3Middleware
+
+# Function: createDeepinfraV3Middleware()
+
+> **createDeepinfraV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
+
+Defined in: [deepinfra/src/ai-sdk/language-model-middleware/v3/language-model-v3-deepinfra-billing-middleware.ts:105](https://github.com/narevai/ai-billing/blob/main/packages/deepinfra/src/ai-sdk/language-model-middleware/v3/language-model-v3-deepinfra-billing-middleware.ts#L105)
+
+Creates a V3 billing middleware for the DeepInfra provider (`@ai-sdk/deepinfra`).
+Deducts cache-read tokens from prompt tokens before billing — DeepInfra charges only non-cached input at
+the prompt rate, and cached tokens separately at the cache-read rate.
+
+DeepInfra's raw usage payload may include its own `estimated_cost` (a USD estimate). That value is never
+used as the billed cost — cost is always computed from the resolved ModelPricing table — but when
+present and numeric it is additionally surfaced as `usage.rawProviderCost` for informational purposes.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`DeepinfraV3MiddlewareOptions`](/sdk/ai-billing/reference/deepinfra/typedoc/interfaces/DeepinfraV3MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [DeepinfraV3MiddlewareOptions](/sdk/ai-billing/reference/deepinfra/typedoc/interfaces/DeepinfraV3MiddlewareOptions). A `priceResolver` is required.
+
+## Returns
+
+`LanguageModelV3Middleware`
+
+A V3 billing middleware instance for DeepInfra.
+
+## Example
+
+```ts
+import { createDeepInfra } from '@ai-sdk/deepinfra';
+import { wrapLanguageModel } from 'ai';
+import { createDeepinfraV3Middleware } from '@ai-billing/deepinfra';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const deepInfra = createDeepInfra({ apiKey: process.env.DEEPINFRA_API_KEY });
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'meta-llama/Llama-3.3-70B-Instruct': {
+    promptTokens: 0.13 / 1_000_000,
+    completionTokens: 0.4 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createDeepinfraV3Middleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: deepInfra('meta-llama/Llama-3.3-70B-Instruct'),
+  middleware: billingMiddleware,
+});
+```
