@@ -99,6 +99,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/cohere",
+                "pages": [
+                  "sdk/ai-billing/reference/cohere/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/cohere/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/cohere/typedoc/functions/createCohereV3Middleware",
+                          "sdk/ai-billing/reference/cohere/typedoc/functions/createCohereV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/cohere/typedoc/interfaces/CohereV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/cohere/typedoc/interfaces/CohereV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/core",
                 "pages": [
                   {
