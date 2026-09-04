@@ -1,0 +1,113 @@
+[**@ai-billing/cohere**](../index)
+
+***
+
+[@ai-billing/cohere](/sdk/ai-billing/reference/cohere/typedoc/index) / CohereV4MiddlewareOptions
+
+# Interface: CohereV4MiddlewareOptions\<TTags\>
+
+Defined in: cohere/src/ai-sdk/language-model-middleware/v4/language-model-v4-cohere-billing-middleware.ts:51
+
+Configuration for [createCohereV4Middleware](/sdk/ai-billing/reference/cohere/typedoc/functions/createCohereV4Middleware).
+
+Extends BaseBillingMiddlewareOptions (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
+requires a PriceResolver. Usage is taken from the AI SDK's normalized usage fields; cost is
+computed from that usage and the resolved ModelPricing using the same rules as the package's cost
+helper.
+
+## Extends
+
+- `BaseBillingMiddlewareOptions`\<`TTags`\>
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `DefaultTags`
+
+The shape of the tags object, extending DefaultTags.
+
+## Properties
+
+### priceResolver
+
+> **priceResolver**: `PriceResolver`
+
+Defined in: cohere/src/ai-sdk/language-model-middleware/v4/language-model-v4-cohere-billing-middleware.ts:54
+
+***
+
+### destinations?
+
+> `optional` **destinations?**: `Destination`\<`TTags`\>[]
+
+Defined in: types/dist/index.d.ts:71
+
+One or more billing destinations that receive each emitted BillingEvent.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.destinations`
+
+***
+
+### defaultTags?
+
+> `optional` **defaultTags?**: `TTags`
+
+Defined in: types/dist/index.d.ts:73
+
+Tags merged into every emitted event.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.defaultTags`
+
+***
+
+### waitUntil?
+
+> `optional` **waitUntil?**: (`promise`) => `void`
+
+Defined in: types/dist/index.d.ts:78
+
+Edge-runtime hook (e.g. `ctx.waitUntil`) used to keep the process alive
+while billing events are flushed asynchronously.
+
+#### Parameters
+
+##### promise
+
+`Promise`\<`unknown`\>
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.waitUntil`
+
+***
+
+### onError?
+
+> `optional` **onError?**: (`error`) => `void`
+
+Defined in: types/dist/index.d.ts:80
+
+Called when an error occurs during event extraction or dispatch. Defaults to a silent no-op.
+
+#### Parameters
+
+##### error
+
+`unknown`
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.onError`
