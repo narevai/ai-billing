@@ -546,6 +546,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/perplexity",
+                "pages": [
+                  "sdk/ai-billing/reference/perplexity/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/perplexity/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/perplexity/typedoc/functions/createPerplexityV3Middleware",
+                          "sdk/ai-billing/reference/perplexity/typedoc/functions/createPerplexityV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/perplexity/typedoc/interfaces/PerplexityV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/perplexity/typedoc/interfaces/PerplexityV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/polar",
                 "pages": [
                   "sdk/ai-billing/reference/polar/index",
