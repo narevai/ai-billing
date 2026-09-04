@@ -144,6 +144,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/deepinfra",
+                "pages": [
+                  "sdk/ai-billing/reference/deepinfra/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/deepinfra/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/deepinfra/typedoc/functions/createDeepinfraV3Middleware",
+                          "sdk/ai-billing/reference/deepinfra/typedoc/functions/createDeepinfraV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/deepinfra/typedoc/interfaces/DeepinfraV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/deepinfra/typedoc/interfaces/DeepinfraV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/deepseek",
                 "pages": [
                   "sdk/ai-billing/reference/deepseek/index",
