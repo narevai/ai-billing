@@ -118,9 +118,7 @@ export function createCohereV3Middleware<TTags extends DefaultTags>(
       tags,
       webSearchCount,
     }) => {
-      const cohereRawUsage = usage?.raw as
-        | CohereV3UsageAccounting
-        | undefined;
+      const cohereRawUsage = usage?.raw as CohereV3UsageAccounting | undefined;
 
       // Fallback to `tokens.*` only when `billed_units` is entirely absent
       // (undefined/null). When `billed_units` is present, its fields are used
@@ -132,12 +130,12 @@ export function createCohereV3Middleware<TTags extends DefaultTags>(
 
       const inputTokensBilled =
         billedUnits != null
-          ? billedUnits.input_tokens ?? 0
-          : rawTokens?.input_tokens ?? 0;
+          ? (billedUnits.input_tokens ?? 0)
+          : (rawTokens?.input_tokens ?? 0);
       const outputTokensBilled =
         billedUnits != null
-          ? billedUnits.output_tokens ?? 0
-          : rawTokens?.output_tokens ?? 0;
+          ? (billedUnits.output_tokens ?? 0)
+          : (rawTokens?.output_tokens ?? 0);
       const inputTokensCacheRead = cohereRawUsage?.cached_tokens ?? 0;
 
       const cohereUsage: CostInputs = {
