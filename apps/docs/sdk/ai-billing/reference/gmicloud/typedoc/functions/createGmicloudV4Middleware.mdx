@@ -1,0 +1,71 @@
+[**@ai-billing/gmicloud**](../index)
+
+***
+
+[@ai-billing/gmicloud](/sdk/ai-billing/reference/gmicloud/typedoc/index) / createGmicloudV4Middleware
+
+# Function: createGmicloudV4Middleware()
+
+> **createGmicloudV4Middleware**\<`TTags`\>(`options`): `LanguageModelV4Middleware`
+
+Defined in: gmicloud/src/ai-sdk/language-model-middleware/v4/language-model-v4-gmicloud-billing-middleware.ts:91
+
+Creates a V4 billing middleware for the GMI Cloud provider (`@ai-sdk/gmicloud`).
+Deducts cache-read tokens from prompt tokens before billing — GMI Cloud charges only non-cached input at
+the prompt rate, and cached tokens separately at the cache-read rate.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`GmicloudV4MiddlewareOptions`](/sdk/ai-billing/reference/gmicloud/typedoc/interfaces/GmicloudV4MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [GmicloudV4MiddlewareOptions](/sdk/ai-billing/reference/gmicloud/typedoc/interfaces/GmicloudV4MiddlewareOptions). A `priceResolver` is required.
+
+## Returns
+
+`LanguageModelV4Middleware`
+
+A V4 billing middleware instance for GMI Cloud.
+
+## Example
+
+```ts
+import { createGmicloud } from '@ai-sdk/gmicloud';
+import { wrapLanguageModel } from 'ai';
+import { createGmicloudV4Middleware } from '@ai-billing/gmicloud';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const gmicloud = createGmicloud({ apiKey: process.env.GMI_CLOUD_APIKEY });
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'deepseek-ai/DeepSeek-V4-Flash-0731': {
+    promptTokens: 0.1 / 1_000_000,
+    completionTokens: 0.3 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createGmicloudV4Middleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: gmicloud('deepseek-ai/DeepSeek-V4-Flash-0731'),
+  middleware: billingMiddleware,
+});
+```

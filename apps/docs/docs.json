@@ -198,6 +198,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/gmicloud",
+                "pages": [
+                  "sdk/ai-billing/reference/gmicloud/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/gmicloud/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/gmicloud/typedoc/functions/createGmicloudV3Middleware",
+                          "sdk/ai-billing/reference/gmicloud/typedoc/functions/createGmicloudV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/gmicloud/typedoc/interfaces/GmicloudV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/gmicloud/typedoc/interfaces/GmicloudV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/google",
                 "pages": [
                   "sdk/ai-billing/reference/google/index",
