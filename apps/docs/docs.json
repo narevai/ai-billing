@@ -596,6 +596,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/togetherai",
+                "pages": [
+                  "sdk/ai-billing/reference/togetherai/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/togetherai/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/togetherai/typedoc/functions/createTogetheraiV3Middleware",
+                          "sdk/ai-billing/reference/togetherai/typedoc/functions/createTogetheraiV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/togetherai/typedoc/interfaces/TogetheraiV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/togetherai/typedoc/interfaces/TogetheraiV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/xai",
                 "pages": [
                   "sdk/ai-billing/reference/xai/index",

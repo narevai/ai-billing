@@ -1,0 +1,72 @@
+[**@ai-billing/togetherai**](../index)
+
+***
+
+[@ai-billing/togetherai](/sdk/ai-billing/reference/togetherai/typedoc/index) / createTogetheraiV3Middleware
+
+# Function: createTogetheraiV3Middleware()
+
+> **createTogetheraiV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
+
+Defined in: togetherai/src/ai-sdk/language-model-middleware/v3/language-model-v3-togetherai-billing-middleware.ts:88
+
+Creates a V3 billing middleware for the Together AI provider (`@ai-sdk/togetherai`).
+Together AI's usage payload does not report any cache fields, so cache-read/cache-write tokens are
+always billed as zero; `reasoning_tokens` is read as a flat top-level field (not nested, unlike some
+other OpenAI-compatible providers in this repo) and deducted from completion tokens before billing.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`TogetheraiV3MiddlewareOptions`](/sdk/ai-billing/reference/togetherai/typedoc/interfaces/TogetheraiV3MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [TogetheraiV3MiddlewareOptions](/sdk/ai-billing/reference/togetherai/typedoc/interfaces/TogetheraiV3MiddlewareOptions). A `priceResolver` is required.
+
+## Returns
+
+`LanguageModelV3Middleware`
+
+A V3 billing middleware instance for Together AI.
+
+## Example
+
+```ts
+import { createTogetherAI } from '@ai-sdk/togetherai';
+import { wrapLanguageModel } from 'ai';
+import { createTogetheraiV3Middleware } from '@ai-billing/togetherai';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const togetherai = createTogetherAI({ apiKey: process.env.TOGETHER_API_KEY });
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'openai/gpt-oss-20b': {
+    promptTokens: 0.05 / 1_000_000,
+    completionTokens: 0.2 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createTogetheraiV3Middleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: togetherai('openai/gpt-oss-20b'),
+  middleware: billingMiddleware,
+});
+```
