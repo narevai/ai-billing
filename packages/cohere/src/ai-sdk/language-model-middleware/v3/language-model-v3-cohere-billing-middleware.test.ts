@@ -205,6 +205,58 @@ describe('CohereBillingMiddlewareV3 Integration', () => {
       expect(parsedEvent.cost?.amount).toBe(19500);
     });
 
+    it('should NOT substitute raw tokens.* for an individual field when billed_units is present but partial/null', async () => {
+      const destinationSpy = vi.fn();
+      const middleware = createCohereV3Middleware({
+        destinations: [destinationSpy],
+        priceResolver: mockPriceResolver,
+      });
+
+      // billed_units is present (not absent), but output_tokens is null and input_tokens is present at 5.
+      // tokens.* carries much larger values (999/999) that must NOT be substituted for the null/0 field,
+      // since the fallback to tokens.* is only supposed to trigger when billed_units itself is absent.
+      const resultWithPartialBilledUnits = createResult({
+        usage: {
+          inputTokens: { total: 999, noCache: 999, cacheRead: 0, cacheWrite: 0 },
+          outputTokens: { total: 999, text: 999, reasoning: 0 },
+          raw: {
+            billed_units: {
+              input_tokens: 5,
+              output_tokens: null,
+            },
+            tokens: {
+              input_tokens: 999,
+              output_tokens: 999,
+            },
+            cached_tokens: 0,
+          } as CohereV3UsageAccounting,
+        },
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        modelId: 'command-r-08-2024',
+        provider: 'cohere.chat',
+        doGenerate: async () => resultWithPartialBilledUnits,
+      });
+
+      const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
+      await generateText({ model: wrappedModel, prompt: 'Hi' });
+
+      const emittedPayload = destinationSpy.mock.calls[0]![0];
+      const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
+
+      // input_tokens is taken from billed_units.input_tokens (5), not tokens.input_tokens (999).
+      expect(parsedEvent.usage.inputTokens).toBe(5);
+      // output_tokens is null within a *present* billed_units, so it resolves to 0 -- it must NOT fall
+      // back to tokens.output_tokens (999), since billed_units as a whole is present.
+      expect(parsedEvent.usage.outputTokens).toBe(0);
+
+      // prompt: 0.15e-6 * 1e9 * 5 = 750 nanos
+      // completion: 0.6e-6 * 1e9 * 0 = 0 nanos
+      // Total: 750 nanos
+      expect(parsedEvent.cost?.amount).toBe(750);
+    });
+
     it('should omit the cost object entirely if pricing resolves to undefined', async () => {
       const destinationSpy = vi.fn();
       const missingPriceResolver = vi.fn().mockResolvedValue(undefined);

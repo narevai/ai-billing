@@ -122,14 +122,22 @@ export function createCohereV4Middleware<TTags extends DefaultTags>(
         | CohereV4UsageAccounting
         | undefined;
 
+      // Fallback to `tokens.*` only when `billed_units` is entirely absent
+      // (undefined/null). When `billed_units` is present, its fields are used
+      // as-is — including a legitimately-0 or null value — without ever
+      // substituting the raw `tokens.*` count for an individual field, since
+      // that would risk billing for tokens Cohere did not actually charge for.
+      const billedUnits = cohereRawUsage?.billed_units;
+      const rawTokens = cohereRawUsage?.tokens;
+
       const inputTokensBilled =
-        cohereRawUsage?.billed_units?.input_tokens ??
-        cohereRawUsage?.tokens?.input_tokens ??
-        0;
+        billedUnits != null
+          ? billedUnits.input_tokens ?? 0
+          : rawTokens?.input_tokens ?? 0;
       const outputTokensBilled =
-        cohereRawUsage?.billed_units?.output_tokens ??
-        cohereRawUsage?.tokens?.output_tokens ??
-        0;
+        billedUnits != null
+          ? billedUnits.output_tokens ?? 0
+          : rawTokens?.output_tokens ?? 0;
       const inputTokensCacheRead = cohereRawUsage?.cached_tokens ?? 0;
 
       const cohereUsage: CostInputs = {
