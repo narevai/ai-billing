@@ -171,6 +171,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/fireworks",
+                "pages": [
+                  "sdk/ai-billing/reference/fireworks/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/fireworks/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/fireworks/typedoc/functions/createFireworksV3Middleware",
+                          "sdk/ai-billing/reference/fireworks/typedoc/functions/createFireworksV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/fireworks/typedoc/interfaces/FireworksV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/fireworks/typedoc/interfaces/FireworksV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/gateway",
                 "pages": [
                   "sdk/ai-billing/reference/gateway/index",

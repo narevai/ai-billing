@@ -1,0 +1,74 @@
+[**@ai-billing/fireworks**](../index)
+
+***
+
+[@ai-billing/fireworks](/sdk/ai-billing/reference/fireworks/typedoc/index) / createFireworksV4Middleware
+
+# Function: createFireworksV4Middleware()
+
+> **createFireworksV4Middleware**\<`TTags`\>(`options`): `LanguageModelV4Middleware`
+
+Defined in: fireworks/src/ai-sdk/language-model-middleware/v4/language-model-v4-fireworks-billing-middleware.ts:97
+
+Creates a V4 billing middleware for the Fireworks provider (`@ai-sdk/fireworks`).
+Deducts cache-read tokens from prompt tokens before billing — Fireworks charges only non-cached input at
+the prompt rate, and cached tokens separately at the cache-read rate. Reasoning tokens are deducted from
+completion tokens and billed at the completion rate, since Fireworks has no separate reasoning-token
+pricing tier.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`FireworksV4MiddlewareOptions`](/sdk/ai-billing/reference/fireworks/typedoc/interfaces/FireworksV4MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [FireworksV4MiddlewareOptions](/sdk/ai-billing/reference/fireworks/typedoc/interfaces/FireworksV4MiddlewareOptions). A `priceResolver` is required.
+
+## Returns
+
+`LanguageModelV4Middleware`
+
+A V4 billing middleware instance for Fireworks.
+
+## Example
+
+```ts
+import { createFireworks } from '@ai-sdk/fireworks';
+import { wrapLanguageModel } from 'ai';
+import { createFireworksV4Middleware } from '@ai-billing/fireworks';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const fireworks = createFireworks({ apiKey: process.env.FIREWORKS_API_KEY });
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'accounts/fireworks/models/glm-5p3-flash': {
+    promptTokens: 0.2 / 1_000_000,
+    completionTokens: 0.8 / 1_000_000,
+    inputCacheReadTokens: 0.1 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createFireworksV4Middleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: fireworks('accounts/fireworks/models/glm-5p3-flash'),
+  middleware: billingMiddleware,
+});
+```
