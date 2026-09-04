@@ -330,6 +330,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/moonshotai",
+                "pages": [
+                  "sdk/ai-billing/reference/moonshotai/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/moonshotai/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/moonshotai/typedoc/functions/createMoonshotaiV3Middleware",
+                          "sdk/ai-billing/reference/moonshotai/typedoc/functions/createMoonshotaiV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/moonshotai/typedoc/interfaces/MoonshotaiV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/moonshotai/typedoc/interfaces/MoonshotaiV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/narev",
                 "pages": [
                   {
