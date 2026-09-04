@@ -1,0 +1,113 @@
+[**@ai-billing/perplexity**](../index)
+
+***
+
+[@ai-billing/perplexity](/sdk/ai-billing/reference/perplexity/typedoc/index) / PerplexityV3MiddlewareOptions
+
+# Interface: PerplexityV3MiddlewareOptions\<TTags\>
+
+Defined in: [perplexity/src/ai-sdk/language-model-middleware/v3/language-model-v3-perplexity-billing-middleware.ts:49](https://github.com/narevai/ai-billing/blob/main/packages/perplexity/src/ai-sdk/language-model-middleware/v3/language-model-v3-perplexity-billing-middleware.ts#L49)
+
+Configuration for [createPerplexityV3Middleware](/sdk/ai-billing/reference/perplexity/typedoc/functions/createPerplexityV3Middleware).
+
+Extends BaseBillingMiddlewareOptions (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
+requires a PriceResolver. Usage is taken from the AI SDK's normalized usage fields (falling back to
+the raw provider usage payload); cost is computed from that usage and the resolved ModelPricing
+using the same rules as the package's cost helper.
+
+## Extends
+
+- `BaseBillingMiddlewareOptions`\<`TTags`\>
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `DefaultTags`
+
+The shape of the tags object, extending DefaultTags.
+
+## Properties
+
+### priceResolver
+
+> **priceResolver**: `PriceResolver`
+
+Defined in: [perplexity/src/ai-sdk/language-model-middleware/v3/language-model-v3-perplexity-billing-middleware.ts:52](https://github.com/narevai/ai-billing/blob/main/packages/perplexity/src/ai-sdk/language-model-middleware/v3/language-model-v3-perplexity-billing-middleware.ts#L52)
+
+***
+
+### destinations?
+
+> `optional` **destinations?**: `Destination`\<`TTags`\>[]
+
+Defined in: types/dist/index.d.ts:71
+
+One or more billing destinations that receive each emitted BillingEvent.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.destinations`
+
+***
+
+### defaultTags?
+
+> `optional` **defaultTags?**: `TTags`
+
+Defined in: types/dist/index.d.ts:73
+
+Tags merged into every emitted event.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.defaultTags`
+
+***
+
+### waitUntil?
+
+> `optional` **waitUntil?**: (`promise`) => `void`
+
+Defined in: types/dist/index.d.ts:78
+
+Edge-runtime hook (e.g. `ctx.waitUntil`) used to keep the process alive
+while billing events are flushed asynchronously.
+
+#### Parameters
+
+##### promise
+
+`Promise`\<`unknown`\>
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.waitUntil`
+
+***
+
+### onError?
+
+> `optional` **onError?**: (`error`) => `void`
+
+Defined in: types/dist/index.d.ts:80
+
+Called when an error occurs during event extraction or dispatch. Defaults to a silent no-op.
+
+#### Parameters
+
+##### error
+
+`unknown`
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.onError`

@@ -1,0 +1,73 @@
+[**@ai-billing/perplexity**](../index)
+
+***
+
+[@ai-billing/perplexity](/sdk/ai-billing/reference/perplexity/typedoc/index) / createPerplexityV3Middleware
+
+# Function: createPerplexityV3Middleware()
+
+> **createPerplexityV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
+
+Defined in: [perplexity/src/ai-sdk/language-model-middleware/v3/language-model-v3-perplexity-billing-middleware.ts:99](https://github.com/narevai/ai-billing/blob/main/packages/perplexity/src/ai-sdk/language-model-middleware/v3/language-model-v3-perplexity-billing-middleware.ts#L99)
+
+Creates a V3 billing middleware for the Perplexity provider (`@ai-sdk/perplexity`).
+Perplexity has no prompt-caching feature, so cache-read/cache-write tokens are always reported as `0`.
+All Perplexity `sonar` models are web-search-grounded and bill a flat per-request search fee
+(`request_cost`) on top of token costs — see calculatePerplexityCost for how that is modeled.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`PerplexityV3MiddlewareOptions`](/sdk/ai-billing/reference/perplexity/typedoc/interfaces/PerplexityV3MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [PerplexityV3MiddlewareOptions](/sdk/ai-billing/reference/perplexity/typedoc/interfaces/PerplexityV3MiddlewareOptions). A `priceResolver` is required.
+
+## Returns
+
+`LanguageModelV3Middleware`
+
+A V3 billing middleware instance for Perplexity.
+
+## Example
+
+```ts
+import { createPerplexity } from '@ai-sdk/perplexity';
+import { wrapLanguageModel } from 'ai';
+import { createPerplexityV3Middleware } from '@ai-billing/perplexity';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const perplexity = createPerplexity({ apiKey: process.env.PERPLEXITY_API_KEY });
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'sonar-pro': {
+    promptTokens: 3.0 / 1_000_000,
+    completionTokens: 15.0 / 1_000_000,
+    request: 6.0 / 1_000, // flat per-request search fee (low search_context_size rate)
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createPerplexityV3Middleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: perplexity('sonar-pro'),
+  middleware: billingMiddleware,
+});
+```
