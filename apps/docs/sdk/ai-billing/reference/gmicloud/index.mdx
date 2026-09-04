@@ -1,0 +1,101 @@
+---
+title: 'Getting started'
+description: 'First steps with GMI Cloud middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/gmicloud @ai-billing/core @ai-sdk/gmicloud ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/gmicloud @ai-billing/core @ai-sdk/gmicloud ai
+```
+
+```bash yarn
+yarn add @ai-billing/gmicloud @ai-billing/core @ai-sdk/gmicloud ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/gmicloud` package provides middleware for tracking token usage and calculating costs when using GMI Cloud models with the Vercel AI SDK.
+
+It captures GMI Cloud-specific metrics, such as `completion_tokens_details.reasoning_tokens` and `prompt_tokens_details.cached_tokens`, ensuring that reasoning and prompt-caching costs are accurately reflected.
+
+## Usage
+
+To use the middleware, wrap your GMI Cloud model using `wrapLanguageModel` from the `ai` package and pass the `createGmicloudMiddleware`.
+
+<Steps>
+  <Step title="Initialize the GMI Cloud provider">
+    First, set up the GMI Cloud provider using your API key.
+
+    ```typescript
+    import { createGmicloud } from '@ai-sdk/gmicloud';
+
+    const gmicloud = createGmicloud({
+      apiKey: process.env.GMI_CLOUD_APIKEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. For GMI Cloud, you can specify costs for standard prompt/completion tokens and reasoning tokens.
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'deepseek-ai/DeepSeek-V4-Flash-0731': {
+        promptTokens: 0.0000001,
+        completionTokens: 0.0000003,
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the GMI Cloud billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createGmicloudMiddleware } from '@ai-billing/gmicloud';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createGmicloudMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your GMI Cloud model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: gmicloud('deepseek-ai/DeepSeek-V4-Flash-0731'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens, handle reasoning and caching metrics, and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>
