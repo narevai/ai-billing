@@ -621,6 +621,33 @@
                     ]
                   }
                 ]
+              },
+              {
+                "group": "@ai-billing/zai",
+                "pages": [
+                  "sdk/ai-billing/reference/zai/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/zai/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/zai/typedoc/functions/createZaiV3Middleware",
+                          "sdk/ai-billing/reference/zai/typedoc/functions/createZaiV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/zai/typedoc/interfaces/ZaiV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/zai/typedoc/interfaces/ZaiV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }
