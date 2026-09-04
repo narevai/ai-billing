@@ -86,6 +86,7 @@
         "@ai-billing/minimax#docs:generate",
         "@ai-billing/nextjs#docs:generate",
         "@ai-billing/mistral#docs:generate",
+        "@ai-billing/moonshotai#docs:generate",
         "@ai-billing/baseten#docs:generate",
         "@ai-billing/narev#docs:generate"
       ],
