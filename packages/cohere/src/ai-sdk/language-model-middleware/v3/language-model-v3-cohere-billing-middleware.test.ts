@@ -217,7 +217,12 @@ describe('CohereBillingMiddlewareV3 Integration', () => {
       // since the fallback to tokens.* is only supposed to trigger when billed_units itself is absent.
       const resultWithPartialBilledUnits = createResult({
         usage: {
-          inputTokens: { total: 999, noCache: 999, cacheRead: 0, cacheWrite: 0 },
+          inputTokens: {
+            total: 999,
+            noCache: 999,
+            cacheRead: 0,
+            cacheWrite: 0,
+          },
           outputTokens: { total: 999, text: 999, reasoning: 0 },
           raw: {
             billed_units: {
