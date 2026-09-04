@@ -1,0 +1,107 @@
+---
+title: 'Getting started'
+description: 'First steps with Fireworks middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/fireworks @ai-billing/core @ai-sdk/fireworks ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/fireworks @ai-billing/core @ai-sdk/fireworks ai
+```
+
+```bash yarn
+yarn add @ai-billing/fireworks @ai-billing/core @ai-sdk/fireworks ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/fireworks` package provides middleware for tracking token usage and calculating costs when using Fireworks models with the Vercel AI SDK.
+
+It captures Fireworks' OpenAI-compatible usage payload, including cached prompt tokens and reasoning tokens, ensuring that costs are accurately reflected.
+
+## Usage
+
+To use the middleware, wrap your Fireworks model using `wrapLanguageModel` from the `ai` package and pass the `createFireworksMiddleware`.
+
+<Steps>
+  <Step title="Initialize the Fireworks provider">
+    First, set up the provider using the Fireworks SDK and your API key.
+
+    ```typescript
+    import { createFireworks } from '@ai-sdk/fireworks';
+
+    const fireworks = createFireworks({
+      apiKey: process.env.FIREWORKS_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. Fireworks bills on
+    prompt tokens, completion tokens, and cached prompt tokens (`inputCacheReadTokens`).
+
+    Fireworks has no separate pricing tier for reasoning tokens — reasoning tokens are billed at the
+    same rate as `completionTokens`, so you don't need to configure anything extra for reasoning
+    models.
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'accounts/fireworks/models/glm-5p3-flash': {
+        promptTokens: 0.0000002, // 0.2 per 1M tokens
+        completionTokens: 0.0000008, // 0.8 per 1M tokens
+        inputCacheReadTokens: 0.0000001, // 0.1 per 1M tokens
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the Fireworks billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createFireworksMiddleware } from '@ai-billing/fireworks';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createFireworksMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your Fireworks model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: fireworks('accounts/fireworks/models/glm-5p3-flash'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens, handle reasoning metrics, and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>
