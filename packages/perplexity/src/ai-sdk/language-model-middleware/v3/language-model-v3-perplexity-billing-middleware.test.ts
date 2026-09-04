@@ -180,7 +180,9 @@ describe('PerplexityBillingMiddlewareV3 Integration', () => {
         internalReasoningTokens: 0.000008,
         request: 0,
       };
-      const reasoningPriceResolver = vi.fn().mockResolvedValue(reasoningPricing);
+      const reasoningPriceResolver = vi
+        .fn()
+        .mockResolvedValue(reasoningPricing);
 
       const destinationSpy = vi.fn();
       const middleware = createPerplexityV3Middleware({

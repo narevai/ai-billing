@@ -45,7 +45,7 @@ describe('calculatePerplexityCost', () => {
     });
   });
 
-  it('should calculate cost for the captured sample Perplexity generate-text usage (prompt_tokens: 7, completion_tokens: 19) using a mock pricing table (not Perplexity\'s own real-world rates)', () => {
+  it("should calculate cost for the captured sample Perplexity generate-text usage (prompt_tokens: 7, completion_tokens: 19) using a mock pricing table (not Perplexity's own real-world rates)", () => {
     // NOTE: this deliberately uses a mock pricing table, not Perplexity's real sonar-pro rates. The
     // captured issue sample's own `usage.raw.cost.total_cost` of $0.00631 reflects Perplexity's real
     // per-token/per-request rates, which this test's mock table need not (and does not) match.
