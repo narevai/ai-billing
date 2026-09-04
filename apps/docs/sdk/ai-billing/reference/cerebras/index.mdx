@@ -1,0 +1,120 @@
+---
+title: 'Getting started'
+description: 'First steps with Cerebras middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/cerebras @ai-billing/core @ai-sdk/cerebras ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/cerebras @ai-billing/core @ai-sdk/cerebras ai
+```
+
+```bash yarn
+yarn add @ai-billing/cerebras @ai-billing/core @ai-sdk/cerebras ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/cerebras` package provides middleware for tracking token usage and calculating costs when using Cerebras models with the Vercel AI SDK.
+
+## Usage
+
+To use the middleware, wrap your Cerebras model using `wrapLanguageModel` from the `ai` package and pass the `createCerebrasMiddleware`.
+
+<Steps>
+  <Step title="Initialize the Cerebras provider">
+    First, set up the Cerebras provider using your API key.
+
+    ```typescript
+    import { createCerebras } from '@ai-sdk/cerebras';
+
+    const cerebras = createCerebras({
+      apiKey: process.env.CEREBRAS_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. You can use either the dynamic Narev price resolver or a manual object price resolver.
+
+    <Tabs>
+      <Tab title="Using Narev Pricing (Recommended)">
+        The Narev price resolver automatically fetches the latest pricing for Cerebras models.
+
+        ```typescript
+        import { createNarevPriceResolver } from '@ai-billing/core';
+
+        const priceResolver = createNarevPriceResolver({
+          apiKey: process.env.NAREV_API_KEY ?? '',
+        });
+        ```
+      </Tab>
+      <Tab title="Using Manual Pricing">
+        You can also manually specify costs for standard prompt and completion tokens.
+
+        ```typescript
+        import { createObjectPriceResolver } from '@ai-billing/core';
+
+        // Pricing per Cerebras's own docs at the time of writing:
+        // https://inference-docs.cerebras.ai/models/openai-oss ($0.35 / $0.75 per 1M tokens).
+        // Cerebras pricing can change — verify against the link above before relying on this in
+        // production.
+        const priceResolver = createObjectPriceResolver({
+          'gpt-oss-120b': {
+            promptTokens: 0.35 / 1_000_000,
+            completionTokens: 0.75 / 1_000_000,
+          },
+        });
+        ```
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the Cerebras billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createCerebrasMiddleware } from '@ai-billing/cerebras';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createCerebrasMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your Cerebras model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: cerebras('gpt-oss-120b'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>
