@@ -252,6 +252,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/huggingface",
+                "pages": [
+                  "sdk/ai-billing/reference/huggingface/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/huggingface/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/huggingface/typedoc/functions/createHuggingfaceV3Middleware",
+                          "sdk/ai-billing/reference/huggingface/typedoc/functions/createHuggingfaceV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/huggingface/typedoc/interfaces/HuggingfaceV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/huggingface/typedoc/interfaces/HuggingfaceV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/lago",
                 "pages": [
                   "sdk/ai-billing/reference/lago/index",
