@@ -1,0 +1,35 @@
+[**@ai-billing/core**](../index)
+
+***
+
+[@ai-billing/core](/sdk/ai-billing/reference/core/typedoc/index) / createV4BillingMiddleware
+
+# Function: createV4BillingMiddleware()
+
+> **createV4BillingMiddleware**\<`TTags`\>(`options`): `LanguageModelV4Middleware`
+
+Defined in: [packages/core/src/ai-sdk/language-model-middleware/v4/language-model-v4-base-billing-middleware.ts:49](https://github.com/narevai/ai-billing/blob/main/packages/core/src/ai-sdk/language-model-middleware/v4/language-model-v4-base-billing-middleware.ts#L49)
+
+Creates a billing middleware for the Language Model V4 API.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject` = `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`BillingMiddlewareV4Options`](/sdk/ai-billing/reference/core/typedoc/interfaces/BillingMiddlewareV4Options)\<`TTags`\>
+
+Billing options; see [BillingMiddlewareV4Options](/sdk/ai-billing/reference/core/typedoc/interfaces/BillingMiddlewareV4Options).
+
+## Returns
+
+`LanguageModelV4Middleware`
+
+The billing middleware.

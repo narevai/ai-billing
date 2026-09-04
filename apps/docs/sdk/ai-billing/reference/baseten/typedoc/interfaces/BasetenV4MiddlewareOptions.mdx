@@ -1,0 +1,106 @@
+[**@ai-billing/baseten**](../index)
+
+***
+
+[@ai-billing/baseten](/sdk/ai-billing/reference/baseten/typedoc/index) / BasetenV4MiddlewareOptions
+
+# Interface: BasetenV4MiddlewareOptions\<TTags\>
+
+Defined in: [baseten/src/ai-sdk/language-model-middleware/v4/language-model-v4-baseten-billing-middleware.ts:33](https://github.com/narevai/ai-billing/blob/main/packages/baseten/src/ai-sdk/language-model-middleware/v4/language-model-v4-baseten-billing-middleware.ts#L33)
+
+Configuration for [createBasetenV4Middleware](/sdk/ai-billing/reference/baseten/typedoc/functions/createBasetenV4Middleware).
+
+## Extends
+
+- `BaseBillingMiddlewareOptions`\<`TTags`\>
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `DefaultTags`
+
+## Properties
+
+### priceResolver
+
+> **priceResolver**: `PriceResolver`
+
+Defined in: [baseten/src/ai-sdk/language-model-middleware/v4/language-model-v4-baseten-billing-middleware.ts:36](https://github.com/narevai/ai-billing/blob/main/packages/baseten/src/ai-sdk/language-model-middleware/v4/language-model-v4-baseten-billing-middleware.ts#L36)
+
+***
+
+### destinations?
+
+> `optional` **destinations?**: `Destination`\<`TTags`\>[]
+
+Defined in: types/dist/index.d.ts:71
+
+One or more billing destinations that receive each emitted BillingEvent.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.destinations`
+
+***
+
+### defaultTags?
+
+> `optional` **defaultTags?**: `TTags`
+
+Defined in: types/dist/index.d.ts:73
+
+Tags merged into every emitted event.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.defaultTags`
+
+***
+
+### waitUntil?
+
+> `optional` **waitUntil?**: (`promise`) => `void`
+
+Defined in: types/dist/index.d.ts:78
+
+Edge-runtime hook (e.g. `ctx.waitUntil`) used to keep the process alive
+while billing events are flushed asynchronously.
+
+#### Parameters
+
+##### promise
+
+`Promise`\<`unknown`\>
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.waitUntil`
+
+***
+
+### onError?
+
+> `optional` **onError?**: (`error`) => `void`
+
+Defined in: types/dist/index.d.ts:80
+
+Called when an error occurs during event extraction or dispatch. Defaults to a silent no-op.
+
+#### Parameters
+
+##### error
+
+`unknown`
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.onError`
