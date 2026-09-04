@@ -30,13 +30,41 @@
                       {
                         "group": "Functions",
                         "pages": [
-                          "sdk/ai-billing/reference/anthropic/typedoc/functions/createAnthropicV3Middleware"
+                          "sdk/ai-billing/reference/anthropic/typedoc/functions/createAnthropicV3Middleware",
+                          "sdk/ai-billing/reference/anthropic/typedoc/functions/createAnthropicV4Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "sdk/ai-billing/reference/anthropic/typedoc/interfaces/AnthropicV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/anthropic/typedoc/interfaces/AnthropicV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/anthropic/typedoc/interfaces/AnthropicV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "@ai-billing/baseten",
+                "pages": [
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/baseten/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/baseten/typedoc/functions/createBasetenV3Middleware",
+                          "sdk/ai-billing/reference/baseten/typedoc/functions/createBasetenV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/baseten/typedoc/interfaces/BasetenV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/baseten/typedoc/interfaces/BasetenV4MiddlewareOptions"
                         ]
                       }
                     ]
@@ -55,13 +83,15 @@
                       {
                         "group": "Functions",
                         "pages": [
-                          "sdk/ai-billing/reference/chutes/typedoc/functions/createChutesV3Middleware"
+                          "sdk/ai-billing/reference/chutes/typedoc/functions/createChutesV3Middleware",
+                          "sdk/ai-billing/reference/chutes/typedoc/functions/createChutesV4Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "sdk/ai-billing/reference/chutes/typedoc/interfaces/ChutesV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/chutes/typedoc/interfaces/ChutesV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/chutes/typedoc/interfaces/ChutesV4MiddlewareOptions"
                         ]
                       }
                     ]
@@ -85,6 +115,7 @@
                           "sdk/ai-billing/reference/core/typedoc/functions/createDestination",
                           "sdk/ai-billing/reference/core/typedoc/functions/createObjectPriceResolver",
                           "sdk/ai-billing/reference/core/typedoc/functions/createV3BillingMiddleware",
+                          "sdk/ai-billing/reference/core/typedoc/functions/createV4BillingMiddleware",
                           "sdk/ai-billing/reference/core/typedoc/functions/toJSONObject",
                           "sdk/ai-billing/reference/core/typedoc/functions/toUsage"
                         ]
@@ -93,7 +124,9 @@
                         "group": "Interfaces",
                         "pages": [
                           "sdk/ai-billing/reference/core/typedoc/interfaces/BillingMiddlewareV3Options",
+                          "sdk/ai-billing/reference/core/typedoc/interfaces/BillingMiddlewareV4Options",
                           "sdk/ai-billing/reference/core/typedoc/interfaces/BuildV3EventPayload",
+                          "sdk/ai-billing/reference/core/typedoc/interfaces/BuildV4EventPayload",
                           "sdk/ai-billing/reference/core/typedoc/interfaces/ModelPricing"
                         ]
                       },
@@ -122,13 +155,15 @@
                       {
                         "group": "Functions",
                         "pages": [
-                          "sdk/ai-billing/reference/deepseek/typedoc/functions/createDeepSeekV3Middleware"
+                          "sdk/ai-billing/reference/deepseek/typedoc/functions/createDeepSeekV3Middleware",
+                          "sdk/ai-billing/reference/deepseek/typedoc/functions/createDeepSeekV4Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "sdk/ai-billing/reference/deepseek/typedoc/interfaces/DeepSeekV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/deepseek/typedoc/interfaces/DeepSeekV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/deepseek/typedoc/interfaces/DeepSeekV4MiddlewareOptions"
                         ]
                       }
                     ]
@@ -147,13 +182,15 @@
                       {
                         "group": "Functions",
                         "pages": [
-                          "sdk/ai-billing/reference/gateway/typedoc/functions/createGatewayV3Middleware"
+                          "sdk/ai-billing/reference/gateway/typedoc/functions/createGatewayV3Middleware",
+                          "sdk/ai-billing/reference/gateway/typedoc/functions/createGatewayV4Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "sdk/ai-billing/reference/gateway/typedoc/interfaces/GatewayV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/gateway/typedoc/interfaces/GatewayV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/gateway/typedoc/interfaces/GatewayV4MiddlewareOptions"
                         ]
                       }
                     ]
@@ -172,13 +209,15 @@
                       {
                         "group": "Functions",
                         "pages": [
-                          "sdk/ai-billing/reference/google/typedoc/functions/createGoogleV3Middleware"
+                          "sdk/ai-billing/reference/google/typedoc/functions/createGoogleV3Middleware",
+                          "sdk/ai-billing/reference/google/typedoc/functions/createGoogleV4Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "sdk/ai-billing/reference/google/typedoc/interfaces/GoogleV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/google/typedoc/interfaces/GoogleV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/google/typedoc/interfaces/GoogleV4MiddlewareOptions"
                         ]
                       }
                     ]
@@ -197,13 +236,15 @@
                       {
                         "group": "Functions",
                         "pages": [
-                          "sdk/ai-billing/reference/groq/typedoc/functions/createGroqV3Middleware"
+                          "sdk/ai-billing/reference/groq/typedoc/functions/createGroqV3Middleware",
+                          "sdk/ai-billing/reference/groq/typedoc/functions/createGroqV4Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "sdk/ai-billing/reference/groq/typedoc/interfaces/GroqV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/groq/typedoc/interfaces/GroqV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/groq/typedoc/interfaces/GroqV4MiddlewareOptions"
                         ]
                       }
                     ]
@@ -247,13 +288,41 @@
                       {
                         "group": "Functions",
                         "pages": [
-                          "sdk/ai-billing/reference/minimax/typedoc/functions/createMinimaxV3Middleware"
+                          "sdk/ai-billing/reference/minimax/typedoc/functions/createMinimaxV3Middleware",
+                          "sdk/ai-billing/reference/minimax/typedoc/functions/createMinimaxV4Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "sdk/ai-billing/reference/minimax/typedoc/interfaces/MinimaxV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/minimax/typedoc/interfaces/MinimaxV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/minimax/typedoc/interfaces/MinimaxV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "@ai-billing/mistral",
+                "pages": [
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/mistral/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/mistral/typedoc/functions/createMistralV3Middleware",
+                          "sdk/ai-billing/reference/mistral/typedoc/functions/createMistralV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/mistral/typedoc/interfaces/MistralV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/mistral/typedoc/interfaces/MistralV4MiddlewareOptions"
                         ]
                       }
                     ]
@@ -382,13 +451,15 @@
                       {
                         "group": "Functions",
                         "pages": [
-                          "sdk/ai-billing/reference/openai/typedoc/functions/createOpenAIV3Middleware"
+                          "sdk/ai-billing/reference/openai/typedoc/functions/createOpenAIV3Middleware",
+                          "sdk/ai-billing/reference/openai/typedoc/functions/createOpenAIV4Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "sdk/ai-billing/reference/openai/typedoc/interfaces/OpenAIV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/openai/typedoc/interfaces/OpenAIV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/openai/typedoc/interfaces/OpenAIV4MiddlewareOptions"
                         ]
                       }
                     ]
@@ -407,13 +478,15 @@
                       {
                         "group": "Functions",
                         "pages": [
-                          "sdk/ai-billing/reference/openai-compatible/typedoc/functions/createOpenAICompatibleV3Middleware"
+                          "sdk/ai-billing/reference/openai-compatible/typedoc/functions/createOpenAICompatibleV3Middleware",
+                          "sdk/ai-billing/reference/openai-compatible/typedoc/functions/createOpenAICompatibleV4Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "sdk/ai-billing/reference/openai-compatible/typedoc/interfaces/OpenAICompatibleV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/openai-compatible/typedoc/interfaces/OpenAICompatibleV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/openai-compatible/typedoc/interfaces/OpenAICompatibleV4MiddlewareOptions"
                         ]
                       }
                     ]
@@ -457,13 +530,15 @@
                       {
                         "group": "Functions",
                         "pages": [
-                          "sdk/ai-billing/reference/openrouter/typedoc/functions/createOpenRouterV3Middleware"
+                          "sdk/ai-billing/reference/openrouter/typedoc/functions/createOpenRouterV3Middleware",
+                          "sdk/ai-billing/reference/openrouter/typedoc/functions/createOpenRouterV4Middleware"
                         ]
                       },
                       {
                         "group": "Types",
                         "pages": [
-                          "sdk/ai-billing/reference/openrouter/typedoc/type-aliases/OpenRouterV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/openrouter/typedoc/type-aliases/OpenRouterV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/openrouter/typedoc/type-aliases/OpenRouterV4MiddlewareOptions"
                         ]
                       }
                     ]
@@ -532,13 +607,15 @@
                       {
                         "group": "Functions",
                         "pages": [
-                          "sdk/ai-billing/reference/xai/typedoc/functions/createXaiV3Middleware"
+                          "sdk/ai-billing/reference/xai/typedoc/functions/createXaiV3Middleware",
+                          "sdk/ai-billing/reference/xai/typedoc/functions/createXaiV4Middleware"
                         ]
                       },
                       {
                         "group": "Interfaces",
                         "pages": [
-                          "sdk/ai-billing/reference/xai/typedoc/interfaces/XaiV3MiddlewareOptions"
+                          "sdk/ai-billing/reference/xai/typedoc/interfaces/XaiV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/xai/typedoc/interfaces/XaiV4MiddlewareOptions"
                         ]
                       }
                     ]

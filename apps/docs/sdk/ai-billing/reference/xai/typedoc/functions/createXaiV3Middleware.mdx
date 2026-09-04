@@ -41,7 +41,7 @@ A V3 billing middleware instance for xAI.
 ```ts
 import { createXai } from '@ai-sdk/xai';
 import { wrapLanguageModel } from 'ai';
-import { createXAIMiddleware } from '@ai-billing/xai';
+import { createXaiV3Middleware } from '@ai-billing/xai';
 import {
   consoleDestination,
   createObjectPriceResolver,
@@ -66,7 +66,7 @@ const customPricingMap: Record<string, ModelPricing> = {
 
 const priceResolver = createObjectPriceResolver(customPricingMap);
 
-const billingMiddleware = createXAIMiddleware({
+const billingMiddleware = createXaiV3Middleware({
   destinations: [consoleDestination()],
   priceResolver,
 });

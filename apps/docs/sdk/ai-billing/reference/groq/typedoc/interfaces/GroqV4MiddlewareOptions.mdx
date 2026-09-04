@@ -1,0 +1,110 @@
+[**@ai-billing/groq**](../index)
+
+***
+
+[@ai-billing/groq](/sdk/ai-billing/reference/groq/typedoc/index) / GroqV4MiddlewareOptions
+
+# Interface: GroqV4MiddlewareOptions\<TTags\>
+
+Defined in: [groq/src/ai-sdk/language-model-middleware/v4/language-model-v4-groq-billing-middleware.ts:42](https://github.com/narevai/ai-billing/blob/main/packages/groq/src/ai-sdk/language-model-middleware/v4/language-model-v4-groq-billing-middleware.ts#L42)
+
+Configuration for [createGroqV4Middleware](/sdk/ai-billing/reference/groq/typedoc/functions/createGroqV4Middleware).
+
+Extends BaseBillingMiddlewareOptions (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
+requires a PriceResolver. Usage is taken from the Groq response; cost is computed from that usage
+and the resolved ModelPricing using the same rules as the package's cost helper.
+
+## Extends
+
+- `BaseBillingMiddlewareOptions`\<`TTags`\>
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `DefaultTags`
+
+## Properties
+
+### priceResolver
+
+> **priceResolver**: `PriceResolver`
+
+Defined in: [groq/src/ai-sdk/language-model-middleware/v4/language-model-v4-groq-billing-middleware.ts:45](https://github.com/narevai/ai-billing/blob/main/packages/groq/src/ai-sdk/language-model-middleware/v4/language-model-v4-groq-billing-middleware.ts#L45)
+
+***
+
+### destinations?
+
+> `optional` **destinations?**: `Destination`\<`TTags`\>[]
+
+Defined in: types/dist/index.d.ts:71
+
+One or more billing destinations that receive each emitted BillingEvent.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.destinations`
+
+***
+
+### defaultTags?
+
+> `optional` **defaultTags?**: `TTags`
+
+Defined in: types/dist/index.d.ts:73
+
+Tags merged into every emitted event.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.defaultTags`
+
+***
+
+### waitUntil?
+
+> `optional` **waitUntil?**: (`promise`) => `void`
+
+Defined in: types/dist/index.d.ts:78
+
+Edge-runtime hook (e.g. `ctx.waitUntil`) used to keep the process alive
+while billing events are flushed asynchronously.
+
+#### Parameters
+
+##### promise
+
+`Promise`\<`unknown`\>
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.waitUntil`
+
+***
+
+### onError?
+
+> `optional` **onError?**: (`error`) => `void`
+
+Defined in: types/dist/index.d.ts:80
+
+Called when an error occurs during event extraction or dispatch. Defaults to a silent no-op.
+
+#### Parameters
+
+##### error
+
+`unknown`
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.onError`

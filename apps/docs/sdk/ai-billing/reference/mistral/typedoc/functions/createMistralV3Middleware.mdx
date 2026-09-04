@@ -1,0 +1,75 @@
+[**@ai-billing/mistral**](../index)
+
+***
+
+[@ai-billing/mistral](/sdk/ai-billing/reference/mistral/typedoc/index) / createMistralV3Middleware
+
+# Function: createMistralV3Middleware()
+
+> **createMistralV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
+
+Defined in: [mistral/src/ai-sdk/language-model-middleware/v3/language-model-v3-mistral-billing-middleware.ts:98](https://github.com/narevai/ai-billing/blob/main/packages/mistral/src/ai-sdk/language-model-middleware/v3/language-model-v3-mistral-billing-middleware.ts#L98)
+
+Creates a V3 billing middleware for the Mistral provider (`@ai-sdk/mistral`).
+Deducts cache-read tokens from prompt tokens before billing — Mistral charges only non-cached input at
+the prompt rate, and cached tokens separately at the cache-read rate.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`MistralV3MiddlewareOptions`](/sdk/ai-billing/reference/mistral/typedoc/interfaces/MistralV3MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [MistralV3MiddlewareOptions](/sdk/ai-billing/reference/mistral/typedoc/interfaces/MistralV3MiddlewareOptions). A `priceResolver` is required.
+
+## Returns
+
+`LanguageModelV3Middleware`
+
+A V3 billing middleware instance for Mistral.
+
+## Example
+
+```ts
+import { createMistral } from '@ai-sdk/mistral';
+import { wrapLanguageModel } from 'ai';
+import { createMistralV3Middleware } from '@ai-billing/mistral';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const mistral = createMistral({ apiKey: process.env.MISTRAL_API_KEY });
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'mistral-large-latest': {
+    promptTokens: 2.0 / 1_000_000,
+    completionTokens: 6.0 / 1_000_000,
+  },
+  'mistral-small-latest': {
+    promptTokens: 0.1 / 1_000_000,
+    completionTokens: 0.3 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createMistralV3Middleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: mistral('mistral-large-latest'),
+  middleware: billingMiddleware,
+});
+```

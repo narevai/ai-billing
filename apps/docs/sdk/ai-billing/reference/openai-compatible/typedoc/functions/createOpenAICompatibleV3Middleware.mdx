@@ -8,7 +8,7 @@
 
 > **createOpenAICompatibleV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
 
-Defined in: [openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts:88](https://github.com/narevai/ai-billing/blob/main/packages/openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts#L88)
+Defined in: [openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts:89](https://github.com/narevai/ai-billing/blob/main/packages/openai-compatible/src/ai-sdk/language-model-middleware/v3/language-model-v3-openai-compatible-billing-middleware.ts#L89)
 
 Creates a V3 billing middleware for OpenAI-compatible providers (for example `@ai-sdk/openai-compatible`).
 Normalizes usage and resolves cost via your PriceResolver; billing events use `options.providerId`
@@ -38,13 +38,14 @@ A V3 billing middleware instance for the configured provider.
 
 ## Example
 
-Same wiring as `examples/dev-sandbox/app/api/openai-compatible` (`createOpenAICompatibleMiddleware` is this
-function's export alias from `@ai-billing/openai-compatible`).
+Same wiring as `examples/dev-sandbox/app/api/openai-compatible`, using this function directly (the
+unversioned `createOpenAICompatibleMiddleware` alias from `@ai-billing/openai-compatible` now points to
+the V4 middleware instead).
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { wrapLanguageModel } from 'ai';
-import { createOpenAICompatibleMiddleware } from '@ai-billing/openai-compatible';
+import { createOpenAICompatibleV3Middleware } from '@ai-billing/openai-compatible';
 import {
   consoleDestination,
   createObjectPriceResolver,
@@ -70,7 +71,7 @@ const customPricingMap: Record<string, ModelPricing> = {
 
 const priceResolver = createObjectPriceResolver(customPricingMap);
 
-const billingMiddleware = createOpenAICompatibleMiddleware({
+const billingMiddleware = createOpenAICompatibleV3Middleware({
   destinations: [consoleDestination()],
   priceResolver,
   providerId: 'xai',
