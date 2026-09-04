@@ -486,6 +486,9 @@ importers:
       '@ai-billing/openrouter':
         specifier: workspace:*
         version: link:../../packages/openrouter
+      '@ai-billing/perplexity':
+        specifier: workspace:*
+        version: link:../../packages/perplexity
       '@ai-billing/polar':
         specifier: workspace:*
         version: link:../../packages/polar
@@ -1946,6 +1949,55 @@ importers:
       '@openrouter/ai-sdk-provider':
         specifier: ^2.3.3
         version: 2.3.3(ai@7.0.90(zod@4.3.6))(zod@4.3.6)
+    devDependencies:
+      '@ai-billing/testing':
+        specifier: workspace:*
+        version: link:../testing
+      '@ai-billing/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@ai-sdk/provider':
+        specifier: 'catalog:'
+        version: 4.0.10
+      '@edge-runtime/vm':
+        specifier: 'catalog:'
+        version: 5.0.0
+      ai:
+        specifier: ^7.0.0
+        version: 7.0.90(zod@4.3.6)
+      ai-v6:
+        specifier: npm:ai@^6.0.138
+        version: ai@6.0.185(zod@4.3.6)
+      tsup:
+        specifier: 'catalog:'
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+      typedoc:
+        specifier: 'catalog:'
+        version: 0.28.19(typescript@5.9.3)
+      typedoc-plugin-markdown:
+        specifier: 'catalog:'
+        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.11(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.1)(@types/node@22.19.15)(@vitest/coverage-v8@4.1.11)(vite@8.0.16(@types/node@22.19.15)(esbuild@0.27.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))
+      zod:
+        specifier: 'catalog:'
+        version: 4.3.6
+
+  packages/perplexity:
+    dependencies:
+      '@ai-billing/core':
+        specifier: workspace:*
+        version: link:../core
+      '@ai-billing/types':
+        specifier: workspace:*
+        version: link:../types
+      '@ai-sdk/perplexity':
+        specifier: ^3.0.0 || ^4.0.0
+        version: 3.0.58(zod@4.3.6)
     devDependencies:
       '@ai-billing/testing':
         specifier: workspace:*
