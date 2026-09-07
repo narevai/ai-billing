@@ -90,8 +90,9 @@
         "@ai-billing/gmicloud#docs:generate",
         "@ai-billing/baseten#docs:generate",
         "@ai-billing/fireworks#docs:generate",
+        "@ai-billing/cerebras#docs:generate",
         "@ai-billing/narev#docs:generate",
-        "@ai-billing/cerebras#docs:generate"
+        "@ai-billing/cohere#docs:generate"
       ],
       "cache": false
     }
