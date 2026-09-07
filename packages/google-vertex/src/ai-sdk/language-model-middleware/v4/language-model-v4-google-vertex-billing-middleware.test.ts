@@ -29,7 +29,9 @@ describe('GoogleVertexBillingMiddlewareV4 Integration', () => {
   const createResult = (
     overrides: Partial<LanguageModelV4GenerateResult> = {},
   ): LanguageModelV4GenerateResult => ({
-    content: [{ type: 'text', text: 'The capital of Sweden is **Stockholm**.' }],
+    content: [
+      { type: 'text', text: 'The capital of Sweden is **Stockholm**.' },
+    ],
     warnings: [],
     finishReason: { unified: 'stop', raw: 'STOP' },
     usage: {
@@ -121,7 +123,12 @@ describe('GoogleVertexBillingMiddlewareV4 Integration', () => {
 
       const resultWithCache = createResult({
         usage: {
-          inputTokens: { total: 100, noCache: 70, cacheRead: 30, cacheWrite: 0 },
+          inputTokens: {
+            total: 100,
+            noCache: 70,
+            cacheRead: 30,
+            cacheWrite: 0,
+          },
           outputTokens: { total: 40, text: 40, reasoning: 0 },
         },
         providerMetadata: {
