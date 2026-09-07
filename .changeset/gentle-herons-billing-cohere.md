@@ -1,5 +1,5 @@
 ---
-"@ai-billing/cohere": minor
+"@ai-billing/cohere": patch
 ---
 
 feat: add cohere billing middleware package
