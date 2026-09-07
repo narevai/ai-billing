@@ -1,5 +1,5 @@
 ---
-"@ai-billing/amazon-bedrock": minor
+"@ai-billing/amazon-bedrock": patch
 ---
 
 feat(amazon-bedrock): first release
