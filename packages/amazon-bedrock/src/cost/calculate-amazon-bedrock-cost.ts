@@ -30,6 +30,9 @@ export const calculateAmazonBedrockCost = (params: {
     return undefined;
   }
 
+  const cacheReadTokens = usage.cacheReadTokens ?? 0;
+  const reasoningTokens = usage.reasoningTokens ?? 0;
+
   const promptCost = multiplyCost(
     rateToCost(pricing.promptTokens),
     usage.promptTokens,
@@ -42,7 +45,7 @@ export const calculateAmazonBedrockCost = (params: {
 
   const cacheReadCost = multiplyCost(
     rateToCost(pricing.inputCacheReadTokens),
-    usage.cacheReadTokens,
+    cacheReadTokens,
   );
 
   const cacheWriteCost = multiplyCost(
@@ -52,7 +55,7 @@ export const calculateAmazonBedrockCost = (params: {
 
   const reasoningCost = multiplyCost(
     rateToCost(pricing.internalReasoningTokens ?? 0),
-    usage.reasoningTokens,
+    reasoningTokens,
   );
 
   const requestCost = rateToCost(pricing.request);

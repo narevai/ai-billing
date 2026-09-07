@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { calculateAmazonBedrockCost } from './calculate-amazon-bedrock-cost.js';
-import type { ModelPricing } from '@ai-billing/types';
+import type { ModelPricing, CostInputs } from '@ai-billing/types';
 
 describe('calculateAmazonBedrockCost', () => {
   it('should return undefined if no pricing is provided', () => {
@@ -158,6 +158,88 @@ describe('calculateAmazonBedrockCost', () => {
     // Total: 41,000 + 78,000 + 15,000 = 134,000 nanos
     expect(result).toEqual({
       amount: 134000,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
+
+  it('should default cacheReadTokens to 0 when omitted from usage (defensive fallback for non-strict callers)', () => {
+    const mockPricing: ModelPricing = {
+      promptTokens: 0.000002,
+      completionTokens: 0.000004,
+      inputCacheReadTokens: 0.0000005,
+      inputCacheWriteTokens: 0.000001,
+      request: 0,
+    };
+
+    // `CostInputs` declares `cacheReadTokens` as required, but callers that skip strict TS
+    // checks (or upstream extraction bugs) may still omit it at runtime.
+    const usage = {
+      promptTokens: 50,
+      completionTokens: 30,
+      cacheWriteTokens: 10,
+      reasoningTokens: 0,
+    } as unknown as CostInputs;
+
+    const usageWithExplicitZero = {
+      ...usage,
+      cacheReadTokens: 0,
+    };
+
+    const result = calculateAmazonBedrockCost({ pricing: mockPricing, usage });
+    const resultWithExplicitZero = calculateAmazonBedrockCost({
+      pricing: mockPricing,
+      usage: usageWithExplicitZero,
+    });
+
+    expect(result).toEqual(resultWithExplicitZero);
+    // Prompt: 0.000002 * 1e9 * 50 = 100,000 nanos
+    // Completion: 0.000004 * 1e9 * 30 = 120,000 nanos
+    // Cache write: 0.000001 * 1e9 * 10 = 10,000 nanos
+    // Cache read defaults to 0 tokens, so cache read cost is 0.
+    // Total: 100,000 + 120,000 + 10,000 = 230,000 nanos
+    expect(result).toEqual({
+      amount: 230000,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
+
+  it('should default reasoningTokens to 0 when omitted from usage (defensive fallback for non-strict callers)', () => {
+    const mockPricing: ModelPricing = {
+      promptTokens: 0.0000003,
+      completionTokens: 0.0000009,
+      inputCacheReadTokens: 0.0000001,
+      request: 0,
+    };
+
+    // `CostInputs` declares `reasoningTokens` as required, but callers that skip strict TS
+    // checks (or upstream extraction bugs) may still omit it at runtime.
+    const usage = {
+      promptTokens: 25,
+      completionTokens: 40,
+      cacheReadTokens: 0,
+      cacheWriteTokens: 0,
+    } as unknown as CostInputs;
+
+    const usageWithExplicitZero = {
+      ...usage,
+      reasoningTokens: 0,
+    };
+
+    const result = calculateAmazonBedrockCost({ pricing: mockPricing, usage });
+    const resultWithExplicitZero = calculateAmazonBedrockCost({
+      pricing: mockPricing,
+      usage: usageWithExplicitZero,
+    });
+
+    expect(result).toEqual(resultWithExplicitZero);
+    // Prompt: 0.0000003 * 1e9 * 25 = 7,500 nanos
+    // Completion: 0.0000009 * 1e9 * 40 = 36,000 nanos
+    // Reasoning defaults to 0 tokens, so reasoning cost is 0 (additive, nothing shifted from completion).
+    // Total: 7,500 + 36,000 = 43,500 nanos
+    expect(result).toEqual({
+      amount: 43500,
       unit: 'nanos',
       currency: 'USD',
     });
