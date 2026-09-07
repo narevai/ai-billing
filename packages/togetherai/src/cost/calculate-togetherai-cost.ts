@@ -31,10 +31,7 @@ export const calculateTogetheraiCost = (params: {
   const cacheReadTokens = usage.cacheReadTokens ?? 0;
   const reasoningTokens = usage.reasoningTokens ?? 0;
 
-  const basePromptTokens = Math.max(
-    0,
-    usage.promptTokens - usage.cacheReadTokens,
-  );
+  const basePromptTokens = Math.max(0, usage.promptTokens - cacheReadTokens);
 
   const baseCompletionTokens = Math.max(
     0,
