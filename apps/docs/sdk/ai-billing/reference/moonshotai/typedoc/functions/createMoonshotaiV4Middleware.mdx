@@ -1,0 +1,77 @@
+[**@ai-billing/moonshotai**](../index)
+
+***
+
+[@ai-billing/moonshotai](/sdk/ai-billing/reference/moonshotai/typedoc/index) / createMoonshotaiV4Middleware
+
+# Function: createMoonshotaiV4Middleware()
+
+> **createMoonshotaiV4Middleware**\<`TTags`\>(`options`): `LanguageModelV4Middleware`
+
+Defined in: [moonshotai/src/ai-sdk/language-model-middleware/v4/language-model-v4-moonshotai-billing-middleware.ts:96](https://github.com/narevai/ai-billing/blob/main/packages/moonshotai/src/ai-sdk/language-model-middleware/v4/language-model-v4-moonshotai-billing-middleware.ts#L96)
+
+Creates a V4 billing middleware for the Moonshot AI provider (`@ai-sdk/moonshotai`).
+
+Moonshot AI's chat-completions usage payload is OpenAI-compatible. Reasoning models (e.g. `kimi-k3`)
+report `completion_tokens_details.reasoning_tokens` as a *subset* of `completion_tokens`, so this
+middleware subtracts reasoning tokens out of `completion_tokens` before billing them as
+`completionTokens`, and bills the reasoning tokens separately as `reasoningTokens` — avoiding
+double-counting reasoning cost.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`MoonshotaiV4MiddlewareOptions`](/sdk/ai-billing/reference/moonshotai/typedoc/interfaces/MoonshotaiV4MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [MoonshotaiV4MiddlewareOptions](/sdk/ai-billing/reference/moonshotai/typedoc/interfaces/MoonshotaiV4MiddlewareOptions). A `priceResolver` is required.
+
+## Returns
+
+`LanguageModelV4Middleware`
+
+A V4 billing middleware instance for Moonshot AI.
+
+## Example
+
+```ts
+import { createMoonshotAI } from '@ai-sdk/moonshotai';
+import { wrapLanguageModel } from 'ai';
+import { createMoonshotaiV4Middleware } from '@ai-billing/moonshotai';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const moonshotai = createMoonshotAI({ apiKey: process.env.MOONSHOT_API_KEY });
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'kimi-k3': {
+    promptTokens: 3.0 / 1_000_000,
+    completionTokens: 15.0 / 1_000_000,
+    inputCacheReadTokens: 0.3 / 1_000_000,
+    internalReasoningTokens: 15.0 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createMoonshotaiV4Middleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: moonshotai('kimi-k3'),
+  middleware: billingMiddleware,
+});
+```

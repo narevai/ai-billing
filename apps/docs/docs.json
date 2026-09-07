@@ -72,6 +72,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/cerebras",
+                "pages": [
+                  "sdk/ai-billing/reference/cerebras/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/cerebras/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/cerebras/typedoc/functions/createCerebrasV3Middleware",
+                          "sdk/ai-billing/reference/cerebras/typedoc/functions/createCerebrasV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/cerebras/typedoc/interfaces/CerebrasV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/cerebras/typedoc/interfaces/CerebrasV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/chutes",
                 "pages": [
                   "sdk/ai-billing/reference/chutes/index",
@@ -164,6 +191,33 @@
                         "pages": [
                           "sdk/ai-billing/reference/deepseek/typedoc/interfaces/DeepSeekV3MiddlewareOptions",
                           "sdk/ai-billing/reference/deepseek/typedoc/interfaces/DeepSeekV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "@ai-billing/fireworks",
+                "pages": [
+                  "sdk/ai-billing/reference/fireworks/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/fireworks/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/fireworks/typedoc/functions/createFireworksV3Middleware",
+                          "sdk/ai-billing/reference/fireworks/typedoc/functions/createFireworksV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/fireworks/typedoc/interfaces/FireworksV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/fireworks/typedoc/interfaces/FireworksV4MiddlewareOptions"
                         ]
                       }
                     ]
@@ -350,6 +404,33 @@
                         "pages": [
                           "sdk/ai-billing/reference/mistral/typedoc/interfaces/MistralV3MiddlewareOptions",
                           "sdk/ai-billing/reference/mistral/typedoc/interfaces/MistralV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "@ai-billing/moonshotai",
+                "pages": [
+                  "sdk/ai-billing/reference/moonshotai/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/moonshotai/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/moonshotai/typedoc/functions/createMoonshotaiV3Middleware",
+                          "sdk/ai-billing/reference/moonshotai/typedoc/functions/createMoonshotaiV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/moonshotai/typedoc/interfaces/MoonshotaiV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/moonshotai/typedoc/interfaces/MoonshotaiV4MiddlewareOptions"
                         ]
                       }
                     ]
