@@ -46,6 +46,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/amazon-bedrock",
+                "pages": [
+                  "sdk/ai-billing/reference/amazon-bedrock/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/amazon-bedrock/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/amazon-bedrock/typedoc/functions/createAmazonBedrockV3Middleware",
+                          "sdk/ai-billing/reference/amazon-bedrock/typedoc/functions/createAmazonBedrockV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/amazon-bedrock/typedoc/interfaces/AmazonBedrockV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/amazon-bedrock/typedoc/interfaces/AmazonBedrockV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/anthropic",
                 "pages": [
                   "sdk/ai-billing/reference/anthropic/index",
