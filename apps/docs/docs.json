@@ -46,6 +46,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/azure",
+                "pages": [
+                  "sdk/ai-billing/reference/azure/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/azure/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/azure/typedoc/functions/createAzureV3Middleware",
+                          "sdk/ai-billing/reference/azure/typedoc/functions/createAzureV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/azure/typedoc/interfaces/AzureV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/azure/typedoc/interfaces/AzureV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/baseten",
                 "pages": [
                   {

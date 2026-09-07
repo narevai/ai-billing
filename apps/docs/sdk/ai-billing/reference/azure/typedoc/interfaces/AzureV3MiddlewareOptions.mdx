@@ -1,19 +1,19 @@
-[**@ai-billing/cerebras**](../index)
+[**@ai-billing/azure**](../index)
 
 ***
 
-[@ai-billing/cerebras](/sdk/ai-billing/reference/cerebras/typedoc/index) / CerebrasV3MiddlewareOptions
+[@ai-billing/azure](/sdk/ai-billing/reference/azure/typedoc/index) / AzureV3MiddlewareOptions
 
-# Interface: CerebrasV3MiddlewareOptions\<TTags\>
+# Interface: AzureV3MiddlewareOptions\<TTags\>
 
-Defined in: [cerebras/src/ai-sdk/language-model-middleware/v3/language-model-v3-cerebras-billing-middleware.ts:44](https://github.com/narevai/ai-billing/blob/main/packages/cerebras/src/ai-sdk/language-model-middleware/v3/language-model-v3-cerebras-billing-middleware.ts#L44)
+Defined in: azure/src/ai-sdk/language-model-middleware/v3/language-model-v3-azure-billing-middleware.ts:44
 
-Configuration for [createCerebrasV3Middleware](/sdk/ai-billing/reference/cerebras/typedoc/functions/createCerebrasV3Middleware).
+Configuration for [createAzureV3Middleware](/sdk/ai-billing/reference/azure/typedoc/functions/createAzureV3Middleware).
 
 Extends BaseBillingMiddlewareOptions (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
-requires a PriceResolver. Usage is taken from the AI SDK's normalized usage fields; cost is
-computed from that usage and the resolved ModelPricing using the same rules as the package's cost
-helper.
+requires a PriceResolver. Usage is taken from the raw Responses-API usage payload when present,
+falling back to the AI SDK's normalized usage fields otherwise; cost is computed from that usage and the
+resolved ModelPricing using the same rules as the package's cost helper.
 
 ## Extends
 
@@ -33,7 +33,7 @@ The shape of the tags object, extending DefaultTags.
 
 > **priceResolver**: `PriceResolver`
 
-Defined in: [cerebras/src/ai-sdk/language-model-middleware/v3/language-model-v3-cerebras-billing-middleware.ts:47](https://github.com/narevai/ai-billing/blob/main/packages/cerebras/src/ai-sdk/language-model-middleware/v3/language-model-v3-cerebras-billing-middleware.ts#L47)
+Defined in: azure/src/ai-sdk/language-model-middleware/v3/language-model-v3-azure-billing-middleware.ts:47
 
 ***
 

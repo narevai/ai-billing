@@ -1,0 +1,78 @@
+[**@ai-billing/azure**](../index)
+
+***
+
+[@ai-billing/azure](/sdk/ai-billing/reference/azure/typedoc/index) / createAzureV4Middleware
+
+# Function: createAzureV4Middleware()
+
+> **createAzureV4Middleware**\<`TTags`\>(`options`): `LanguageModelV4Middleware`
+
+Defined in: azure/src/ai-sdk/language-model-middleware/v4/language-model-v4-azure-billing-middleware.ts:99
+
+Creates a V4 billing middleware for the Azure provider (`@ai-sdk/azure`), specifically Azure AI Foundry
+(`*.services.ai.azure.com`), which the AI SDK routes through the Responses API (`azure.responses`).
+Prefers the raw Responses-API usage field names (`input_tokens`/`output_tokens` and their `_details`
+subfields) and falls back to the AI SDK's normalized usage fields when `usage.raw` is absent.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`AzureV4MiddlewareOptions`](/sdk/ai-billing/reference/azure/typedoc/interfaces/AzureV4MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [AzureV4MiddlewareOptions](/sdk/ai-billing/reference/azure/typedoc/interfaces/AzureV4MiddlewareOptions). A `priceResolver` is required.
+
+## Returns
+
+`LanguageModelV4Middleware`
+
+A V4 billing middleware instance for Azure.
+
+## Example
+
+```ts
+import { createAzure } from '@ai-sdk/azure';
+import { wrapLanguageModel } from 'ai';
+import { createAzureV4Middleware } from '@ai-billing/azure';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const azure = createAzure({
+  apiKey: process.env.AZURE_API_KEY,
+  baseURL: `${process.env.AZURE_URL?.replace(//+$/, '')}/openai/v1`,
+  apiVersion: 'preview',
+});
+
+const deployment = process.env.AZURE_DEPLOYMENT ?? 'DeepSeek-V4-Pro';
+
+const customPricingMap: Record<string, ModelPricing> = {
+  [deployment]: {
+    promptTokens: 2.0 / 1_000_000,
+    completionTokens: 6.0 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createAzureV4Middleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: azure(deployment),
+  middleware: billingMiddleware,
+});
+```

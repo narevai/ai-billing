@@ -88,7 +88,8 @@
         "@ai-billing/mistral#docs:generate",
         "@ai-billing/baseten#docs:generate",
         "@ai-billing/narev#docs:generate",
-        "@ai-billing/cerebras#docs:generate"
+        "@ai-billing/cerebras#docs:generate",
+        "@ai-billing/azure#docs:generate"
       ],
       "cache": false
     }
