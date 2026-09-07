@@ -5,7 +5,7 @@ import {
   wrapLanguageModel,
 } from 'ai';
 import { createVertex } from '@ai-sdk/google-vertex';
-import { createGoogleVertexMiddleware } from '@ai-billing/google-vertex';
+import { createGoogleVertexV3Middleware } from '@ai-billing/google-vertex';
 import {
   consoleDestination,
   createObjectPriceResolver,
@@ -29,7 +29,7 @@ const customPricingMap: Record<string, ModelPricing> = {
 
 const priceResolver = createObjectPriceResolver(customPricingMap);
 
-const billingMiddleware = createGoogleVertexMiddleware({
+const billingMiddleware = createGoogleVertexV3Middleware({
   destinations: [consoleDestination()],
   priceResolver: priceResolver,
 });

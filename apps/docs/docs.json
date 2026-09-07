@@ -225,6 +225,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/google-vertex",
+                "pages": [
+                  "sdk/ai-billing/reference/google-vertex/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/google-vertex/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/google-vertex/typedoc/functions/createGoogleVertexV3Middleware",
+                          "sdk/ai-billing/reference/google-vertex/typedoc/functions/createGoogleVertexV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/google-vertex/typedoc/interfaces/GoogleVertexV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/google-vertex/typedoc/interfaces/GoogleVertexV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/groq",
                 "pages": [
                   "sdk/ai-billing/reference/groq/index",
