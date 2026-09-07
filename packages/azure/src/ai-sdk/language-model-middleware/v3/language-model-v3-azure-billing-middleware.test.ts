@@ -27,7 +27,9 @@ describe('AzureBillingMiddlewareV3 Integration', () => {
   const createResult = (
     overrides: Partial<LanguageModelV3GenerateResult> = {},
   ): LanguageModelV3GenerateResult => ({
-    content: [{ type: 'text', text: 'The capital of Sweden is **Stockholm**.' }],
+    content: [
+      { type: 'text', text: 'The capital of Sweden is **Stockholm**.' },
+    ],
     warnings: [],
     finishReason: { unified: 'stop', raw: 'stop' },
     usage: {
@@ -212,7 +214,9 @@ describe('AzureBillingMiddlewareV3 Integration', () => {
         request: 0,
       };
 
-      const reasoningPriceResolver = vi.fn().mockResolvedValue(reasoningPricing);
+      const reasoningPriceResolver = vi
+        .fn()
+        .mockResolvedValue(reasoningPricing);
 
       const destinationSpy = vi.fn();
       const middleware = createAzureV3Middleware({
@@ -402,7 +406,10 @@ describe('AzureBillingMiddlewareV3 Integration', () => {
       });
 
       const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
-      await generateText({ model: wrappedModel, prompt: 'Fall back to normalized usage' });
+      await generateText({
+        model: wrappedModel,
+        prompt: 'Fall back to normalized usage',
+      });
 
       const emittedPayload = destinationSpy.mock.calls[0]![0];
       const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
