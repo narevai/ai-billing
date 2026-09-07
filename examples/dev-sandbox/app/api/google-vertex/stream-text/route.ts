@@ -13,11 +13,19 @@ import {
 } from '@ai-billing/core';
 import { createVertex } from '@ai-sdk/google-vertex';
 
+// eslint-disable-next-line turbo/no-undeclared-env-vars
+const inlineCredentials = process.env.GOOGLE_VERTEX_CREDENTIALS;
+
 const vertex = createVertex({
   // eslint-disable-next-line turbo/no-undeclared-env-vars
   project: process.env.GOOGLE_VERTEX_PROJECT,
   // eslint-disable-next-line turbo/no-undeclared-env-vars
   location: process.env.GOOGLE_VERTEX_LOCATION,
+  // Inline service-account JSON (single line) — no key file needed. Falls back to
+  // GOOGLE_APPLICATION_CREDENTIALS / ADC when GOOGLE_VERTEX_CREDENTIALS is unset.
+  ...(inlineCredentials
+    ? { googleAuthOptions: { credentials: JSON.parse(inlineCredentials) } }
+    : {}),
 });
 
 const customPricingMap: Record<string, ModelPricing> = {
