@@ -1,0 +1,74 @@
+[**@ai-billing/cerebras**](../index)
+
+***
+
+[@ai-billing/cerebras](/sdk/ai-billing/reference/cerebras/typedoc/index) / createCerebrasV4Middleware
+
+# Function: createCerebrasV4Middleware()
+
+> **createCerebrasV4Middleware**\<`TTags`\>(`options`): `LanguageModelV4Middleware`
+
+Defined in: cerebras/src/ai-sdk/language-model-middleware/v4/language-model-v4-cerebras-billing-middleware.ts:95
+
+Creates a V4 billing middleware for the Cerebras provider (`@ai-sdk/cerebras`).
+Deducts cache-read tokens from prompt tokens and reasoning tokens from completion tokens before
+billing the base rates — Cerebras charges only non-cached input at the prompt rate, cached input
+separately at the cache-read rate, and reasoning tokens (a subset of `completion_tokens`) at the
+completion rate.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`CerebrasV4MiddlewareOptions`](/sdk/ai-billing/reference/cerebras/typedoc/interfaces/CerebrasV4MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [CerebrasV4MiddlewareOptions](/sdk/ai-billing/reference/cerebras/typedoc/interfaces/CerebrasV4MiddlewareOptions). A `priceResolver` is required.
+
+## Returns
+
+`LanguageModelV4Middleware`
+
+A V4 billing middleware instance for Cerebras.
+
+## Example
+
+```ts
+import { createCerebras } from '@ai-sdk/cerebras';
+import { wrapLanguageModel } from 'ai';
+import { createCerebrasV4Middleware } from '@ai-billing/cerebras';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const cerebras = createCerebras({ apiKey: process.env.CEREBRAS_API_KEY });
+
+const customPricingMap: Record<string, ModelPricing> = {
+  // NOTE: unverified estimate — confirm against https://www.cerebras.ai/pricing before shipping.
+  'gpt-oss-120b': {
+    promptTokens: 0.25 / 1_000_000,
+    completionTokens: 0.69 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createCerebrasV4Middleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: cerebras('gpt-oss-120b'),
+  middleware: billingMiddleware,
+});
+```
