@@ -72,6 +72,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/cerebras",
+                "pages": [
+                  "sdk/ai-billing/reference/cerebras/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/cerebras/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/cerebras/typedoc/functions/createCerebrasV3Middleware",
+                          "sdk/ai-billing/reference/cerebras/typedoc/functions/createCerebrasV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/cerebras/typedoc/interfaces/CerebrasV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/cerebras/typedoc/interfaces/CerebrasV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/chutes",
                 "pages": [
                   "sdk/ai-billing/reference/chutes/index",
@@ -92,6 +119,33 @@
                         "pages": [
                           "sdk/ai-billing/reference/chutes/typedoc/interfaces/ChutesV3MiddlewareOptions",
                           "sdk/ai-billing/reference/chutes/typedoc/interfaces/ChutesV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "@ai-billing/cohere",
+                "pages": [
+                  "sdk/ai-billing/reference/cohere/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/cohere/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/cohere/typedoc/functions/createCohereV3Middleware",
+                          "sdk/ai-billing/reference/cohere/typedoc/functions/createCohereV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/cohere/typedoc/interfaces/CohereV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/cohere/typedoc/interfaces/CohereV4MiddlewareOptions"
                         ]
                       }
                     ]
@@ -198,6 +252,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/fireworks",
+                "pages": [
+                  "sdk/ai-billing/reference/fireworks/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/fireworks/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/fireworks/typedoc/functions/createFireworksV3Middleware",
+                          "sdk/ai-billing/reference/fireworks/typedoc/functions/createFireworksV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/fireworks/typedoc/interfaces/FireworksV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/fireworks/typedoc/interfaces/FireworksV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/gateway",
                 "pages": [
                   "sdk/ai-billing/reference/gateway/index",
@@ -218,6 +299,33 @@
                         "pages": [
                           "sdk/ai-billing/reference/gateway/typedoc/interfaces/GatewayV3MiddlewareOptions",
                           "sdk/ai-billing/reference/gateway/typedoc/interfaces/GatewayV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "@ai-billing/gmicloud",
+                "pages": [
+                  "sdk/ai-billing/reference/gmicloud/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/gmicloud/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/gmicloud/typedoc/functions/createGmicloudV3Middleware",
+                          "sdk/ai-billing/reference/gmicloud/typedoc/functions/createGmicloudV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/gmicloud/typedoc/interfaces/GmicloudV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/gmicloud/typedoc/interfaces/GmicloudV4MiddlewareOptions"
                         ]
                       }
                     ]
@@ -350,6 +458,33 @@
                         "pages": [
                           "sdk/ai-billing/reference/mistral/typedoc/interfaces/MistralV3MiddlewareOptions",
                           "sdk/ai-billing/reference/mistral/typedoc/interfaces/MistralV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "@ai-billing/moonshotai",
+                "pages": [
+                  "sdk/ai-billing/reference/moonshotai/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/moonshotai/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/moonshotai/typedoc/functions/createMoonshotaiV3Middleware",
+                          "sdk/ai-billing/reference/moonshotai/typedoc/functions/createMoonshotaiV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/moonshotai/typedoc/interfaces/MoonshotaiV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/moonshotai/typedoc/interfaces/MoonshotaiV4MiddlewareOptions"
                         ]
                       }
                     ]
@@ -573,6 +708,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/perplexity",
+                "pages": [
+                  "sdk/ai-billing/reference/perplexity/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/perplexity/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/perplexity/typedoc/functions/createPerplexityV3Middleware",
+                          "sdk/ai-billing/reference/perplexity/typedoc/functions/createPerplexityV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/perplexity/typedoc/interfaces/PerplexityV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/perplexity/typedoc/interfaces/PerplexityV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/polar",
                 "pages": [
                   "sdk/ai-billing/reference/polar/index",
@@ -623,6 +785,33 @@
                 ]
               },
               {
+                "group": "@ai-billing/togetherai",
+                "pages": [
+                  "sdk/ai-billing/reference/togetherai/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/togetherai/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/togetherai/typedoc/functions/createTogetheraiV3Middleware",
+                          "sdk/ai-billing/reference/togetherai/typedoc/functions/createTogetheraiV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/togetherai/typedoc/interfaces/TogetheraiV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/togetherai/typedoc/interfaces/TogetheraiV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/xai",
                 "pages": [
                   "sdk/ai-billing/reference/xai/index",
@@ -643,6 +832,33 @@
                         "pages": [
                           "sdk/ai-billing/reference/xai/typedoc/interfaces/XaiV3MiddlewareOptions",
                           "sdk/ai-billing/reference/xai/typedoc/interfaces/XaiV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "@ai-billing/zai",
+                "pages": [
+                  "sdk/ai-billing/reference/zai/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/zai/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/zai/typedoc/functions/createZaiV3Middleware",
+                          "sdk/ai-billing/reference/zai/typedoc/functions/createZaiV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/zai/typedoc/interfaces/ZaiV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/zai/typedoc/interfaces/ZaiV4MiddlewareOptions"
                         ]
                       }
                     ]
