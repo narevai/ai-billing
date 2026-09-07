@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { calculatePerplexityCost } from './calculate-perplexity-cost.js';
-import type { ModelPricing } from '@ai-billing/types';
+import type { ModelPricing, CostInputs } from '@ai-billing/types';
 
 describe('calculatePerplexityCost', () => {
   it('should return undefined if no pricing is provided', () => {
@@ -127,6 +127,47 @@ describe('calculatePerplexityCost', () => {
     // Total: 6,600 + 144,500 + 113,500 = 264,600 nanos
     expect(result).toEqual({
       amount: 264600,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
+
+  it('should default reasoningTokens to 0 when omitted from usage (defensive fallback for non-strict callers)', () => {
+    const mockPricing: ModelPricing = {
+      promptTokens: 0.0000003,
+      completionTokens: 0.0000005,
+      internalReasoningTokens: 0.000001,
+      request: 0,
+    };
+
+    // `CostInputs` declares `reasoningTokens` as required, but callers that skip strict TS
+    // checks (or upstream extraction bugs) may still omit it at runtime.
+    const usage = {
+      promptTokens: 22,
+      completionTokens: 289,
+      cacheReadTokens: 0,
+      cacheWriteTokens: 0,
+    } as unknown as CostInputs;
+
+    const usageWithExplicitZero = {
+      ...usage,
+      reasoningTokens: 0,
+    };
+
+    const result = calculatePerplexityCost({ pricing: mockPricing, usage });
+    const resultWithExplicitZero = calculatePerplexityCost({
+      pricing: mockPricing,
+      usage: usageWithExplicitZero,
+    });
+
+    expect(result).toEqual(resultWithExplicitZero);
+    // Prompt: 0.0000003 * 1e9 * 22 = 6,600 nanos
+    // Completion: 0.0000005 * 1e9 * 289 = 144,500 nanos
+    // Reasoning defaults to 0 tokens, so reasoning cost is 0 even though
+    // pricing.internalReasoningTokens is set.
+    // Total: 6,600 + 144,500 = 151,100 nanos
+    expect(result).toEqual({
+      amount: 151100,
       unit: 'nanos',
       currency: 'USD',
     });
