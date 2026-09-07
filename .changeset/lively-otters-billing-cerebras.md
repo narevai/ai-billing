@@ -1,5 +1,5 @@
 ---
-"@ai-billing/cerebras": minor
+"@ai-billing/cerebras": patch
 ---
 
 feat: add cerebras billing middleware package
