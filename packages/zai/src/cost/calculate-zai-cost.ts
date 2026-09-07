@@ -34,7 +34,7 @@ export const calculateZaiCost = (params: {
 
   const basePromptTokens = Math.max(
     0,
-    usage.promptTokens - usage.cacheReadTokens,
+    usage.promptTokens - cacheReadTokens,
   );
 
   const baseCompletionTokens = Math.max(

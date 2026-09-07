@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { calculateZaiCost } from './calculate-zai-cost.js';
-import type { ModelPricing } from '@ai-billing/types';
+import type { ModelPricing, CostInputs } from '@ai-billing/types';
 
 describe('calculateZaiCost', () => {
   it('should return undefined if no pricing is provided', () => {
@@ -187,6 +187,87 @@ describe('calculateZaiCost', () => {
     // Total: 41,000 + 78,000 + 15,000 = 134,000 nanos
     expect(result).toEqual({
       amount: 134000,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
+
+  it('should default cacheReadTokens to 0 when omitted from usage (defensive fallback for non-strict callers)', () => {
+    const mockPricing: ModelPricing = {
+      promptTokens: 0.000001,
+      completionTokens: 0.000003,
+      inputCacheReadTokens: 0.0000005,
+      inputCacheWriteTokens: 0,
+      request: 0,
+    };
+
+    // `CostInputs` declares `cacheReadTokens` as required, but callers that skip strict TS
+    // checks (or upstream extraction bugs) may still omit it at runtime.
+    const usage = {
+      promptTokens: 41,
+      completionTokens: 26,
+      cacheWriteTokens: 0,
+      reasoningTokens: 0,
+    } as unknown as CostInputs;
+
+    const usageWithExplicitZero = {
+      ...usage,
+      cacheReadTokens: 0,
+    };
+
+    const result = calculateZaiCost({ pricing: mockPricing, usage });
+    const resultWithExplicitZero = calculateZaiCost({
+      pricing: mockPricing,
+      usage: usageWithExplicitZero,
+    });
+
+    expect(result).toEqual(resultWithExplicitZero);
+    // Prompt: 0.000001 * 1e9 * 41 = 41,000 nanos
+    // Completion: 0.000003 * 1e9 * 26 = 78,000 nanos
+    // Cache read defaults to 0 tokens, so cache read cost is 0.
+    // Total: 41,000 + 78,000 = 119,000 nanos
+    expect(result).toEqual({
+      amount: 119000,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
+
+  it('should default reasoningTokens to 0 when omitted from usage (defensive fallback for non-strict callers)', () => {
+    const mockPricing: ModelPricing = {
+      promptTokens: 0.0000002,
+      completionTokens: 0.0000008,
+      inputCacheReadTokens: 0.0000001,
+      request: 0,
+    };
+
+    // `CostInputs` declares `reasoningTokens` as required, but callers that skip strict TS
+    // checks (or upstream extraction bugs) may still omit it at runtime.
+    const usage = {
+      promptTokens: 19,
+      completionTokens: 158,
+      cacheReadTokens: 0,
+      cacheWriteTokens: 0,
+    } as unknown as CostInputs;
+
+    const usageWithExplicitZero = {
+      ...usage,
+      reasoningTokens: 0,
+    };
+
+    const result = calculateZaiCost({ pricing: mockPricing, usage });
+    const resultWithExplicitZero = calculateZaiCost({
+      pricing: mockPricing,
+      usage: usageWithExplicitZero,
+    });
+
+    expect(result).toEqual(resultWithExplicitZero);
+    // Prompt: 0.0000002 * 1e9 * 19 = 3,800 nanos
+    // Completion: 0.0000008 * 1e9 * 158 = 126,400 nanos
+    // Reasoning defaults to 0 tokens, so no tokens are shifted from completion to reasoning.
+    // Total: 3,800 + 126,400 = 130,200 nanos
+    expect(result).toEqual({
+      amount: 130200,
       unit: 'nanos',
       currency: 'USD',
     });
