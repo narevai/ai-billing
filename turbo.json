@@ -89,12 +89,13 @@
         "@ai-billing/moonshotai#docs:generate",
         "@ai-billing/gmicloud#docs:generate",
         "@ai-billing/baseten#docs:generate",
-        "@ai-billing/fireworks#docs:generate",
+"@ai-billing/fireworks#docs:generate",
         "@ai-billing/cerebras#docs:generate",
         "@ai-billing/togetherai#docs:generate",
         "@ai-billing/narev#docs:generate",
         "@ai-billing/cohere#docs:generate",
-        "@ai-billing/perplexity#docs:generate"
+        "@ai-billing/perplexity#docs:generate",
+        "@ai-billing/zai#docs:generate"
       ],
       "cache": false
     }

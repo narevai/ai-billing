@@ -37,6 +37,7 @@
     "@ai-billing/cohere": "workspace:*",
     "@ai-billing/perplexity": "workspace:*",
     "@ai-billing/togetherai": "workspace:*",
+    "@ai-billing/zai": "workspace:*",
     "@ai-sdk/baseten": "^2.0.0",
     "@basetenlabs/performance-client": "0.0.10",
     "@ai-sdk/openai": "^3.0.49",
