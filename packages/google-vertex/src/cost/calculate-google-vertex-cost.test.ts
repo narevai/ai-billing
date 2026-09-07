@@ -104,6 +104,46 @@ describe('calculateGoogleVertexCost (Integration)', () => {
     });
   });
 
+  it('should default webSearchCount to 0 when omitted from usage (defensive fallback for non-strict callers)', () => {
+    // `CostInputs.webSearchCount` is optional, and the calculator falls back to `?? 0` when it is
+    // omitted. Assert that omitting it produces the same result as passing it explicitly as 0.
+    const mockPricing: ModelPricing = {
+      promptTokens: 0,
+      completionTokens: 0,
+      request: 0.001,
+      webSearch: 0.03,
+    };
+
+    const usage = {
+      promptTokens: 0,
+      completionTokens: 0,
+      cacheReadTokens: 0,
+      cacheWriteTokens: 0,
+      reasoningTokens: 0,
+    };
+
+    const usageWithExplicitZero = {
+      ...usage,
+      webSearchCount: 0,
+    };
+
+    const result = calculateGoogleVertexCost({ pricing: mockPricing, usage });
+    const resultWithExplicitZero = calculateGoogleVertexCost({
+      pricing: mockPricing,
+      usage: usageWithExplicitZero,
+    });
+
+    expect(result).toEqual(resultWithExplicitZero);
+    // request: 0.001 * 1e9 = 1,000,000 nanos
+    // webSearch defaults to 0 count, so web search cost is 0.
+    // Total: 1,000,000 nanos
+    expect(result).toEqual({
+      amount: 1000000,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
+
   it('should apply a discount correctly if one is provided in pricing', () => {
     const discountedPricing: ModelPricing = {
       ...actualPricing,
