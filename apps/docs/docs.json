@@ -19,6 +19,33 @@
             "pages": [
               "sdk/ai-billing/index",
               {
+                "group": "@ai-billing/alibaba",
+                "pages": [
+                  "sdk/ai-billing/reference/alibaba/index",
+                  {
+                    "group": "Reference",
+                    "icon": "book-open",
+                    "pages": [
+                      "sdk/ai-billing/reference/alibaba/typedoc/index",
+                      {
+                        "group": "Functions",
+                        "pages": [
+                          "sdk/ai-billing/reference/alibaba/typedoc/functions/createAlibabaV3Middleware",
+                          "sdk/ai-billing/reference/alibaba/typedoc/functions/createAlibabaV4Middleware"
+                        ]
+                      },
+                      {
+                        "group": "Interfaces",
+                        "pages": [
+                          "sdk/ai-billing/reference/alibaba/typedoc/interfaces/AlibabaV3MiddlewareOptions",
+                          "sdk/ai-billing/reference/alibaba/typedoc/interfaces/AlibabaV4MiddlewareOptions"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "@ai-billing/anthropic",
                 "pages": [
                   "sdk/ai-billing/reference/anthropic/index",
