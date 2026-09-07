@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { calculateCohereCost } from './calculate-cohere-cost.js';
-import type { ModelPricing } from '@ai-billing/types';
+import type { ModelPricing, CostInputs } from '@ai-billing/types';
 
 describe('calculateCohereCost', () => {
   it('should return undefined if no pricing is provided', () => {
@@ -184,6 +184,126 @@ describe('calculateCohereCost', () => {
 
     expect(result).toEqual({
       amount: 0,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
+
+  it('should default cacheReadTokens to 0 when omitted from usage (defensive fallback for non-strict callers)', () => {
+    const mockPricing: ModelPricing = {
+      promptTokens: 0.15 / 1_000_000,
+      completionTokens: 0.6 / 1_000_000,
+      inputCacheReadTokens: 0.0000001,
+    };
+
+    // `CostInputs` declares `cacheReadTokens` as required, but callers that skip strict TS
+    // checks (or upstream extraction bugs) may still omit it at runtime.
+    const usage = {
+      promptTokens: 41,
+      completionTokens: 26,
+      cacheWriteTokens: 0,
+      reasoningTokens: 0,
+    } as unknown as CostInputs;
+
+    const usageWithExplicitZero = {
+      ...usage,
+      cacheReadTokens: 0,
+    };
+
+    const result = calculateCohereCost({ pricing: mockPricing, usage });
+    const resultWithExplicitZero = calculateCohereCost({
+      pricing: mockPricing,
+      usage: usageWithExplicitZero,
+    });
+
+    expect(result).toEqual(resultWithExplicitZero);
+    // Prompt: 0.15e-6 * 1e9 * 41 = 6,150 nanos
+    // Completion: 0.6e-6 * 1e9 * 26 = 15,600 nanos
+    // Cache read defaults to 0 tokens, so cache read cost is 0 even though
+    // pricing.inputCacheReadTokens is set.
+    // Total: 6,150 + 15,600 = 21,750 nanos
+    expect(result).toEqual({
+      amount: 21750,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
+
+  it('should default cacheWriteTokens to 0 when omitted from usage (defensive fallback for non-strict callers)', () => {
+    const mockPricing: ModelPricing = {
+      promptTokens: 0.15 / 1_000_000,
+      completionTokens: 0.6 / 1_000_000,
+      inputCacheWriteTokens: 0.0000001,
+    };
+
+    // `CostInputs` declares `cacheWriteTokens` as required, but callers that skip strict TS
+    // checks (or upstream extraction bugs) may still omit it at runtime.
+    const usage = {
+      promptTokens: 41,
+      completionTokens: 26,
+      cacheReadTokens: 0,
+      reasoningTokens: 0,
+    } as unknown as CostInputs;
+
+    const usageWithExplicitZero = {
+      ...usage,
+      cacheWriteTokens: 0,
+    };
+
+    const result = calculateCohereCost({ pricing: mockPricing, usage });
+    const resultWithExplicitZero = calculateCohereCost({
+      pricing: mockPricing,
+      usage: usageWithExplicitZero,
+    });
+
+    expect(result).toEqual(resultWithExplicitZero);
+    // Prompt: 0.15e-6 * 1e9 * 41 = 6,150 nanos
+    // Completion: 0.6e-6 * 1e9 * 26 = 15,600 nanos
+    // Cache write defaults to 0 tokens, so cache write cost is 0 even though
+    // pricing.inputCacheWriteTokens is set.
+    // Total: 6,150 + 15,600 = 21,750 nanos
+    expect(result).toEqual({
+      amount: 21750,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
+
+  it('should default reasoningTokens to 0 when omitted from usage (defensive fallback for non-strict callers)', () => {
+    const mockPricing: ModelPricing = {
+      promptTokens: 0.15 / 1_000_000,
+      completionTokens: 0.6 / 1_000_000,
+      internalReasoningTokens: 0.0000005,
+    };
+
+    // `CostInputs` declares `reasoningTokens` as required, but callers that skip strict TS
+    // checks (or upstream extraction bugs) may still omit it at runtime.
+    const usage = {
+      promptTokens: 41,
+      completionTokens: 26,
+      cacheReadTokens: 0,
+      cacheWriteTokens: 0,
+    } as unknown as CostInputs;
+
+    const usageWithExplicitZero = {
+      ...usage,
+      reasoningTokens: 0,
+    };
+
+    const result = calculateCohereCost({ pricing: mockPricing, usage });
+    const resultWithExplicitZero = calculateCohereCost({
+      pricing: mockPricing,
+      usage: usageWithExplicitZero,
+    });
+
+    expect(result).toEqual(resultWithExplicitZero);
+    // Prompt: 0.15e-6 * 1e9 * 41 = 6,150 nanos
+    // Completion: 0.6e-6 * 1e9 * 26 = 15,600 nanos
+    // Reasoning defaults to 0 tokens, so reasoning cost is 0 even though
+    // pricing.internalReasoningTokens is set.
+    // Total: 6,150 + 15,600 = 21,750 nanos
+    expect(result).toEqual({
+      amount: 21750,
       unit: 'nanos',
       currency: 'USD',
     });
