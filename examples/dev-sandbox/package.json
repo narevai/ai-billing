@@ -30,6 +30,7 @@
     "@ai-billing/minimax": "workspace:*",
     "@ai-billing/baseten": "workspace:*",
     "@ai-billing/mistral": "workspace:*",
+    "@ai-billing/huggingface": "workspace:*",
     "@ai-billing/fireworks": "workspace:*",
     "@ai-billing/cerebras": "workspace:*",
     "@ai-billing/moonshotai": "workspace:*",
