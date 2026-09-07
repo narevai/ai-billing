@@ -1,0 +1,101 @@
+---
+title: 'Getting started'
+description: 'First steps with DeepInfra middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/deepinfra @ai-billing/core @ai-sdk/deepinfra ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/deepinfra @ai-billing/core @ai-sdk/deepinfra ai
+```
+
+```bash yarn
+yarn add @ai-billing/deepinfra @ai-billing/core @ai-sdk/deepinfra ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/deepinfra` package provides middleware for tracking token usage and calculating costs when using DeepInfra models with the Vercel AI SDK.
+
+It captures DeepInfra-specific metrics, such as `inputCacheReadTokens`, ensuring that Prompt Caching costs are accurately reflected. Billed cost is always computed from your own pricing table — DeepInfra's own `estimated_cost` field is never used as the billed amount, but when present it is additionally surfaced as informational `rawProviderCost` metadata.
+
+## Usage
+
+To use the middleware, wrap your DeepInfra model using `wrapLanguageModel` from the `ai` package and pass the `createDeepinfraMiddleware`.
+
+<Steps>
+  <Step title="Initialize the DeepInfra provider">
+    First, set up the DeepInfra provider using your API key.
+
+    ```typescript
+    import { createDeepInfra } from '@ai-sdk/deepinfra';
+
+    const deepInfra = createDeepInfra({
+      apiKey: process.env.DEEPINFRA_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. For DeepInfra, you can specify costs for both standard prompt/completion tokens and cached tokens (`inputCacheReadTokens`).
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'meta-llama/Llama-3.3-70B-Instruct': {
+        promptTokens: 0.13 / 1_000_000,
+        completionTokens: 0.4 / 1_000_000,
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the DeepInfra billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createDeepinfraMiddleware } from '@ai-billing/deepinfra';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createDeepinfraMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your DeepInfra model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: deepInfra('meta-llama/Llama-3.3-70B-Instruct'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens, handle caching metrics, and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>

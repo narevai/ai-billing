@@ -1,0 +1,109 @@
+---
+title: 'Getting started'
+description: 'First steps with Cohere middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/cohere @ai-billing/core @ai-sdk/cohere ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/cohere @ai-billing/core @ai-sdk/cohere ai
+```
+
+```bash yarn
+yarn add @ai-billing/cohere @ai-billing/core @ai-sdk/cohere ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/cohere` package provides middleware for tracking token usage and calculating costs when using Cohere models with the Vercel AI SDK.
+
+Cohere's `usage` payload reports three separate counters that do not reconcile with each other by
+subtraction: a raw `tokens.{input_tokens,output_tokens}` total (which includes cache hits and
+Cohere-injected framework tokens), the actually-charged `billed_units.{input_tokens,output_tokens}`, and an
+informational `cached_tokens` counter. This middleware always computes cost from `billed_units` (falling
+back to `tokens.*` only if `billed_units` is entirely absent from the response), so a heavily-cached
+request is never over-billed. As a result, `usage.inputTokens`/`usage.outputTokens` on the emitted billing
+event reflect Cohere's **billed** token counts, which can be smaller than the AI SDK's own normalized usage
+totals. `cacheReadTokens` is still populated (from `cached_tokens`) for observability, even though Cohere
+does not publish a discounted cached-input rate and this field does not affect cost by default.
+
+## Usage
+
+To use the middleware, wrap your Cohere model using `wrapLanguageModel` from the `ai` package and pass the `createCohereMiddleware`.
+
+<Steps>
+  <Step title="Initialize the Cohere provider">
+    First, set up the provider using the Cohere SDK and your API key.
+
+    ```typescript
+    import { createCohere } from '@ai-sdk/cohere';
+
+    const cohere = createCohere({
+      apiKey: process.env.COHERE_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. For Cohere, you can specify costs for standard prompt/completion tokens; cache-read and reasoning rates are optional and default to zero.
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'command-r-08-2024': {
+        promptTokens: 0.15 / 1_000_000, // $0.15 per 1M tokens
+        completionTokens: 0.6 / 1_000_000, // $0.60 per 1M tokens
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the Cohere billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createCohereMiddleware } from '@ai-billing/cohere';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createCohereMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your Cohere model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: cohere('command-r-08-2024'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically bill off Cohere's `billed_units` and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>

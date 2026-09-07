@@ -1,0 +1,73 @@
+[**@ai-billing/zai**](../index)
+
+***
+
+[@ai-billing/zai](/sdk/ai-billing/reference/zai/typedoc/index) / createZaiV3Middleware
+
+# Function: createZaiV3Middleware()
+
+> **createZaiV3Middleware**\<`TTags`\>(`options`): `LanguageModelV3Middleware`
+
+Defined in: [zai/src/ai-sdk/language-model-middleware/v3/language-model-v3-zai-billing-middleware.ts:87](https://github.com/narevai/ai-billing/blob/main/packages/zai/src/ai-sdk/language-model-middleware/v3/language-model-v3-zai-billing-middleware.ts#L87)
+
+Creates a V3 billing middleware for the Z.ai provider (`@ai-sdk/zai`).
+Deducts cache-read tokens from prompt tokens and reasoning tokens from completion tokens before
+billing — reasoning tokens are a subset of `completion_tokens` (GLM has no separate reasoning rate), and
+cached tokens are billed separately at the cache-read rate.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`ZaiV3MiddlewareOptions`](/sdk/ai-billing/reference/zai/typedoc/interfaces/ZaiV3MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [ZaiV3MiddlewareOptions](/sdk/ai-billing/reference/zai/typedoc/interfaces/ZaiV3MiddlewareOptions). A `priceResolver` is required.
+
+## Returns
+
+`LanguageModelV3Middleware`
+
+A V3 billing middleware instance for Z.ai.
+
+## Example
+
+```ts
+import { createZai } from '@ai-sdk/zai';
+import { wrapLanguageModel } from 'ai';
+import { createZaiV3Middleware } from '@ai-billing/zai';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const zai = createZai({ apiKey: process.env.ZAI_API_KEY });
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'glm-5.3': {
+    promptTokens: 1.4 / 1_000_000,
+    completionTokens: 4.4 / 1_000_000,
+    inputCacheReadTokens: 0.26 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createZaiV3Middleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: zai('glm-5.3'),
+  middleware: billingMiddleware,
+});
+```

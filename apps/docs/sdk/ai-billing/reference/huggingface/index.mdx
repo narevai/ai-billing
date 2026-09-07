@@ -1,0 +1,101 @@
+---
+title: 'Getting started'
+description: 'First steps with Hugging Face middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/huggingface @ai-billing/core @ai-sdk/huggingface ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/huggingface @ai-billing/core @ai-sdk/huggingface ai
+```
+
+```bash yarn
+yarn add @ai-billing/huggingface @ai-billing/core @ai-sdk/huggingface ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/huggingface` package provides middleware for tracking token usage and calculating costs when using Hugging Face's Inference Providers with the Vercel AI SDK.
+
+Hugging Face's Inference Providers go through OpenAI's Responses API shape (not Chat Completions), so usage is reported as `input_tokens`/`output_tokens` totals, with `input_tokens_details.cached_tokens` and `output_tokens_details.reasoning_tokens` as subsets of those totals. The middleware deducts cached and reasoning tokens from the base prompt/completion counts before billing, so you aren't charged twice for the same tokens.
+
+## Usage
+
+To use the middleware, wrap your Hugging Face model using `wrapLanguageModel` from the `ai` package and pass the `createHuggingfaceMiddleware`.
+
+<Steps>
+  <Step title="Initialize the Hugging Face provider">
+    First, set up the provider using `@ai-sdk/huggingface` with your API key.
+
+    ```typescript
+    import { createHuggingFace } from '@ai-sdk/huggingface';
+
+    const huggingFace = createHuggingFace({
+      apiKey: process.env.HUGGINGFACE_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using.
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'meta-llama/Llama-3.1-8B-Instruct': {
+        promptTokens: 0.05 / 1_000_000, // $0.05 per 1M tokens
+        completionTokens: 0.15 / 1_000_000, // $0.15 per 1M tokens
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the Hugging Face billing middleware. You need to provide a destination (such as `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createHuggingfaceMiddleware } from '@ai-billing/huggingface';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createHuggingfaceMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your Hugging Face model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: huggingFace('meta-llama/Llama-3.1-8B-Instruct'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing middleware will automatically track tokens, deduct cached/reasoning tokens, and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>
