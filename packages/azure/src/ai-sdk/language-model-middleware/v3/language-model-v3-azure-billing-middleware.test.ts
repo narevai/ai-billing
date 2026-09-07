@@ -357,6 +357,71 @@ describe('AzureBillingMiddlewareV3 Integration', () => {
       expect(parsedEmittedEvent!).toMatchObject(expectedEvent);
       expect(parsedEmittedEvent!.generationId).toHaveLength(36);
     });
+
+    it('should fall back to normalized usage fields with non-zero cache-read, cache-write, and reasoning values when usage.raw is absent', async () => {
+      const fallbackPricing: ModelPricing = {
+        promptTokens: 0.0000003,
+        completionTokens: 0.0000005,
+        inputCacheReadTokens: 0.0000001,
+        inputCacheWriteTokens: 0.0000002,
+        internalReasoningTokens: 0.0000004,
+        request: 0,
+      };
+
+      const fallbackPriceResolver = vi.fn().mockResolvedValue(fallbackPricing);
+
+      const destinationSpy = vi.fn();
+      const middleware = createAzureV3Middleware({
+        destinations: [destinationSpy],
+        priceResolver: fallbackPriceResolver,
+      });
+
+      // No `raw` payload (e.g. a provider/AI SDK version that doesn't surface it), so the middleware
+      // must fall back to the normalized `usage.inputTokens`/`usage.outputTokens` fields, which here
+      // carry non-zero cache-read, cache-write, and reasoning values.
+      const baseResult = createResult({
+        usage: {
+          inputTokens: {
+            total: 50,
+            noCache: 32,
+            cacheRead: 12,
+            cacheWrite: 6,
+          },
+          outputTokens: {
+            total: 80,
+            text: 55,
+            reasoning: 25,
+          },
+        },
+      });
+
+      const mockModel = new MockLanguageModelV3({
+        modelId: 'DeepSeek-V4-Pro',
+        provider: 'azure.responses',
+        doGenerate: async () => baseResult,
+      });
+
+      const wrappedModel = wrapLanguageModel({ model: mockModel, middleware });
+      await generateText({ model: wrappedModel, prompt: 'Fall back to normalized usage' });
+
+      const emittedPayload = destinationSpy.mock.calls[0]![0];
+      const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
+
+      expect(parsedEvent.usage.inputTokens).toBe(50);
+      expect(parsedEvent.usage.outputTokens).toBe(80);
+      expect(parsedEvent.usage.cacheReadTokens).toBe(12);
+      expect(parsedEvent.usage.cacheWriteTokens).toBe(6);
+      expect(parsedEvent.usage.reasoningTokens).toBe(25);
+
+      // prompt: 0.0000003 * 1e9 * (50 - 12 - 6) = 9,600 nanos
+      // completion: 0.0000005 * 1e9 * (80 - 25) = 27,500 nanos
+      // cacheRead: 0.0000001 * 1e9 * 12 = 1,200 nanos
+      // cacheWrite: 0.0000002 * 1e9 * 6 = 1,200 nanos
+      // reasoning: 0.0000004 * 1e9 * 25 = 10,000 nanos
+      // Total: 9,600 + 27,500 + 1,200 + 1,200 + 10,000 = 49,500 nanos
+      expect(parsedEvent.cost?.amount).toBe(49500);
+      expect(parsedEvent.cost?.unit).toBe('nanos');
+    });
   });
 
   describe('wrapStream', () => {
