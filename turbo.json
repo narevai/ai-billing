@@ -99,7 +99,8 @@
         "@ai-billing/perplexity#docs:generate",
         "@ai-billing/zai#docs:generate",
         "@ai-billing/deepinfra#docs:generate",
-        "@ai-billing/amazon-bedrock#docs:generate"
+        "@ai-billing/amazon-bedrock#docs:generate",
+        "@ai-billing/azure#docs:generate"
       ],
       "cache": false
     }

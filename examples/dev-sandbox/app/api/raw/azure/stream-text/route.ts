@@ -5,7 +5,10 @@ const azure = createAzure({
   // eslint-disable-next-line turbo/no-undeclared-env-vars
   apiKey: process.env.AZURE_API_KEY,
   // eslint-disable-next-line turbo/no-undeclared-env-vars
-  resourceName: process.env.AZURE_RESOURCE_NAME,
+  baseURL: process.env.AZURE_URL
+    ? `${process.env.AZURE_URL.replace(/\/+$/, '')}/openai/v1`
+    : undefined,
+  apiVersion: 'preview',
 });
 
 export async function POST() {
@@ -22,7 +25,8 @@ export async function POST() {
     },
   ];
 
-  const model = 'gpt-4o';
+  // eslint-disable-next-line turbo/no-undeclared-env-vars
+  const model = process.env.AZURE_DEPLOYMENT ?? 'DeepSeek-V4-Pro';
 
   const result = streamText({
     model: azure(model),
