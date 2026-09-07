@@ -1,0 +1,125 @@
+---
+title: 'Getting started'
+description: 'First steps with Google Vertex AI middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/google-vertex @ai-billing/core @ai-sdk/google-vertex ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/google-vertex @ai-billing/core @ai-sdk/google-vertex ai
+```
+
+```bash yarn
+yarn add @ai-billing/google-vertex @ai-billing/core @ai-sdk/google-vertex ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/google-vertex` package provides middleware for tracking token usage and calculating
+costs when using Google Vertex AI's Gemini models with the Vercel AI SDK, via `@ai-sdk/google-vertex`'s
+`createVertex`.
+
+Vertex reports the same Gemini-native usage shape as `@ai-sdk/google`, but under
+`providerMetadata.vertex.usageMetadata` instead of `providerMetadata.google.usageMetadata`. Reasoning
+("thoughts") tokens are reported separately from the visible completion tokens
+(`thoughtsTokenCount`), and this package adds them back into the billed completion count so reasoning
+usage is never under-billed.
+
+<Info>
+  Vertex also reports `trafficType` (`'ON_DEMAND'` for pay-as-you-go calls vs `'PROVISIONED'` for
+  committed-throughput calls). `ModelPricing` has no field for a provisioned-throughput rate, so this
+  middleware bills every call at the same resolved rate regardless of `trafficType` — this is a known,
+  intentional limitation, not a bug. The raw `trafficType` value is still surfaced on every emitted
+  billing event's `usage.subProvider` field, so you can filter or re-rate provisioned traffic downstream
+  if you need to.
+</Info>
+
+## Usage
+
+To use the middleware, wrap your Vertex model using `wrapLanguageModel` from the `ai` package and pass
+`createGoogleVertexMiddleware`.
+
+<Steps>
+  <Step title="Initialize the Google Vertex AI provider">
+    First, set up the provider using `createVertex` from `@ai-sdk/google-vertex`. Vertex authenticates via
+    Application Default Credentials, so make sure `GOOGLE_VERTEX_PROJECT`, `GOOGLE_VERTEX_LOCATION`, and
+    `GOOGLE_APPLICATION_CREDENTIALS` are set in your environment.
+
+    ```typescript
+    import { createVertex } from '@ai-sdk/google-vertex';
+
+    const vertex = createVertex({
+      project: process.env.GOOGLE_VERTEX_PROJECT,
+      location: process.env.GOOGLE_VERTEX_LOCATION,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. For Vertex's Gemini
+    models, you can specify costs for standard prompt/completion tokens, cache-read tokens, and reasoning
+    tokens (`internalReasoningTokens`).
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'gemini-2.5-flash': {
+        promptTokens: 0.3 / 1_000_000, // $0.30 per 1M tokens
+        completionTokens: 2.5 / 1_000_000, // $2.50 per 1M tokens
+        internalReasoningTokens: 2.5 / 1_000_000, // $2.50 per 1M tokens
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the Google Vertex billing middleware. You need to provide a destination (such as
+    `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createGoogleVertexMiddleware } from '@ai-billing/google-vertex';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createGoogleVertexMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your Vertex model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: vertex('gemini-2.5-flash'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing
+    middleware will automatically track tokens, handle reasoning metrics, and calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>
