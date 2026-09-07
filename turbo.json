@@ -92,7 +92,8 @@
         "@ai-billing/fireworks#docs:generate",
         "@ai-billing/cerebras#docs:generate",
         "@ai-billing/narev#docs:generate",
-        "@ai-billing/cohere#docs:generate"
+        "@ai-billing/cohere#docs:generate",
+        "@ai-billing/perplexity#docs:generate"
       ],
       "cache": false
     }
