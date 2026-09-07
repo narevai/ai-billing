@@ -8,6 +8,8 @@ import type {
 
 /**
  * Converts a Narev API pricing object to the billing `ModelPricing` format.
+ *
+ * @param p - The Narev pricing object to convert.
  */
 export function narevPricingToModelPricing(p: NarevPricing): ModelPricing {
   return {
@@ -23,6 +25,8 @@ export function narevPricingToModelPricing(p: NarevPricing): ModelPricing {
 
 /**
  * Creates a {@link PriceResolver} backed by the Narev pricing API.
+ *
+ * @param options - Options for configuring the Narev client used to fetch pricing.
  */
 export function createNarevPriceResolver(
   options: NarevClientOptions,

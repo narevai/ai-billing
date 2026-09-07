@@ -18,7 +18,7 @@ export async function POST() {
       },
     ];
 
-    const model = 'anthropic.claude-3-haiku-20240307-v1:0';
+    const model = 'us.amazon.nova-lite-v1:0';
 
     const result = await generateText({
       model: amazonBedrock(model),
