@@ -1,0 +1,75 @@
+[**@ai-billing/alibaba**](../index)
+
+***
+
+[@ai-billing/alibaba](/sdk/ai-billing/reference/alibaba/typedoc/index) / createAlibabaV4Middleware
+
+# Function: createAlibabaV4Middleware()
+
+> **createAlibabaV4Middleware**\<`TTags`\>(`options`): `LanguageModelV4Middleware`
+
+Defined in: [alibaba/src/ai-sdk/language-model-middleware/v4/language-model-v4-alibaba-billing-middleware.ts:98](https://github.com/narevai/ai-billing/blob/main/packages/alibaba/src/ai-sdk/language-model-middleware/v4/language-model-v4-alibaba-billing-middleware.ts#L98)
+
+Creates a V4 billing middleware for the Alibaba provider (`@ai-sdk/alibaba`).
+Deducts cache-read tokens from prompt tokens before billing — Alibaba charges only non-cached input at
+the prompt rate, and cached tokens separately at the cache-read rate.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`AlibabaV4MiddlewareOptions`](/sdk/ai-billing/reference/alibaba/typedoc/interfaces/AlibabaV4MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [AlibabaV4MiddlewareOptions](/sdk/ai-billing/reference/alibaba/typedoc/interfaces/AlibabaV4MiddlewareOptions). A `priceResolver` is required.
+
+## Returns
+
+`LanguageModelV4Middleware`
+
+A V4 billing middleware instance for Alibaba.
+
+## Example
+
+```ts
+import { createAlibaba } from '@ai-sdk/alibaba';
+import { wrapLanguageModel } from 'ai';
+import { createAlibabaV4Middleware } from '@ai-billing/alibaba';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const alibaba = createAlibaba({ apiKey: process.env.ALIBABA_API_KEY });
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'qwen-plus': {
+    promptTokens: 0.8 / 1_000_000,
+    completionTokens: 2.0 / 1_000_000,
+  },
+  'qwen-turbo': {
+    promptTokens: 0.3 / 1_000_000,
+    completionTokens: 0.6 / 1_000_000,
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createAlibabaV4Middleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: alibaba('qwen-plus'),
+  middleware: billingMiddleware,
+});
+```
