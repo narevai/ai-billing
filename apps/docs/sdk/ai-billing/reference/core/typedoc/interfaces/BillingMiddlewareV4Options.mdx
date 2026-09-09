@@ -1,0 +1,113 @@
+[**@ai-billing/core**](../index)
+
+***
+
+[@ai-billing/core](/sdk/ai-billing/reference/core/typedoc/index) / BillingMiddlewareV4Options
+
+# Interface: BillingMiddlewareV4Options\<TTags\>
+
+Defined in: [packages/core/src/ai-sdk/language-model-middleware/v4/language-model-v4-base-billing-middleware.ts:35](https://github.com/narevai/ai-billing/blob/main/packages/core/src/ai-sdk/language-model-middleware/v4/language-model-v4-base-billing-middleware.ts#L35)
+
+Configuration for [createV4BillingMiddleware](/sdk/ai-billing/reference/core/typedoc/functions/createV4BillingMiddleware).
+
+Extends BaseBillingMiddlewareOptions (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
+requires an EventBuilder to construct the BillingEvent.
+
+## Extends
+
+- `BaseBillingMiddlewareOptions`\<`TTags`\>
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `DefaultTags` = `DefaultTags`
+
+The shape of the tags object, extending DefaultTags.
+
+## Properties
+
+### buildEvent
+
+> **buildEvent**: `EventBuilder`\<[`BuildV4EventPayload`](/sdk/ai-billing/reference/core/typedoc/interfaces/BuildV4EventPayload)\<`TTags`\>, `TTags`\>
+
+Defined in: [packages/core/src/ai-sdk/language-model-middleware/v4/language-model-v4-base-billing-middleware.ts:39](https://github.com/narevai/ai-billing/blob/main/packages/core/src/ai-sdk/language-model-middleware/v4/language-model-v4-base-billing-middleware.ts#L39)
+
+Builds a billing event from the model response data.
+
+***
+
+### destinations?
+
+> `optional` **destinations?**: `Destination`\<`TTags`\>[]
+
+Defined in: packages/types/dist/index.d.ts:71
+
+One or more billing destinations that receive each emitted BillingEvent.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.destinations`
+
+***
+
+### defaultTags?
+
+> `optional` **defaultTags?**: `TTags`
+
+Defined in: packages/types/dist/index.d.ts:73
+
+Tags merged into every emitted event.
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.defaultTags`
+
+***
+
+### waitUntil?
+
+> `optional` **waitUntil?**: (`promise`) => `void`
+
+Defined in: packages/types/dist/index.d.ts:78
+
+Edge-runtime hook (e.g. `ctx.waitUntil`) used to keep the process alive
+while billing events are flushed asynchronously.
+
+#### Parameters
+
+##### promise
+
+`Promise`\<`unknown`\>
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.waitUntil`
+
+***
+
+### onError?
+
+> `optional` **onError?**: (`error`) => `void`
+
+Defined in: packages/types/dist/index.d.ts:80
+
+Called when an error occurs during event extraction or dispatch. Defaults to a silent no-op.
+
+#### Parameters
+
+##### error
+
+`unknown`
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+`BaseBillingMiddlewareOptions.onError`

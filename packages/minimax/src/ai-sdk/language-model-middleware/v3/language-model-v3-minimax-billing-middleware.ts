@@ -46,7 +46,7 @@ export interface MinimaxV3MiddlewareOptions<
  * ```ts
  * import { createAnthropic } from '@ai-sdk/anthropic';
  * import { wrapLanguageModel } from 'ai';
- * import { createMinimaxMiddleware } from '@ai-billing/minimax';
+ * import { createMinimaxV3Middleware } from '@ai-billing/minimax';
  * import {
  *   consoleDestination,
  *   createObjectPriceResolver,
@@ -68,7 +68,7 @@ export interface MinimaxV3MiddlewareOptions<
  *
  * const priceResolver = createObjectPriceResolver(customPricingMap);
  *
- * const billingMiddleware = createMinimaxMiddleware({
+ * const billingMiddleware = createMinimaxV3Middleware({
  *   destinations: [consoleDestination()],
  *   priceResolver,
  * });

@@ -1,0 +1,60 @@
+[**@ai-billing/openrouter**](../index)
+
+***
+
+[@ai-billing/openrouter](/sdk/ai-billing/reference/openrouter/typedoc/index) / createOpenRouterV4Middleware
+
+# Function: createOpenRouterV4Middleware()
+
+> **createOpenRouterV4Middleware**\<`TTags`\>(`options`): `LanguageModelV4Middleware`
+
+Defined in: [language-model-middleware/v4/language-model-v4-openrouter-billing-middleware.ts:70](https://github.com/narevai/ai-billing/blob/main/packages/openrouter/src/ai-sdk/language-model-middleware/v4/language-model-v4-openrouter-billing-middleware.ts#L70)
+
+Creates a V4 billing middleware for OpenRouter (`@openrouter/ai-sdk-provider`).
+Extracts cost and usage from `openrouter` provider metadata; requires numeric `usage.cost`.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`OpenRouterV4MiddlewareOptions`](/sdk/ai-billing/reference/openrouter/typedoc/type-aliases/OpenRouterV4MiddlewareOptions)\<`TTags`\>
+
+Shared billing options; see BaseBillingMiddlewareOptions.
+
+## Returns
+
+`LanguageModelV4Middleware`
+
+A V4 billing middleware instance for OpenRouter.
+
+## Example
+
+Targets AI SDK v7 (`LanguageModelV4Middleware`).
+
+```ts
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import { wrapLanguageModel } from 'ai';
+import { createOpenRouterV4Middleware } from '@ai-billing/openrouter';
+import { consoleDestination } from '@ai-billing/core';
+
+const openrouter = createOpenRouter({
+  apiKey: process.env.OPENROUTER_API_KEY,
+});
+
+const billingMiddleware = createOpenRouterV4Middleware({
+  destinations: [consoleDestination()],
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: openrouter('google/gemini-2.0-flash-001'),
+  middleware: billingMiddleware,
+});
+```

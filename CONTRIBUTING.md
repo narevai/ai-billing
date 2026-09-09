@@ -7,8 +7,11 @@ This repository uses `pnpm` and Turbo to generate docs.
 From the repository root:
 
 ```bash
+pnpm run build
 pnpm run docs
 ```
+
+Packages must be built (`pnpm run build`) before running `pnpm run docs`, since typedoc resolves cross-package type imports via each package's built `dist/` output.
 
 What this runs:
 

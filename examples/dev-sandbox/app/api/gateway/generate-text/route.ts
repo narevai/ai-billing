@@ -5,7 +5,7 @@ import {
   wrapLanguageModel,
 } from 'ai';
 import { createGateway } from 'ai';
-import { createGatewayMiddleware } from '@ai-billing/gateway';
+import { createGatewayV3Middleware } from '@ai-billing/gateway';
 import { consoleDestination } from '@ai-billing/core';
 
 const gateway = createGateway({
@@ -13,7 +13,7 @@ const gateway = createGateway({
   apiKey: process.env.AI_GATEWAY_API_KEY,
 });
 
-const billingMiddleware = createGatewayMiddleware({
+const billingMiddleware = createGatewayV3Middleware({
   destinations: [consoleDestination()],
 });
 

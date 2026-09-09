@@ -5,7 +5,7 @@ import {
   wrapLanguageModel,
 } from 'ai';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
-import { createOpenAICompatibleMiddleware } from '@ai-billing/openai-compatible';
+import { createOpenAICompatibleV3Middleware } from '@ai-billing/openai-compatible';
 import {
   consoleDestination,
   createObjectPriceResolver,
@@ -31,7 +31,7 @@ const customPricingMap: Record<string, ModelPricing> = {
 
 const priceResolver = createObjectPriceResolver(customPricingMap);
 
-const billingMiddleware = createOpenAICompatibleMiddleware({
+const billingMiddleware = createOpenAICompatibleV3Middleware({
   destinations: [consoleDestination()],
   priceResolver: priceResolver,
   providerId: 'xai', // Must match the provider name used in createOpenAICompatible;

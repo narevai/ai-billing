@@ -12,7 +12,7 @@ import type {
 } from '@ai-billing/types';
 import { JSONObject } from '@ai-sdk/provider';
 
-export interface XaiUsageAccounting extends JSONObject {
+export interface XaiV3UsageAccounting extends JSONObject {
   prompt_tokens: number;
   completion_tokens: number;
   total_tokens: number;
@@ -59,7 +59,7 @@ export interface XaiV3MiddlewareOptions<
  * ```ts
  * import { createXai } from '@ai-sdk/xai';
  * import { wrapLanguageModel } from 'ai';
- * import { createXAIMiddleware } from '@ai-billing/xai';
+ * import { createXaiV3Middleware } from '@ai-billing/xai';
  * import {
  *   consoleDestination,
  *   createObjectPriceResolver,
@@ -84,7 +84,7 @@ export interface XaiV3MiddlewareOptions<
  *
  * const priceResolver = createObjectPriceResolver(customPricingMap);
  *
- * const billingMiddleware = createXAIMiddleware({
+ * const billingMiddleware = createXaiV3Middleware({
  *   destinations: [consoleDestination()],
  *   priceResolver,
  * });
@@ -109,7 +109,7 @@ export function createXaiV3Middleware<TTags extends DefaultTags>(
       tags,
       webSearchCount,
     }) => {
-      const xaiRawUsage = usage?.raw as XaiUsageAccounting | undefined;
+      const xaiRawUsage = usage?.raw as XaiV3UsageAccounting | undefined;
 
       const inputTokensTotal = xaiRawUsage?.prompt_tokens ?? 0;
       const outputTokensTotal = xaiRawUsage?.completion_tokens ?? 0;

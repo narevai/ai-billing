@@ -5,7 +5,7 @@ import {
   wrapLanguageModel,
 } from 'ai';
 import { createDeepSeek } from '@ai-sdk/deepseek';
-import { createDeepSeekMiddleware } from '@ai-billing/deepseek';
+import { createDeepSeekV3Middleware } from '@ai-billing/deepseek';
 import {
   consoleDestination,
   createObjectPriceResolver,
@@ -27,7 +27,7 @@ const customPricingMap: Record<string, ModelPricing> = {
 
 const priceResolver = createObjectPriceResolver(customPricingMap);
 
-const billingMiddleware = createDeepSeekMiddleware({
+const billingMiddleware = createDeepSeekV3Middleware({
   destinations: [consoleDestination()],
   priceResolver: priceResolver,
 });

@@ -5,7 +5,7 @@ import {
   wrapLanguageModel,
 } from 'ai';
 
-import { createXaiMiddleware } from '@ai-billing/xai';
+import { createXaiV3Middleware } from '@ai-billing/xai';
 import {
   consoleDestination,
   createObjectPriceResolver,
@@ -29,7 +29,7 @@ const customPricingMap: Record<string, ModelPricing> = {
 
 const priceResolver = createObjectPriceResolver(customPricingMap);
 
-const billingMiddleware = createXaiMiddleware({
+const billingMiddleware = createXaiV3Middleware({
   destinations: [consoleDestination()],
   priceResolver: priceResolver,
 });

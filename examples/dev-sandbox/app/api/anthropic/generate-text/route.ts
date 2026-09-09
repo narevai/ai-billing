@@ -5,7 +5,7 @@ import {
   wrapLanguageModel,
 } from 'ai';
 import { createAnthropic } from '@ai-sdk/anthropic';
-import { createAnthropicMiddleware } from '@ai-billing/anthropic';
+import { createAnthropicV3Middleware } from '@ai-billing/anthropic';
 import {
   consoleDestination,
   createObjectPriceResolver,
@@ -28,7 +28,7 @@ const customPricingMap: Record<string, ModelPricing> = {
 
 const priceResolver = createObjectPriceResolver(customPricingMap);
 
-const billingMiddleware = createAnthropicMiddleware({
+const billingMiddleware = createAnthropicV3Middleware({
   destinations: [consoleDestination()],
   priceResolver: priceResolver,
 });

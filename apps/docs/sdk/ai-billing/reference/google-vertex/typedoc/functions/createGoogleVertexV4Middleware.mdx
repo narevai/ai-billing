@@ -1,0 +1,79 @@
+[**@ai-billing/google-vertex**](../index)
+
+***
+
+[@ai-billing/google-vertex](/sdk/ai-billing/reference/google-vertex/typedoc/index) / createGoogleVertexV4Middleware
+
+# Function: createGoogleVertexV4Middleware()
+
+> **createGoogleVertexV4Middleware**\<`TTags`\>(`options`): `LanguageModelV4Middleware`
+
+Defined in: [google-vertex/src/ai-sdk/language-model-middleware/v4/language-model-v4-google-vertex-billing-middleware.ts:112](https://github.com/narevai/ai-billing/blob/main/packages/google-vertex/src/ai-sdk/language-model-middleware/v4/language-model-v4-google-vertex-billing-middleware.ts#L112)
+
+Creates a V4 billing middleware for the Google Vertex AI provider (`@ai-sdk/google-vertex`).
+Maps Vertex's Gemini-native usage into billing fields (adding `thoughtsTokenCount` back into the billed
+completion count) and resolves cost from pricing plus usage.
+
+Vertex's `trafficType` (`ON_DEMAND` vs `PROVISIONED`) is surfaced on the emitted event's
+`usage.subProvider`, but is **not** used to change the billed rate — provisioned-throughput calls are
+billed at the same resolved rate as on-demand calls. See calculateGoogleVertexCost.
+
+## Type Parameters
+
+### TTags
+
+`TTags` *extends* `JSONObject`
+
+The shape of the tags object, extending DefaultTags.
+
+## Parameters
+
+### options
+
+[`GoogleVertexV4MiddlewareOptions`](/sdk/ai-billing/reference/google-vertex/typedoc/interfaces/GoogleVertexV4MiddlewareOptions)\<`TTags`\>
+
+Billing options; see [GoogleVertexV4MiddlewareOptions](/sdk/ai-billing/reference/google-vertex/typedoc/interfaces/GoogleVertexV4MiddlewareOptions).
+
+## Returns
+
+`LanguageModelV4Middleware`
+
+A V4 billing middleware instance for Google Vertex AI.
+
+## Example
+
+```ts
+import { createVertex } from '@ai-sdk/google-vertex';
+import { wrapLanguageModel } from 'ai';
+import { createGoogleVertexV4Middleware } from '@ai-billing/google-vertex';
+import {
+  consoleDestination,
+  createObjectPriceResolver,
+  type ModelPricing,
+} from '@ai-billing/core';
+
+const vertex = createVertex({
+  project: process.env.GOOGLE_VERTEX_PROJECT,
+  location: process.env.GOOGLE_VERTEX_LOCATION,
+});
+
+const customPricingMap: Record<string, ModelPricing> = {
+  'gemini-2.5-flash': {
+    promptTokens: 0.3 / 1_000_000, // $0.30 per 1M tokens
+    completionTokens: 2.5 / 1_000_000, // $2.50 per 1M tokens
+    internalReasoningTokens: 2.5 / 1_000_000, // $2.50 per 1M tokens
+  },
+};
+
+const priceResolver = createObjectPriceResolver(customPricingMap);
+
+const billingMiddleware = createGoogleVertexV4Middleware({
+  destinations: [consoleDestination()],
+  priceResolver,
+});
+
+const wrappedModel = wrapLanguageModel({
+  model: vertex('gemini-2.5-flash'),
+  middleware: billingMiddleware,
+});
+```

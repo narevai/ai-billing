@@ -6,7 +6,7 @@ import {
   wrapLanguageModel,
 } from 'ai';
 
-import { createGroqMiddleware } from '@ai-billing/groq';
+import { createGroqV3Middleware } from '@ai-billing/groq';
 import {
   consoleDestination,
   createObjectPriceResolver,
@@ -29,7 +29,7 @@ const customPricingMap: Record<string, ModelPricing> = {
 
 const priceResolver = createObjectPriceResolver(customPricingMap);
 
-const billingMiddleware = createGroqMiddleware({
+const billingMiddleware = createGroqV3Middleware({
   destinations: [consoleDestination()],
   priceResolver: priceResolver,
 });

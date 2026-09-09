@@ -16,7 +16,7 @@ import type { OpenRouterUsageAccounting } from '@openrouter/ai-sdk-provider';
  * The billing middleware reads token and cost fields from `openrouter.usage` (including numeric `cost`) and
  * ignores normalized SDK usage counts in favor of these values.
  */
-export type OpenRouterProviderMetadata = SharedV3ProviderMetadata & {
+export type OpenRouterV3ProviderMetadata = SharedV3ProviderMetadata & {
   openrouter?: {
     provider?: string;
     usage?: OpenRouterUsageAccounting;
@@ -82,7 +82,7 @@ export function createOpenRouterV3Middleware<TTags extends DefaultTags>(
       tags,
     }) => {
       const openrouterMetadata = providerMetadata as
-        | OpenRouterProviderMetadata
+        | OpenRouterV3ProviderMetadata
         | undefined;
       const openRouterUsage = openrouterMetadata?.openrouter?.usage;
 

@@ -1,10 +1,5 @@
 import ky, { isHTTPError } from 'ky';
 import type {
-  GetBalanceRequest,
-  BalanceResponse,
-  CheckoutResponse,
-  CreateCheckoutRequest,
-  CreditConfigResponse,
   ListModelsRequest,
   ModelsResponse,
   ListPricesRequest,
@@ -26,22 +21,10 @@ export interface NarevClientOptions {
 /**
  * Typed client for the Narev billing API.
  *
- * Covers balance checks, top-up/credit operations, model/provider reference,
+ * Covers model/provider reference,
  * pricing lookups, and cost calculation.
  */
 export interface NarevClient {
-  /**
-   * Fetches the end-user's balance and consumption for the current billing period.
-   * Pass either `{ userId }` or `{ stripeCustomerId }`.
-   */
-  getBalance(request: GetBalanceRequest): Promise<BalanceResponse>;
-
-  /** Fetches available credit packages for top-up. */
-  getCreditConfig(): Promise<CreditConfigResponse>;
-
-  /** Creates a checkout session for an end-user to purchase credits. */
-  createCheckout(request: CreateCheckoutRequest): Promise<CheckoutResponse>;
-
   /** Returns a paginated list of model references (provider_id + model_id, no pricing). */
   listModels(request?: ListModelsRequest): Promise<ModelsResponse>;
 
@@ -103,22 +86,6 @@ export function createNarevClient(options: NarevClientOptions): NarevClient {
   });
 
   return {
-    getBalance(request: GetBalanceRequest): Promise<BalanceResponse> {
-      const searchParams =
-        'stripeCustomerId' in request
-          ? { stripeCustomerId: request.stripeCustomerId }
-          : { userId: request.userId };
-      return api.get('v1/balance', { searchParams }).json<BalanceResponse>();
-    },
-
-    getCreditConfig(): Promise<CreditConfigResponse> {
-      return api.get('v1/credit').json<CreditConfigResponse>();
-    },
-
-    createCheckout(request: CreateCheckoutRequest): Promise<CheckoutResponse> {
-      return api.post('v1/credit', { json: request }).json<CheckoutResponse>();
-    },
-
     listModels(request?: ListModelsRequest): Promise<ModelsResponse> {
       const searchParams: Record<string, string | number> = {};
       if (request) {

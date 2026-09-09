@@ -1,0 +1,196 @@
+import type {
+  LanguageModelV4,
+  LanguageModelV4CallOptions,
+  LanguageModelV4Usage,
+  LanguageModelV4GenerateResult,
+  LanguageModelV4StreamPart,
+  LanguageModelV4Middleware,
+  SharedV4ProviderMetadata,
+} from '@ai-sdk/provider';
+import type {
+  BaseBillingMiddlewareOptions,
+  EventBuilder,
+  BillingEvent,
+  DefaultTags,
+} from '@ai-billing/types';
+import { toJSONObject } from '../../../event/index.js';
+
+export interface BuildV4EventPayload<TTags extends DefaultTags = DefaultTags> {
+  responseId: string | undefined;
+  model: LanguageModelV4;
+  usage: LanguageModelV4Usage | undefined;
+  providerMetadata: SharedV4ProviderMetadata | undefined;
+  tags: TTags;
+  webSearchCount: number;
+}
+
+/**
+ * Configuration for {@link createV4BillingMiddleware}.
+ *
+ * Extends {@link BaseBillingMiddlewareOptions} (`destinations`, `defaultTags`, `waitUntil`, `onError`) and
+ * requires an {@link EventBuilder} to construct the {@link BillingEvent}.
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
+ */
+export interface BillingMiddlewareV4Options<
+  TTags extends DefaultTags = DefaultTags,
+> extends BaseBillingMiddlewareOptions<TTags> {
+  /** Builds a billing event from the model response data. */
+  buildEvent: EventBuilder<BuildV4EventPayload<TTags>, TTags>;
+}
+
+/**
+ * Creates a billing middleware for the Language Model V4 API.
+ *
+ * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
+ * @param options - Billing options; see {@link BillingMiddlewareV4Options}.
+ * @returns The billing middleware.
+ */
+export function createV4BillingMiddleware<
+  TTags extends DefaultTags = DefaultTags,
+>(options: BillingMiddlewareV4Options<TTags>): LanguageModelV4Middleware {
+  const { buildEvent, destinations, defaultTags, waitUntil, onError } = options;
+
+  const processEvent = async ({
+    model,
+    params,
+    usage,
+    providerMetadata,
+    responseId,
+    webSearchCount,
+  }: {
+    model: LanguageModelV4;
+    params: LanguageModelV4CallOptions;
+    usage: LanguageModelV4Usage | undefined;
+    providerMetadata: SharedV4ProviderMetadata | undefined;
+    responseId: string | undefined;
+    webSearchCount: number;
+  }): Promise<BillingEvent<TTags> | null> => {
+    try {
+      const requestTags = params.providerOptions?.['ai-billing-tags'];
+
+      const tags = {
+        ...(defaultTags ?? {}),
+        ...(requestTags ?? {}),
+      } as TTags;
+
+      const event = await buildEvent({
+        responseId,
+        model,
+        usage,
+        providerMetadata,
+        tags,
+        webSearchCount,
+      });
+
+      if (event && destinations && destinations?.length > 0) {
+        const dispatchDestinationsPromise = Promise.allSettled(
+          destinations.map(d => Promise.resolve(d(event))),
+        );
+        if (waitUntil) waitUntil(dispatchDestinationsPromise);
+      }
+      return event;
+    } catch (err) {
+      if (onError) onError(err);
+      else console.error('[ai-billing] Core Error:', err);
+      return null;
+    }
+  };
+
+  return {
+    specificationVersion: 'v4',
+
+    wrapGenerate: async ({ doGenerate, model, params }) => {
+      const result: LanguageModelV4GenerateResult = await doGenerate();
+
+      const webSearchCount = result.content.filter(
+        c => c.type === 'source',
+      ).length;
+
+      const event = await processEvent({
+        model,
+        params,
+        usage: result.usage,
+        providerMetadata: result.providerMetadata,
+        responseId: result.response?.id,
+        webSearchCount,
+      });
+
+      const providerMetadataWithBilling = {
+        ...result.providerMetadata,
+      } as SharedV4ProviderMetadata;
+
+      if (event) {
+        providerMetadataWithBilling['ai-billing'] = toJSONObject(event);
+      }
+
+      return {
+        ...result,
+        providerMetadata: providerMetadataWithBilling,
+      };
+    },
+
+    wrapStream: async ({ doStream, model, params }) => {
+      const { stream, ...rest } = await doStream();
+
+      let responseId: string | undefined;
+      let usage: LanguageModelV4Usage | undefined;
+      let providerMetadata: SharedV4ProviderMetadata | undefined;
+      let finishChunk:
+        | Extract<LanguageModelV4StreamPart, { type: 'finish' }>
+        | undefined;
+      let webSearchCount = 0;
+
+      const billedStream = stream.pipeThrough(
+        new TransformStream<
+          LanguageModelV4StreamPart,
+          LanguageModelV4StreamPart
+        >({
+          transform(chunk, controller) {
+            if (chunk.type === 'text-start') responseId = chunk.id;
+            if (chunk.type === 'response-metadata' && !responseId) {
+              responseId = chunk.id;
+            }
+            if (chunk.type === 'source') {
+              webSearchCount++;
+            }
+            if (chunk.type === 'finish') {
+              usage = chunk.usage;
+              providerMetadata = chunk.providerMetadata;
+              finishChunk = chunk;
+              return; // held until flush
+            }
+            controller.enqueue(chunk);
+          },
+          async flush(controller) {
+            const event = await processEvent({
+              model,
+              params,
+              usage,
+              providerMetadata,
+              responseId,
+              webSearchCount,
+            });
+
+            const providerMetadataWithBilling = {
+              ...providerMetadata,
+            } as SharedV4ProviderMetadata;
+
+            if (event) {
+              providerMetadataWithBilling['ai-billing'] = toJSONObject(event);
+            }
+
+            if (finishChunk) {
+              controller.enqueue({
+                ...finishChunk,
+                providerMetadata: providerMetadataWithBilling,
+              });
+            }
+          },
+        }),
+      );
+
+      return { ...rest, stream: billedStream };
+    },
+  };
+}

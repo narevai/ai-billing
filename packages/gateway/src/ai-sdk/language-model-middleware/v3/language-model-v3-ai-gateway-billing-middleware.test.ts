@@ -1,8 +1,8 @@
-import { generateText, streamText, wrapLanguageModel } from 'ai';
+import { generateText, streamText, wrapLanguageModel } from 'ai-v6';
 import { describe, expect, it, vi } from 'vitest';
 import {
   createGatewayV3Middleware,
-  GatewayProviderMetadata,
+  GatewayV3ProviderMetadata,
 } from './language-model-v3-ai-gateway-billing-middleware.js';
 import {
   BillingEventSchema,
@@ -19,7 +19,7 @@ import { z } from 'zod';
 
 describe('GatewayBillingMiddlewareV3 Integration', () => {
   const StrictBillingEventSchema: z.ZodType<BillingEvent> = BillingEventSchema;
-  const realMetadata: GatewayProviderMetadata = {
+  const realMetadata: GatewayV3ProviderMetadata = {
     gateway: {
       generationId: 'gen_01KN3XTWSNX1KQQJC782ADWPCJ',
       cost: '0',

@@ -1,5 +1,21 @@
 # @ai-billing/stripe
 
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies [5315582]
+  - @ai-billing/core@0.1.6
+  - @ai-billing/types@0.0.4
+
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [0fb5389]
+  - @ai-billing/types@0.0.3
+  - @ai-billing/core@0.1.5
+
 ## 0.1.5
 
 ### Patch Changes

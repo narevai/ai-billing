@@ -41,13 +41,14 @@ export interface OpenAICompatibleV3MiddlewareOptions<
  * @returns A V3 billing middleware instance for the configured provider.
  *
  * @example
- * Same wiring as `examples/dev-sandbox/app/api/openai-compatible` (`createOpenAICompatibleMiddleware` is this
- * function's export alias from `@ai-billing/openai-compatible`).
+ * Same wiring as `examples/dev-sandbox/app/api/openai-compatible`, using this function directly (the
+ * unversioned `createOpenAICompatibleMiddleware` alias from `@ai-billing/openai-compatible` now points to
+ * the V4 middleware instead).
  *
  * ```ts
  * import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
  * import { wrapLanguageModel } from 'ai';
- * import { createOpenAICompatibleMiddleware } from '@ai-billing/openai-compatible';
+ * import { createOpenAICompatibleV3Middleware } from '@ai-billing/openai-compatible';
  * import {
  *   consoleDestination,
  *   createObjectPriceResolver,
@@ -73,7 +74,7 @@ export interface OpenAICompatibleV3MiddlewareOptions<
  *
  * const priceResolver = createObjectPriceResolver(customPricingMap);
  *
- * const billingMiddleware = createOpenAICompatibleMiddleware({
+ * const billingMiddleware = createOpenAICompatibleV3Middleware({
  *   destinations: [consoleDestination()],
  *   priceResolver,
  *   providerId: 'xai',

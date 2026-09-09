@@ -41,7 +41,7 @@ A V3 billing middleware instance for Chutes.
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { wrapLanguageModel } from 'ai';
-import { createChutesMiddleware } from '@ai-billing/chutes';
+import { createChutesV3Middleware } from '@ai-billing/chutes';
 import {
   consoleDestination,
   createObjectPriceResolver,
@@ -63,7 +63,7 @@ const customPricingMap: Record<string, ModelPricing> = {
 
 const priceResolver = createObjectPriceResolver(customPricingMap);
 
-const billingMiddleware = createChutesMiddleware({
+const billingMiddleware = createChutesV3Middleware({
   destinations: [consoleDestination()],
   priceResolver,
 });

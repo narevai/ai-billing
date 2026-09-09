@@ -38,17 +38,17 @@ A V3 billing middleware instance for the AI Gateway.
 
 ## Example
 
-Same wiring as `examples/dev-sandbox/app/api/gateway` (`createGatewayMiddleware` is this function’s export
-alias from `@ai-billing/gateway`).
+Same wiring as `examples/dev-sandbox/app/api/gateway`, using this function directly (the unversioned
+`createGatewayMiddleware` alias from `@ai-billing/gateway` now points to the V4 middleware instead).
 
 ```ts
 import { createGateway, wrapLanguageModel } from 'ai';
-import { createGatewayMiddleware } from '@ai-billing/gateway';
+import { createGatewayV3Middleware } from '@ai-billing/gateway';
 import { consoleDestination } from '@ai-billing/core';
 
 const gateway = createGateway({ apiKey: process.env.AI_GATEWAY_API_KEY });
 
-const billingMiddleware = createGatewayMiddleware({
+const billingMiddleware = createGatewayV3Middleware({
   destinations: [consoleDestination()],
 });
 

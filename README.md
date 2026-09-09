@@ -29,9 +29,7 @@
 
 | Name | Demo Link | Repo | Deploy |
 | :--- | :--- | :--- | :--- |
-| **Chatbot (OpenRouter + Polar)** | [View Demo](https://chatbot-with-billing-polar-three.vercel.app/) | [GitHub](https://github.com/narevai/chatbot-with-billing-polar) | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fai-billing%2Ftree%2Fmain%2Fexamples%2Fchatbot-with-billing-polar) |
-| **Chatbot (OpenAI + Polar)** | [View Demo](https://chatbot-openai-with-billing-polar.vercel.app/) | [GitHub](https://github.com/narevai/chatbot-openai-with-billing-polar) | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fchatbot-openai-with-billing-polar&env=AUTH_SECRET,OPENAI_API_KEY,POSTGRES_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER,NAREV_API_KEY&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D) |
-| **Chatbot (Stripe)** | [View Demo](https://chatbot-with-billing-stripe.vercel.app/) | [GitHub](https://github.com/narevai/chatbot-with-billing-stripe) | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnarevai%2Fchatbot-with-billing-polar&env=AUTH_SECRET,AI_GATEWAY_API_KEY,POSTGRES_URL,POLAR_ACCESS_TOKEN,POLAR_SERVER&envDefaults=%7B%22POLAR_SERVER%22%3A%22sandbox%22%7D) |
+| **Chatbot with Billing** | | [GitHub](https://github.com/narevai/ai-billing/tree/main/examples/chatbot-with-billing) | |
 
 ## What is `ai-billing`?
 
@@ -110,6 +108,22 @@ const { textStream } = await streamText({
 | [**MiniMax**](https://ai-sdk.dev/providers/community-providers/minimax) | [`@ai-billing/minimax`](https://www.npmjs.com/package/@ai-billing/minimax) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fminimax) |
 | [**DeepSeek**](https://ai-sdk.dev/providers/ai-sdk-providers/deepseek) | [`@ai-billing/deepseek`](https://www.npmjs.com/package/@ai-billing/deepseek) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fdeepseek) |
 | [**Chutes**](https://ai-sdk.dev/providers/community-providers/chutes) | [`@ai-billing/chutes`](https://www.npmjs.com/package/@ai-billing/chutes) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fchutes) |
+| [**Alibaba**](https://ai-sdk.dev/providers/ai-sdk-providers/alibaba) | [`@ai-billing/alibaba`](https://www.npmjs.com/package/@ai-billing/alibaba) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Falibaba) |
+| [**Amazon Bedrock**](https://ai-sdk.dev/providers/ai-sdk-providers/amazon-bedrock) | [`@ai-billing/amazon-bedrock`](https://www.npmjs.com/package/@ai-billing/amazon-bedrock) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Famazon-bedrock) |
+| [**Azure**](https://ai-sdk.dev/providers/ai-sdk-providers/azure) | [`@ai-billing/azure`](https://www.npmjs.com/package/@ai-billing/azure) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fazure) |
+| [**Baseten**](https://ai-sdk.dev/providers/ai-sdk-providers/baseten) | [`@ai-billing/baseten`](https://www.npmjs.com/package/@ai-billing/baseten) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fbaseten) |
+| [**Cerebras**](https://ai-sdk.dev/providers/ai-sdk-providers/cerebras) | [`@ai-billing/cerebras`](https://www.npmjs.com/package/@ai-billing/cerebras) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fcerebras) |
+| [**Cohere**](https://ai-sdk.dev/providers/ai-sdk-providers/cohere) | [`@ai-billing/cohere`](https://www.npmjs.com/package/@ai-billing/cohere) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fcohere) |
+| [**DeepInfra**](https://ai-sdk.dev/providers/ai-sdk-providers/deepinfra) | [`@ai-billing/deepinfra`](https://www.npmjs.com/package/@ai-billing/deepinfra) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fdeepinfra) |
+| [**Fireworks**](https://ai-sdk.dev/providers/ai-sdk-providers/fireworks) | [`@ai-billing/fireworks`](https://www.npmjs.com/package/@ai-billing/fireworks) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Ffireworks) |
+| [**GMI Cloud**](https://ai-sdk.dev/providers/ai-sdk-providers/gmicloud) | [`@ai-billing/gmicloud`](https://www.npmjs.com/package/@ai-billing/gmicloud) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fgmicloud) |
+| [**Google Vertex AI**](https://ai-sdk.dev/providers/ai-sdk-providers/google-vertex) | [`@ai-billing/google-vertex`](https://www.npmjs.com/package/@ai-billing/google-vertex) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fgoogle-vertex) |
+| [**Hugging Face**](https://ai-sdk.dev/providers/ai-sdk-providers/huggingface) | [`@ai-billing/huggingface`](https://www.npmjs.com/package/@ai-billing/huggingface) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fhuggingface) |
+| [**Mistral**](https://ai-sdk.dev/providers/ai-sdk-providers/mistral) | [`@ai-billing/mistral`](https://www.npmjs.com/package/@ai-billing/mistral) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fmistral) |
+| [**Moonshot AI**](https://ai-sdk.dev/providers/ai-sdk-providers/moonshotai) | [`@ai-billing/moonshotai`](https://www.npmjs.com/package/@ai-billing/moonshotai) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fmoonshotai) |
+| [**Perplexity**](https://ai-sdk.dev/providers/ai-sdk-providers/perplexity) | [`@ai-billing/perplexity`](https://www.npmjs.com/package/@ai-billing/perplexity) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fperplexity) |
+| [**Together.ai**](https://ai-sdk.dev/providers/ai-sdk-providers/togetherai) | [`@ai-billing/togetherai`](https://www.npmjs.com/package/@ai-billing/togetherai) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Ftogetherai) |
+| [**Z.AI**](https://ai-sdk.dev/providers/ai-sdk-providers/zai) | [`@ai-billing/zai`](https://www.npmjs.com/package/@ai-billing/zai) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fzai) |
 
 ### Supported Destinations
 

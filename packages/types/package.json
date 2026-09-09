@@ -1,6 +1,6 @@
 {
   "name": "@ai-billing/types",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "license": "Apache-2.0",
   "type": "module",
   "repository": {
@@ -45,7 +45,7 @@
     "typescript": "catalog:"
   },
   "peerDependencies": {
-    "@ai-sdk/provider": "catalog:"
+    "@ai-sdk/provider": "^3.0.8 || ^4.0.0"
   },
   "engines": {
     "node": ">=20.0.0"

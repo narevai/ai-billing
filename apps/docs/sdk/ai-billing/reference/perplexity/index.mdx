@@ -1,0 +1,117 @@
+---
+title: 'Getting started'
+description: 'First steps with Perplexity middleware for tracking AI costs.'
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @ai-billing/perplexity @ai-billing/core @ai-sdk/perplexity ai
+```
+
+```bash pnpm
+pnpm add @ai-billing/perplexity @ai-billing/core @ai-sdk/perplexity ai
+```
+
+```bash yarn
+yarn add @ai-billing/perplexity @ai-billing/core @ai-sdk/perplexity ai
+```
+
+</CodeGroup>
+
+## Overview
+
+The `@ai-billing/perplexity` package provides middleware for tracking token usage and calculating costs
+when using Perplexity models (the `sonar` family) with the Vercel AI SDK.
+
+All Perplexity `sonar` models are web-search-grounded and bill a flat per-request search fee
+(`request_cost`) on top of token costs. In reality, that fee also varies by `search_context_size`
+(low/medium/high) — this middleware models it as a single flat `request` rate per resolved model, the same
+simplification used for other "flat request fee" providers. If you need to bill different
+`search_context_size` tiers differently, resolve a distinct `modelId` per tier in your `priceResolver`.
+
+Perplexity has no prompt-caching feature today, so cache-read/cache-write tokens are always reported as
+`0`. Reasoning models (`sonar-reasoning`, `sonar-reasoning-pro`, `sonar-deep-research`) report
+`reasoning_tokens` separately, which you can price with `internalReasoningTokens`.
+
+## Usage
+
+To use the middleware, wrap your Perplexity model using `wrapLanguageModel` from the `ai` package and pass
+the `createPerplexityMiddleware`.
+
+<Steps>
+  <Step title="Initialize the Perplexity provider">
+    First, set up the provider using `@ai-sdk/perplexity` and your API key.
+
+    ```typescript
+    import { createPerplexity } from '@ai-sdk/perplexity';
+
+    const perplexity = createPerplexity({
+      apiKey: process.env.PERPLEXITY_API_KEY,
+    });
+    ```
+  </Step>
+
+  <Step title="Define model pricing">
+    Set up a price resolver to define the costs for the models you'll be using. For Perplexity, you can
+    specify a flat per-request search fee (`request`) in addition to prompt/completion token rates, and
+    optionally `internalReasoningTokens` for reasoning models.
+
+    ```typescript
+    import { createObjectPriceResolver } from '@ai-billing/core';
+
+    const priceResolver = createObjectPriceResolver({
+      'sonar-pro': {
+        promptTokens: 3.0 / 1_000_000, // $3.00 per 1M input tokens
+        completionTokens: 15.0 / 1_000_000, // $15.00 per 1M output tokens
+        request: 6.0 / 1_000, // flat per-request search fee (low search_context_size rate)
+      },
+    });
+    ```
+  </Step>
+
+  <Step title="Create the billing middleware">
+    Initialize the Perplexity billing middleware. You need to provide a destination (such as
+    `consoleDestination`) where billing events will be sent, along with your `priceResolver`.
+
+    ```typescript
+    import { createPerplexityMiddleware } from '@ai-billing/perplexity';
+    import { consoleDestination } from '@ai-billing/core';
+
+    const billingMiddleware = createPerplexityMiddleware({
+      destinations: [consoleDestination()],
+      priceResolver: priceResolver,
+    });
+    ```
+  </Step>
+
+  <Step title="Wrap the model">
+    Use `wrapLanguageModel` from the `ai` package to apply the billing middleware to your Perplexity model.
+
+    ```typescript
+    import { wrapLanguageModel } from 'ai';
+
+    const wrappedModel = wrapLanguageModel({
+      model: perplexity('sonar-pro'),
+      middleware: billingMiddleware,
+    });
+    ```
+  </Step>
+
+  <Step title="Use the wrapped model">
+    Finally, use the wrapped model with AI SDK functions like `generateText` or `streamText`. The billing
+    middleware will automatically track tokens, count returned sources/citations as `webSearchCount`, and
+    calculate costs.
+
+    ```typescript
+    import { generateText } from 'ai';
+
+    const result = await generateText({
+      model: wrappedModel,
+      prompt: 'What is the capital of Sweden?',
+    });
+    ```
+  </Step>
+</Steps>
