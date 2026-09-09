@@ -8,7 +8,7 @@ catalogs:
   default:
     '@ai-sdk/openai':
       specifier: ^3.0.0
-      version: 3.0.49
+      version: 3.0.106
     '@ai-sdk/provider':
       specifier: ^4.0.10
       version: 4.0.10
@@ -35,7 +35,7 @@ catalogs:
       version: 4.1.11
     ai:
       specifier: ^6.0.138
-      version: 6.0.138
+      version: 6.0.185
     eslint-plugin-jsdoc:
       specifier: ^63.0.0
       version: 63.0.0
@@ -178,7 +178,7 @@ importers:
         version: link:../../packages/nextjs
       '@ai-sdk/openai':
         specifier: ^3.0.0
-        version: 3.0.49(zod@4.3.6)
+        version: 3.0.106(zod@4.3.6)
       '@ai-sdk/provider':
         specifier: 'catalog:'
         version: 4.0.10
@@ -286,7 +286,7 @@ importers:
         version: 11.18.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       katex:
         specifier: ^0.16.28
-        version: 0.16.45
+        version: 0.16.47
       lucide-react:
         specifier: ^0.446.0
         version: 0.446.0(react@19.2.4)
@@ -545,7 +545,7 @@ importers:
         version: 4.0.169(zod@4.3.6)
       '@ai-sdk/anthropic':
         specifier: ^3.0.0
-        version: 3.0.71(zod@4.3.6)
+        version: 3.0.116(zod@4.3.6)
       '@ai-sdk/anthropic-aws':
         specifier: ^1.0.0
         version: 1.0.38(zod@4.3.6)
@@ -566,7 +566,7 @@ importers:
         version: 2.0.78(zod@4.3.6)
       '@ai-sdk/deepseek':
         specifier: ^2.0.0
-        version: 2.0.29(zod@4.3.6)
+        version: 2.0.35(zod@4.3.6)
       '@ai-sdk/fireworks':
         specifier: ^2.0.0
         version: 2.0.84(zod@4.3.6)
@@ -575,7 +575,7 @@ importers:
         version: 2.0.7(zod@4.3.6)
       '@ai-sdk/google':
         specifier: ^3.0.0
-        version: 3.0.64(zod@4.3.6)
+        version: 3.0.120(zod@4.3.6)
       '@ai-sdk/google-vertex':
         specifier: ^4.0.0
         version: 4.0.196(zod@4.3.6)
@@ -593,10 +593,10 @@ importers:
         version: 2.0.54(zod@4.3.6)
       '@ai-sdk/openai':
         specifier: ^3.0.49
-        version: 3.0.49(zod@4.3.6)
+        version: 3.0.106(zod@4.3.6)
       '@ai-sdk/openai-compatible':
         specifier: ^2.0.0
-        version: 2.0.38(zod@4.3.6)
+        version: 2.0.74(zod@4.3.6)
       '@ai-sdk/perplexity':
         specifier: ^3.0.0
         version: 3.0.58(zod@4.3.6)
@@ -617,10 +617,10 @@ importers:
         version: 0.0.10
       '@openrouter/ai-sdk-provider':
         specifier: 'catalog:'
-        version: 2.3.3(ai@6.0.138(zod@4.3.6))(zod@4.3.6)
+        version: 2.3.3(ai@6.0.185(zod@4.3.6))(zod@4.3.6)
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 6.0.185(zod@4.3.6)
       next:
         specifier: 'catalog:'
         version: 16.3.4(@opentelemetry/api@1.9.1)(@playwright/test@1.59.1)(@types/node@22.19.15)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -756,7 +756,7 @@ importers:
         version: 11.18.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       katex:
         specifier: ^0.16.28
-        version: 0.16.45
+        version: 0.16.47
       lucide-react:
         specifier: ^0.446.0
         version: 0.446.0(react@19.2.4)
@@ -919,7 +919,7 @@ importers:
         version: 2.0.35(zod@4.3.6)
       '@ai-sdk/openai':
         specifier: ^3.0.0
-        version: 3.0.49(zod@4.3.6)
+        version: 3.0.106(zod@4.3.6)
       next:
         specifier: 'catalog:'
         version: 16.3.4(@opentelemetry/api@1.9.1)(@playwright/test@1.59.1)(@types/node@22.19.15)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -947,7 +947,7 @@ importers:
     dependencies:
       '@ai-sdk/openai':
         specifier: 'catalog:'
-        version: 3.0.49(zod@3.25.76)
+        version: 3.0.106(zod@3.25.76)
       '@ai-sdk/provider':
         specifier: 'catalog:'
         version: 4.0.10
@@ -1055,7 +1055,7 @@ importers:
         version: 11.18.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       katex:
         specifier: ^0.16.28
-        version: 0.16.45
+        version: 0.16.47
       lucide-react:
         specifier: ^0.446.0
         version: 0.446.0(react@19.2.4)
@@ -1313,7 +1313,7 @@ importers:
         version: link:../types
       '@ai-sdk/anthropic':
         specifier: ^3.0.0 || ^4.0.0
-        version: 3.0.71(zod@4.3.6)
+        version: 3.0.116(zod@4.3.6)
     devDependencies:
       '@ai-billing/testing':
         specifier: workspace:*
@@ -1509,7 +1509,7 @@ importers:
         version: link:../types
       '@ai-sdk/openai-compatible':
         specifier: ^2.0.0 || ^3.0.0
-        version: 2.0.41(zod@4.3.6)
+        version: 2.0.74(zod@4.3.6)
     devDependencies:
       '@ai-billing/testing':
         specifier: workspace:*
@@ -1886,7 +1886,7 @@ importers:
         version: link:../types
       '@ai-sdk/google':
         specifier: ^3.0.0 || ^4.0.0
-        version: 3.0.64(zod@4.3.6)
+        version: 3.0.120(zod@4.3.6)
     devDependencies:
       '@ai-billing/testing':
         specifier: workspace:*
@@ -2113,7 +2113,7 @@ importers:
         version: link:../types
       '@ai-sdk/openai-compatible':
         specifier: ^2.0.0 || ^3.0.0
-        version: 2.0.41(zod@4.3.6)
+        version: 2.0.74(zod@4.3.6)
     devDependencies:
       '@ai-billing/testing':
         specifier: workspace:*
@@ -2330,22 +2330,22 @@ importers:
         version: link:../xai
       '@ai-sdk/anthropic':
         specifier: ^3.0.0
-        version: 3.0.71(zod@4.3.6)
+        version: 3.0.116(zod@4.3.6)
       '@ai-sdk/deepseek':
         specifier: ^2.0.0
-        version: 2.0.29(zod@4.3.6)
+        version: 2.0.35(zod@4.3.6)
       '@ai-sdk/google':
         specifier: ^3.0.0
-        version: 3.0.64(zod@4.3.6)
+        version: 3.0.120(zod@4.3.6)
       '@ai-sdk/groq':
         specifier: ^3.0.0
         version: 3.0.34(zod@4.3.6)
       '@ai-sdk/openai':
         specifier: 'catalog:'
-        version: 3.0.49(zod@4.3.6)
+        version: 3.0.106(zod@4.3.6)
       '@ai-sdk/openai-compatible':
         specifier: ^2.0.0
-        version: 2.0.41(zod@4.3.6)
+        version: 2.0.74(zod@4.3.6)
       '@ai-sdk/rsc':
         specifier: ^2.0.0
         version: 2.0.185(react@19.2.4)(zod@4.3.6)
@@ -2354,10 +2354,10 @@ importers:
         version: 3.0.83(zod@4.3.6)
       '@openrouter/ai-sdk-provider':
         specifier: 'catalog:'
-        version: 2.3.3(ai@6.0.138(zod@4.3.6))(zod@4.3.6)
+        version: 2.3.3(ai@6.0.185(zod@4.3.6))(zod@4.3.6)
       ai:
         specifier: 'catalog:'
-        version: 6.0.138(zod@4.3.6)
+        version: 6.0.185(zod@4.3.6)
       react:
         specifier: ^18 || ^19
         version: 19.2.4
@@ -2397,7 +2397,7 @@ importers:
         version: link:../types
       '@ai-sdk/openai':
         specifier: ^3.0.0 || ^4.0.0
-        version: 3.0.49(zod@4.3.6)
+        version: 3.0.106(zod@4.3.6)
     devDependencies:
       '@ai-billing/testing':
         specifier: workspace:*
@@ -2446,7 +2446,7 @@ importers:
         version: link:../types
       '@ai-sdk/openai-compatible':
         specifier: ^2.0.0 || ^3.0.0
-        version: 2.0.41(zod@4.3.6)
+        version: 2.0.74(zod@4.3.6)
     devDependencies:
       '@ai-billing/testing':
         specifier: workspace:*
@@ -2943,12 +2943,6 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  '@ai-sdk/anthropic@3.0.71':
-    resolution: {integrity: sha512-bUWOzrzR0gJKJO/PLGMR4uH2dqEgqGhrsCV+sSpk4KtOEnUQlfjZI/F7BFlqSvVpFbjdgYRRLysAeEZpJ6S1lg==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.25.76 || ^4.1.8
-
   '@ai-sdk/azure@3.0.113':
     resolution: {integrity: sha512-uAs7kCyYRyLI+5gT8d4Vv4Y8XJQf/9bSo0jjeNBc68X+xi1YnGTaizs3PDiZyEMELQw+8ZQNsEPl8eHKwYwWAQ==}
     engines: {node: '>=18'}
@@ -2975,12 +2969,6 @@ packages:
 
   '@ai-sdk/deepinfra@2.0.78':
     resolution: {integrity: sha512-igOcYkvSXulekQBB229p+tNBBbHdYf46YKLwFfGcSUU7ZknFSV3pmwGNA0jbg0Xo/Ba146POnJlZKs7LNs9CAA==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.25.76 || ^4.1.8
-
-  '@ai-sdk/deepseek@2.0.29':
-    resolution: {integrity: sha512-cn4+xV0menm/4JKEDElnVGiUilHvi6AD4ZK/sY7DXP/Wb7Yb3Vr86NyYM6mGBE/Shk3mWHoHbzggVnF5x0uMEA==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -3015,12 +3003,6 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  '@ai-sdk/gateway@3.0.80':
-    resolution: {integrity: sha512-uM7kpZB5l977lW7+2X1+klBUxIZQ78+1a9jHlaHFEzcOcmmslTl3sdP0QqfuuBcO0YBM2gwOiqVdp8i4TRQYcw==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.25.76 || ^4.1.8
-
   '@ai-sdk/gateway@4.0.72':
     resolution: {integrity: sha512-iNNgagJ0+Ow1kdOFSyKPRk8kTh7qwhLZPLFdbXw4KMbMMF7JLzWlBSkyMSjh6U4O6D4D+76xj0HGws4JTLNeYA==}
     engines: {node: '>=22'}
@@ -3041,12 +3023,6 @@ packages:
 
   '@ai-sdk/google@3.0.120':
     resolution: {integrity: sha512-MzXZQbsU2KRavjvKwP2e1H/sU9Bhh7/S0Cu+lvvu1DJvC3Z9z5ux9XwIDd9BEECwYtL7sGKbiy72ScjKfjBryQ==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.25.76 || ^4.1.8
-
-  '@ai-sdk/google@3.0.64':
-    resolution: {integrity: sha512-CbR82EgGPNrj/6q0HtclwuCqe0/pDShyv3nWDP/A9DroujzWXnLMlUJVrgPOsg4b40zQCwwVs2XSKCxvt/4QaA==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -3075,12 +3051,6 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  '@ai-sdk/openai-compatible@2.0.38':
-    resolution: {integrity: sha512-rwyHjQRl93dv+/YftsnBd+nhIip92ltOcpP0iCawSptO09rabYclh2o/7G3QXNtTtVhFgESpbwjcBKTmWP3k2A==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.25.76 || ^4.1.8
-
   '@ai-sdk/openai-compatible@2.0.41':
     resolution: {integrity: sha512-kNAGINk71AlOXx10Dq/PXw4t/9XjdK8uxfpVElRwtSFMdeSiLVt58p9TPx4/FJD+hxZuVhvxYj9r42osxWq79g==}
     engines: {node: '>=18'}
@@ -3105,12 +3075,6 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  '@ai-sdk/openai@3.0.49':
-    resolution: {integrity: sha512-U2f0pCyNn/jQH3wjgxr8o9VvCkuDFTtXbIhbFFtgXqCzMbed6rBnvzQcAMEK0/Pa44byL9zfcvCOFOflvkRA8w==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.25.76 || ^4.1.8
-
   '@ai-sdk/perplexity@3.0.58':
     resolution: {integrity: sha512-aHSL263Z8es0r0s/n949IPxBhIAEWP2rFcWScAd4b8tOcSBNnf4wF9V0m8NAbptxwozjie7uS0mnv0x3n/OLKw==}
     engines: {node: '>=18'}
@@ -3119,18 +3083,6 @@ packages:
 
   '@ai-sdk/provider-utils@4.0.19':
     resolution: {integrity: sha512-3eG55CrSWCu2SXlqq2QCsFjo3+E7+Gmg7i/oRVoSZzIodTuDSfLb3MRje67xE9RFea73Zao7Lm4mADIfUETKGg==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.25.76 || ^4.1.8
-
-  '@ai-sdk/provider-utils@4.0.21':
-    resolution: {integrity: sha512-MtFUYI1/8mgDvRmaBDjbLJPFFrMG777AvSgyIFQtZHIMzm88R/12vYBBpnk7pfiWLFE1DSZzY4WDYzGbKAcmiw==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.25.76 || ^4.1.8
-
-  '@ai-sdk/provider-utils@4.0.22':
-    resolution: {integrity: sha512-B2OTFcRw/Pdka9ZTjpXv6T6qZ6RruRuLokyb8HwW+aoW9ndJ3YasA3/mVswyJw7VMBF8ofXgqvcrCt9KYvFifg==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -3240,10 +3192,6 @@ packages:
       nodemailer:
         optional: true
 
-  '@babel/code-frame@7.29.0':
-    resolution: {integrity: sha512-9NhCeYjq9+3uxgdtp20LSiJXJvN0FeCtNGpJxuMFZ1Kv3cWUNb6DOhJwUvcVCzKGR66cw4njwM6hrJLqgOwbcw==}
-    engines: {node: '>=6.9.0'}
-
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
     engines: {node: '>=6.9.0'}
@@ -3282,10 +3230,6 @@ packages:
     resolution: {integrity: sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/helper-validator-identifier@7.28.5':
-    resolution: {integrity: sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q==}
-    engines: {node: '>=6.9.0'}
-
   '@babel/helper-validator-identifier@7.29.7':
     resolution: {integrity: sha512-qehxGkRj55h/ff8EMaJ+cYhyaKlHIxqYDn682wQD7RNp9UujOQsHog2uS0r2vzr4pW+sXf90NeeayjcNaX3fFg==}
     engines: {node: '>=6.9.0'}
@@ -3302,10 +3246,6 @@ packages:
     resolution: {integrity: sha512-4GgRzy/+fsBa72/RZVJmGKPmZu9Byn8o4MoLpmNe1m8ZfYnz5emHLQz3U4gLud6Zwl0RZIcgiLD7Uq7ySFuDLA==}
     engines: {node: '>=6.0.0'}
     hasBin: true
-
-  '@babel/runtime@7.29.2':
-    resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
-    engines: {node: '>=6.9.0'}
 
   '@babel/runtime@7.29.7':
     resolution: {integrity: sha512-Nq8OhGWiZIZGV6hLHoyAKLLcJihP/xFeBMGJoUrxTX2psI8dCifzLhZISFb+VWS3wFMRDmCGw5R+dOySCqPLhw==}
@@ -3988,8 +3928,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@eslint-community/eslint-utils@4.9.1':
-    resolution: {integrity: sha512-phrYmNiYppR7znFEdqgfWHXR6NCkZEK7hwWDHZUjit/2/U0r6XvkDl0SYnoM51Hq7FhCGdLDT6zxCCOY1hexsQ==}
+  '@eslint-community/eslint-utils@4.10.1':
+    resolution: {integrity: sha512-cuadcxVFE8sDK6iWJbs8Sn0av2Nrh2QSGQhVlBW9AaAHqHwjWsZHT8LJ4hFGPh7ASBV2deFdM7H/DPjulmh8rg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
@@ -4014,8 +3954,8 @@ packages:
     resolution: {integrity: sha512-vqTaUEgxzm+YDSdElad6PiRoX4t8VGDjCtt05zn4nU810UIx/uNEV7/lZJ6KwFThKZOzOxzXy48da+No7HZaMw==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
-  '@eslint/plugin-kit@0.7.2':
-    resolution: {integrity: sha512-+CNAzxglkrpNf/kKywqQfk74QjtceuOE7Qm+AF8miRvPF/wmmK5+OJOgVh3AVTT3RP2mH3+FOaxlE5v72owk0A==}
+  '@eslint/plugin-kit@0.7.3':
+    resolution: {integrity: sha512-IkO+/KEUvwbVpiURZg+P7zF74z5Jxe0UgJxVni+RtoHQ6IZieXaO02kmadomap/q+l6bc/jdPGGqTjhuZnuz1Q==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
   '@floating-ui/core@1.7.5':
@@ -4300,12 +4240,6 @@ packages:
 
   '@microsoft/tsdoc@0.16.0':
     resolution: {integrity: sha512-xgAyonlVVS+q7Vc7qLW0UrJU7rSFcETRWsqdXZtjzRU8dF+6CkozTK4V4y1LwOX7j8r/vHphjDeMeGI4tNGeGA==}
-
-  '@napi-rs/wasm-runtime@1.1.4':
-    resolution: {integrity: sha512-3NQNNgA1YSlJb/kMH1ildASP9HW7/7kYnRI2szWJaofaS1hWmbGI4H+d3+22aGzXXN9IJ+n+GiFVcGipJP18ow==}
-    peerDependencies:
-      '@emnapi/core': ^1.7.1
-      '@emnapi/runtime': ^1.7.1
 
   '@napi-rs/wasm-runtime@1.1.5':
     resolution: {integrity: sha512-AWPoBRJ9tsnVhor4sjO7rkni+7p+2IAEFj6cx06UgP10jkQHqay/36uRV/bFkgrh18D9vb4cr8Q0Pthskgzy+Q==}
@@ -6747,12 +6681,6 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  ai@6.0.138:
-    resolution: {integrity: sha512-49OfPe0f5uxJ6jUdA5BBXjIinP6+ZdYfAtpF2aEH64GA5wPcxH2rf/TBUQQ0bbamBz/D+TLMV18xilZqOC+zaA==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.25.76 || ^4.1.8
-
   ai@6.0.185:
     resolution: {integrity: sha512-oGsqscREaTlo75KHZLtwZxRyI+ZBwHV2wRX9B8smHjgOs13WwoCvUyr5aPUWpIBRz406wmIKy1RzoUEq0/WKJw==}
     engines: {node: '>=18'}
@@ -6854,8 +6782,8 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  baseline-browser-mapping@2.10.25:
-    resolution: {integrity: sha512-QO/VHsXCQdnzADMfmkeOPvHdIAkoB7i0/rGjINPJEetLx75hNttVWGQ/jycHUDP9zZ9rupbm60WRxcwViB0MiA==}
+  baseline-browser-mapping@2.11.21:
+    resolution: {integrity: sha512-uh8vpY/1/YyFkunIDFH/12p7/7VdPKA1hejMVEbdkEaWnUz0Hesvx5EbiU6XxjyHZIOju+ZMbQJkRh+es3/spQ==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -6881,9 +6809,9 @@ packages:
       react:
         optional: true
 
-  brace-expansion@5.0.6:
-    resolution: {integrity: sha512-kLpxurY4Z4r9sgMsyG0Z9uzsBlgiU/EFKhj/h91/8yHu0edo7XuixOIH3VcJ8kkxs6/jPzoI6U9Vj3WqbMQ94g==}
-    engines: {node: 18 || 20 || >=22}
+  brace-expansion@5.0.9:
+    resolution: {integrity: sha512-ScQ4IuvIEF1TMlP7Zt+vjJ//9zlPb2SDcxWxM3bk8s6t6GGdJ7KO1dCcTidOPJKePW30LE/2cT7wCyPho9/Wxg==}
+    engines: {node: 20 || >=22}
 
   braces@3.0.3:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
@@ -7602,8 +7530,8 @@ packages:
     resolution: {integrity: sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw==}
     engines: {node: '>=16'}
 
-  flatted@3.4.2:
-    resolution: {integrity: sha512-PjDse7RzhcPkIJwy5t7KPWQSZ9cAbzQXcafsetQoD7sOJRQlGikNbx7yZp2OotDnJyrDcbyRq3Ttb18iYOqkxA==}
+  flatted@3.4.4:
+    resolution: {integrity: sha512-5+ybhBZANEJxaH3X5evAFatUxLfEHSr7n6kYJ+1Qd0mUqr4eu9gIf6GDbWHf8RJijHrjjO8G+la14SlL2SeS1Q==}
 
   formatly@0.3.0:
     resolution: {integrity: sha512-9XNj/o4wrRFyhSMJOvsuyMwy8aUfBaZ1VrqHVfohyXf0Sw0e+yfKG+xZaY3arGCOMdwFsqObtzVOc1gU9KiT9w==}
@@ -7642,8 +7570,8 @@ packages:
       react-dom:
         optional: true
 
-  fs-extra@11.3.5:
-    resolution: {integrity: sha512-eKpRKAovdpZtR1WopLHxlBWvAgPny3c4gX1G5Jhwmmw4XJj0ifSD5qB5TOo8hmA0wlRKDAOAhEE1yVPgs6Fgcg==}
+  fs-extra@11.3.6:
+    resolution: {integrity: sha512-w8ZNZr2mKIc7qeNaQ9AVPT1+iFaI+Avd4xudVOvdDJ8VytREi1Ft5Ih7hd9jjehod8vAM5GMsfQ/TpPf4EyoEA==}
     engines: {node: '>=14.14'}
 
   fs-extra@7.0.1:
@@ -7976,10 +7904,6 @@ packages:
 
   jws@4.0.1:
     resolution: {integrity: sha512-EKI/M/yqPncGUUh44xz0PxSidXFr/+r0pA70+gIYhjv+et7yxM+s29Y+VGDkovRofQem0fs7Uvf4+YmAdyRduA==}
-
-  katex@0.16.45:
-    resolution: {integrity: sha512-pQpZbdBu7wCTmQUh7ufPmLr0pFoObnGUoL/yhtwJDgmmQpbkg/0HSVti25Fu4rmd1oCR6NGWe9vqTWuWv3GcNA==}
-    hasBin: true
 
   katex@0.16.47:
     resolution: {integrity: sha512-Eeo8Ys1doU1z+x8AZsPpQu+p/QcZBI5PeOo7QGQdy2x2m0MU/hYagBbGOmXwr5KVbEfVuWv9LpnQWeehogurjg==}
@@ -8371,8 +8295,8 @@ packages:
     resolution: {integrity: sha512-Rwi3pnapEqirPSbWbrZaa6N3nmqq4Xer/2XooiOKyV3q12ML06f7MOuc5DVH8ONZIFhwIYQ3yzPH4nt7iWHaTg==}
     engines: {node: 18 || 20 || >=22}
 
-  minimatch@10.2.5:
-    resolution: {integrity: sha512-MULkVLfKGYDFYejP07QOurDLLQpcjk7Fw+7jXS2R2czRQzR56yHRveU5NDJEOviH+hETZKSkIk5c+T23GjFUMg==}
+  minimatch@10.2.6:
+    resolution: {integrity: sha512-vpLQEs+VLCr1nU0BXS07maYoFwlDAH0gngQuuttxIwutDFEMHq2blX+8vpgxDdK3J1PwjCJiep77OitTZ4Ll1A==}
     engines: {node: 18 || 20 || >=22}
 
   minimist@1.2.8:
@@ -9011,11 +8935,6 @@ packages:
 
   semver@7.7.4:
     resolution: {integrity: sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==}
-    engines: {node: '>=10'}
-    hasBin: true
-
-  semver@7.8.1:
-    resolution: {integrity: sha512-rkVq3IXh+4FDGch+KwzX3aV9W3kO54GyEgpvBzSyctDA6Xtd7RJQV1xmXbeQp5v7+VzLOfVqiutSE6GICgPFvg==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -9692,12 +9611,6 @@ snapshots:
       '@ai-sdk/provider-utils': 4.0.50(zod@4.3.6)
       zod: 4.3.6
 
-  '@ai-sdk/anthropic@3.0.71(zod@4.3.6)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.23(zod@4.3.6)
-      zod: 4.3.6
-
   '@ai-sdk/azure@3.0.113(zod@4.3.6)':
     dependencies:
       '@ai-sdk/deepseek': 2.0.62(zod@4.3.6)
@@ -9732,12 +9645,6 @@ snapshots:
       '@ai-sdk/openai-compatible': 2.0.74(zod@4.3.6)
       '@ai-sdk/provider': 3.0.15
       '@ai-sdk/provider-utils': 4.0.50(zod@4.3.6)
-      zod: 4.3.6
-
-  '@ai-sdk/deepseek@2.0.29(zod@4.3.6)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.23(zod@4.3.6)
       zod: 4.3.6
 
   '@ai-sdk/deepseek@2.0.35(zod@4.3.6)':
@@ -9780,13 +9687,6 @@ snapshots:
       '@vercel/oidc': 3.1.0
       zod: 4.3.6
 
-  '@ai-sdk/gateway@3.0.80(zod@4.3.6)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.21(zod@4.3.6)
-      '@vercel/oidc': 3.1.0
-      zod: 4.3.6
-
   '@ai-sdk/gateway@4.0.72(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 4.0.10
@@ -9819,12 +9719,6 @@ snapshots:
       '@ai-sdk/provider-utils': 4.0.50(zod@4.3.6)
       zod: 4.3.6
 
-  '@ai-sdk/google@3.0.64(zod@4.3.6)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.23(zod@4.3.6)
-      zod: 4.3.6
-
   '@ai-sdk/groq@3.0.34(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.8
@@ -9850,12 +9744,6 @@ snapshots:
       '@ai-sdk/provider-utils': 4.0.50(zod@4.3.6)
       zod: 4.3.6
 
-  '@ai-sdk/openai-compatible@2.0.38(zod@4.3.6)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.22(zod@4.3.6)
-      zod: 4.3.6
-
   '@ai-sdk/openai-compatible@2.0.41(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.8
@@ -9874,22 +9762,16 @@ snapshots:
       '@ai-sdk/provider-utils': 5.0.12(zod@4.3.6)
       zod: 4.3.6
 
+  '@ai-sdk/openai@3.0.106(zod@3.25.76)':
+    dependencies:
+      '@ai-sdk/provider': 3.0.15
+      '@ai-sdk/provider-utils': 4.0.50(zod@3.25.76)
+      zod: 3.25.76
+
   '@ai-sdk/openai@3.0.106(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.15
       '@ai-sdk/provider-utils': 4.0.50(zod@4.3.6)
-      zod: 4.3.6
-
-  '@ai-sdk/openai@3.0.49(zod@3.25.76)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.21(zod@3.25.76)
-      zod: 3.25.76
-
-  '@ai-sdk/openai@3.0.49(zod@4.3.6)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.21(zod@4.3.6)
       zod: 4.3.6
 
   '@ai-sdk/perplexity@3.0.58(zod@4.3.6)':
@@ -9912,27 +9794,6 @@ snapshots:
       eventsource-parser: 3.0.8
       zod: 4.3.6
 
-  '@ai-sdk/provider-utils@4.0.21(zod@3.25.76)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.8
-      '@standard-schema/spec': 1.1.0
-      eventsource-parser: 3.0.8
-      zod: 3.25.76
-
-  '@ai-sdk/provider-utils@4.0.21(zod@4.3.6)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.8
-      '@standard-schema/spec': 1.1.0
-      eventsource-parser: 3.0.8
-      zod: 4.3.6
-
-  '@ai-sdk/provider-utils@4.0.22(zod@4.3.6)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.8
-      '@standard-schema/spec': 1.1.0
-      eventsource-parser: 3.0.8
-      zod: 4.3.6
-
   '@ai-sdk/provider-utils@4.0.23(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.8
@@ -9946,6 +9807,14 @@ snapshots:
       '@standard-schema/spec': 1.1.0
       eventsource-parser: 3.0.8
       zod: 4.3.6
+
+  '@ai-sdk/provider-utils@4.0.50(zod@3.25.76)':
+    dependencies:
+      '@ai-sdk/provider': 3.0.15
+      '@standard-schema/spec': 1.1.0
+      eventsource-parser: 3.0.8
+      undici: 6.28.0
+      zod: 3.25.76
 
   '@ai-sdk/provider-utils@4.0.50(zod@4.3.6)':
     dependencies:
@@ -10048,12 +9917,6 @@ snapshots:
       preact: 10.24.3
       preact-render-to-string: 6.5.11(preact@10.24.3)
 
-  '@babel/code-frame@7.29.0':
-    dependencies:
-      '@babel/helper-validator-identifier': 7.28.5
-      js-tokens: 4.0.0
-      picocolors: 1.1.1
-
   '@babel/code-frame@7.29.7':
     dependencies:
       '@babel/helper-validator-identifier': 7.29.7
@@ -10064,7 +9927,7 @@ snapshots:
 
   '@babel/core@7.29.0':
     dependencies:
-      '@babel/code-frame': 7.29.0
+      '@babel/code-frame': 7.29.7
       '@babel/generator': 7.29.1
       '@babel/helper-compilation-targets': 7.28.6
       '@babel/helper-module-transforms': 7.28.6(@babel/core@7.29.0)
@@ -10111,14 +9974,12 @@ snapshots:
     dependencies:
       '@babel/core': 7.29.0
       '@babel/helper-module-imports': 7.28.6
-      '@babel/helper-validator-identifier': 7.28.5
+      '@babel/helper-validator-identifier': 7.29.7
       '@babel/traverse': 7.29.0
     transitivePeerDependencies:
       - supports-color
 
   '@babel/helper-string-parser@7.27.1': {}
-
-  '@babel/helper-validator-identifier@7.28.5': {}
 
   '@babel/helper-validator-identifier@7.29.7': {}
 
@@ -10133,19 +9994,17 @@ snapshots:
     dependencies:
       '@babel/types': 7.29.0
 
-  '@babel/runtime@7.29.2': {}
-
   '@babel/runtime@7.29.7': {}
 
   '@babel/template@7.28.6':
     dependencies:
-      '@babel/code-frame': 7.29.0
+      '@babel/code-frame': 7.29.7
       '@babel/parser': 7.29.2
       '@babel/types': 7.29.0
 
   '@babel/traverse@7.29.0':
     dependencies:
-      '@babel/code-frame': 7.29.0
+      '@babel/code-frame': 7.29.7
       '@babel/generator': 7.29.1
       '@babel/helper-globals': 7.28.0
       '@babel/parser': 7.29.2
@@ -10158,7 +10017,7 @@ snapshots:
   '@babel/types@7.29.0':
     dependencies:
       '@babel/helper-string-parser': 7.27.1
-      '@babel/helper-validator-identifier': 7.28.5
+      '@babel/helper-validator-identifier': 7.29.7
 
   '@basetenlabs/performance-client-android-arm-eabi@0.0.10':
     optional: true
@@ -10237,7 +10096,7 @@ snapshots:
       outdent: 0.5.0
       prettier: 2.8.8
       resolve-from: 5.0.0
-      semver: 7.8.1
+      semver: 7.8.5
 
   '@changesets/assemble-release-plan@6.0.9':
     dependencies:
@@ -10246,7 +10105,7 @@ snapshots:
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
       '@manypkg/get-packages': 1.1.3
-      semver: 7.8.1
+      semver: 7.8.5
 
   '@changesets/changelog-git@0.2.1':
     dependencies:
@@ -10277,7 +10136,7 @@ snapshots:
       package-manager-detector: 0.2.11
       picocolors: 1.1.1
       resolve-from: 5.0.0
-      semver: 7.7.4
+      semver: 7.8.5
       spawndamnit: 3.0.1
       term-size: 2.2.1
     transitivePeerDependencies:
@@ -10303,7 +10162,7 @@ snapshots:
       '@changesets/types': 6.1.0
       '@manypkg/get-packages': 1.1.3
       picocolors: 1.1.1
-      semver: 7.8.1
+      semver: 7.8.5
 
   '@changesets/get-release-plan@4.0.15':
     dependencies:
@@ -10716,7 +10575,7 @@ snapshots:
   '@esbuild/win32-x64@0.27.4':
     optional: true
 
-  '@eslint-community/eslint-utils@4.9.1(eslint@10.2.0(jiti@2.6.1))':
+  '@eslint-community/eslint-utils@4.10.1(eslint@10.2.0(jiti@2.6.1))':
     dependencies:
       eslint: 10.2.0(jiti@2.6.1)
       eslint-visitor-keys: 3.4.3
@@ -10727,7 +10586,7 @@ snapshots:
     dependencies:
       '@eslint/object-schema': 3.0.5
       debug: 4.4.3
-      minimatch: 10.2.5
+      minimatch: 10.2.6
     transitivePeerDependencies:
       - supports-color
 
@@ -10741,7 +10600,7 @@ snapshots:
 
   '@eslint/object-schema@3.0.5': {}
 
-  '@eslint/plugin-kit@0.7.2':
+  '@eslint/plugin-kit@0.7.3':
     dependencies:
       '@eslint/core': 1.2.1
       levn: 0.4.1
@@ -10954,14 +10813,14 @@ snapshots:
 
   '@manypkg/find-root@1.1.0':
     dependencies:
-      '@babel/runtime': 7.29.2
+      '@babel/runtime': 7.29.7
       '@types/node': 12.20.55
       find-up: 4.1.0
       fs-extra: 8.1.0
 
   '@manypkg/get-packages@1.1.3':
     dependencies:
-      '@babel/runtime': 7.29.2
+      '@babel/runtime': 7.29.7
       '@changesets/types': 4.1.0
       '@manypkg/find-root': 1.1.0
       fs-extra: 8.1.0
@@ -11017,24 +10876,24 @@ snapshots:
 
   '@microsoft/tsdoc@0.16.0': {}
 
-  '@napi-rs/wasm-runtime@1.1.4(@emnapi/core@1.10.0)(@emnapi/runtime@1.11.3)':
+  '@napi-rs/wasm-runtime@1.1.5(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
+    dependencies:
+      '@emnapi/core': 1.10.0
+      '@emnapi/runtime': 1.10.0
+      '@tybys/wasm-util': 0.10.2
+    optional: true
+
+  '@napi-rs/wasm-runtime@1.1.5(@emnapi/core@1.10.0)(@emnapi/runtime@1.11.3)':
     dependencies:
       '@emnapi/core': 1.10.0
       '@emnapi/runtime': 1.11.3
       '@tybys/wasm-util': 0.10.2
     optional: true
 
-  '@napi-rs/wasm-runtime@1.1.4(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)':
+  '@napi-rs/wasm-runtime@1.1.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)':
     dependencies:
       '@emnapi/core': 1.9.2
       '@emnapi/runtime': 1.9.2
-      '@tybys/wasm-util': 0.10.2
-    optional: true
-
-  '@napi-rs/wasm-runtime@1.1.5(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
-    dependencies:
-      '@emnapi/core': 1.10.0
-      '@emnapi/runtime': 1.10.0
       '@tybys/wasm-util': 0.10.2
     optional: true
 
@@ -11076,9 +10935,9 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
 
-  '@openrouter/ai-sdk-provider@2.3.3(ai@6.0.138(zod@4.3.6))(zod@4.3.6)':
+  '@openrouter/ai-sdk-provider@2.3.3(ai@6.0.185(zod@4.3.6))(zod@4.3.6)':
     dependencies:
-      ai: 6.0.138(zod@4.3.6)
+      ai: 6.0.185(zod@4.3.6)
       zod: 4.3.6
 
   '@openrouter/ai-sdk-provider@2.3.3(ai@7.0.90(zod@4.3.6))(zod@4.3.6)':
@@ -11245,7 +11104,7 @@ snapshots:
 
   '@oxc-parser/binding-wasm32-wasi@0.120.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.11.3)':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.1.4(@emnapi/core@1.10.0)(@emnapi/runtime@1.11.3)
+      '@napi-rs/wasm-runtime': 1.1.5(@emnapi/core@1.10.0)(@emnapi/runtime@1.11.3)
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
@@ -11255,7 +11114,7 @@ snapshots:
     dependencies:
       '@emnapi/core': 1.9.2
       '@emnapi/runtime': 1.9.2
-      '@napi-rs/wasm-runtime': 1.1.4(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)
+      '@napi-rs/wasm-runtime': 1.1.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)
     optional: true
 
   '@oxc-parser/binding-win32-arm64-msvc@0.120.0':
@@ -11332,7 +11191,7 @@ snapshots:
 
   '@oxc-resolver/binding-wasm32-wasi@11.19.1(@emnapi/core@1.10.0)(@emnapi/runtime@1.11.3)':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.1.4(@emnapi/core@1.10.0)(@emnapi/runtime@1.11.3)
+      '@napi-rs/wasm-runtime': 1.1.5(@emnapi/core@1.10.0)(@emnapi/runtime@1.11.3)
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
@@ -12374,7 +12233,7 @@ snapshots:
       ajv: 8.18.0
       ajv-draft-04: 1.0.0(ajv@8.18.0)
       ajv-formats: 3.0.1(ajv@8.18.0)
-      fs-extra: 11.3.5
+      fs-extra: 11.3.6
       import-lazy: 4.0.0
       jju: 1.4.0
       resolve: 1.22.12
@@ -12590,7 +12449,7 @@ snapshots:
 
   '@streamdown/math@1.0.2(react@19.2.4)':
     dependencies:
-      katex: 0.16.45
+      katex: 0.16.47
       react: 19.2.4
       rehype-katex: 7.0.1
       remark-math: 6.0.0
@@ -12980,7 +12839,7 @@ snapshots:
       '@typescript-eslint/types': 8.56.1
       '@typescript-eslint/visitor-keys': 8.56.1
       debug: 4.4.3
-      minimatch: 10.2.5
+      minimatch: 10.2.6
       semver: 7.8.5
       tinyglobby: 0.2.17
       ts-api-utils: 2.5.0(typescript@5.9.3)
@@ -12990,7 +12849,7 @@ snapshots:
 
   '@typescript-eslint/utils@8.56.1(eslint@10.2.0(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@10.2.0(jiti@2.6.1))
+      '@eslint-community/eslint-utils': 4.10.1(eslint@10.2.0(jiti@2.6.1))
       '@typescript-eslint/scope-manager': 8.56.1
       '@typescript-eslint/types': 8.56.1
       '@typescript-eslint/typescript-estree': 8.56.1(typescript@5.9.3)
@@ -13148,14 +13007,6 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       zod: 4.3.6
 
-  ai@6.0.138(zod@4.3.6):
-    dependencies:
-      '@ai-sdk/gateway': 3.0.80(zod@4.3.6)
-      '@ai-sdk/provider': 3.0.8
-      '@ai-sdk/provider-utils': 4.0.21(zod@4.3.6)
-      '@opentelemetry/api': 1.9.0
-      zod: 4.3.6
-
   ai@6.0.185(zod@4.3.6):
     dependencies:
       '@ai-sdk/gateway': 3.0.116(zod@4.3.6)
@@ -13247,7 +13098,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  baseline-browser-mapping@2.10.25: {}
+  baseline-browser-mapping@2.11.21: {}
 
   bcrypt-ts@5.0.3: {}
 
@@ -13262,7 +13113,7 @@ snapshots:
       next: 16.3.4(@opentelemetry/api@1.9.1)(@playwright/test@1.59.1)(@types/node@22.19.15)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react: 19.2.4
 
-  brace-expansion@5.0.6:
+  brace-expansion@5.0.9:
     dependencies:
       balanced-match: 4.0.4
 
@@ -13272,7 +13123,7 @@ snapshots:
 
   browserslist@4.28.2:
     dependencies:
-      baseline-browser-mapping: 2.10.25
+      baseline-browser-mapping: 2.11.21
       caniuse-lite: 1.0.30001791
       electron-to-chromium: 1.5.356
       node-releases: 2.0.44
@@ -13800,7 +13651,7 @@ snapshots:
       html-entities: 2.6.0
       object-deep-merge: 2.0.0
       parse-imports-exports: 0.2.4
-      semver: 7.8.1
+      semver: 7.8.5
       spdx-expression-parse: 4.0.0
       to-valid-identifier: 1.0.0
     transitivePeerDependencies:
@@ -13829,12 +13680,12 @@ snapshots:
 
   eslint@10.2.0(jiti@2.6.1):
     dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@10.2.0(jiti@2.6.1))
+      '@eslint-community/eslint-utils': 4.10.1(eslint@10.2.0(jiti@2.6.1))
       '@eslint-community/regexpp': 4.12.2
       '@eslint/config-array': 0.23.5
       '@eslint/config-helpers': 0.5.5
       '@eslint/core': 1.2.1
-      '@eslint/plugin-kit': 0.7.2
+      '@eslint/plugin-kit': 0.7.3
       '@humanfs/node': 0.16.8
       '@humanwhocodes/module-importer': 1.0.1
       '@humanwhocodes/retry': 0.4.3
@@ -13856,7 +13707,7 @@ snapshots:
       imurmurhash: 0.1.4
       is-glob: 4.0.3
       json-stable-stringify-without-jsonify: 1.0.1
-      minimatch: 10.2.5
+      minimatch: 10.2.6
       natural-compare: 1.4.0
       optionator: 0.9.4
     optionalDependencies:
@@ -13975,10 +13826,10 @@ snapshots:
 
   flat-cache@4.0.1:
     dependencies:
-      flatted: 3.4.2
+      flatted: 3.4.4
       keyv: 4.5.4
 
-  flatted@3.4.2: {}
+  flatted@3.4.4: {}
 
   formatly@0.3.0:
     dependencies:
@@ -14006,7 +13857,7 @@ snapshots:
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
 
-  fs-extra@11.3.5:
+  fs-extra@11.3.6:
     dependencies:
       graceful-fs: 4.2.11
       jsonfile: 6.2.1
@@ -14069,7 +13920,7 @@ snapshots:
 
   glob@13.0.6:
     dependencies:
-      minimatch: 10.2.5
+      minimatch: 10.2.6
       minipass: 7.1.3
       path-scurry: 2.0.2
 
@@ -14402,10 +14253,6 @@ snapshots:
     dependencies:
       jwa: 2.0.1
       safe-buffer: 5.2.1
-
-  katex@0.16.45:
-    dependencies:
-      commander: 8.3.0
 
   katex@0.16.47:
     dependencies:
@@ -14880,7 +14727,7 @@ snapshots:
     dependencies:
       '@types/katex': 0.16.8
       devlop: 1.1.0
-      katex: 0.16.45
+      katex: 0.16.47
       micromark-factory-space: 2.0.1
       micromark-util-character: 2.1.1
       micromark-util-symbol: 2.0.1
@@ -15009,12 +14856,12 @@ snapshots:
 
   minimatch@10.2.3:
     dependencies:
-      brace-expansion: 5.0.6
+      brace-expansion: 5.0.9
     optional: true
 
-  minimatch@10.2.5:
+  minimatch@10.2.6:
     dependencies:
-      brace-expansion: 5.0.6
+      brace-expansion: 5.0.9
 
   minimist@1.2.8: {}
 
@@ -15080,7 +14927,7 @@ snapshots:
     dependencies:
       '@next/env': 16.3.4
       '@swc/helpers': 0.5.23
-      baseline-browser-mapping: 2.10.25
+      baseline-browser-mapping: 2.11.21
       caniuse-lite: 1.0.30001791
       postcss: 8.5.26
       react: 19.2.4
@@ -15688,7 +15535,7 @@ snapshots:
       '@types/katex': 0.16.8
       hast-util-from-html-isomorphic: 2.0.0
       hast-util-to-text: 4.0.2
-      katex: 0.16.45
+      katex: 0.16.47
       unist-util-visit-parents: 6.0.2
       vfile: 6.0.3
 
@@ -15871,9 +15718,8 @@ snapshots:
 
   semver@6.3.1: {}
 
-  semver@7.7.4: {}
-
-  semver@7.8.1: {}
+  semver@7.7.4:
+    optional: true
 
   semver@7.8.5: {}
 
@@ -15997,7 +15843,7 @@ snapshots:
       oxc-parser: 0.127.0
       oxc-resolver: 11.19.1(@emnapi/core@1.10.0)(@emnapi/runtime@1.11.3)
       recast: 0.23.11
-      semver: 7.7.4
+      semver: 7.8.5
       use-sync-external-store: 1.6.0(react@19.2.4)
       ws: 8.20.1
     optionalDependencies:
@@ -16241,7 +16087,7 @@ snapshots:
       '@gerrit0/mini-shiki': 3.23.0
       lunr: 2.3.9
       markdown-it: 14.2.0
-      minimatch: 10.2.5
+      minimatch: 10.2.6
       typescript: 5.9.3
       yaml: 2.8.3
 
