@@ -3,6 +3,11 @@ packages:
   - 'examples/*'
   - 'examples/utils/*'
   - 'apps/*'
+
+childConcurrency: 1
+networkConcurrency: 4
+workspaceConcurrency: 1
+
 allowBuilds:
   sharp: false
 
