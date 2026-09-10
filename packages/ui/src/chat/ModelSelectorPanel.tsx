@@ -34,70 +34,83 @@ function groupByProvider(models: ModelOption[]): Map<string, ModelOption[]> {
 export const ModelSelectorPanel = React.forwardRef<
   HTMLDivElement,
   ModelSelectorPanelProps
->(({ models, selectedModelId, onSelect, className, style, ...props }, ref) => {
-  const [search, setSearch] = useState('');
-  const cls = (className ?? '').trim();
+>(
+  (
+    {
+      models,
+      selectedModelId,
+      onSelect,
+      className,
+      style,
+      autoFocus = true,
+      ...props
+    },
+    ref,
+  ) => {
+    const [search, setSearch] = useState('');
+    const cls = (className ?? '').trim();
 
-  const q = search.trim().toLowerCase();
-  const filtered = q
-    ? models.filter(
-        m =>
-          m.name.toLowerCase().includes(q) ||
-          m.provider.toLowerCase().includes(q),
-      )
-    : models;
+    const q = search.trim().toLowerCase();
+    const filtered = q
+      ? models.filter(
+          m =>
+            m.name.toLowerCase().includes(q) ||
+            m.provider.toLowerCase().includes(q),
+        )
+      : models;
 
-  const groups = groupByProvider(filtered);
+    const groups = groupByProvider(filtered);
 
-  return (
-    <div
-      ref={ref}
-      className={cls}
-      style={{ ...modelSelectorPanel, ...style }}
-      {...props}
-    >
-      <input
-        type="text"
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-        placeholder="Search models..."
-        style={modelSearchField}
-        autoFocus
-      />
-      <div style={modelScrollArea}>
-        {Array.from(groups.entries()).map(([provider, providerModels]) => (
-          <div key={provider}>
-            <div style={modelGroupLabel}>{provider}</div>
-            {providerModels.map(m => (
-              <button
-                key={m.id}
-                type="button"
-                onClick={() => onSelect(m.id)}
-                style={{
-                  ...modelItemButton,
-                  background:
-                    m.id === selectedModelId ? 'var(--muted)' : 'transparent',
-                  fontWeight: m.id === selectedModelId ? 600 : 400,
-                }}
-              >
-                {m.name}
-              </button>
-            ))}
-          </div>
-        ))}
-        {filtered.length === 0 && (
-          <div
-            style={{
-              padding: '16px 14px',
-              fontSize: '13px',
-              color: 'var(--muted-foreground)',
-            }}
-          >
-            No models found
-          </div>
-        )}
+    return (
+      <div
+        ref={ref}
+        className={cls}
+        style={{ ...modelSelectorPanel, ...style }}
+        {...props}
+      >
+        <input
+          type="text"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="Search models..."
+          style={modelSearchField}
+          autoFocus={autoFocus}
+        />
+        <div style={modelScrollArea}>
+          {Array.from(groups.entries()).map(([provider, providerModels]) => (
+            <div key={provider}>
+              <div style={modelGroupLabel}>{provider}</div>
+              {providerModels.map(m => (
+                <button
+                  key={m.id}
+                  type="button"
+                  onClick={() => onSelect(m.id)}
+                  style={{
+                    ...modelItemButton,
+                    background:
+                      m.id === selectedModelId ? 'var(--muted)' : 'transparent',
+                    fontWeight: m.id === selectedModelId ? 600 : 400,
+                  }}
+                >
+                  {m.name}
+                </button>
+              ))}
+            </div>
+          ))}
+          {filtered.length === 0 && (
+            <div
+              style={{
+                padding: '16px 14px',
+                fontSize: '13px',
+                color: 'var(--muted-foreground)',
+              }}
+            >
+              No models found
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);
 ModelSelectorPanel.displayName = 'ModelSelectorPanel';
