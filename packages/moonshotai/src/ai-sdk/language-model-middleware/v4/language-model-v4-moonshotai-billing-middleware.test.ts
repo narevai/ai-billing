@@ -63,7 +63,7 @@ describe('MoonshotaiBillingMiddlewareV4 Integration', () => {
   });
 
   describe('wrapGenerate', () => {
-    it('should extract usage, split reasoning tokens out of completion tokens, resolve pricing, calculate cost, and broadcast event using the captured kimi-k3 generate-text usage', async () => {
+    it('should extract usage, resolve pricing, calculate cost without double-counting reasoning tokens, and broadcast event using the captured kimi-k3 generate-text usage', async () => {
       const destinationSpy = vi.fn();
       const middleware = createMoonshotaiV4Middleware({
         destinations: [destinationSpy],
@@ -90,7 +90,7 @@ describe('MoonshotaiBillingMiddlewareV4 Integration', () => {
       });
 
       // prompt: (3.0 / 1e6) * 1e9 * (92 - 0) = 276,000 nanos
-      // completion (text-only, 369 - 297 = 72): (15.0 / 1e6) * 1e9 * 72 = 1,080,000 nanos
+      // completion (raw 369, minus reasoning 297 = base 72): (15.0 / 1e6) * 1e9 * 72 = 1,080,000 nanos
       // reasoning (297): (15.0 / 1e6) * 1e9 * 297 = 4,455,000 nanos
       // Total: 276,000 + 1,080,000 + 4,455,000 = 5,811,000 nanos
       const expectedEvent = StrictBillingEventSchema.parse({
@@ -99,7 +99,7 @@ describe('MoonshotaiBillingMiddlewareV4 Integration', () => {
         provider: 'moonshotai',
         usage: {
           inputTokens: 92,
-          outputTokens: 72,
+          outputTokens: 369,
           cacheReadTokens: 0,
           reasoningTokens: 297,
         },
@@ -117,9 +117,10 @@ describe('MoonshotaiBillingMiddlewareV4 Integration', () => {
         parsedEmittedEvent = StrictBillingEventSchema.parse(emittedPayload);
       }).not.toThrow();
       expect(parsedEmittedEvent!).toMatchObject(expectedEvent!);
-      // The AI SDK's own `outputTokens` for the raw payload total is 369 (including reasoning); assert
-      // the emitted billing event does *not* use that total, avoiding double-billing reasoning tokens.
-      expect(parsedEmittedEvent!.usage.outputTokens).not.toBe(369);
+      // completion_tokens is raw/reasoning-inclusive (369): the emitted billing event's outputTokens
+      // reports that raw total, matching how deepseek/xai/zai report outputTokens. The cost calculation
+      // (asserted above) still avoids double-counting the 297 reasoning tokens internally.
+      expect(parsedEmittedEvent!.usage.outputTokens).toBe(369);
     });
 
     it('should read cache tokens from a top-level cached_tokens field when prompt_tokens_details is absent', async () => {
@@ -318,7 +319,7 @@ describe('MoonshotaiBillingMiddlewareV4 Integration', () => {
         StrictBillingEventSchema.parse(emittedPayload),
       ).not.toThrow();
       const parsedEvent = StrictBillingEventSchema.parse(emittedPayload);
-      expect(parsedEvent.usage.outputTokens).toBe(72);
+      expect(parsedEvent.usage.outputTokens).toBe(369);
       expect(parsedEvent.usage.reasoningTokens).toBe(297);
     });
   });
