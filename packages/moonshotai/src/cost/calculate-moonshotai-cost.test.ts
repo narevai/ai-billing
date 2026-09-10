@@ -309,4 +309,43 @@ describe('calculateMoonshotaiCost', () => {
       currency: 'USD',
     });
   });
+
+  it('should bill reasoningTokens additively (double-count) when completionTokens is passed un-normalized/raw from the provider, per the documented contract', () => {
+    // Regression/contract-lock test for https://github.com/narevai/ai-billing/issues/324 (Issue 1).
+    // This is INTENDED behavior, not a bug: `calculateMoonshotaiCost` requires `usage.completionTokens`
+    // to already be text-only (reasoning tokens pre-subtracted by the caller) — see the contract note
+    // in this function's JSDoc. The issue's repro calls this function directly with the provider's
+    // *raw* `completion_tokens` (137, which already includes the 99 reasoning tokens) instead of
+    // pre-subtracting, which double-bills those 99 reasoning tokens. Both
+    // `createMoonshotaiV3Middleware` and `createMoonshotaiV4Middleware` already pre-subtract
+    // `reasoningTokens` from `completionTokens` before calling this function, so this double-count
+    // never happens through the supported middleware entry points.
+    const mockPricing: ModelPricing = {
+      promptTokens: 9.5e-7,
+      completionTokens: 4e-6,
+      inputCacheReadTokens: 1.6e-7,
+      // internalReasoningTokens intentionally omitted, per the issue's repro.
+    };
+
+    const usage = {
+      promptTokens: 22,
+      completionTokens: 137, // raw/un-normalized: includes the 99 reasoning tokens below
+      reasoningTokens: 99,
+      cacheReadTokens: 0,
+      cacheWriteTokens: 0,
+    };
+
+    const result = calculateMoonshotaiCost({ pricing: mockPricing, usage });
+
+    // Prompt: 9.5e-7 * 1e9 * 22 = 20,900 nanos
+    // Completion (raw, not pre-subtracted): 4e-6 * 1e9 * 137 = 548,000 nanos
+    // Reasoning (falls back to completionTokens rate): 4e-6 * 1e9 * 99 = 396,000 nanos
+    // Cache read: 0
+    // Total: 20,900 + 548,000 + 396,000 = 964,900 nanos
+    expect(result).toEqual({
+      amount: 964900,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
 });

@@ -281,4 +281,36 @@ describe('calculatePerplexityCost', () => {
       currency: 'USD',
     });
   });
+
+  it('should add the flat per-request search fee exactly once alongside prompt/completion cost (issue #324 repro)', () => {
+    // Regression test for https://github.com/narevai/ai-billing/issues/324 (Issue 3). The issue's
+    // "actual" figure (9.5e-5) does not reproduce against current source; this exact repro already
+    // returns the issue's own stated "expected" value (5.09e-3), confirming `pricing.request` is
+    // applied unconditionally and exactly once, never multiplied by token or search counts.
+    const mockPricing: ModelPricing = {
+      promptTokens: 1e-6,
+      completionTokens: 1e-6,
+      request: 0.005,
+    };
+
+    const usage = {
+      promptTokens: 15,
+      completionTokens: 80,
+      cacheReadTokens: 0,
+      cacheWriteTokens: 0,
+      reasoningTokens: 0,
+    };
+
+    const result = calculatePerplexityCost({ pricing: mockPricing, usage });
+
+    // Prompt: 1e-6 * 1e9 * 15 = 15,000 nanos
+    // Completion: 1e-6 * 1e9 * 80 = 80,000 nanos
+    // Request (flat, once): 0.005 * 1e9 = 5,000,000 nanos
+    // Total: 15,000 + 80,000 + 5,000,000 = 5,095,000 nanos
+    expect(result).toEqual({
+      amount: 5095000,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
 });

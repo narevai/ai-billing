@@ -11,8 +11,10 @@ import type { ModelPricing, Cost, CostInputs } from '@ai-billing/types';
  *
  * Cache-read tokens use `inputCacheReadTokens` when provided; otherwise defaults to half the prompt rate.
  * Cache-write tokens use `inputCacheWriteTokens` when provided; otherwise zero (free writes).
- * Reasoning tokens are billed at the completion rate — GLM's `completion_tokens_details.reasoning_tokens`
- * is a subset of `completion_tokens` and Z.ai does not publish a separate reasoning-token rate.
+ * Reasoning tokens are not billed separately and do not affect this calculation at all — GLM's
+ * `completion_tokens_details.reasoning_tokens` is already a subset of `completion_tokens`, and Z.ai does
+ * not publish a distinct reasoning-token rate. `usage.completionTokens` is billed in full at the
+ * completion rate regardless of `usage.reasoningTokens`.
  *
  * @param params - Calculation inputs: `pricing` is {@link ModelPricing} or `undefined` when the model is not
  * in your table; `usage` is token counts as {@link CostInputs}.
@@ -30,14 +32,8 @@ export const calculateZaiCost = (params: {
   }
 
   const cacheReadTokens = usage.cacheReadTokens ?? 0;
-  const reasoningTokens = usage.reasoningTokens ?? 0;
 
   const basePromptTokens = Math.max(0, usage.promptTokens - cacheReadTokens);
-
-  const baseCompletionTokens = Math.max(
-    0,
-    usage.completionTokens - reasoningTokens,
-  );
 
   const promptCost = multiplyCost(
     rateToCost(pricing.promptTokens),
@@ -51,12 +47,7 @@ export const calculateZaiCost = (params: {
 
   const completionCost = multiplyCost(
     rateToCost(pricing.completionTokens),
-    baseCompletionTokens,
-  );
-
-  const reasoningCost = multiplyCost(
-    rateToCost(pricing.completionTokens),
-    reasoningTokens,
+    usage.completionTokens,
   );
 
   const requestCost = rateToCost(pricing.request);
@@ -70,7 +61,6 @@ export const calculateZaiCost = (params: {
     promptCost,
     completionCost,
     cacheReadCost,
-    reasoningCost,
     requestCost,
     webSearchCost,
   );
