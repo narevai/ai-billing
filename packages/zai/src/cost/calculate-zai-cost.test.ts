@@ -297,7 +297,7 @@ describe('calculateZaiCost', () => {
       zero,
       belowCompletionTokens,
       aboveCompletionTokens,
-    ].map((usage) => calculateZaiCost({ pricing: mockPricing, usage }));
+    ].map(usage => calculateZaiCost({ pricing: mockPricing, usage }));
 
     // Prompt: 0.0000002 * 1e9 * 19 = 3,800 nanos
     // Completion: 0.0000008 * 1e9 * 158 = 126,400 nanos
