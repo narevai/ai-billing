@@ -9,14 +9,14 @@ import type { ModelPricing, Cost, CostInputs } from '@ai-billing/types';
 /**
  * Computes total cost for a Moonshot AI (Kimi) completion from {@link ModelPricing} and token usage.
  *
- * **Contract: `usage.completionTokens` must be text-only.** This function bills `completionTokens` and
- * `reasoningTokens` *additively* — `completionCost + reasoningCost`, with no subtraction between them.
- * Callers MUST pre-subtract `reasoningTokens` out of the provider's raw `completion_tokens` before
- * calling this function directly, i.e. pass `completionTokens = rawCompletionTokens - reasoningTokens`,
- * exactly as `createMoonshotaiV3Middleware`/`createMoonshotaiV4Middleware` already do. Passing the raw,
- * un-normalized `completion_tokens` total (which already includes reasoning tokens) alongside a nonzero
- * `reasoningTokens` will double-bill those reasoning tokens — this is not a bug, it is this function's
- * documented input contract, and there is a regression test locking in that exact behavior.
+ * `usage.completionTokens` is the raw, reasoning-inclusive value reported by Moonshot AI's
+ * OpenAI-compatible usage payload (`completion_tokens`) — matching the contract of every sibling
+ * calculator in this package (e.g. `@ai-billing/deepseek`, `@ai-billing/xai`, `@ai-billing/zai`).
+ * This function splits the reasoning tokens out of `usage.completionTokens` internally so that
+ * `completionCost + reasoningCost` never double-counts reasoning tokens. `reasoningTokens` is capped
+ * at `usage.completionTokens` so that inconsistent upstream data (`reasoningTokens` reported larger
+ * than `completionTokens`) can never bill for more combined tokens than the raw completion total
+ * (see issue #324).
  *
  * Cache-read tokens use `inputCacheReadTokens` when provided; otherwise zero (no cache discount applied).
  * Cache-write tokens are always zero — Moonshot AI has no cache-write pricing.
@@ -26,12 +26,10 @@ import type { ModelPricing, Cost, CostInputs } from '@ai-billing/types';
  * `@ai-billing/types`). This deliberately differs from `@ai-billing/deepseek`/`@ai-billing/minimax`,
  * which default the reasoning rate to `0` when `internalReasoningTokens` is unset: Kimi K3 always
  * reasons and Moonshot bills reasoning output tokens at the same flat rate as text output tokens, so
- * defaulting to `0` would systematically undercount cost. `completionTokens` passed in here is expected
- * to already be text-only (reasoning tokens excluded), so this addition does not double-count.
+ * defaulting to `0` would systematically undercount cost.
  *
  * @param params - Calculation inputs: `pricing` is {@link ModelPricing} or `undefined` when the model is not
- * in your table; `usage` is token counts as {@link CostInputs}. `usage.completionTokens` must already
- * exclude `usage.reasoningTokens` — see the contract note above.
+ * in your table; `usage` is token counts as {@link CostInputs}.
  * @returns A {@link Cost}, or `undefined` when `pricing` is missing.
  * @internal
  */
@@ -47,11 +45,19 @@ export const calculateMoonshotaiCost = (params: {
 
   const cacheReadTokens = usage.cacheReadTokens ?? 0;
   const cacheWriteTokens = usage.cacheWriteTokens ?? 0;
-  const reasoningTokens = usage.reasoningTokens ?? 0;
+  const reasoningTokens = Math.min(
+    usage.reasoningTokens ?? 0,
+    usage.completionTokens,
+  );
 
   const nonCachedPromptTokens = Math.max(
     0,
     usage.promptTokens - cacheReadTokens,
+  );
+
+  const baseCompletionTokens = Math.max(
+    0,
+    usage.completionTokens - reasoningTokens,
   );
 
   const promptCost = multiplyCost(
@@ -71,7 +77,7 @@ export const calculateMoonshotaiCost = (params: {
 
   const completionCost = multiplyCost(
     rateToCost(pricing.completionTokens),
-    usage.completionTokens,
+    baseCompletionTokens,
   );
 
   const reasoningCost = multiplyCost(

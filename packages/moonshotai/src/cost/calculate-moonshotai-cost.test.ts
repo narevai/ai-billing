@@ -56,10 +56,13 @@ describe('calculateMoonshotaiCost', () => {
       internalReasoningTokens: 15.0 / 1_000_000,
     };
 
-    // completion_tokens (369) includes reasoning_tokens (297); text-only output = 369 - 297 = 72.
+    // completionTokens is raw/reasoning-inclusive (369), matching the provider's actual
+    // completion_tokens field. calculateMoonshotaiCost splits reasoning_tokens (297) out
+    // internally: base completion = 369 - 297 = 72, billed separately from the 297 reasoning
+    // tokens.
     const usage = {
       promptTokens: 92,
-      completionTokens: 72,
+      completionTokens: 369,
       cacheReadTokens: 0,
       cacheWriteTokens: 0,
       reasoningTokens: 297,
@@ -68,7 +71,7 @@ describe('calculateMoonshotaiCost', () => {
     const result = calculateMoonshotaiCost({ pricing: mockPricing, usage });
 
     // Prompt: (3.0 / 1e6) * 1e9 * 92 = 276,000 nanos
-    // Completion (text-only, 72): (15.0 / 1e6) * 1e9 * 72 = 1,080,000 nanos
+    // Completion (raw 369, minus reasoning 297 = base 72): (15.0 / 1e6) * 1e9 * 72 = 1,080,000 nanos
     // Reasoning (297): (15.0 / 1e6) * 1e9 * 297 = 4,455,000 nanos
     // Cache read: 0
     // Total: 276,000 + 1,080,000 + 4,455,000 = 5,811,000 nanos
@@ -87,9 +90,10 @@ describe('calculateMoonshotaiCost', () => {
       // internalReasoningTokens intentionally omitted.
     };
 
+    // completionTokens is raw/reasoning-inclusive (369); reasoning (297) is split out internally.
     const usage = {
       promptTokens: 92,
-      completionTokens: 72,
+      completionTokens: 369,
       cacheReadTokens: 0,
       cacheWriteTokens: 0,
       reasoningTokens: 297,
@@ -97,6 +101,7 @@ describe('calculateMoonshotaiCost', () => {
 
     const result = calculateMoonshotaiCost({ pricing: mockPricing, usage });
 
+    // Base completion (369 - 297 = 72): (15.0 / 1e6) * 1e9 * 72 = 1,080,000 nanos
     // Reasoning falls back to completionTokens rate: (15.0 / 1e6) * 1e9 * 297 = 4,455,000 nanos
     // Same total as the explicit internalReasoningTokens case above, since kimi-k3's published rate
     // for reasoning output tokens equals its completion rate.
@@ -310,16 +315,13 @@ describe('calculateMoonshotaiCost', () => {
     });
   });
 
-  it('should bill reasoningTokens additively (double-count) when completionTokens is passed un-normalized/raw from the provider, per the documented contract', () => {
-    // Regression/contract-lock test for https://github.com/narevai/ai-billing/issues/324 (Issue 1).
-    // This is INTENDED behavior, not a bug: `calculateMoonshotaiCost` requires `usage.completionTokens`
-    // to already be text-only (reasoning tokens pre-subtracted by the caller) — see the contract note
-    // in this function's JSDoc. The issue's repro calls this function directly with the provider's
-    // *raw* `completion_tokens` (137, which already includes the 99 reasoning tokens) instead of
-    // pre-subtracting, which double-bills those 99 reasoning tokens. Both
-    // `createMoonshotaiV3Middleware` and `createMoonshotaiV4Middleware` already pre-subtract
-    // `reasoningTokens` from `completionTokens` before calling this function, so this double-count
-    // never happens through the supported middleware entry points.
+  it('should not double-bill reasoningTokens when completionTokens is passed raw/reasoning-inclusive from the provider', () => {
+    // Regression test for https://github.com/narevai/ai-billing/issues/324 (Issue 1).
+    // Moonshot AI's usage payload is OpenAI-compatible: `completion_tokens` is raw and
+    // reasoning-inclusive, exactly like deepseek/xai/zai/etc. `calculateMoonshotaiCost` must split
+    // reasoning tokens out of `usage.completionTokens` internally rather than requiring the caller
+    // to pre-subtract them, otherwise callers following the sibling calculators' convention (as this
+    // issue's repro does) double-bill the reasoning tokens.
     const mockPricing: ModelPricing = {
       promptTokens: 9.5e-7,
       completionTokens: 4e-6,
@@ -329,7 +331,7 @@ describe('calculateMoonshotaiCost', () => {
 
     const usage = {
       promptTokens: 22,
-      completionTokens: 137, // raw/un-normalized: includes the 99 reasoning tokens below
+      completionTokens: 137, // raw: includes the 99 reasoning tokens below
       reasoningTokens: 99,
       cacheReadTokens: 0,
       cacheWriteTokens: 0,
@@ -338,12 +340,45 @@ describe('calculateMoonshotaiCost', () => {
     const result = calculateMoonshotaiCost({ pricing: mockPricing, usage });
 
     // Prompt: 9.5e-7 * 1e9 * 22 = 20,900 nanos
-    // Completion (raw, not pre-subtracted): 4e-6 * 1e9 * 137 = 548,000 nanos
+    // Base completion (137 - 99 = 38): 4e-6 * 1e9 * 38 = 152,000 nanos
     // Reasoning (falls back to completionTokens rate): 4e-6 * 1e9 * 99 = 396,000 nanos
     // Cache read: 0
-    // Total: 20,900 + 548,000 + 396,000 = 964,900 nanos
+    // Total: 20,900 + 152,000 + 396,000 = 568,900 nanos
     expect(result).toEqual({
-      amount: 964900,
+      amount: 568900,
+      unit: 'nanos',
+      currency: 'USD',
+    });
+  });
+
+  it('should cap reasoningTokens at completionTokens so inconsistent upstream data cannot overcharge', () => {
+    // Regression test for https://github.com/narevai/ai-billing/issues/324: if reasoningTokens
+    // reported by the provider exceeds completionTokens (bad/inconsistent upstream data), the
+    // reasoning bucket must be capped at completionTokens rather than billed in full, so combined
+    // billed tokens never exceed the raw completion total.
+    const mockPricing: ModelPricing = {
+      promptTokens: 1e-6,
+      completionTokens: 2e-6,
+      internalReasoningTokens: 5e-6,
+    };
+
+    const usage = {
+      promptTokens: 10,
+      completionTokens: 50,
+      reasoningTokens: 80, // exceeds completionTokens; must be capped at 50
+      cacheReadTokens: 0,
+      cacheWriteTokens: 0,
+    };
+
+    const result = calculateMoonshotaiCost({ pricing: mockPricing, usage });
+
+    // Prompt: 1e-6 * 1e9 * 10 = 10,000 nanos
+    // reasoningTokens capped at completionTokens: min(80, 50) = 50
+    // Base completion: max(0, 50 - 50) = 0 -> completion cost 0
+    // Reasoning: 5e-6 * 1e9 * 50 = 250,000 nanos (NOT the raw 80, which would bill 400,000 nanos)
+    // Total: 10,000 + 0 + 250,000 = 260,000 nanos
+    expect(result).toEqual({
+      amount: 260000,
       unit: 'nanos',
       currency: 'USD',
     });

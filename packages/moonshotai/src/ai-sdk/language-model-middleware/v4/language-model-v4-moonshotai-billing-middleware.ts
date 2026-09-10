@@ -49,10 +49,10 @@ export interface MoonshotaiV4MiddlewareOptions<
  * Creates a V4 billing middleware for the Moonshot AI provider (`@ai-sdk/moonshotai`).
  *
  * Moonshot AI's chat-completions usage payload is OpenAI-compatible. Reasoning models (e.g. `kimi-k3`)
- * report `completion_tokens_details.reasoning_tokens` as a *subset* of `completion_tokens`, so this
- * middleware subtracts reasoning tokens out of `completion_tokens` before billing them as
- * `completionTokens`, and bills the reasoning tokens separately as `reasoningTokens` — avoiding
- * double-counting reasoning cost.
+ * report `completion_tokens_details.reasoning_tokens` as a *subset* of `completion_tokens`. This
+ * middleware passes `completion_tokens` straight through as `completionTokens` (raw, reasoning-inclusive)
+ * alongside `reasoningTokens` — `calculateMoonshotaiCost` splits the reasoning tokens out internally and
+ * avoids double-counting them.
  *
  * @typeParam TTags - The shape of the tags object, extending {@link DefaultTags}.
  * @param options - Billing options; see {@link MoonshotaiV4MiddlewareOptions}. A `priceResolver` is required.
@@ -120,17 +120,13 @@ export function createMoonshotaiV4Middleware<TTags extends DefaultTags>(
       const inputTokensCacheWrite = 0;
       const outputTokensReasoning =
         moonshotaiRawUsage?.completion_tokens_details?.reasoning_tokens ?? 0;
-      // completion_tokens includes reasoning_tokens as a subset for Moonshot AI's OpenAI-compatible
-      // usage payload; subtract it out here so completionTokens is text-only and reasoning is billed
-      // separately, without double-counting.
-      const outputTokensText = Math.max(
-        0,
-        completionTokensTotal - outputTokensReasoning,
-      );
 
+      // completion_tokens is raw and reasoning-inclusive for Moonshot AI's OpenAI-compatible usage
+      // payload; pass it straight through — calculateMoonshotaiCost splits reasoning tokens out
+      // internally and avoids double-counting them.
       const moonshotaiUsage: CostInputs = {
         promptTokens: inputTokensTotal,
-        completionTokens: outputTokensText,
+        completionTokens: completionTokensTotal,
         cacheReadTokens: inputTokensCacheRead,
         cacheWriteTokens: inputTokensCacheWrite,
         reasoningTokens: outputTokensReasoning,
