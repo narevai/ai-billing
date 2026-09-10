@@ -1,5 +1,11 @@
 # @ai-billing/moonshotai
 
+## 0.0.2
+
+### Patch Changes
+
+- aab7166: fix: don't double-bill reasoning tokens when completionTokens is passed raw/reasoning-inclusive, matching every other provider calculator's contract
+
 ## 0.0.1
 
 ### Patch Changes

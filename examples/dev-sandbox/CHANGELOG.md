@@ -1,5 +1,14 @@
 # dev-sandbox
 
+## 0.1.15
+
+### Patch Changes
+
+- Updated dependencies [aab7166]
+- Updated dependencies [aab7166]
+  - @ai-billing/zai@0.0.2
+  - @ai-billing/moonshotai@0.0.2
+
 ## 0.1.14
 
 ### Patch Changes
