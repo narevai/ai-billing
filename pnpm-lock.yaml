@@ -7,8 +7,8 @@ settings:
 catalogs:
   default:
     '@ai-sdk/openai':
-      specifier: ^3.0.0
-      version: 3.0.106
+      specifier: ^4.0.0
+      version: 4.0.66
     '@ai-sdk/provider':
       specifier: ^4.0.10
       version: 4.0.10
@@ -19,8 +19,8 @@ catalogs:
       specifier: ^5.0.0
       version: 5.0.0
     '@openrouter/ai-sdk-provider':
-      specifier: ^2.3.3
-      version: 2.3.3
+      specifier: ^3.0.0
+      version: 3.0.0
     '@types/node':
       specifier: ^22.15.3
       version: 22.19.15
@@ -34,8 +34,8 @@ catalogs:
       specifier: 4.1.11
       version: 4.1.11
     ai:
-      specifier: ^6.0.138
-      version: 6.0.185
+      specifier: ^7.0.0
+      version: 7.0.90
     eslint-plugin-jsdoc:
       specifier: ^63.0.0
       version: 63.0.0
@@ -617,10 +617,10 @@ importers:
         version: 0.0.10
       '@openrouter/ai-sdk-provider':
         specifier: 'catalog:'
-        version: 2.3.3(ai@6.0.185(zod@4.3.6))(zod@4.3.6)
+        version: 3.0.0(ai@7.0.90(zod@4.3.6))(zod@4.3.6)
       ai:
         specifier: 'catalog:'
-        version: 6.0.185(zod@4.3.6)
+        version: 7.0.90(zod@4.3.6)
       next:
         specifier: 'catalog:'
         version: 16.3.4(@opentelemetry/api@1.9.1)(@playwright/test@1.59.1)(@types/node@22.19.15)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -947,7 +947,7 @@ importers:
     dependencies:
       '@ai-sdk/openai':
         specifier: 'catalog:'
-        version: 3.0.106(zod@3.25.76)
+        version: 4.0.66(zod@3.25.76)
       '@ai-sdk/provider':
         specifier: 'catalog:'
         version: 4.0.10
@@ -1233,8 +1233,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1282,8 +1282,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1331,8 +1331,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1380,8 +1380,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1429,8 +1429,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1478,8 +1478,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1527,8 +1527,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1576,8 +1576,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1662,8 +1662,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1711,8 +1711,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1760,8 +1760,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1806,8 +1806,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1855,8 +1855,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1904,8 +1904,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -1934,7 +1934,7 @@ importers:
         specifier: workspace:*
         version: link:../types
       '@ai-sdk/google-vertex':
-        specifier: ^3.0.0 || ^4.0.0
+        specifier: ^3.0.0 || ^4.0.0 || ^5.0.0
         version: 4.0.196(zod@4.3.6)
     devDependencies:
       '@ai-billing/testing':
@@ -1953,8 +1953,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2002,8 +2002,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2051,8 +2051,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2131,8 +2131,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2180,8 +2180,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2229,8 +2229,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2329,35 +2329,35 @@ importers:
         specifier: workspace:*
         version: link:../xai
       '@ai-sdk/anthropic':
-        specifier: ^3.0.0
-        version: 3.0.116(zod@4.3.6)
+        specifier: ^4.0.0
+        version: 4.0.53(zod@4.3.6)
       '@ai-sdk/deepseek':
-        specifier: ^2.0.0
-        version: 2.0.35(zod@4.3.6)
+        specifier: ^3.0.0
+        version: 3.0.44(zod@4.3.6)
       '@ai-sdk/google':
-        specifier: ^3.0.0
-        version: 3.0.120(zod@4.3.6)
+        specifier: ^4.0.0
+        version: 4.0.69(zod@4.3.6)
       '@ai-sdk/groq':
-        specifier: ^3.0.0
-        version: 3.0.34(zod@4.3.6)
+        specifier: ^4.0.0
+        version: 4.0.41(zod@4.3.6)
       '@ai-sdk/openai':
         specifier: 'catalog:'
-        version: 3.0.106(zod@4.3.6)
+        version: 4.0.66(zod@4.3.6)
       '@ai-sdk/openai-compatible':
-        specifier: ^2.0.0
-        version: 2.0.74(zod@4.3.6)
-      '@ai-sdk/rsc':
-        specifier: ^2.0.0
-        version: 2.0.185(react@19.2.4)(zod@4.3.6)
-      '@ai-sdk/xai':
         specifier: ^3.0.0
-        version: 3.0.83(zod@4.3.6)
+        version: 3.0.14(zod@4.3.6)
+      '@ai-sdk/rsc':
+        specifier: ^3.0.0
+        version: 3.0.99(react@19.2.4)(zod@4.3.6)
+      '@ai-sdk/xai':
+        specifier: ^4.0.0
+        version: 4.0.58(zod@4.3.6)
       '@openrouter/ai-sdk-provider':
         specifier: 'catalog:'
-        version: 2.3.3(ai@6.0.185(zod@4.3.6))(zod@4.3.6)
+        version: 3.0.0(ai@7.0.90(zod@4.3.6))(zod@4.3.6)
       ai:
         specifier: 'catalog:'
-        version: 6.0.185(zod@4.3.6)
+        version: 7.0.90(zod@4.3.6)
       react:
         specifier: ^18 || ^19
         version: 19.2.4
@@ -2415,8 +2415,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2464,8 +2464,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2525,8 +2525,8 @@ importers:
         specifier: workspace:*
         version: link:../types
       '@openrouter/ai-sdk-provider':
-        specifier: ^2.3.3
-        version: 2.3.3(ai@7.0.90(zod@4.3.6))(zod@4.3.6)
+        specifier: ^3.0.0
+        version: 3.0.0(ai@7.0.90(zod@4.3.6))(zod@4.3.6)
     devDependencies:
       '@ai-billing/testing':
         specifier: workspace:*
@@ -2544,8 +2544,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2593,8 +2593,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2741,8 +2741,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2844,8 +2844,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2893,8 +2893,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.90(zod@4.3.6)
       ai-v6:
-        specifier: npm:ai@^6.0.138
-        version: ai@6.0.185(zod@4.3.6)
+        specifier: npm:ai@^7.0.0
+        version: ai@7.0.90(zod@4.3.6)
       tsup:
         specifier: 'catalog:'
         version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
@@ -2943,6 +2943,12 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
+  '@ai-sdk/anthropic@4.0.53':
+    resolution: {integrity: sha512-JMxAuCFte6mFOvoaUcig3Dp2LObin0wU2Li8ncsveh7hHKW7cG3g1bFjooxn1paxeT8UUf5XMSjhxtXG9wFLig==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
   '@ai-sdk/azure@3.0.113':
     resolution: {integrity: sha512-uAs7kCyYRyLI+5gT8d4Vv4Y8XJQf/9bSo0jjeNBc68X+xi1YnGTaizs3PDiZyEMELQw+8ZQNsEPl8eHKwYwWAQ==}
     engines: {node: '>=18'}
@@ -2985,14 +2991,14 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  '@ai-sdk/fireworks@2.0.84':
-    resolution: {integrity: sha512-d2wf6o4GdTxYUbK2cRS4bgixG2nlPv3luQDKXZjge+zbSC33D7L0u5rKm7QMBhZ3QzpXWa/DTnDm3KCpkrxqZg==}
-    engines: {node: '>=18'}
+  '@ai-sdk/deepseek@3.0.44':
+    resolution: {integrity: sha512-yhHGVJFpM5tdhhr33lE6Co8ziu8dNZxk7j5r3L3Pc04NMCTDmnXZ072FY4tqRDsRtIfBEgWqm/zPXNRvdHb44w==}
+    engines: {node: '>=22'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  '@ai-sdk/gateway@3.0.116':
-    resolution: {integrity: sha512-k8P17w7Eho5Y4l3tZrYxqQdffkI4xwtl8GCxkZs+JdMWZhyrLLlozqWkKLaWrCSlEYQOeIhEnQLhqQgYYU86Rw==}
+  '@ai-sdk/fireworks@2.0.84':
+    resolution: {integrity: sha512-d2wf6o4GdTxYUbK2cRS4bgixG2nlPv3luQDKXZjge+zbSC33D7L0u5rKm7QMBhZ3QzpXWa/DTnDm3KCpkrxqZg==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -3005,6 +3011,12 @@ packages:
 
   '@ai-sdk/gateway@4.0.72':
     resolution: {integrity: sha512-iNNgagJ0+Ow1kdOFSyKPRk8kTh7qwhLZPLFdbXw4KMbMMF7JLzWlBSkyMSjh6U4O6D4D+76xj0HGws4JTLNeYA==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  '@ai-sdk/gateway@4.0.80':
+    resolution: {integrity: sha512-6t+07o8lSthpKf64Xb1qHWR2bWvJ3Fd2oFvS9fQc45p31bi2OUqan246e/ojAmZpWCiMPjKyQ4TBr4MYytnTiQ==}
     engines: {node: '>=22'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -3027,9 +3039,21 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
+  '@ai-sdk/google@4.0.69':
+    resolution: {integrity: sha512-clIivD3RQwutykzKQ8CV+BXIA6EX3xcrfJyXXvAni2SlR9JVATSRbu+JFK/j25a330aZ6WiDwbGyD/u951qXOg==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
   '@ai-sdk/groq@3.0.34':
     resolution: {integrity: sha512-uCbzWBC8SQbme0BRTBvkhgTZH6PRR9NqurLav2IvDmAIenRrv8jmaX6Qqx9JjWO/Mrfmmxd5lLUj0HnfymBCUQ==}
     engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  '@ai-sdk/groq@4.0.41':
+    resolution: {integrity: sha512-M07mfCmieTuQ1hN3ky71mOliesH6txHUBy2YWPsOqItSBSqnY31cW5Y+tOcYGq4MJ+ni8ffdn+o9SshN1U7Q4w==}
+    engines: {node: '>=22'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
@@ -3075,6 +3099,12 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
+  '@ai-sdk/openai@4.0.66':
+    resolution: {integrity: sha512-W4GooZjROdOmf7dfjWlRWNVs+Vvr7ZwfDZbyAJRPo1bgQbpRoDd9ZcCwy/PX1X0s2G7B/dhN2RWOORsHtr0wGg==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
   '@ai-sdk/perplexity@3.0.58':
     resolution: {integrity: sha512-aHSL263Z8es0r0s/n949IPxBhIAEWP2rFcWScAd4b8tOcSBNnf4wF9V0m8NAbptxwozjie7uS0mnv0x3n/OLKw==}
     engines: {node: '>=18'}
@@ -3117,6 +3147,12 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
+  '@ai-sdk/provider-utils@5.0.40':
+    resolution: {integrity: sha512-zsXPwSAQ9mRJ2hvyITaLOYUyuGrBmzFhJXOg4mllGmla1PfNxZcm4GwqMiV2xQaDgcgBMdUGxXkp9xekZZNIkg==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
   '@ai-sdk/provider@3.0.10':
     resolution: {integrity: sha512-Q3BZ27qfpYqnCYGvE3vt+Qi6LGOF9R5Nmzn+9JoM1lCRsD9mYaIhfJLkSunN48nfGXJ6n+XNV0J/XVpqGQl7Dw==}
     engines: {node: '>=18'}
@@ -3133,6 +3169,10 @@ packages:
     resolution: {integrity: sha512-fX2ENAc7iDpZ+Wp4+Rk06Usn/Ys7dI9uAkGv0jlF6XVrW13NkRWx5Ou+U6lIM2E1fTLkCs16GGrUAaVvroag7A==}
     engines: {node: '>=22'}
 
+  '@ai-sdk/provider@4.0.14':
+    resolution: {integrity: sha512-yukP2tbcQQErG5gLCMBGvpvb/rM3D3KlTKG6eKKOdNHLHqtNNDEeBxdYrY/JL+O76B2ig5dXY19H/f1HFSvRiQ==}
+    engines: {node: '>=22'}
+
   '@ai-sdk/provider@4.0.3':
     resolution: {integrity: sha512-e0CpNWJUY7OxAFAnCZkw+ri9QOHWwTs1tXP42782KFGCU07qt8NiXCrCVowyCB5dP2r5/Uls+g2oPd8kOJn9dw==}
     engines: {node: '>=22'}
@@ -3143,9 +3183,9 @@ packages:
     peerDependencies:
       react: ^18 || ~19.0.1 || ~19.1.2 || ^19.2.1
 
-  '@ai-sdk/rsc@2.0.185':
-    resolution: {integrity: sha512-RDcbWYc1atrBxTieVVWt5Qhd84PTEUTWpdfTIG4c5WtFjqJU4Nb+Oh7/qwHhH1dF41cd33clvp3WLfYEVK5GNA==}
-    engines: {node: '>=18'}
+  '@ai-sdk/rsc@3.0.99':
+    resolution: {integrity: sha512-64onSlp4LWMbIX/Cl+VH+ry7xyI2raO5u4RNzctX6M7xMs+tG/ZuZoyj4iXWZ64lBUnYqGhTV0ZL7CWspI+RVw==}
+    engines: {node: '>=22'}
     peerDependencies:
       react: ^18 || ~19.0.1 || ~19.1.2 || ^19.2.1
       zod: ^3.25.76 || ^4.1.8
@@ -3162,6 +3202,12 @@ packages:
   '@ai-sdk/xai@3.0.83':
     resolution: {integrity: sha512-SuQz68BZGeuZjrSUJAzku97IlhdiNJJBsvG/Tvm3K2tuxkBS7TJq0fH4/AzAM7w2H2jxVUgboP7kRR6IfpRxcg==}
     engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  '@ai-sdk/xai@4.0.58':
+    resolution: {integrity: sha512-7STmRResOmfHQ5CjKEeAcpOhiwmvZ2ztmXmofYa+30r7xX2bfz/R+tL2WaMwRODenf2ap2TLF1klNJVGornrfw==}
+    engines: {node: '>=22'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
@@ -4314,12 +4360,12 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@openrouter/ai-sdk-provider@2.3.3':
-    resolution: {integrity: sha512-4fVteGkVedc7fGoA9+qJs4tpYwALezMq14m2Sjub3KmyRlksCbK+WJf67NPdGem8+NZrV2tAN42A1NU3+SiV3w==}
-    engines: {node: '>=18'}
+  '@openrouter/ai-sdk-provider@3.0.0':
+    resolution: {integrity: sha512-m9XTSWoODH2RM5OsZpaGiN7QRR8cdP5paBWq699Tu3JVmGPBKT8xF8XwV0ZBVVsjikD/JgWfak4VSsTR4wAVbg==}
+    engines: {node: '>=22'}
     peerDependencies:
-      ai: ^6.0.0
-      zod: ^3.25.0 || ^4.0.0
+      ai: ^7.0.0
+      zod: ^3.25.76 || ^4.1.8
 
   '@opentelemetry/api-logs@0.200.0':
     resolution: {integrity: sha512-IKJBQxh91qJ+3ssRly5hYEJ8NDHu9oY/B1PXVSCWf7zytmYO9RNLB0Ox9XQ/fJ8m6gY6Q6NtBWlmXfaXt5Uc4Q==}
@@ -6681,14 +6727,14 @@ packages:
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  ai@6.0.185:
-    resolution: {integrity: sha512-oGsqscREaTlo75KHZLtwZxRyI+ZBwHV2wRX9B8smHjgOs13WwoCvUyr5aPUWpIBRz406wmIKy1RzoUEq0/WKJw==}
-    engines: {node: '>=18'}
+  ai@7.0.90:
+    resolution: {integrity: sha512-cvG7Od3DPlnnljkIXP1CQ8wABOfDqV1uBFWemBjGupiqcQD8O9SSg5m4FL+GiMA47NN7dxIJnaw8/uowwN+D2g==}
+    engines: {node: '>=22'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
 
-  ai@7.0.90:
-    resolution: {integrity: sha512-cvG7Od3DPlnnljkIXP1CQ8wABOfDqV1uBFWemBjGupiqcQD8O9SSg5m4FL+GiMA47NN7dxIJnaw8/uowwN+D2g==}
+  ai@7.0.99:
+    resolution: {integrity: sha512-Ov+3j/nSajaVH5hO8C94wN9wisG5tAJ8HWsLV9d/+nlzrRGUh3oYO3Kp1fRyUNWjAWLSpGLHLPaHCdfxb307Vg==}
     engines: {node: '>=22'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -9611,6 +9657,12 @@ snapshots:
       '@ai-sdk/provider-utils': 4.0.50(zod@4.3.6)
       zod: 4.3.6
 
+  '@ai-sdk/anthropic@4.0.53(zod@4.3.6)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.14
+      '@ai-sdk/provider-utils': 5.0.40(zod@4.3.6)
+      zod: 4.3.6
+
   '@ai-sdk/azure@3.0.113(zod@4.3.6)':
     dependencies:
       '@ai-sdk/deepseek': 2.0.62(zod@4.3.6)
@@ -9659,18 +9711,17 @@ snapshots:
       '@ai-sdk/provider-utils': 4.0.50(zod@4.3.6)
       zod: 4.3.6
 
+  '@ai-sdk/deepseek@3.0.44(zod@4.3.6)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.14
+      '@ai-sdk/provider-utils': 5.0.40(zod@4.3.6)
+      zod: 4.3.6
+
   '@ai-sdk/fireworks@2.0.84(zod@4.3.6)':
     dependencies:
       '@ai-sdk/openai-compatible': 2.0.74(zod@4.3.6)
       '@ai-sdk/provider': 3.0.15
       '@ai-sdk/provider-utils': 4.0.50(zod@4.3.6)
-      zod: 4.3.6
-
-  '@ai-sdk/gateway@3.0.116(zod@4.3.6)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.10
-      '@ai-sdk/provider-utils': 4.0.27(zod@4.3.6)
-      '@vercel/oidc': 3.2.0
       zod: 4.3.6
 
   '@ai-sdk/gateway@3.0.66(zod@3.25.76)':
@@ -9691,6 +9742,13 @@ snapshots:
     dependencies:
       '@ai-sdk/provider': 4.0.10
       '@ai-sdk/provider-utils': 5.0.36(zod@4.3.6)
+      '@vercel/oidc': 3.2.0
+      zod: 4.3.6
+
+  '@ai-sdk/gateway@4.0.80(zod@4.3.6)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.14
+      '@ai-sdk/provider-utils': 5.0.40(zod@4.3.6)
       '@vercel/oidc': 3.2.0
       zod: 4.3.6
 
@@ -9719,10 +9777,22 @@ snapshots:
       '@ai-sdk/provider-utils': 4.0.50(zod@4.3.6)
       zod: 4.3.6
 
+  '@ai-sdk/google@4.0.69(zod@4.3.6)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.14
+      '@ai-sdk/provider-utils': 5.0.40(zod@4.3.6)
+      zod: 4.3.6
+
   '@ai-sdk/groq@3.0.34(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.8
       '@ai-sdk/provider-utils': 4.0.23(zod@4.3.6)
+      zod: 4.3.6
+
+  '@ai-sdk/groq@4.0.41(zod@4.3.6)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.14
+      '@ai-sdk/provider-utils': 5.0.40(zod@4.3.6)
       zod: 4.3.6
 
   '@ai-sdk/huggingface@1.0.76(zod@4.3.6)':
@@ -9762,16 +9832,22 @@ snapshots:
       '@ai-sdk/provider-utils': 5.0.12(zod@4.3.6)
       zod: 4.3.6
 
-  '@ai-sdk/openai@3.0.106(zod@3.25.76)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.15
-      '@ai-sdk/provider-utils': 4.0.50(zod@3.25.76)
-      zod: 3.25.76
-
   '@ai-sdk/openai@3.0.106(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.15
       '@ai-sdk/provider-utils': 4.0.50(zod@4.3.6)
+      zod: 4.3.6
+
+  '@ai-sdk/openai@4.0.66(zod@3.25.76)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.14
+      '@ai-sdk/provider-utils': 5.0.40(zod@3.25.76)
+      zod: 3.25.76
+
+  '@ai-sdk/openai@4.0.66(zod@4.3.6)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.14
+      '@ai-sdk/provider-utils': 5.0.40(zod@4.3.6)
       zod: 4.3.6
 
   '@ai-sdk/perplexity@3.0.58(zod@4.3.6)':
@@ -9808,14 +9884,6 @@ snapshots:
       eventsource-parser: 3.0.8
       zod: 4.3.6
 
-  '@ai-sdk/provider-utils@4.0.50(zod@3.25.76)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.15
-      '@standard-schema/spec': 1.1.0
-      eventsource-parser: 3.0.8
-      undici: 6.28.0
-      zod: 3.25.76
-
   '@ai-sdk/provider-utils@4.0.50(zod@4.3.6)':
     dependencies:
       '@ai-sdk/provider': 3.0.15
@@ -9841,6 +9909,24 @@ snapshots:
       undici: 7.29.0
       zod: 4.3.6
 
+  '@ai-sdk/provider-utils@5.0.40(zod@3.25.76)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.14
+      '@standard-schema/spec': 1.1.0
+      '@workflow/serde': 4.1.0
+      eventsource-parser: 3.0.8
+      undici: 7.29.0
+      zod: 3.25.76
+
+  '@ai-sdk/provider-utils@5.0.40(zod@4.3.6)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.14
+      '@standard-schema/spec': 1.1.0
+      '@workflow/serde': 4.1.0
+      eventsource-parser: 3.0.8
+      undici: 7.29.0
+      zod: 4.3.6
+
   '@ai-sdk/provider@3.0.10':
     dependencies:
       json-schema: 0.4.0
@@ -9854,6 +9940,10 @@ snapshots:
       json-schema: 0.4.0
 
   '@ai-sdk/provider@4.0.10':
+    dependencies:
+      json-schema: 0.4.0
+
+  '@ai-sdk/provider@4.0.14':
     dependencies:
       json-schema: 0.4.0
 
@@ -9871,11 +9961,11 @@ snapshots:
     transitivePeerDependencies:
       - zod
 
-  '@ai-sdk/rsc@2.0.185(react@19.2.4)(zod@4.3.6)':
+  '@ai-sdk/rsc@3.0.99(react@19.2.4)(zod@4.3.6)':
     dependencies:
-      '@ai-sdk/provider': 3.0.10
-      '@ai-sdk/provider-utils': 4.0.27(zod@4.3.6)
-      ai: 6.0.185(zod@4.3.6)
+      '@ai-sdk/provider': 4.0.14
+      '@ai-sdk/provider-utils': 5.0.40(zod@4.3.6)
+      ai: 7.0.99(zod@4.3.6)
       jsondiffpatch: 0.7.6
       react: 19.2.4
     optionalDependencies:
@@ -9893,6 +9983,12 @@ snapshots:
       '@ai-sdk/openai-compatible': 2.0.41(zod@4.3.6)
       '@ai-sdk/provider': 3.0.8
       '@ai-sdk/provider-utils': 4.0.23(zod@4.3.6)
+      zod: 4.3.6
+
+  '@ai-sdk/xai@4.0.58(zod@4.3.6)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.14
+      '@ai-sdk/provider-utils': 5.0.40(zod@4.3.6)
       zod: 4.3.6
 
   '@ai-sdk/zai@2.0.2(zod@4.3.6)':
@@ -10935,12 +11031,7 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
 
-  '@openrouter/ai-sdk-provider@2.3.3(ai@6.0.185(zod@4.3.6))(zod@4.3.6)':
-    dependencies:
-      ai: 6.0.185(zod@4.3.6)
-      zod: 4.3.6
-
-  '@openrouter/ai-sdk-provider@2.3.3(ai@7.0.90(zod@4.3.6))(zod@4.3.6)':
+  '@openrouter/ai-sdk-provider@3.0.0(ai@7.0.90(zod@4.3.6))(zod@4.3.6)':
     dependencies:
       ai: 7.0.90(zod@4.3.6)
       zod: 4.3.6
@@ -13007,19 +13098,18 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       zod: 4.3.6
 
-  ai@6.0.185(zod@4.3.6):
-    dependencies:
-      '@ai-sdk/gateway': 3.0.116(zod@4.3.6)
-      '@ai-sdk/provider': 3.0.10
-      '@ai-sdk/provider-utils': 4.0.27(zod@4.3.6)
-      '@opentelemetry/api': 1.9.1
-      zod: 4.3.6
-
   ai@7.0.90(zod@4.3.6):
     dependencies:
       '@ai-sdk/gateway': 4.0.72(zod@4.3.6)
       '@ai-sdk/provider': 4.0.10
       '@ai-sdk/provider-utils': 5.0.36(zod@4.3.6)
+      zod: 4.3.6
+
+  ai@7.0.99(zod@4.3.6):
+    dependencies:
+      '@ai-sdk/gateway': 4.0.80(zod@4.3.6)
+      '@ai-sdk/provider': 4.0.14
+      '@ai-sdk/provider-utils': 5.0.40(zod@4.3.6)
       zod: 4.3.6
 
   ajv-draft-04@1.0.0(ajv@8.18.0):
