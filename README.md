@@ -1,182 +1,380 @@
-<p align="center">
-  <a href="https://github.com/narevai/ai-billing">
-    <img src="/assets/logo.svg" alt="ai-billing" height="128">
-    <h1 align="center">ai-billing</h1>
-  </a>
-</p>
+![ai-billing](/assets/logo.svg)
 
-<p align="center">
-  <a aria-label="Codecov" href="https://codecov.io/github/narevai/ai-billing">
-    <img alt="Codecov" src="https://img.shields.io/codecov/c/github/narevai/ai-billing?style=for-the-badge&labelColor=000000">
-  </a>
-  <a aria-label="Node version" href="https://www.npmjs.com/package/@ai-billing/core">
-    <img alt="Node version" src="https://img.shields.io/node/v/%40ai-billing%2Fcore?style=for-the-badge&labelColor=000000">
-  </a>
-  <a aria-label="NPM license" href="https://www.npmjs.com/package/@ai-billing/core">
-    <img alt="NPM license" src="https://img.shields.io/npm/l/%40ai-billing%2Fcore?style=for-the-badge&labelColor=000000">
-  </a>
-  <a aria-label="Discord chat" href="https://discord.gg/eAFaCwmEEy">
-    <img alt="Discord chat" src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg?style=for-the-badge&logo=discord&labelColor=000000">
-  </a>
-</p>
+# [ai-billing](https://github.com/narevai/ai-billing)
 
-<p align="center">
-  Middleware for the <a href="https://sdk.vercel.ai/docs">Vercel AI SDK</a> that sends billing events directly to Stripe, Polar, and Lago.
-  Ships with components to make usage-based billing easy.
-</p>
 
-## Full-stack examples
 
-| Name | Demo Link | Repo | Deploy |
-| :--- | :--- | :--- | :--- |
-| **Chatbot with Billing** | | [GitHub](https://github.com/narevai/ai-billing/tree/main/examples/chatbot-with-billing) | |
+**Usage-based billing for the Vercel AI SDK.**
 
-## What is `ai-billing`?
+Turn every LLM request into a dollar cost, attach it to a customer, and send it to Stripe, Polar, OpenMeter, or Lago.
 
-<p align="center">
-  <img src="/assets/header-1.png" alt="AI Billing architecture">
-</p>
+![Codecov](https://img.shields.io/codecov/c/github/narevai/ai-billing?style=for-the-badge&labelColor=000000) [](https://www.npmjs.com/package/@ai-billing/core)![Node version](https://img.shields.io/node/v/%40ai-billing%2Fcore?style=for-the-badge&labelColor=000000)[ ](https://www.npmjs.com/package/@ai-billing/core)![NPM license](https://img.shields.io/npm/l/%40ai-billing%2Fcore?style=for-the-badge&labelColor=000000)[ ](https://www.npmjs.com/package/@ai-billing/core)![Discord chat](https://img.shields.io/badge/chat-on%20discord-7289DA.svg?style=for-the-badge&logo=discord&labelColor=000000)[
 
-## Installation
+---
 
-```bash
-npm install @ai-billing/core @ai-billing/openrouter # Example for OpenRouter
+
+
+## What it does
+
+The Vercel AI SDK gives you token usage.
+
+`ai-billing` turns that usage into billing.
+
+```text
+streamText()
+    ↓
+token usage
+    ↓
+$0.000142
+    ↓
+customer cus_123
+    ↓
+Stripe / Polar / OpenMeter / Lago
 ```
 
-## Basic Usage
+Every LLM call can:
 
-Wrap your model provider with the billing middleware and define your destinations.
+- calculate its cost in USD
+- expose that cost on the AI SDK response
+- associate usage with your customer
+- send a normalized billing event to your billing system
+
+No separate token-accounting pipeline required.
+
+### Without ai-billing
+
+```json
+{
+  "text": "Hello! How can I help?",
+  "usage": {
+    "inputTokens": 8,
+    "outputTokens": 12
+  }
+}
+```
+
+
+
+### With ai-billing
+
+```json
+{
+  "text": "Hello! How can I help?",
+  "usage": {
+    "inputTokens": 8,
+    "outputTokens": 12
+  },
+  "providerMetadata": {
+    "ai-billing": {
+      "cost": {
+        "amount": 0.000142,
+        "currency": "USD"
+      }
+    }
+  }
+}
+```
+
+And a billing event is sent for the customer attached to the request.
+
+![ai-billing adds cost to every response](/assets/header-1.png)
+
+![ai-billing sends events to billing destinations](/assets/header-2.png)
+
+---
+
+
+
+## Quick start
+
+Install the provider and billing destination you use:
+
+```bash
+pnpm add @ai-billing/core @ai-billing/openai @ai-billing/stripe
+```
+
+Create the middleware:
 
 ```typescript
-import { streamText, wrapLanguageModel } from 'ai';
-import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
+import { createOpenAIV3Middleware } from '@ai-billing/openai';
+import { createStripeDestination } from '@ai-billing/stripe';
 
-const billingMiddleware = createOpenRouterV3Middleware({});
-
-const model = wrapLanguageModel({
-  model: createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY })('google/gemini-2.0-flash-001'),
-  middleware: billingMiddleware,
+const billingMiddleware = createOpenAIV3Middleware({
+  destinations: [
+    createStripeDestination({
+      apiKey: process.env.STRIPE_SECRET_KEY!,
+      meterName: 'llm_usage',
+    }),
+  ],
 });
 ```
 
-## Send usage to destination (Polar.sh)
+Then wrap your model:
 
-Wrap your model provider with the billing middleware and define your destinations.
+```diff
+-import { streamText } from 'ai';
++import { streamText, wrapLanguageModel } from 'ai';
+
+await streamText({
+-  model: openai('gpt-4o'),
++  model: wrapLanguageModel({
++    model: openai('gpt-4o'),
++    middleware: billingMiddleware,
++  }),
+
+   messages: [
+     { role: 'user', content: 'Hello' },
+   ],
+
++  providerOptions: {
++    'ai-billing-tags': {
++      stripe_customer_id: 'cus_123',
++    },
++  },
+});
+```
+
+That's it.
+
+The response now contains the dollar cost of the generation and the corresponding billing event is sent to Stripe.
+
+---
+
+
+
+## Full example
 
 ```typescript
 import { streamText, wrapLanguageModel } from 'ai';
-import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { createOpenRouterV3Middleware } from '@ai-billing/openrouter';
-import { createPolarDestination } from '@ai-billing/polar';
+import { createOpenAI } from '@ai-sdk/openai';
 
-const billingMiddleware = createOpenRouterV3Middleware({
+import { createOpenAIV3Middleware } from '@ai-billing/openai';
+import { createStripeDestination } from '@ai-billing/stripe';
+
+const openai = createOpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+const billingMiddleware = createOpenAIV3Middleware({
   destinations: [
-    createPolarDestination({
-      accessToken: process.env.POLAR_ACCESS_TOKEN,
-      eventName: 'llm_usage',
-    })
+    createStripeDestination({
+      apiKey: process.env.STRIPE_SECRET_KEY!,
+      meterName: 'llm_usage',
+    }),
   ],
 });
 
 const model = wrapLanguageModel({
-  model: createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY })('google/gemini-2.0-flash-001'),
+  model: openai('gpt-4o'),
   middleware: billingMiddleware,
 });
 
-const { textStream } = await streamText({
+await streamText({
   model,
-  messages: [{ role: 'user', content: 'Quantify the value of metadata.' }],
-  providerOptions: { 
-    'ai-billing-tags': { userId: 'usr_123', org: 'Acme' } 
+
+  messages: [
+    { role: 'user', content: 'Hello' },
+  ],
+
+  providerOptions: {
+    'ai-billing-tags': {
+      stripe_customer_id: 'cus_123',
+    },
   },
 });
 ```
 
-### Supported Providers
+A complete application is available here:
 
-| Provider | Package | Size |
-| :--- | :--- | :--- |
-| [**OpenRouter**](https://ai-sdk.dev/providers/community-providers/openrouter) | [`@ai-billing/openrouter`](https://www.npmjs.com/package/@ai-billing/openrouter) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenrouter) |
-| [**OpenAI**](https://ai-sdk.dev/providers/ai-sdk-providers/openai) | [`@ai-billing/openai`](https://www.npmjs.com/package/@ai-billing/openai) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenai) |
-| [**Vercel AI Gateway**](https://ai-sdk.dev/providers/ai-sdk-providers/ai-gateway) | [`@ai-billing/gateway`](https://www.npmjs.com/package/@ai-billing/gateway) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fgateway) |
-| [**OpenAI Compatible**](https://ai-sdk.dev/providers/openai-compatible-providers) | [`@ai-billing/openai-compatible`](https://www.npmjs.com/package/@ai-billing/openai-compatible) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenai-compatible) |
-| [**Groq**](https://ai-sdk.dev/providers/ai-sdk-providers/groq) | [`@ai-billing/groq`](https://www.npmjs.com/package/@ai-billing/groq) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fgroq) |
-| [**Google Generative AI**](https://ai-sdk.dev/providers/ai-sdk-providers/google-generative-ai) | [`@ai-billing/google`](https://www.npmjs.com/package/@ai-billing/google) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fgoogle) |
-| [**Anthropic**](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic) | [`@ai-billing/anthropic`](https://www.npmjs.com/package/@ai-billing/anthropic) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fanthropic) |
-| [**xAI Grok**](https://ai-sdk.dev/providers/ai-sdk-providers/xai) | [`@ai-billing/xai`](https://www.npmjs.com/package/@ai-billing/xai) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fxai) |
-| [**MiniMax**](https://ai-sdk.dev/providers/community-providers/minimax) | [`@ai-billing/minimax`](https://www.npmjs.com/package/@ai-billing/minimax) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fminimax) |
-| [**DeepSeek**](https://ai-sdk.dev/providers/ai-sdk-providers/deepseek) | [`@ai-billing/deepseek`](https://www.npmjs.com/package/@ai-billing/deepseek) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fdeepseek) |
-| [**Chutes**](https://ai-sdk.dev/providers/community-providers/chutes) | [`@ai-billing/chutes`](https://www.npmjs.com/package/@ai-billing/chutes) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fchutes) |
-| [**Alibaba**](https://ai-sdk.dev/providers/ai-sdk-providers/alibaba) | [`@ai-billing/alibaba`](https://www.npmjs.com/package/@ai-billing/alibaba) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Falibaba) |
-| [**Amazon Bedrock**](https://ai-sdk.dev/providers/ai-sdk-providers/amazon-bedrock) | [`@ai-billing/amazon-bedrock`](https://www.npmjs.com/package/@ai-billing/amazon-bedrock) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Famazon-bedrock) |
-| [**Azure**](https://ai-sdk.dev/providers/ai-sdk-providers/azure) | [`@ai-billing/azure`](https://www.npmjs.com/package/@ai-billing/azure) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fazure) |
-| [**Baseten**](https://ai-sdk.dev/providers/ai-sdk-providers/baseten) | [`@ai-billing/baseten`](https://www.npmjs.com/package/@ai-billing/baseten) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fbaseten) |
-| [**Cerebras**](https://ai-sdk.dev/providers/ai-sdk-providers/cerebras) | [`@ai-billing/cerebras`](https://www.npmjs.com/package/@ai-billing/cerebras) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fcerebras) |
-| [**Cohere**](https://ai-sdk.dev/providers/ai-sdk-providers/cohere) | [`@ai-billing/cohere`](https://www.npmjs.com/package/@ai-billing/cohere) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fcohere) |
-| [**DeepInfra**](https://ai-sdk.dev/providers/ai-sdk-providers/deepinfra) | [`@ai-billing/deepinfra`](https://www.npmjs.com/package/@ai-billing/deepinfra) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fdeepinfra) |
-| [**Fireworks**](https://ai-sdk.dev/providers/ai-sdk-providers/fireworks) | [`@ai-billing/fireworks`](https://www.npmjs.com/package/@ai-billing/fireworks) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Ffireworks) |
-| [**GMI Cloud**](https://ai-sdk.dev/providers/ai-sdk-providers/gmicloud) | [`@ai-billing/gmicloud`](https://www.npmjs.com/package/@ai-billing/gmicloud) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fgmicloud) |
-| [**Google Vertex AI**](https://ai-sdk.dev/providers/ai-sdk-providers/google-vertex) | [`@ai-billing/google-vertex`](https://www.npmjs.com/package/@ai-billing/google-vertex) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fgoogle-vertex) |
-| [**Hugging Face**](https://ai-sdk.dev/providers/ai-sdk-providers/huggingface) | [`@ai-billing/huggingface`](https://www.npmjs.com/package/@ai-billing/huggingface) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fhuggingface) |
-| [**Mistral**](https://ai-sdk.dev/providers/ai-sdk-providers/mistral) | [`@ai-billing/mistral`](https://www.npmjs.com/package/@ai-billing/mistral) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fmistral) |
-| [**Moonshot AI**](https://ai-sdk.dev/providers/ai-sdk-providers/moonshotai) | [`@ai-billing/moonshotai`](https://www.npmjs.com/package/@ai-billing/moonshotai) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fmoonshotai) |
-| [**Perplexity**](https://ai-sdk.dev/providers/ai-sdk-providers/perplexity) | [`@ai-billing/perplexity`](https://www.npmjs.com/package/@ai-billing/perplexity) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fperplexity) |
-| [**Together.ai**](https://ai-sdk.dev/providers/ai-sdk-providers/togetherai) | [`@ai-billing/togetherai`](https://www.npmjs.com/package/@ai-billing/togetherai) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Ftogetherai) |
-| [**Z.AI**](https://ai-sdk.dev/providers/ai-sdk-providers/zai) | [`@ai-billing/zai`](https://www.npmjs.com/package/@ai-billing/zai) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fzai) |
 
-### Supported Destinations
+| Example                  | Repo                                                                                                           |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| **Chatbot with Billing** | [examples/chatbot-with-billing](https://github.com/narevai/ai-billing/tree/main/examples/chatbot-with-billing) |
 
-| Destination | Package | Size |
-| :--- | :--- | :--- |
-| **Polar.sh** | [`@ai-billing/polar`](https://www.npmjs.com/package/@ai-billing/polar) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fpolar) |
-| **Stripe** | [`@ai-billing/stripe`](https://www.npmjs.com/package/@ai-billing/stripe) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fstripe) |
-| **OpenMeter** (Kong) | [`@ai-billing/openmeter`](https://www.npmjs.com/package/@ai-billing/openmeter) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fopenmeter) |
-| **Lago** | [`@ai-billing/lago`](https://www.npmjs.com/package/@ai-billing/lago) | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Flago) |
-
-## UI Components
-
-Explore the full component library in [Storybook](https://ai-billing-storybook.vercel.app/).
-
-| Component | Preview |
-| :--- | :--- |
-| `<CreditTopUpPolar>` | <img src="/assets/topup-component.png" alt="CreditTopUpPolar component preview from @ai-billing/nextjs" width="320"> |
-| `<CreditUsagePolar>` | <img src="/assets/usage-component.png" alt="CreditUsagePolar component preview from @ai-billing/nextjs" width="320"> |
-
-### SDKs
-
-| Package | Description | Size |
-| :--- | :--- | :--- |
-| [`@ai-billing/nextjs`](https://www.npmjs.com/package/@ai-billing/nextjs) | Next.js UI components for displaying billing usage and managing top-ups. | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fnextjs) |
-| [`@ai-billing/ui`](https://www.npmjs.com/package/@ai-billing/ui) | Internal headless UI components shared across `@ai-billing/*` packages. | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fui) |
-| [`@ai-billing/narev`](https://www.npmjs.com/package/@ai-billing/narev) | TypeScript SDK for the [Narev](https://narev.ai) billing API. | ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/%40ai-billing%2Fnarev) |
 
 ---
 
-## Status and Roadmap
 
-> **Note:** We are prioritizing support for **TEXT models**.
 
-**Active Development**
+## Why ai-billing?
 
-- [Requesty](https://ai-sdk.dev/providers/community-providers/requesty)
-- [Cloudflare AI Gateway](https://ai-sdk.dev/providers/community-providers/cloudflare-ai-gateway)
+Billing LLM usage looks simple until you need to support multiple models and providers.
 
-Full list of providers can be found here: [https://ai-sdk.dev/providers/](https://ai-sdk.dev/providers/)
-The following providers are planned for future implementation. **To prioritize a specific provider, please [open a GitHub issue](https://github.com/narevai/ai-billing/issues).**
+Different providers return different usage metadata. Different models have different input, output, and cache pricing. Your application still has to convert that into a consistent billing event and associate it with the right customer.
+
+`ai-billing` keeps that logic at the model boundary.
+
+Your application calls the Vercel AI SDK as usual.
+
+The middleware handles:
+
+```text
+provider usage
+      ↓
+normalized usage
+      ↓
+model pricing
+      ↓
+cost
+      ↓
+billing event
+      ↓
+billing destination
+```
+
+Provider-specific pricing and usage logic stays out of your application code.
+
+---
+
+
+
+## Supported providers
+
+Use the provider package matching your existing AI SDK provider.
+
+
+| Provider                                                                                       | Package                                                                                        |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **[OpenRouter](https://ai-sdk.dev/providers/community-providers/openrouter)**                  | `[@ai-billing/openrouter](https://www.npmjs.com/package/@ai-billing/openrouter)`               |
+| **[OpenAI](https://ai-sdk.dev/providers/ai-sdk-providers/openai)**                             | `[@ai-billing/openai](https://www.npmjs.com/package/@ai-billing/openai)`                       |
+| **[Vercel AI Gateway](https://ai-sdk.dev/providers/ai-sdk-providers/ai-gateway)**              | `[@ai-billing/gateway](https://www.npmjs.com/package/@ai-billing/gateway)`                     |
+| **[OpenAI Compatible](https://ai-sdk.dev/providers/openai-compatible-providers)**              | `[@ai-billing/openai-compatible](https://www.npmjs.com/package/@ai-billing/openai-compatible)` |
+| **[Groq](https://ai-sdk.dev/providers/ai-sdk-providers/groq)**                                 | `[@ai-billing/groq](https://www.npmjs.com/package/@ai-billing/groq)`                           |
+| **[Google Generative AI](https://ai-sdk.dev/providers/ai-sdk-providers/google-generative-ai)** | `[@ai-billing/google](https://www.npmjs.com/package/@ai-billing/google)`                       |
+| **[Anthropic](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic)**                       | `[@ai-billing/anthropic](https://www.npmjs.com/package/@ai-billing/anthropic)`                 |
+| **[xAI Grok](https://ai-sdk.dev/providers/ai-sdk-providers/xai)**                              | `[@ai-billing/xai](https://www.npmjs.com/package/@ai-billing/xai)`                             |
+| **[MiniMax](https://ai-sdk.dev/providers/community-providers/minimax)**                        | `[@ai-billing/minimax](https://www.npmjs.com/package/@ai-billing/minimax)`                     |
+| **[DeepSeek](https://ai-sdk.dev/providers/ai-sdk-providers/deepseek)**                         | `[@ai-billing/deepseek](https://www.npmjs.com/package/@ai-billing/deepseek)`                   |
+| **[Chutes](https://ai-sdk.dev/providers/community-providers/chutes)**                          | `[@ai-billing/chutes](https://www.npmjs.com/package/@ai-billing/chutes)`                       |
+| **[Alibaba](https://ai-sdk.dev/providers/ai-sdk-providers/alibaba)**                           | `[@ai-billing/alibaba](https://www.npmjs.com/package/@ai-billing/alibaba)`                     |
+| **[Amazon Bedrock](https://ai-sdk.dev/providers/ai-sdk-providers/amazon-bedrock)**             | `[@ai-billing/amazon-bedrock](https://www.npmjs.com/package/@ai-billing/amazon-bedrock)`       |
+| **[Azure](https://ai-sdk.dev/providers/ai-sdk-providers/azure)**                               | `[@ai-billing/azure](https://www.npmjs.com/package/@ai-billing/azure)`                         |
+| **[Baseten](https://ai-sdk.dev/providers/ai-sdk-providers/baseten)**                           | `[@ai-billing/baseten](https://www.npmjs.com/package/@ai-billing/baseten)`                     |
+| **[Cerebras](https://ai-sdk.dev/providers/ai-sdk-providers/cerebras)**                         | `[@ai-billing/cerebras](https://www.npmjs.com/package/@ai-billing/cerebras)`                   |
+| **[Cohere](https://ai-sdk.dev/providers/ai-sdk-providers/cohere)**                             | `[@ai-billing/cohere](https://www.npmjs.com/package/@ai-billing/cohere)`                       |
+| **[DeepInfra](https://ai-sdk.dev/providers/ai-sdk-providers/deepinfra)**                       | `[@ai-billing/deepinfra](https://www.npmjs.com/package/@ai-billing/deepinfra)`                 |
+| **[Fireworks](https://ai-sdk.dev/providers/ai-sdk-providers/fireworks)**                       | `[@ai-billing/fireworks](https://www.npmjs.com/package/@ai-billing/fireworks)`                 |
+| **[GMI Cloud](https://ai-sdk.dev/providers/community-providers/gmicloud)**                     | `[@ai-billing/gmicloud](https://www.npmjs.com/package/@ai-billing/gmicloud)`                   |
+| **[Google Vertex AI](https://ai-sdk.dev/providers/ai-sdk-providers/google-vertex)**            | `[@ai-billing/google-vertex](https://www.npmjs.com/package/@ai-billing/google-vertex)`         |
+| **[Hugging Face](https://ai-sdk.dev/providers/ai-sdk-providers/huggingface)**                  | `[@ai-billing/huggingface](https://www.npmjs.com/package/@ai-billing/huggingface)`             |
+| **[Mistral](https://ai-sdk.dev/providers/ai-sdk-providers/mistral)**                           | `[@ai-billing/mistral](https://www.npmjs.com/package/@ai-billing/mistral)`                     |
+| **[Moonshot AI](https://ai-sdk.dev/providers/ai-sdk-providers/moonshotai)**                    | `[@ai-billing/moonshotai](https://www.npmjs.com/package/@ai-billing/moonshotai)`               |
+| **[Perplexity](https://ai-sdk.dev/providers/ai-sdk-providers/perplexity)**                     | `[@ai-billing/perplexity](https://www.npmjs.com/package/@ai-billing/perplexity)`               |
+| **[Together.ai](https://ai-sdk.dev/providers/ai-sdk-providers/togetherai)**                    | `[@ai-billing/togetherai](https://www.npmjs.com/package/@ai-billing/togetherai)`               |
+| **[Z.AI](https://ai-sdk.dev/providers/ai-sdk-providers/zai)**                                  | `[@ai-billing/zai](https://www.npmjs.com/package/@ai-billing/zai)`                             |
+
+
+---
+
+
+
+## Billing destinations
+
+Provider middleware emits a normalized `BillingEvent`.
+
+Destinations decide where that event goes.
+
+
+| Destination   | Package                                                                        |
+| ------------- | ------------------------------------------------------------------------------ |
+| **Stripe**    | `[@ai-billing/stripe](https://www.npmjs.com/package/@ai-billing/stripe)`       |
+| **Polar.sh**  | `[@ai-billing/polar](https://www.npmjs.com/package/@ai-billing/polar)`         |
+| **OpenMeter** | `[@ai-billing/openmeter](https://www.npmjs.com/package/@ai-billing/openmeter)` |
+| **Lago**      | `[@ai-billing/lago](https://www.npmjs.com/package/@ai-billing/lago)`           |
+
+
+Provider and destination packages are independent.
+
+For example:
+
+```text
+OpenAI ─────┐
+Anthropic ──┤
+OpenRouter ─┤
+DeepSeek ───┤
+            ├── ai-billing ── Stripe
+Groq ───────┤              ├─ Polar
+Bedrock ────┤              ├─ OpenMeter
+Vertex AI ──┤              └─ Lago
+... ────────┘
+```
+
+---
+
+
+
+## Custom pricing
+
+Provider middleware includes provider-specific cost calculation and supports `PriceResolver` for supplying custom prices at request time.
+
+Use custom prices when the amount you want to meter differs from the provider's default model pricing.
+
+---
+
+
+
+## UI components
+
+`ai-billing` also ships components for usage-based billing interfaces.
+
+Explore the full component library in [Storybook](https://ai-billing-storybook.vercel.app/).
+
+
+| Component            | Preview                                                                                    |
+| -------------------- | ------------------------------------------------------------------------------------------ |
+| `<CreditTopUpPolar>` | ![CreditTopUpPolar component preview from @ai-billing/nextjs](/assets/topup-component.png) |
+| `<CreditUsagePolar>` | ![CreditUsagePolar component preview from @ai-billing/nextjs](/assets/usage-component.png) |
+
+
+
+
+### SDKs
+
+
+| Package                                                                  | Description                                                              |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| `[@ai-billing/nextjs](https://www.npmjs.com/package/@ai-billing/nextjs)` | Next.js UI components for displaying billing usage and managing top-ups. |
+| `[@ai-billing/ui](https://www.npmjs.com/package/@ai-billing/ui)`         | Headless UI components shared across `@ai-billing/*` packages.           |
+| `[@ai-billing/narev](https://www.npmjs.com/package/@ai-billing/narev)`   | TypeScript SDK for the [Narev](https://narev.ai) billing API.            |
+
+
+---
+
+
 
 ## Architecture
 
-The package consists of two primary components:
+`ai-billing` has two main layers.
 
-### 1. Provider Middleware
+### Provider middleware
 
-- specialized for `@ai-sdk/*` packages that understand the specific `providerMetadata` shapes of different LLM usage
-- provider-specific cost calculation logic that that turn usage into cost
-- `PriceResolver` allowing to pass custom prices at time of request
+Provider middleware is specialized for individual `@ai-sdk/*` packages.
 
-### 2. Destinations
+It handles:
 
-- functions that receive a normalized `BillingEvent` and handle the API calls to external services
-- allow charging in credits using standardized meters
+- provider-specific usage metadata
+- provider-specific cost calculation
+- normalization into a common billing format
+- custom pricing through `PriceResolver`
 
+
+
+### Destinations
+
+Destinations receive a normalized `BillingEvent` and send it to external billing systems.
+
+That separation lets the same provider integration work with multiple billing systems without putting provider-specific logic into your application.
+
+---
+
+
+
+## Status and roadmap
+
+> **Note:** We are currently prioritizing support for text models.
+
+The full list of Vercel AI SDK providers is available at [ai-sdk.dev/providers](https://ai-sdk.dev/providers/).
+
+Need another provider or destination?
+
+[Open a GitHub issue](https://github.com/narevai/ai-billing/issues).
