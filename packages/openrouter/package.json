@@ -44,7 +44,7 @@
   "dependencies": {
     "@ai-billing/core": "workspace:*",
     "@ai-billing/types": "workspace:*",
-    "@openrouter/ai-sdk-provider": "^2.3.3"
+    "@openrouter/ai-sdk-provider": "^3.0.0"
   },
   "devDependencies": {
     "@ai-billing/typescript-config": "workspace:*",
@@ -56,7 +56,7 @@
     "vitest": "catalog:",
     "@ai-sdk/provider": "catalog:",
     "ai": "^7.0.0",
-    "ai-v6": "npm:ai@^6.0.138",
+    "ai-v6": "npm:ai@^7.0.0",
     "@edge-runtime/vm": "catalog:",
     "zod": "catalog:"
   },
