@@ -14,14 +14,16 @@
     "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@storybook/addon-docs": "^10.4.0",
-    "@storybook/addon-themes": "^10.4.0",
-    "@storybook/react": "^10.4.0",
-    "@storybook/react-vite": "^10.4.0",
+    "@storybook/addon-docs": "catalog:",
+    "@storybook/addon-themes": "catalog:",
+    "@storybook/react": "catalog:",
+    "@storybook/react-vite": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "storybook": "^10.4.0",
+    "baseline-browser-mapping": "catalog:",
+    "source-map-js": "catalog:",
+    "storybook": "catalog:",
     "typescript": "catalog:",
-    "vite": "^8.0.0"
+    "vite": "catalog:"
   }
 }

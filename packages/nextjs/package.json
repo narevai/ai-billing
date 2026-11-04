@@ -83,7 +83,8 @@
     "@ai-sdk/groq": "^3.0.0",
     "@ai-sdk/openai": "catalog:",
     "@ai-sdk/openai-compatible": "^2.0.0",
-    "@ai-sdk/rsc": "^2.0.0",
+    "@ai-sdk/rsc": "catalog:",
+    "jsondiffpatch": "catalog:",
     "@ai-sdk/xai": "^3.0.0",
     "@openrouter/ai-sdk-provider": "catalog:",
     "ai": "catalog:"
