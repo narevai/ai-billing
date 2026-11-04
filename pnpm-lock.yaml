@@ -2770,7 +2770,7 @@ importers:
         specifier: workspace:*
         version: link:../types
       '@polar-sh/sdk':
-        specifier: ^0.46.7 || ^0.47.0 || ^0.48.0
+        specifier: ^0.46.7 || ^0.47.0 || ^0.48.0 || ^1.0.0
         version: 0.46.7
     devDependencies:
       '@ai-billing/testing':
@@ -2810,7 +2810,7 @@ importers:
         specifier: workspace:*
         version: link:../types
       stripe:
-        specifier: ^21.0.0 || ^22.0.0
+        specifier: ^21.0.0 || ^22.0.0 || ^23.0.0
         version: 21.0.1(@types/node@22.19.15)
     devDependencies:
       '@ai-billing/testing':
@@ -6188,6 +6188,7 @@ packages:
   '@smithy/core@3.33.3':
     resolution: {integrity: sha512-CsOeKq/9kA3y6VJHt+/+VTCtBaxJ4OTFpgrjIUhPpDIKxBci1k2bJaQASF2h/ELWrulGp+t97DZ0mevfAD8idg==}
     engines: {node: '>=18.0.0'}
+    deprecated: Deprecated due to a bug in custom logger data redaction. See https://github.com/aws/aws-sdk-js-v3/issues/8393.
 
   '@smithy/eventstream-codec@4.5.2':
     resolution: {integrity: sha512-u4EAkaviMcQYlorFSnxFUgF/Dnbgiu2TzGmqOU4h3CL4MbvrYyNCXpFkcBwvAEU11EvspKX2zzS2uX7q+43VdQ==}
