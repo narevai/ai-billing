@@ -23,7 +23,7 @@ const userMessageSchema = z.object({
 const toolApprovalMessageSchema = z.object({
   id: z.string(),
   role: z.enum(['user', 'assistant']),
-  parts: z.array(z.record(z.unknown())),
+  parts: z.array(z.record(z.string(), z.unknown())),
 });
 
 export const postRequestBodySchema = z.object({
