@@ -1,5 +1,11 @@
 # @ai-billing/ui
 
+## 0.0.10
+
+### Patch Changes
+
+- e86ce33: fix(ui): make ModelSelector search input autoFocus configurable
+
 ## 0.0.9
 
 ### Patch Changes

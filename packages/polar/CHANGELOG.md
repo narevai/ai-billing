@@ -1,5 +1,11 @@
 # @ai-billing/polar
 
+## 0.1.11
+
+### Patch Changes
+
+- 65542f9: Widen peer dependency ranges for `@polar-sh/sdk` and `stripe` to support major billing SDK releases.
+
 ## 0.1.10
 
 ### Patch Changes

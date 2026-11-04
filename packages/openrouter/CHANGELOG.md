@@ -1,5 +1,11 @@
 # @ai-billing/openrouter
 
+## 0.2.1
+
+### Patch Changes
+
+- 0e38c48: Pin and align runtime dependencies with the workspace catalog (including security-related direct deps for transitive advisories). No API changes.
+
 ## 0.2.0
 
 ### Minor Changes

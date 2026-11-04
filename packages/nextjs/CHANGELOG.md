@@ -1,5 +1,18 @@
 # @ai-billing/nextjs
 
+## 0.0.16
+
+### Patch Changes
+
+- 0e38c48: Pin and align runtime dependencies with the workspace catalog (including security-related direct deps for transitive advisories). No API changes.
+- e86ce33: fix(ui): make ModelSelector search input autoFocus configurable
+- Updated dependencies [0e38c48]
+- Updated dependencies [e86ce33]
+- Updated dependencies [65542f9]
+  - @ai-billing/openrouter@0.2.1
+  - @ai-billing/ui@0.0.10
+  - @ai-billing/polar@0.1.11
+
 ## 0.0.15
 
 ### Patch Changes
