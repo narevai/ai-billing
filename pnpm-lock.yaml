@@ -160,8 +160,8 @@ catalogs:
       specifier: 2.9.14
       version: 2.9.14
     typedoc:
-      specifier: 0.28.19
-      version: 0.28.19
+      specifier: 0.28.20
+      version: 0.28.20
     typedoc-plugin-markdown:
       specifier: 4.11.0
       version: 4.11.0
@@ -1381,10 +1381,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1430,10 +1430,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1479,10 +1479,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1528,10 +1528,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1577,10 +1577,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1626,10 +1626,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1675,10 +1675,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1724,10 +1724,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1761,10 +1761,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1810,10 +1810,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1859,10 +1859,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1908,10 +1908,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1954,10 +1954,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2003,10 +2003,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2052,10 +2052,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2101,10 +2101,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2150,10 +2150,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2199,10 +2199,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2233,10 +2233,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2279,10 +2279,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2328,10 +2328,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2377,10 +2377,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2411,10 +2411,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2523,7 +2523,7 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2566,10 +2566,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2615,10 +2615,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2649,10 +2649,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2698,10 +2698,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2747,10 +2747,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2787,10 +2787,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2827,10 +2827,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2895,10 +2895,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2955,7 +2955,7 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2998,10 +2998,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3047,10 +3047,10 @@ importers:
         version: 9.0.0(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       typedoc:
         specifier: 'catalog:'
-        version: 0.28.19(typescript@5.9.3)
+        version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: 'catalog:'
-        version: 4.11.0(typedoc@0.28.19(typescript@5.9.3))
+        version: 4.11.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9704,8 +9704,8 @@ packages:
     peerDependencies:
       typedoc: 0.28.x
 
-  typedoc@0.28.19:
-    resolution: {integrity: sha512-wKh+lhdmMFivMlc6vRRcMGXeGEHGU2g8a2CkPTJjJlwRf1iXbimWIPcFolCqe4E0d/FRtGszpIrsp3WLpDB8Pw==}
+  typedoc@0.28.20:
+    resolution: {integrity: sha512-uSKqkh8Cr48vllnEy+jdaAgOeR6Y+QCBW7usgUsKj7gJEfR7stw9U/fE49LBnj2tPRKPY0c0EBJSWe9Appmplg==}
     engines: {node: '>= 18', pnpm: '>= 10'}
     hasBin: true
     peerDependencies:
@@ -14297,7 +14297,7 @@ snapshots:
   eslint-scope@9.1.2:
     dependencies:
       '@types/esrecurse': 4.3.1
-      '@types/estree': 1.0.9
+      '@types/estree': 1.0.10
       esrecurse: 4.3.0
       estraverse: 5.3.0
 
@@ -14316,7 +14316,7 @@ snapshots:
       '@humanfs/node': 0.16.8
       '@humanwhocodes/module-importer': 1.0.1
       '@humanwhocodes/retry': 0.4.3
-      '@types/estree': 1.0.9
+      '@types/estree': 1.0.10
       ajv: 6.15.0
       cross-spawn: 7.0.6
       debug: 4.4.3
@@ -16632,18 +16632,18 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
 
-  typedoc-plugin-markdown@4.11.0(typedoc@0.28.19(typescript@5.9.3)):
+  typedoc-plugin-markdown@4.11.0(typedoc@0.28.20(typescript@5.9.3)):
     dependencies:
-      typedoc: 0.28.19(typescript@5.9.3)
+      typedoc: 0.28.20(typescript@5.9.3)
 
-  typedoc@0.28.19(typescript@5.9.3):
+  typedoc@0.28.20(typescript@5.9.3):
     dependencies:
       '@gerrit0/mini-shiki': 3.23.0
       lunr: 2.3.9
       markdown-it: 14.3.3
       minimatch: 10.2.6
       typescript: 5.9.3
-      yaml: 2.8.3
+      yaml: 2.9.1
 
   typescript@5.9.3: {}
 
