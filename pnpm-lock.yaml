@@ -76,8 +76,8 @@ catalogs:
       specifier: 6.0.185
       version: 6.0.185
     baseline-browser-mapping:
-      specifier: 2.11.21
-      version: 2.11.21
+      specifier: 2.11.35
+      version: 2.11.35
     dompurify:
       specifier: 3.4.17
       version: 3.4.17
@@ -253,7 +253,7 @@ importers:
         version: 19.2.5(@types/react@19.2.18)
       baseline-browser-mapping:
         specifier: 'catalog:'
-        version: 2.11.21
+        version: 2.11.35
       source-map-js:
         specifier: 'catalog:'
         version: 1.2.2
@@ -6958,6 +6958,11 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+  baseline-browser-mapping@2.11.35:
+    resolution: {integrity: sha512-GNk8KX52CHqeNKGk8+7tZnQab/2k1t/BgrUHPKNdijzpEhF1saPQZHVKb6m5loSAxB39gyrTYw34Qf9CQ3u1qQ==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
   bcrypt-ts@5.0.3:
     resolution: {integrity: sha512-2FcgD12xPbwCoe5i9/HK0jJ1xA1m+QfC1e6htG9Bl/hNOnLyaFmQSlqLKcfe3QdnoMPKpKEGFCbESBTg+SJNOw==}
     engines: {node: '>=18'}
@@ -13274,6 +13279,8 @@ snapshots:
 
   baseline-browser-mapping@2.11.21: {}
 
+  baseline-browser-mapping@2.11.35: {}
+
   bcrypt-ts@5.0.3: {}
 
   better-path-resolve@1.0.0:
@@ -13297,7 +13304,7 @@ snapshots:
 
   browserslist@4.28.2:
     dependencies:
-      baseline-browser-mapping: 2.11.21
+      baseline-browser-mapping: 2.11.35
       caniuse-lite: 1.0.30001791
       electron-to-chromium: 1.5.356
       node-releases: 2.0.44
