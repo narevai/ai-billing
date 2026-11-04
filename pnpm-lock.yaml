@@ -115,8 +115,8 @@ catalogs:
       specifier: 1.57.0
       version: 1.57.0
     postcss:
-      specifier: 8.5.26
-      version: 8.5.26
+      specifier: 8.5.32
+      version: 8.5.32
     prosemirror-example-setup:
       specifier: 1.2.3
       version: 1.2.3
@@ -208,7 +208,7 @@ importers:
         version: 1.57.0
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       turbo:
         specifier: 'catalog:'
         version: 2.9.14
@@ -533,7 +533,7 @@ importers:
         version: 1.57.0
       postcss:
         specifier: 'catalog:'
-        version: 8.5.26
+        version: 8.5.32
       tailwindcss:
         specifier: ^4.1.13
         version: 4.2.4
@@ -1018,7 +1018,7 @@ importers:
         version: 1.57.0
       postcss:
         specifier: 'catalog:'
-        version: 8.5.26
+        version: 8.5.32
       tailwindcss:
         specifier: ^4.1.13
         version: 4.2.4
@@ -1332,7 +1332,7 @@ importers:
         version: 1.57.0
       postcss:
         specifier: 'catalog:'
-        version: 8.5.26
+        version: 8.5.32
       tailwindcss:
         specifier: ^4.1.13
         version: 4.2.4
@@ -1378,7 +1378,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -1427,7 +1427,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -1476,7 +1476,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -1525,7 +1525,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -1574,7 +1574,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -1623,7 +1623,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -1672,7 +1672,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -1721,7 +1721,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -1758,7 +1758,7 @@ importers:
         version: 5.0.0
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -1807,7 +1807,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -1856,7 +1856,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -1905,7 +1905,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -1951,7 +1951,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2000,7 +2000,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2049,7 +2049,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2098,7 +2098,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2147,7 +2147,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2196,7 +2196,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2230,7 +2230,7 @@ importers:
         version: 5.0.0
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2276,7 +2276,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2325,7 +2325,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2374,7 +2374,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2408,7 +2408,7 @@ importers:
         version: 5.0.0
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2520,7 +2520,7 @@ importers:
         version: 1.57.0
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2563,7 +2563,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2612,7 +2612,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2646,7 +2646,7 @@ importers:
         version: 5.0.0
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2695,7 +2695,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2744,7 +2744,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2784,7 +2784,7 @@ importers:
         version: 5.0.0
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2824,7 +2824,7 @@ importers:
         version: 5.0.0
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2855,7 +2855,7 @@ importers:
         version: link:../typescript-config
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2892,7 +2892,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2919,7 +2919,7 @@ importers:
         version: 4.0.10
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2952,7 +2952,7 @@ importers:
         version: 1.57.0
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -2995,7 +2995,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -3044,7 +3044,7 @@ importers:
         version: ai@6.0.185(zod@4.6.7)
       tsup:
         specifier: 'catalog:'
-        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
+        version: 8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@5.9.3)
@@ -6188,6 +6188,7 @@ packages:
   '@smithy/core@3.33.3':
     resolution: {integrity: sha512-CsOeKq/9kA3y6VJHt+/+VTCtBaxJ4OTFpgrjIUhPpDIKxBci1k2bJaQASF2h/ELWrulGp+t97DZ0mevfAD8idg==}
     engines: {node: '>=18.0.0'}
+    deprecated: Deprecated due to a bug in custom logger data redaction. See https://github.com/aws/aws-sdk-js-v3/issues/8393.
 
   '@smithy/eventstream-codec@4.5.2':
     resolution: {integrity: sha512-u4EAkaviMcQYlorFSnxFUgF/Dnbgiu2TzGmqOU4h3CL4MbvrYyNCXpFkcBwvAEU11EvspKX2zzS2uX7q+43VdQ==}
@@ -8808,6 +8809,10 @@ packages:
 
   postcss@8.5.26:
     resolution: {integrity: sha512-u82N74LFzG8ca+dD8puPnplTXoGH4fTPpVGuIbt36G3qvNlkvfD0lEAZSxaly3KX8TS/L1A1gsCEmvKmBcVbkQ==}
+    engines: {node: ^10 || ^12 || >=14}
+
+  postcss@8.5.32:
+    resolution: {integrity: sha512-LJlKCCAUFKOuZxipUdYw1NzIITEsPcgyOG9LkvRJvuKj/bRzbuRY0ARXvL0pWGpsZvn8jku+LMep2eU0seHp8g==}
     engines: {node: ^10 || ^12 || >=14}
 
   postgres@3.4.9:
@@ -12700,7 +12705,7 @@ snapshots:
       '@alloc/quick-lru': 5.2.0
       '@tailwindcss/node': 4.2.4
       '@tailwindcss/oxide': 4.2.4
-      postcss: 8.5.26
+      postcss: 8.5.32
       tailwindcss: 4.2.4
 
   '@tailwindcss/typography@0.5.19(tailwindcss@4.2.4)':
@@ -15403,12 +15408,12 @@ snapshots:
       path-data-parser: 0.1.0
       points-on-curve: 0.2.0
 
-  postcss-load-config@6.0.1(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(yaml@2.8.3):
+  postcss-load-config@6.0.1(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(yaml@2.8.3):
     dependencies:
       lilconfig: 3.1.3
     optionalDependencies:
       jiti: 2.6.1
-      postcss: 8.5.26
+      postcss: 8.5.32
       tsx: 4.21.0
       yaml: 2.8.3
 
@@ -15424,6 +15429,12 @@ snapshots:
       source-map-js: 1.2.2
 
   postcss@8.5.26:
+    dependencies:
+      nanoid: 3.3.20
+      picocolors: 1.1.1
+      source-map-js: 1.2.2
+
+  postcss@8.5.32:
     dependencies:
       nanoid: 3.3.20
       picocolors: 1.1.1
@@ -16208,7 +16219,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tsup@8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3):
+  tsup@8.5.1(@microsoft/api-extractor@7.58.7(@types/node@22.19.15))(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.3):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.27.4)
       cac: 6.7.14
@@ -16219,7 +16230,7 @@ snapshots:
       fix-dts-default-cjs-exports: 1.0.1
       joycon: 3.1.1
       picocolors: 1.1.1
-      postcss-load-config: 6.0.1(jiti@2.6.1)(postcss@8.5.26)(tsx@4.21.0)(yaml@2.8.3)
+      postcss-load-config: 6.0.1(jiti@2.6.1)(postcss@8.5.32)(tsx@4.21.0)(yaml@2.8.3)
       resolve-from: 5.0.0
       rollup: 4.60.0
       source-map: 0.7.6
@@ -16229,7 +16240,7 @@ snapshots:
       tree-kill: 1.2.2
     optionalDependencies:
       '@microsoft/api-extractor': 7.58.7(@types/node@22.19.15)
-      postcss: 8.5.26
+      postcss: 8.5.32
       typescript: 5.9.3
     transitivePeerDependencies:
       - jiti
