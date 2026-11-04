@@ -130,8 +130,8 @@ catalogs:
       specifier: 1.25.12
       version: 1.25.12
     prosemirror-schema-basic:
-      specifier: 1.2.3
-      version: 1.2.3
+      specifier: 1.2.5
+      version: 1.2.5
     prosemirror-schema-list:
       specifier: 1.4.1
       version: 1.4.1
@@ -439,7 +439,7 @@ importers:
         version: 1.25.12
       prosemirror-schema-basic:
         specifier: 'catalog:'
-        version: 1.2.3
+        version: 1.2.5
       prosemirror-schema-list:
         specifier: 'catalog:'
         version: 1.4.1
@@ -924,7 +924,7 @@ importers:
         version: 1.25.12
       prosemirror-schema-basic:
         specifier: 'catalog:'
-        version: 1.2.3
+        version: 1.2.5
       prosemirror-schema-list:
         specifier: 'catalog:'
         version: 1.4.1
@@ -1238,7 +1238,7 @@ importers:
         version: 1.25.12
       prosemirror-schema-basic:
         specifier: 'catalog:'
-        version: 1.2.3
+        version: 1.2.5
       prosemirror-schema-list:
         specifier: 'catalog:'
         version: 1.4.1
@@ -9007,8 +9007,8 @@ packages:
   prosemirror-model@1.25.12:
     resolution: {integrity: sha512-Ue2gTmXMa7EhpLNhC7J+h4+ykD8ha12K6rrZFFKKJHBForfIStw5gJ6Zrf1mqqAa9NmpmEB4wp9bKmA4eUVjWg==}
 
-  prosemirror-schema-basic@1.2.3:
-    resolution: {integrity: sha512-h+H0OQwZVqMon1PNn0AG9cTfx513zgIG2DY00eJ00Yvgb3UD+GQ/VlWW5rcaxacpCGT1Yx8nuhwXk4+QbXUfJA==}
+  prosemirror-schema-basic@1.2.5:
+    resolution: {integrity: sha512-McBWhfgOfThyu3Nltbs8SOUbM4t/h0pxteibaaHd1QR4S+F1t0u7M1ETaCE6/cveFoF+2fowTIBNkJOyeZQjNg==}
 
   prosemirror-schema-list@1.4.1:
     resolution: {integrity: sha512-jbDyaP/6AFfDfu70VzySsD75Om2t3sXTOdl5+31Wlxlg62td1haUpty/ybajSfJ1pkGadlOfwQq9kgW5IMo1Rg==}
@@ -15774,7 +15774,7 @@ snapshots:
     dependencies:
       orderedmap: 2.1.1
 
-  prosemirror-schema-basic@1.2.3:
+  prosemirror-schema-basic@1.2.5:
     dependencies:
       prosemirror-model: 1.25.12
 

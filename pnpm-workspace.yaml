@@ -81,6 +81,6 @@ catalogs:
     prosemirror-view: '1.42.3'
     prosemirror-example-setup: '1.2.3'
     prosemirror-inputrules: '1.4.0'
-    prosemirror-schema-basic: '1.2.3'
+    prosemirror-schema-basic: '1.2.5'
     prosemirror-schema-list: '1.4.1'
     prosemirror-state: '1.4.3'
