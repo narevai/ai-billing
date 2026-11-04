@@ -1,4 +1,6 @@
-![ai-billing](/assets/logo.svg)
+<p align="center">
+  <img src="/assets/logo.svg" alt="ai-billing" width="128" />
+</p>
 
 # [ai-billing](https://github.com/narevai/ai-billing)
 
