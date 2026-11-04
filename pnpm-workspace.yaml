@@ -12,7 +12,7 @@ allowBuilds:
   sharp: false
 
 overrides:
-  '@ai-sdk/provider-utils': '>=4.0.33'
+  '@ai-sdk/provider-utils': '4.0.50'
   '@opentelemetry/core': '>=2.8.0'
   '@opentelemetry/resources': '>=2.8.0'
   baseline-browser-mapping: '>=2.11.0'
