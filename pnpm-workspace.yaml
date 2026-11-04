@@ -83,4 +83,4 @@ catalogs:
     prosemirror-inputrules: '1.4.0'
     prosemirror-schema-basic: '1.2.5'
     prosemirror-schema-list: '1.4.1'
-    prosemirror-state: '1.4.3'
+    prosemirror-state: '1.4.4'
