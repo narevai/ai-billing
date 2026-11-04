@@ -124,8 +124,8 @@ catalogs:
       specifier: 1.4.0
       version: 1.4.0
     prosemirror-markdown:
-      specifier: 1.13.2
-      version: 1.13.2
+      specifier: 1.13.9
+      version: 1.13.9
     prosemirror-model:
       specifier: 1.25.12
       version: 1.25.12
@@ -433,7 +433,7 @@ importers:
         version: 1.4.0
       prosemirror-markdown:
         specifier: 'catalog:'
-        version: 1.13.2
+        version: 1.13.9
       prosemirror-model:
         specifier: 'catalog:'
         version: 1.25.12
@@ -918,7 +918,7 @@ importers:
         version: 1.4.0
       prosemirror-markdown:
         specifier: 'catalog:'
-        version: 1.13.2
+        version: 1.13.9
       prosemirror-model:
         specifier: 'catalog:'
         version: 1.25.12
@@ -1232,7 +1232,7 @@ importers:
         version: 1.4.0
       prosemirror-markdown:
         specifier: 'catalog:'
-        version: 1.13.2
+        version: 1.13.9
       prosemirror-model:
         specifier: 'catalog:'
         version: 1.25.12
@@ -8869,8 +8869,8 @@ packages:
   prosemirror-keymap@1.2.3:
     resolution: {integrity: sha512-4HucRlpiLd1IPQQXNqeo81BGtkY8Ai5smHhKW9jjPKRc2wQIxksg7Hl1tTI2IfT2B/LgX6bfYvXxEpJl7aKYKw==}
 
-  prosemirror-markdown@1.13.2:
-    resolution: {integrity: sha512-FPD9rHPdA9fqzNmIIDhhnYQ6WgNoSWX9StUZ8LEKapaXU9i6XgykaHKhp6XMyXlOWetmaFgGDS/nu/w9/vUc5g==}
+  prosemirror-markdown@1.13.9:
+    resolution: {integrity: sha512-qAI3I9YdtjWHjTCBErc08ivr24KSrUjcTh5dYncCxFM+JS02kT0iHeWYjO35xeTPwt5t8rhFrelewXhXz16WZQ==}
 
   prosemirror-menu@1.3.2:
     resolution: {integrity: sha512-6VgUJTYod0nMBlCaYJGhXGLu7Gt4AvcwcOq0YfJCY/6Uh+3S7UsWhpy6rJFCBFOmonq1hD8KyWOtZhkppd4YPg==}
@@ -15515,7 +15515,7 @@ snapshots:
       prosemirror-state: 1.4.3
       w3c-keyname: 2.2.8
 
-  prosemirror-markdown@1.13.2:
+  prosemirror-markdown@1.13.9:
     dependencies:
       '@types/markdown-it': 14.1.2
       markdown-it: 14.3.3
