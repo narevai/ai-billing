@@ -13,6 +13,12 @@
     "apps/storybook/**"
   ],
   "workspaces": {
+    "packages/nextjs": {
+      "ignoreDependencies": ["jsondiffpatch"]
+    },
+    "packages/openrouter": {
+      "ignoreDependencies": ["undici"]
+    },
     "examples/dev-sandbox": {
       "ignoreDependencies": ["@basetenlabs/performance-client"]
     }

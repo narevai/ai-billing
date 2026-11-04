@@ -50,7 +50,6 @@ catalogs:
     react: '19.2.4'
     react-dom: '19.2.4'
     postcss: '8.5.26'
-    sharp: '0.35.5'
 
     # Storybook
     '@storybook/addon-docs': '10.4.0'
