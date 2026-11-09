@@ -46,9 +46,9 @@ catalogs:
     ky: '2.0.2'
 
     # Next.js & React
-    next: '16.4.1'
-    react: '19.2.4'
-    react-dom: '19.2.4'
+    next: '16.4.6'
+    react: '19.3.1'
+    react-dom: '19.3.1'
     postcss: '8.5.32'
 
     # Storybook
