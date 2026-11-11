@@ -2933,7 +2933,7 @@ importers:
         version: link:../types
       markdown-to-jsx:
         specifier: ^9.8.1
-        version: 9.8.1(react@19.2.4)
+        version: 9.10.6(react@19.2.4)
       react:
         specifier: ^18 || ^19
         version: 19.2.4
@@ -4302,8 +4302,8 @@ packages:
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
 
-  '@eslint-community/regexpp@4.12.2':
-    resolution: {integrity: sha512-EriSTlt5OC9/7SXkRSCAhfSxxoSUgBm33OH+IkwbdpgoqsSsUg7y3uh+IICI/Qg4BBWr3U2i39RpmycbxMq4ew==}
+  '@eslint-community/regexpp@4.12.3':
+    resolution: {integrity: sha512-R76UKbvsqI68DJJVTVyqFKqU98CN4+B+acxNfEA2IFarSzP0SjtKf/3+fFiXzTyv5Fj3PxLkGHe2wnVWWMxobQ==}
     engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
 
   '@eslint/config-array@0.23.5':
@@ -4606,8 +4606,14 @@ packages:
   '@microsoft/tsdoc-config@0.18.1':
     resolution: {integrity: sha512-9brPoVdfN9k9g0dcWkFeA7IH9bbcttzDJlXvkf8b2OBzd5MueR1V2wkKBL0abn0otvmkHJC6aapBOTJDDeMCZg==}
 
+  '@microsoft/tsdoc-config@0.18.3':
+    resolution: {integrity: sha512-0I0rGXo1eJziw3EEErkDS9p/0RzBcyOiV+zbSDqOZTeURmhtut+WIvpih0LM5g+ZpZ9SyFxDfkhAcl/r8e2zGw==}
+
   '@microsoft/tsdoc@0.16.0':
     resolution: {integrity: sha512-xgAyonlVVS+q7Vc7qLW0UrJU7rSFcETRWsqdXZtjzRU8dF+6CkozTK4V4y1LwOX7j8r/vHphjDeMeGI4tNGeGA==}
+
+  '@microsoft/tsdoc@0.17.1':
+    resolution: {integrity: sha512-VHyYyyoH63jFoO3shpw9Zfijk5v/9p/VrClW35z0/q6ooK7sSmxpzOkS4iZPxs3vO4XtBW4H38HRAKkAMIK7DA==}
 
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
     resolution: {integrity: sha512-oTXEIha4SsuXdTA4Iyskj0kpdx2yVXdhd75c2v3xGrHFfVMsbhTPZU/nMPL4sWKo4pBHm3aucLaqGlF696dTyQ==}
@@ -6519,7 +6525,9 @@ packages:
   '@smithy/core@3.33.3':
     resolution: {integrity: sha512-CsOeKq/9kA3y6VJHt+/+VTCtBaxJ4OTFpgrjIUhPpDIKxBci1k2bJaQASF2h/ELWrulGp+t97DZ0mevfAD8idg==}
     engines: {node: '>=18.0.0'}
-    deprecated: Deprecated due to a bug in custom logger data redaction. See https://github.com/aws/aws-sdk-js-v3/issues/8393.
+    deprecated: |-
+      Deprecated due to a bug in custom logger data redaction. Upgrade to the latest version. If you used a custom logger with this
+        version, review your logs and rotate any credentials or other secrets. See https://github.com/aws/aws-sdk-js-v3/issues/8393.
 
   '@smithy/eventstream-codec@4.5.2':
     resolution: {integrity: sha512-u4EAkaviMcQYlorFSnxFUgF/Dnbgiu2TzGmqOU4h3CL4MbvrYyNCXpFkcBwvAEU11EvspKX2zzS2uX7q+43VdQ==}
@@ -7333,6 +7341,10 @@ packages:
         optional: true
       react:
         optional: true
+
+  brace-expansion@5.0.13:
+    resolution: {integrity: sha512-Vh3dmFbc4wZeox7M9I/0L9GfFd83Su4+yCck/OF9Gi/P/dAHn0RT7X4K9R7gMNMhDck3DvhR6QXsnQdjjgwNvQ==}
+    engines: {node: 20 || >=22}
 
   brace-expansion@5.0.9:
     resolution: {integrity: sha512-ScQ4IuvIEF1TMlP7Zt+vjJ//9zlPb2SDcxWxM3bk8s6t6GGdJ7KO1dCcTidOPJKePW30LE/2cT7wCyPho9/Wxg==}
@@ -8160,6 +8172,10 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
+  hasown@2.0.4:
+    resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
+    engines: {node: '>= 0.4'}
+
   hast-util-from-dom@5.0.1:
     resolution: {integrity: sha512-N+LqofjR2zuzTjCPzyDUdSshy4Ma6li7p/c3pA78uTwzFgENbgbUrm2ugwsOdcjI1muO+o6Dgzp9p8WHtn/39Q==}
 
@@ -8264,6 +8280,10 @@ packages:
 
   is-core-module@2.16.1:
     resolution: {integrity: sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==}
+    engines: {node: '>= 0.4'}
+
+  is-core-module@2.18.0:
+    resolution: {integrity: sha512-qyax9fgaKOEC4qK8WZn7Q4IcoZC9RC1O1fFxRcRTq/oMMkWT/uXpqpXa12kzWR409zAt1drYN9N9BO26UmBCmw==}
     engines: {node: '>= 0.4'}
 
   is-decimal@2.0.1:
@@ -8554,8 +8574,8 @@ packages:
   markdown-table@3.0.4:
     resolution: {integrity: sha512-wiYz4+JrLyb/DqW2hkFJxP7Vd7JuTDm77fvbM8VfEQdmSMqcImWeeRbHwZjBjIFki/VaMK2BhFi7oUUZeM5bqw==}
 
-  markdown-to-jsx@9.8.1:
-    resolution: {integrity: sha512-yq70dLPkBnE2LYFtGTLfRes4qyBDS+a4wDttAA/b/BzVGrbs2e0TfCeSFrMkapCg1lsxYi+42BowuBDxLP9k4Q==}
+  markdown-to-jsx@9.10.6:
+    resolution: {integrity: sha512-vvd4cMAAK6RDCzklzRYykG8Tos1Wyid8IoxenyiSAnGb1JIX2fTzn6MuU5QBu9Kb4BdjOCnKlbs84NQRVsaaVA==}
     engines: {node: '>= 18'}
     peerDependencies:
       react: '>= 16.0.0'
@@ -9330,6 +9350,11 @@ packages:
 
   resolve@1.22.12:
     resolution: {integrity: sha512-TyeJ1zif53BPfHootBGwPRYT1RUt6oGWsaQr8UyZW/eAm9bKoijtvruSDEmZHm92CwS9nj7/fWttqPCgzep8CA==}
+    engines: {node: '>= 0.4'}
+    hasBin: true
+
+  resolve@1.22.14:
+    resolution: {integrity: sha512-1ZjYvR9sbkiwC5+9QHetqW5HmA2pHRMaoupD01t2HlYnV/vydC2zPwLixhsMieSWVZt0JJRg5LVIk0Ow1D/TrA==}
     engines: {node: '>= 0.4'}
     hasBin: true
 
@@ -11090,7 +11115,7 @@ snapshots:
       eslint: 10.2.0(jiti@2.6.1)
       eslint-visitor-keys: 3.4.3
 
-  '@eslint-community/regexpp@4.12.2': {}
+  '@eslint-community/regexpp@4.12.3': {}
 
   '@eslint/config-array@0.23.5':
     dependencies:
@@ -11346,7 +11371,7 @@ snapshots:
   '@microsoft/api-extractor-model@7.33.8(@types/node@22.19.15)':
     dependencies:
       '@microsoft/tsdoc': 0.16.0
-      '@microsoft/tsdoc-config': 0.18.1
+      '@microsoft/tsdoc-config': 0.18.3
       '@rushstack/node-core-library': 5.23.1(@types/node@22.19.15)
     transitivePeerDependencies:
       - '@types/node'
@@ -11356,14 +11381,14 @@ snapshots:
     dependencies:
       '@microsoft/api-extractor-model': 7.33.8(@types/node@22.19.15)
       '@microsoft/tsdoc': 0.16.0
-      '@microsoft/tsdoc-config': 0.18.1
+      '@microsoft/tsdoc-config': 0.18.3
       '@rushstack/node-core-library': 5.23.1(@types/node@22.19.15)
       '@rushstack/rig-package': 0.7.3
       '@rushstack/terminal': 0.24.0(@types/node@22.19.15)
       '@rushstack/ts-command-line': 5.3.9(@types/node@22.19.15)
       diff: 8.0.4
       minimatch: 10.2.3
-      resolve: 1.22.12
+      resolve: 1.22.14
       semver: 7.7.4
       source-map: 0.6.1
       typescript: 5.9.3
@@ -11378,7 +11403,18 @@ snapshots:
       jju: 1.4.0
       resolve: 1.22.12
 
+  '@microsoft/tsdoc-config@0.18.3':
+    dependencies:
+      '@microsoft/tsdoc': 0.17.1
+      ajv: 8.18.0
+      jju: 1.4.0
+      resolve: 1.22.14
+    optional: true
+
   '@microsoft/tsdoc@0.16.0': {}
+
+  '@microsoft/tsdoc@0.17.1':
+    optional: true
 
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
     optional: true
@@ -12818,7 +12854,7 @@ snapshots:
       fs-extra: 11.3.6
       import-lazy: 4.0.0
       jju: 1.4.0
-      resolve: 1.22.12
+      resolve: 1.22.14
       semver: 7.7.4
     optionalDependencies:
       '@types/node': 22.19.15
@@ -12832,7 +12868,7 @@ snapshots:
   '@rushstack/rig-package@0.7.3':
     dependencies:
       jju: 1.4.0
-      resolve: 1.22.12
+      resolve: 1.22.14
     optional: true
 
   '@rushstack/terminal@0.24.0(@types/node@22.19.15)':
@@ -13718,6 +13754,11 @@ snapshots:
       next: 16.4.1(@opentelemetry/api@1.9.1)(@playwright/test@1.59.1)(@types/node@22.19.15)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react: 19.2.4
 
+  brace-expansion@5.0.13:
+    dependencies:
+      balanced-match: 4.0.4
+    optional: true
+
   brace-expansion@5.0.9:
     dependencies:
       balanced-match: 4.0.4
@@ -14297,7 +14338,7 @@ snapshots:
   eslint-scope@9.1.2:
     dependencies:
       '@types/esrecurse': 4.3.1
-      '@types/estree': 1.0.9
+      '@types/estree': 1.0.10
       esrecurse: 4.3.0
       estraverse: 5.3.0
 
@@ -14308,7 +14349,7 @@ snapshots:
   eslint@10.2.0(jiti@2.6.1):
     dependencies:
       '@eslint-community/eslint-utils': 4.10.1(eslint@10.2.0(jiti@2.6.1))
-      '@eslint-community/regexpp': 4.12.2
+      '@eslint-community/regexpp': 4.12.3
       '@eslint/config-array': 0.23.5
       '@eslint/config-helpers': 0.5.5
       '@eslint/core': 1.2.1
@@ -14316,7 +14357,7 @@ snapshots:
       '@humanfs/node': 0.16.8
       '@humanwhocodes/module-importer': 1.0.1
       '@humanwhocodes/retry': 0.4.3
-      '@types/estree': 1.0.9
+      '@types/estree': 1.0.10
       ajv: 6.15.0
       cross-spawn: 7.0.6
       debug: 4.4.3
@@ -14556,6 +14597,11 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
+  hasown@2.0.4:
+    dependencies:
+      function-bind: 1.1.2
+    optional: true
+
   hast-util-from-dom@5.0.1:
     dependencies:
       '@types/hast': 3.0.4
@@ -14735,6 +14781,11 @@ snapshots:
   is-core-module@2.16.1:
     dependencies:
       hasown: 2.0.2
+
+  is-core-module@2.18.0:
+    dependencies:
+      hasown: 2.0.4
+    optional: true
 
   is-decimal@2.0.1: {}
 
@@ -14983,7 +15034,7 @@ snapshots:
 
   markdown-table@3.0.4: {}
 
-  markdown-to-jsx@9.8.1(react@19.2.4):
+  markdown-to-jsx@9.10.6(react@19.2.4):
     optionalDependencies:
       react: 19.2.4
 
@@ -15427,7 +15478,7 @@ snapshots:
 
   minimatch@10.2.3:
     dependencies:
-      brace-expansion: 5.0.9
+      brace-expansion: 5.0.13
     optional: true
 
   minimatch@10.2.6:
@@ -16209,6 +16260,14 @@ snapshots:
       is-core-module: 2.16.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
+
+  resolve@1.22.14:
+    dependencies:
+      es-errors: 1.3.0
+      is-core-module: 2.18.0
+      path-parse: 1.0.7
+      supports-preserve-symlinks-flag: 1.0.0
+    optional: true
 
   reusify@1.1.0: {}
 
