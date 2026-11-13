@@ -121,8 +121,8 @@ catalogs:
       specifier: 1.2.3
       version: 1.2.3
     prosemirror-inputrules:
-      specifier: 1.4.0
-      version: 1.4.0
+      specifier: 1.6.0
+      version: 1.6.0
     prosemirror-markdown:
       specifier: 1.13.9
       version: 1.13.9
@@ -430,7 +430,7 @@ importers:
         version: 1.2.3
       prosemirror-inputrules:
         specifier: 'catalog:'
-        version: 1.4.0
+        version: 1.6.0
       prosemirror-markdown:
         specifier: 'catalog:'
         version: 1.13.9
@@ -915,7 +915,7 @@ importers:
         version: 1.2.3
       prosemirror-inputrules:
         specifier: 'catalog:'
-        version: 1.4.0
+        version: 1.6.0
       prosemirror-markdown:
         specifier: 'catalog:'
         version: 1.13.9
@@ -1229,7 +1229,7 @@ importers:
         version: 1.2.3
       prosemirror-inputrules:
         specifier: 'catalog:'
-        version: 1.4.0
+        version: 1.6.0
       prosemirror-markdown:
         specifier: 'catalog:'
         version: 1.13.9
@@ -6519,7 +6519,9 @@ packages:
   '@smithy/core@3.33.3':
     resolution: {integrity: sha512-CsOeKq/9kA3y6VJHt+/+VTCtBaxJ4OTFpgrjIUhPpDIKxBci1k2bJaQASF2h/ELWrulGp+t97DZ0mevfAD8idg==}
     engines: {node: '>=18.0.0'}
-    deprecated: Deprecated due to a bug in custom logger data redaction. See https://github.com/aws/aws-sdk-js-v3/issues/8393.
+    deprecated: |-
+      Deprecated due to a bug in custom logger data redaction. Upgrade to the latest version. If you used a custom logger with this
+        version, review your logs and rotate any credentials or other secrets. See https://github.com/aws/aws-sdk-js-v3/issues/8393.
 
   '@smithy/eventstream-codec@4.5.2':
     resolution: {integrity: sha512-u4EAkaviMcQYlorFSnxFUgF/Dnbgiu2TzGmqOU4h3CL4MbvrYyNCXpFkcBwvAEU11EvspKX2zzS2uX7q+43VdQ==}
@@ -9127,8 +9129,8 @@ packages:
   prosemirror-history@1.5.0:
     resolution: {integrity: sha512-zlzTiH01eKA55UAf1MEjtssJeHnGxO0j4K4Dpx+gnmX9n+SHNlDqI2oO1Kv1iPN5B1dm5fsljCfqKF9nFL6HRg==}
 
-  prosemirror-inputrules@1.4.0:
-    resolution: {integrity: sha512-6ygpPRuTJ2lcOXs9JkefieMst63wVJBgHZGl5QOytN7oSZs3Co/BYbc3Yx9zm9H37Bxw8kVzCnDsihsVsL4yEg==}
+  prosemirror-inputrules@1.6.0:
+    resolution: {integrity: sha512-e/Ukf5qy6Pq49l7M7/ObOQThIyBR2Is5g2qJq4e6LXKuCGr66/Rr4MjghkL3kB5ty4MOG92P8LyqwC5ET7Qx7g==}
 
   prosemirror-keymap@1.2.3:
     resolution: {integrity: sha512-4HucRlpiLd1IPQQXNqeo81BGtkY8Ai5smHhKW9jjPKRc2wQIxksg7Hl1tTI2IfT2B/LgX6bfYvXxEpJl7aKYKw==}
@@ -14297,7 +14299,7 @@ snapshots:
   eslint-scope@9.1.2:
     dependencies:
       '@types/esrecurse': 4.3.1
-      '@types/estree': 1.0.9
+      '@types/estree': 1.0.10
       esrecurse: 4.3.0
       estraverse: 5.3.0
 
@@ -14316,7 +14318,7 @@ snapshots:
       '@humanfs/node': 0.16.8
       '@humanwhocodes/module-importer': 1.0.1
       '@humanwhocodes/retry': 0.4.3
-      '@types/estree': 1.0.9
+      '@types/estree': 1.0.10
       ajv: 6.15.0
       cross-spawn: 7.0.6
       debug: 4.4.3
@@ -15870,7 +15872,7 @@ snapshots:
       prosemirror-dropcursor: 1.8.2
       prosemirror-gapcursor: 1.4.1
       prosemirror-history: 1.5.0
-      prosemirror-inputrules: 1.4.0
+      prosemirror-inputrules: 1.6.0
       prosemirror-keymap: 1.2.3
       prosemirror-menu: 1.3.2
       prosemirror-schema-list: 1.4.1
@@ -15890,7 +15892,7 @@ snapshots:
       prosemirror-view: 1.42.3
       rope-sequence: 1.3.4
 
-  prosemirror-inputrules@1.4.0:
+  prosemirror-inputrules@1.6.0:
     dependencies:
       prosemirror-state: 1.4.3
       prosemirror-transform: 1.12.0
