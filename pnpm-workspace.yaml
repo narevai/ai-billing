@@ -34,11 +34,11 @@ catalogs:
     turbo: '2.9.14'
 
     # AI SDK Stack
-    ai: '6.0.185'
-    '@ai-sdk/openai': '3.0.106'
+    ai: '7.0.173'
+    '@ai-sdk/openai': '4.0.118'
     '@ai-sdk/provider': '4.0.10'
-    '@ai-sdk/rsc': '2.0.322'
-    '@openrouter/ai-sdk-provider': '2.3.3'
+    '@ai-sdk/rsc': '3.0.173'
+    '@openrouter/ai-sdk-provider': '3.1.0'
     jsondiffpatch: '0.7.7'
     undici: '7.30.1'
 
