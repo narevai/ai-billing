@@ -118,8 +118,8 @@ catalogs:
       specifier: 8.5.32
       version: 8.5.32
     prosemirror-example-setup:
-      specifier: 1.2.3
-      version: 1.2.3
+      specifier: 1.2.4
+      version: 1.2.4
     prosemirror-inputrules:
       specifier: 1.6.0
       version: 1.6.0
@@ -427,7 +427,7 @@ importers:
         version: 3.4.9
       prosemirror-example-setup:
         specifier: 'catalog:'
-        version: 1.2.3
+        version: 1.2.4
       prosemirror-inputrules:
         specifier: 'catalog:'
         version: 1.6.0
@@ -912,7 +912,7 @@ importers:
         version: 3.4.9
       prosemirror-example-setup:
         specifier: 'catalog:'
-        version: 1.2.3
+        version: 1.2.4
       prosemirror-inputrules:
         specifier: 'catalog:'
         version: 1.6.0
@@ -1226,7 +1226,7 @@ importers:
         version: 3.4.9
       prosemirror-example-setup:
         specifier: 'catalog:'
-        version: 1.2.3
+        version: 1.2.4
       prosemirror-inputrules:
         specifier: 'catalog:'
         version: 1.6.0
@@ -9148,8 +9148,8 @@ packages:
   prosemirror-dropcursor@1.8.2:
     resolution: {integrity: sha512-CCk6Gyx9+Tt2sbYk5NK0nB1ukHi2ryaRgadV/LvyNuO3ena1payM2z6Cg0vO1ebK8cxbzo41ku2DE5Axj1Zuiw==}
 
-  prosemirror-example-setup@1.2.3:
-    resolution: {integrity: sha512-+hXZi8+xbFvYM465zZH3rdZ9w7EguVKmUYwYLZjIJIjPK+I0nPTwn8j0ByW2avchVczRwZmOJGNvehblyIerSQ==}
+  prosemirror-example-setup@1.2.4:
+    resolution: {integrity: sha512-7zanBXCP5MzbLTqcjAB6MjqitFq+oAhC7k1eosQqYOuacR6rbPX5z434lI8HAmjcwpTz6uW7o9XuA6CXXuDExg==}
 
   prosemirror-gapcursor@1.4.1:
     resolution: {integrity: sha512-pMdYaEnjNMSwl11yjEGtgTmLkR08m/Vl+Jj443167p9eB3HVQKhYCc4gmHVDsLPODfZfjr/MmirsdyZziXbQKw==}
@@ -15934,7 +15934,7 @@ snapshots:
       prosemirror-transform: 1.12.0
       prosemirror-view: 1.42.9
 
-  prosemirror-example-setup@1.2.3:
+  prosemirror-example-setup@1.2.4:
     dependencies:
       prosemirror-commands: 1.7.1
       prosemirror-dropcursor: 1.8.2
