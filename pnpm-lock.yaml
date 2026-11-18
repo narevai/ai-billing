@@ -79,8 +79,8 @@ catalogs:
       specifier: 2.11.35
       version: 2.11.35
     dompurify:
-      specifier: 3.4.17
-      version: 3.4.17
+      specifier: 3.4.18
+      version: 3.4.18
     eslint-plugin-jsdoc:
       specifier: 65.4.3
       version: 65.4.3
@@ -373,7 +373,7 @@ importers:
         version: 1.0.5
       dompurify:
         specifier: 'catalog:'
-        version: 3.4.17
+        version: 3.4.18
       dotenv:
         specifier: ^16.4.5
         version: 16.6.1
@@ -858,7 +858,7 @@ importers:
         version: 1.0.5
       dompurify:
         specifier: 'catalog:'
-        version: 3.4.17
+        version: 3.4.18
       dotenv:
         specifier: ^16.4.5
         version: 16.6.1
@@ -1172,7 +1172,7 @@ importers:
         version: 1.0.5
       dompurify:
         specifier: 'catalog:'
-        version: 3.4.17
+        version: 3.4.18
       dotenv:
         specifier: ^16.4.5
         version: 16.6.1
@@ -7722,8 +7722,8 @@ packages:
   dom-accessibility-api@0.6.3:
     resolution: {integrity: sha512-7ZgogeTnjuHbo+ct10G9Ffp0mif17idi0IyWNVA/wcwcm7NPOD/WEHVP3n7n3MhXqxoIYm8d6MuZohYWIZ4T3w==}
 
-  dompurify@3.4.17:
-    resolution: {integrity: sha512-B/pSlYVHQ58kqISD/yDjuJ1yfzI34m1gF4lAod2bwSRhiN4K5Cl3H8Af7hqB2PmTL911tdEudnnXn5FnhRoz0w==}
+  dompurify@3.4.18:
+    resolution: {integrity: sha512-ofe3wI/uNm68HInABYFJYqQxRw1EaKAjNdrFVKqjUY+UZurvNd2L/HuQe097s/4RivWiZyP6tT7aoT8atjfhwg==}
 
   dotenv@16.6.1:
     resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
@@ -14094,7 +14094,7 @@ snapshots:
 
   dom-accessibility-api@0.6.3: {}
 
-  dompurify@3.4.17:
+  dompurify@3.4.18:
     optionalDependencies:
       '@types/trusted-types': 2.0.7
 
@@ -15173,7 +15173,7 @@ snapshots:
       d3-sankey: 0.12.3
       dagre-d3-es: 7.0.14
       dayjs: 1.11.23
-      dompurify: 3.4.17
+      dompurify: 3.4.18
       es-toolkit: 1.46.1
       fastdom: 1.0.12
       katex: 0.16.47
