@@ -169,8 +169,8 @@ catalogs:
       specifier: 5.9.3
       version: 5.9.3
     undici:
-      specifier: 7.30.1
-      version: 7.30.1
+      specifier: 7.30.2
+      version: 7.30.2
     vite:
       specifier: 8.1.6
       version: 8.1.6
@@ -2673,7 +2673,7 @@ importers:
         version: 2.3.3(ai@7.0.90(zod@4.6.7))(zod@4.6.7)
       undici:
         specifier: 'catalog:'
-        version: 7.30.1
+        version: 7.30.2
     devDependencies:
       '@ai-billing/testing':
         specifier: workspace:*
@@ -9784,6 +9784,10 @@ packages:
     resolution: {integrity: sha512-03KrMbjIFDWQR5RNPrSw3bd1r12JpyFQl9/yxjUbJtqkjmllqC5lFjZh6ujeuJCKr8EOQvRW872Oy/az+nLYxg==}
     engines: {node: '>=20.18.1'}
 
+  undici@7.30.2:
+    resolution: {integrity: sha512-mLyPQnHwUxaM/rideoK/+KL8DaAJLRl4aBCfmX444aCSLnIaomqPLtNRe2jdCYcsk5wZzXrDIQC8ZeYNRAYyIA==}
+    engines: {node: '>=20.18.1'}
+
   unified@11.0.5:
     resolution: {integrity: sha512-xKvGhPWw3k84Qjh8bI3ZeJjqnyadK+GEFtazSfZv/rKeTkTjOJho6mFqh2SM96iIcZokxiOpg78GazTSg8+KHA==}
 
@@ -16751,6 +16755,8 @@ snapshots:
   undici@6.29.1: {}
 
   undici@7.30.1: {}
+
+  undici@7.30.2: {}
 
   unified@11.0.5:
     dependencies:
