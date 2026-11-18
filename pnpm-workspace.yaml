@@ -49,7 +49,7 @@ catalogs:
     next: '16.4.6'
     react: '19.3.1'
     react-dom: '19.3.1'
-    postcss: '8.5.32'
+    postcss: '8.5.33'
 
     # Storybook
     '@storybook/addon-docs': '10.4.0'
