@@ -59,7 +59,7 @@ catalogs:
     storybook: '10.6.2'
     vite: '8.1.6'
     source-map-js: '1.2.2'
-    baseline-browser-mapping: '2.11.35'
+    baseline-browser-mapping: '2.11.38'
 
     # OpenTelemetry (examples)
     '@opentelemetry/api': '1.9.1'
