@@ -54,13 +54,13 @@
     "typescript": "catalog:",
     "vitest": "catalog:",
     "ai": "^7.0.0",
-    "ai-v6": "npm:ai@^6.0.138",
+    "ai-v6": "npm:ai@^7.0.0",
     "@ai-sdk/provider": "catalog:",
     "@edge-runtime/vm": "catalog:",
     "zod": "catalog:"
   },
   "peerDependencies": {
-    "@ai-sdk/google-vertex": "^3.0.0 || ^4.0.0"
+    "@ai-sdk/google-vertex": "^3.0.0 || ^4.0.0 || ^5.0.0"
   },
   "engines": {
     "node": ">=20.0.0"
