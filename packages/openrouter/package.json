@@ -57,7 +57,7 @@
     "vitest": "catalog:",
     "@ai-sdk/provider": "catalog:",
     "ai": "^7.0.0",
-    "ai-v6": "npm:ai@^6.0.138",
+    "ai-v6": "npm:ai@^7.0.0",
     "@edge-runtime/vm": "catalog:",
     "zod": "catalog:"
   },
